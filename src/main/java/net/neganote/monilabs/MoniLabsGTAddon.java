@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package net.neganote.monilabs;
 
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
@@ -9,10 +9,10 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 @GTAddon
-public class ExampleGTAddon implements IGTAddon {
+public class MoniLabsGTAddon implements IGTAddon {
     @Override
     public GTRegistrate getRegistrate() {
-        return ExampleMod.EXAMPLE_REGISTRATE;
+        return MoniLabsMod.REGISTRATE;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ExampleGTAddon implements IGTAddon {
 
     @Override
     public String addonModId() {
-        return ExampleMod.MOD_ID;
+        return MoniLabsMod.MOD_ID;
     }
 
     @Override
