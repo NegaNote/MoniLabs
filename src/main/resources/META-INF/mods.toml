@@ -19,8 +19,8 @@ license = "${mod_license}"
     # Some more fluff displayed in the Mods panel. Plug your stuff here!
     authors="${mod_author}"
     description = '''
-Example Description
-...ain is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain,... (Lorem Ipsum translated to english.)
+Moni Labs
+Core mod for the Monifactory modpack.
 '''
 
     [[dependencies.${mod_id}]]
