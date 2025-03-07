@@ -30,7 +30,7 @@ public class MoniMachines {
                 tooltips.add(Component.literal("  ").append(Component
                         .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GREEN)));
             })
-            .renderer(() -> new MaintenanceHatchPartRenderer(GTValues.UHV, MoniLabsMod.id("block/machine/part/maintenance.sterile_cleaning")))
+            .renderer(() -> new MaintenanceHatchPartRenderer(GTValues.UHV, MoniLabsMod.id("block/machine/part/maintenance.sterile_cleaning"))) // Tier can always be changed later
             .register();
 
     public static void init() {}
