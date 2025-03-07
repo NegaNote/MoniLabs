@@ -1,5 +1,6 @@
 package net.neganote.monilabs;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -29,7 +30,7 @@ public class MoniMachines {
                 tooltips.add(Component.literal("  ").append(Component
                         .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GREEN)));
             })
-            .renderer(() -> new MaintenanceHatchPartRenderer(4, MoniLabsMod.id("block/machine/part/maintenance.sterile_cleaning")))
+            .renderer(() -> new MaintenanceHatchPartRenderer(GTValues.UHV, MoniLabsMod.id("block/machine/part/maintenance.sterile_cleaning")))
             .register();
 
     public static void init() {}
