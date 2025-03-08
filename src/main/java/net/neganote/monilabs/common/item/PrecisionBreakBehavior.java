@@ -10,7 +10,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class PrecisionBreakBehavior implements IInteractionItem {
-    public PrecisionBreakBehavior() {
+    public int tier;
+    public PrecisionBreakBehavior(int tier) {
+        this.tier = tier;
     }
 
     @Override
@@ -26,8 +28,9 @@ public class PrecisionBreakBehavior implements IInteractionItem {
             var electricItem = GTCapabilityHelper.getElectricItem(context.getItemInHand());
 
             if (electricItem != null) {
-                if (electricItem.discharge(8192L, GTValues.IV, true, false, true) == 8192L) {
-                    electricItem.discharge(8192L, GTValues.IV, true, false, false);
+                if (electricItem.discharge(GTValues.VEX[tier], tier, true, false, true) == GTValues.VEX[tier]) {
+                    // Only discharge if possible to discharge the full amount
+                    electricItem.discharge(GTValues.VEX[tier], tier, true, false, false);
                 } else {
                     return InteractionResult.PASS;
                 }

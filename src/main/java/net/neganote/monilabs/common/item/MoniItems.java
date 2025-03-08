@@ -19,7 +19,7 @@ public class MoniItems {
             .lang("Omnitool")
 
             .properties(p -> p.stacksTo(1).durability(0))
-            .onRegister(attach(ElectricStats.createElectricItem(25_600_000L, GTValues.IV), new PrecisionBreakBehavior()))
+            .onRegister(attach(ElectricStats.createElectricItem(25_600_000L, GTValues.IV), new PrecisionBreakBehavior(GTValues.IV)))
             .register();
 
     public static void init() {}
