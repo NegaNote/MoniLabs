@@ -2,7 +2,6 @@ package net.neganote.monilabs.common.item;
 
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.neganote.monilabs.MoniLabsMod;
@@ -16,8 +15,9 @@ public class MoniItems {
     }
 
     @SuppressWarnings("unused")
-    public static ItemEntry<ComponentItem> OMNITOOL = REGISTRATE.item("omnitool", ComponentItem::create)
+    public static ItemEntry<OmniToolItem> OMNITOOL = REGISTRATE.item("omnitool", OmniToolItem::create)
             .lang("Omnitool")
+
             .properties(p -> p.stacksTo(1).durability(0))
             .onRegister(attach(ElectricStats.createElectricItem(25_600_000L, GTValues.IV), new PrecisionBreakBehavior()))
             .register();
