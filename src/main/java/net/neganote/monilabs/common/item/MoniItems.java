@@ -16,11 +16,12 @@ public class MoniItems {
     }
 
     @SuppressWarnings("unused")
-    public static ItemEntry<OmniToolItem> OMNITOOL = REGISTRATE.item("omnitool", OmniToolItem::create)
+    public static ItemEntry<OmniToolItem> OMNITOOL = REGISTRATE.item("omnitool", (p) -> OmniToolItem.create(p, GTValues.IV))
             .lang("Omnitool")
-
+            .defaultModel()
             .properties(p -> p.stacksTo(1).durability(0))
-            .onRegister(attach(ElectricStats.createElectricItem(25_600_000L, GTValues.IV), new PrecisionBreakBehavior(GTValues.IV)))
+            .onRegister(attach(ElectricStats.createElectricItem(25_600_000L, GTValues.IV),
+                    new PrecisionBreakBehavior(GTValues.IV)))
             .register();
 
     public static void init() {}
