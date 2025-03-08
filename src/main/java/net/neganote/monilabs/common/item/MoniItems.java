@@ -2,11 +2,12 @@ package net.neganote.monilabs.common.item;
 
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
+import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.neganote.monilabs.MoniLabsMod;
-
-import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static net.neganote.monilabs.MoniLabsMod.REGISTRATE;
 
 public class MoniItems {
@@ -23,4 +24,9 @@ public class MoniItems {
             .register();
 
     public static void init() {}
+
+    // Copied from GTItems
+    public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent... components) {
+        return item -> item.attachComponents(components);
+    }
 }
