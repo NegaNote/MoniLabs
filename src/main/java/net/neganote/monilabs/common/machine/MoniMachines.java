@@ -1,4 +1,4 @@
-package net.neganote.monilabs;
+package net.neganote.monilabs.common.machine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -9,9 +9,11 @@ import com.gregtechceu.gtceu.client.renderer.machine.MaintenanceHatchPartRendere
 import com.gregtechceu.gtceu.common.machine.multiblock.part.CleaningMaintenanceHatchPartMachine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.neganote.monilabs.MoniLabsMod;
 
 import static net.neganote.monilabs.MoniLabsMod.REGISTRATE;
 
+@SuppressWarnings("unused")
 public class MoniMachines {
 
     static {
