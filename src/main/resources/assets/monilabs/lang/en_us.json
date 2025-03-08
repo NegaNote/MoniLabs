@@ -1,8 +1,3 @@
 {
-  "block.monilabs.sterile_cleaning_maintenance_hatch": "Sterile Cleaning Maintenance Hatch",
-  "item.monilabs.omnitool": "Omnitool",
-  "itemGroup.monilabs.creative_tab": "Moni Labs",
-  "tooltip.omnitool.can_break_anything": "The omnitool can break ANYTHING INSTANTLY!",
-  "tooltip.omnitool.charge_status": "Energy: %s EU / %s EU",
-  "tooltip.omnitool.right_click_function": "Break individual blocks with right-click!"
+  "itemGroup.monilabs.creative_tab": "Moni Labs"
 }

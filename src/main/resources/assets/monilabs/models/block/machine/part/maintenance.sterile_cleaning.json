@@ -1,8 +1,0 @@
-{
-  "parent": "gtceu:block/overlay/front_emissive",
-  "textures": {
-    "particle": "monilabs:block/overlay/machine/overlay_maintenance_sterile_cleaning",
-    "overlay": "monilabs:block/overlay/machine/overlay_maintenance_sterile_cleaning",
-    "overlay_emissive": "monilabs:block/overlay/machine/overlay_maintenance_sterile_cleaning_emissive"
-  }
-}
