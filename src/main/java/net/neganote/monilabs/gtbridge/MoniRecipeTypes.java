@@ -12,7 +12,7 @@ import static net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities.PRI
 public class MoniRecipeTypes {
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(3, 3, 1, 1)
+            .setMaxIOSize(3, 1, 1, 0)
             .setMaxSize(IO.IN, COLOR, 1)
             .setMaxSize(IO.OUT, COLOR, 1)
             .setMaxSize(IO.OUT, PRISMATIC_MODE, 1)
