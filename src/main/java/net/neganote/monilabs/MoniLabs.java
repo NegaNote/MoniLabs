@@ -24,6 +24,7 @@ import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.data.MoniBlocks;
 import net.neganote.monilabs.data.MoniMachines;
 import net.neganote.monilabs.data.MoniDataGen;
+import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,7 +103,7 @@ public class MoniLabs {
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-        //CustomRecipeTypes.init();
+        MoniRecipeTypes.init();
     }
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
