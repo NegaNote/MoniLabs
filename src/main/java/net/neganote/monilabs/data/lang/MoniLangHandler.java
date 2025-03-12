@@ -21,5 +21,7 @@ public class MoniLangHandler {
         provider.add("monilabs.prismatic.current_mode", "Changes colors %s");
         provider.add("monilabs.prismatic.mode_name.deterministic", "deterministically");
         provider.add("monilabs.prismatic.mode_name.random", "randomly");
+
+        provider.add("monilabs.recipe.color", "Requires machine to be %s");
     }
 }

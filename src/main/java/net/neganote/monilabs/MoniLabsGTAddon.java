@@ -46,18 +46,16 @@ public class MoniLabsGTAddon implements IGTAddon {
         MoniRecipeCapabilities.init();
     }
 
-    public static NumberComponent.IntRange COLOR_RANGE = new NumberComponent.IntRange(0, 11);
-    public static final ContentJS<Integer> COLOR_IN = new ContentJS<>(COLOR_RANGE, MoniRecipeCapabilities.COLOR, false);
+    public static NumberComponent.IntRange COLOR_RANGE = new NumberComponent.IntRange(1, 12);
     public static final ContentJS<Integer> COLOR_OUT = new ContentJS<>(COLOR_RANGE, MoniRecipeCapabilities.COLOR, true);
 
     public static NumberComponent.IntRange PRISMATIC_MODE_RANGE = new NumberComponent.IntRange(0, 2);
-    public static final ContentJS<Integer> PRISMATIC_MODE_IN = new ContentJS<>(PRISMATIC_MODE_RANGE, MoniRecipeCapabilities.PRISMATIC_MODE, false);
     public static final ContentJS<Integer> PRISMATIC_MODE_OUT = new ContentJS<>(PRISMATIC_MODE_RANGE, MoniRecipeCapabilities.PRISMATIC_MODE, true);
 
     @Override
     public void registerRecipeKeys(KJSRecipeKeyEvent event) {
-        event.registerKey(MoniRecipeCapabilities.COLOR, Pair.of(COLOR_IN, COLOR_OUT));
-        event.registerKey(MoniRecipeCapabilities.PRISMATIC_MODE, Pair.of(PRISMATIC_MODE_IN, PRISMATIC_MODE_OUT));
+        event.registerKey(MoniRecipeCapabilities.COLOR, Pair.of(null, COLOR_OUT));
+        event.registerKey(MoniRecipeCapabilities.PRISMATIC_MODE, Pair.of(null, PRISMATIC_MODE_OUT));
     }
 
 }

@@ -1,5 +1,6 @@
 package net.neganote.monilabs.data;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -39,6 +40,8 @@ public class MoniMachines {
                     components.add(Component.translatable("monilabs.prismatic.current_mode", Component.translatable(prismMachine.getCurrentMode().nameKey)));
                 }
             })
+            // TODO: replace with custom renderer
+            .workableCasingRenderer(MoniLabs.id("block/casings/prismatic_casing"), GTCEu.id("block/multiblock/processing_array"))
             .register();
 
     public static void init() {}

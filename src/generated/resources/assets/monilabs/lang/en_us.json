@@ -17,5 +17,6 @@
   "monilabs.prismatic.current_color": "Currently has a color of %s",
   "monilabs.prismatic.current_mode": "Changes colors %s",
   "monilabs.prismatic.mode_name.deterministic": "deterministically",
-  "monilabs.prismatic.mode_name.random": "randomly"
+  "monilabs.prismatic.mode_name.random": "randomly",
+  "monilabs.recipe.color": "Requires machine to be %s"
 }

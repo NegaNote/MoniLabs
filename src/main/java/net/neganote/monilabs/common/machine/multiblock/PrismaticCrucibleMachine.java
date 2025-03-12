@@ -2,6 +2,8 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -21,6 +23,22 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super.onStructureFormed();
         color = Color.RED;
         mode = PrismaticMode.DETERMINISTIC;
+    }
+
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        if (recipe == null) return false;
+        if (!recipe.data.contains("required_color") || recipe.data.getInt("required_color") != color.modulus) {
+            return false;
+        }
+        return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+        GTRecipe recipe = recipeLogic.getLastRecipe();
+
     }
 
     private void changeColorState(Color newColor) {

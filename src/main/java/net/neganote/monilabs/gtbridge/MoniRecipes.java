@@ -15,7 +15,7 @@ public class MoniRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         // Used to test prismatic crucible functionality
         PRISMATIC_CRUCIBLE_RECIPES.recipeBuilder("prismatic_crucible_test_recipe")
-                .input(COLOR, Color.RED.modulus)
+                .addData("required_color", Color.RED.modulus)
                 .output(COLOR, Color.GREEN.modulus)
                 .inputItems(RED_DYE, 32)
                 .outputItems(GREEN_DYE, 32)
