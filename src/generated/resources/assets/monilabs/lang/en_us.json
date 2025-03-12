@@ -14,5 +14,8 @@
   "monilabs.prismatic.color_name.red": "Red",
   "monilabs.prismatic.color_name.turquoise": "Turquoise",
   "monilabs.prismatic.color_name.yellow": "Yellow",
-  "monilabs.prismatic.current_mode": "Currently in %s mode"
+  "monilabs.prismatic.current_color": "Currently has a color of %s",
+  "monilabs.prismatic.current_mode": "Changes colors %s",
+  "monilabs.prismatic.mode_name.deterministic": "deterministically",
+  "monilabs.prismatic.mode_name.random": "randomly"
 }

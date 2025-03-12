@@ -2,8 +2,14 @@ package net.neganote.monilabs;
 
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
+import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.gregtechceu.gtceu.integration.kjs.recipe.components.ContentJS;
+import com.mojang.datafixers.util.Pair;
+import dev.latvian.mods.kubejs.recipe.component.NumberComponent;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
+import net.neganote.monilabs.gtbridge.MoniRecipes;
 
 import java.util.function.Consumer;
 
@@ -32,18 +38,26 @@ public class MoniLabsGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-        //CustomRecipes.init(provider);
+        MoniRecipes.init(provider);
     }
-    
-    // If you have custom ingredient types, uncomment this & change to match your capability.
-    // KubeJS WILL REMOVE YOUR RECIPES IF THESE ARE NOT REGISTERED.
-    /*
-    public static final ContentJS<Double> PRESSURE_IN = new ContentJS<>(NumberComponent.ANY_DOUBLE, GregitasRecipeCapabilities.PRESSURE, false);
-    public static final ContentJS<Double> PRESSURE_OUT = new ContentJS<>(NumberComponent.ANY_DOUBLE, GregitasRecipeCapabilities.PRESSURE, true);
+
+    @Override
+    public void registerRecipeCapabilities() {
+        MoniRecipeCapabilities.init();
+    }
+
+    public static NumberComponent.IntRange COLOR_RANGE = new NumberComponent.IntRange(0, 11);
+    public static final ContentJS<Integer> COLOR_IN = new ContentJS<>(COLOR_RANGE, MoniRecipeCapabilities.COLOR, false);
+    public static final ContentJS<Integer> COLOR_OUT = new ContentJS<>(COLOR_RANGE, MoniRecipeCapabilities.COLOR, true);
+
+    public static NumberComponent.IntRange PRISMATIC_MODE_RANGE = new NumberComponent.IntRange(0, 2);
+    public static final ContentJS<Integer> PRISMATIC_MODE_IN = new ContentJS<>(PRISMATIC_MODE_RANGE, MoniRecipeCapabilities.PRISMATIC_MODE, false);
+    public static final ContentJS<Integer> PRISMATIC_MODE_OUT = new ContentJS<>(PRISMATIC_MODE_RANGE, MoniRecipeCapabilities.PRISMATIC_MODE, true);
 
     @Override
     public void registerRecipeKeys(KJSRecipeKeyEvent event) {
-        event.registerKey(CustomRecipeCapabilities.PRESSURE, Pair.of(PRESSURE_IN, PRESSURE_OUT));
+        event.registerKey(MoniRecipeCapabilities.COLOR, Pair.of(COLOR_IN, COLOR_OUT));
+        event.registerKey(MoniRecipeCapabilities.PRISMATIC_MODE, Pair.of(PRISMATIC_MODE_IN, PRISMATIC_MODE_OUT));
     }
-    */
+
 }

@@ -14,5 +14,8 @@
   "monilabs.prismatic.color_name.red": "pǝᴚ",
   "monilabs.prismatic.color_name.turquoise": "ǝsıonbɹn⟘",
   "monilabs.prismatic.color_name.yellow": "ʍoןןǝʎ",
-  "monilabs.prismatic.current_mode": "ǝpoɯ %s uı ʎןʇuǝɹɹnƆ"
+  "monilabs.prismatic.current_color": "%s ɟo ɹoןoɔ ɐ sɐɥ ʎןʇuǝɹɹnƆ",
+  "monilabs.prismatic.current_mode": "%s sɹoןoɔ sǝbuɐɥƆ",
+  "monilabs.prismatic.mode_name.deterministic": "ʎןןɐɔıʇsıuıɯɹǝʇǝp",
+  "monilabs.prismatic.mode_name.random": "ʎןɯopuɐɹ"
 }

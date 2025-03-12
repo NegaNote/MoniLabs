@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
@@ -20,6 +21,7 @@ public class MoniMachines {
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
             .appearanceBlock(MoniBlocks.PRISMATIC_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCC", "CCC", "CCC")
                     .aisle("CCC", "C#C", "C#C")

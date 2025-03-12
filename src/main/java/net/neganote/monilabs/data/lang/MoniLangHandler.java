@@ -4,7 +4,7 @@ import com.tterrag.registrate.providers.RegistrateLangProvider;
 
 public class MoniLangHandler {
     public static void init(RegistrateLangProvider provider) {
-        provider.add("monilabs.prismatic.current_mode", "Currently in %s mode");
+        provider.add("monilabs.prismatic.current_color", "Currently has a color of %s");
         provider.add("monilabs.prismatic.color_name.red", "Red");
         provider.add("monilabs.prismatic.color_name.orange", "Orange");
         provider.add("monilabs.prismatic.color_name.yellow", "Yellow");
@@ -17,5 +17,9 @@ public class MoniLangHandler {
         provider.add("monilabs.prismatic.color_name.indigo", "Indigo");
         provider.add("monilabs.prismatic.color_name.magenta", "Magenta");
         provider.add("monilabs.prismatic.color_name.pink", "Pink");
+
+        provider.add("monilabs.prismatic.current_mode", "Changes colors %s");
+        provider.add("monilabs.prismatic.mode_name.deterministic", "deterministically");
+        provider.add("monilabs.prismatic.mode_name.random", "randomly");
     }
 }

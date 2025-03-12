@@ -10,7 +10,8 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
 public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
-    private ColorState color;
+    private Color color;
+    private PrismaticMode mode;
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
@@ -18,61 +19,60 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        textList.add(Component.translatable("monilabs.prismatic.current_mode", Component.translatable(color.nameKey)));
+        textList.add(Component.translatable("monilabs.prismatic.current_color", Component.translatable(color.nameKey)));
+        textList.add(Component.translatable("monilabs.prismatic.current_mode", Component.translatable(mode.nameKey)));
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        color = ColorState.RED;
+        color = Color.RED;
+        mode = PrismaticMode.DETERMINISTIC;
     }
 
-    private void changeColorState(ColorState newColor) {
+    private void changeColorState(Color newColor) {
         color = newColor;
     }
 
-    public ColorState getColorState() {
+    public Color getColorState() {
         return color;
     }
 
-    public static ColorState getRandomColor() {
-        int rand = (int) Math.floor(Math.random() * 16.0);
-        return switch (rand) {
-            case 1:
-                yield ColorState.ORANGE;
-            case 2:
-                yield ColorState.YELLOW;
-            case 3:
-                yield ColorState.LIME;
-            case 4:
-                yield ColorState.GREEN;
-            case 5:
-                yield ColorState.TEAL;
-            case 6:
-                yield ColorState.CYAN;
-            case 7:
-                yield ColorState.AZURE;
-            case 8:
-                yield ColorState.BLUE;
-            case 9:
-                yield ColorState.INDIGO;
-            case 10:
-                yield ColorState.MAGENTA;
-            case 11:
-                yield ColorState.PINK;
-            case 0:
-            default:
-                yield ColorState.RED;
-        };
+    private void changeMode(PrismaticMode newMode) {
+        mode = newMode;
     }
 
-    public enum WorkingMode {
-        DETERMINISTIC,
-        RANDOM_WITH_LIST,
-        FULL_RANDOM
+    public PrismaticMode getCurrentMode() {
+        return mode;
     }
 
-    public enum ColorState {
+    public enum PrismaticMode {
+        DETERMINISTIC(1, "monilabs.prismatic.mode_name.deterministic"),
+        RANDOM_WITH_LIST(2, "monilabs.prismatic.mode_name.random"),
+        FULL_RANDOM(3, "monilabs.prismatic.mode_name.random");
+
+        public final int key;
+        public final String nameKey;
+
+        PrismaticMode(int key, String nameKey) {
+            this.key = key;
+            this.nameKey = nameKey;
+        }
+
+        public static PrismaticMode getModeFromKey(int key) {
+            return switch (key) {
+                case 1:
+                    yield PrismaticMode.RANDOM_WITH_LIST;
+                case 2:
+                    yield PrismaticMode.FULL_RANDOM;
+                case 0:
+                default:
+                    yield PrismaticMode.DETERMINISTIC;
+            };
+        }
+    }
+
+    public enum Color {
         RED(0, "monilabs.prismatic.color_name.red"),
         ORANGE(1, "monilabs.prismatic.color_name.orange"),
         YELLOW(2, "monilabs.prismatic.color_name.yellow"),
@@ -89,9 +89,42 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public final String nameKey;
         public final int modulus;
 
-        ColorState(int modulus, String nameKey) {
+        Color(int modulus, String nameKey) {
             this.modulus = modulus;
             this.nameKey = nameKey;
+        }
+
+        public static Color getColorFromModulus(int modulus) {
+            return switch (modulus) {
+                case 1:
+                    yield Color.ORANGE;
+                case 2:
+                    yield Color.YELLOW;
+                case 3:
+                    yield Color.LIME;
+                case 4:
+                    yield Color.GREEN;
+                case 5:
+                    yield Color.TEAL;
+                case 6:
+                    yield Color.CYAN;
+                case 7:
+                    yield Color.AZURE;
+                case 8:
+                    yield Color.BLUE;
+                case 9:
+                    yield Color.INDIGO;
+                case 10:
+                    yield Color.MAGENTA;
+                case 11:
+                    yield Color.PINK;
+                case 0:
+                default:
+                    yield Color.RED;
+            };
+        }
+        public static Color getRandomColor() {
+            return getColorFromModulus((int) Math.floor(Math.random() * 16.0));
         }
     }
 }
