@@ -3,6 +3,7 @@ package net.neganote.monilabs.data;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
@@ -25,13 +26,19 @@ public class MoniMachines {
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCC", "CCC", "CCC")
                     .aisle("CCC", "C#C", "C#C")
-                    .aisle("CPC", "CCC", "CCC")
-                    .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get())
+                    .aisle("CCC", "CPC", "CCC")
+                    .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()).setMinGlobalLimited(9)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, false)))
                     .where('P', controller(blocks(definition.getBlock())))
                     .where('#', any())
                     .build())
+            .additionalDisplay((controller, components) -> {
+                if (controller instanceof PrismaticCrucibleMachine prismMachine && controller.isFormed()) {
+                    components.add(Component.translatable("monilabs.prismatic.current_color", Component.translatable(prismMachine.getColorState().nameKey)));
+                    components.add(Component.translatable("monilabs.prismatic.current_mode", Component.translatable(prismMachine.getCurrentMode().nameKey)));
+                }
+            })
             .register();
 
     public static void init() {}

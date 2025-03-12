@@ -2,10 +2,8 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import net.minecraft.network.chat.Component;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
@@ -14,13 +12,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private PrismaticMode mode;
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-    }
-
-    @Override
-    public void addDisplayText(List<Component> textList) {
-        super.addDisplayText(textList);
-        textList.add(Component.translatable("monilabs.prismatic.current_color", Component.translatable(color.nameKey)));
-        textList.add(Component.translatable("monilabs.prismatic.current_mode", Component.translatable(mode.nameKey)));
+        color = Color.RED;
+        mode = PrismaticMode.DETERMINISTIC;
     }
 
     @Override
