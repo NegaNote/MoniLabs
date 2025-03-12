@@ -1,0 +1,18 @@
+{
+  "block.monilabs.prismatic_casing": "Prismatic Casing",
+  "block.monilabs.prismatic_crucible": "Prismatic Crucible",
+  "itemGroup.monilabs.creative_tab": "Moni Labs",
+  "monilabs.prismatic.color_name.azure": "Azure",
+  "monilabs.prismatic.color_name.blue": "Blue",
+  "monilabs.prismatic.color_name.cyan": "Cyan",
+  "monilabs.prismatic.color_name.green": "Green",
+  "monilabs.prismatic.color_name.indigo": "Indigo",
+  "monilabs.prismatic.color_name.lime": "Lime",
+  "monilabs.prismatic.color_name.magenta": "Magenta",
+  "monilabs.prismatic.color_name.orange": "Orange",
+  "monilabs.prismatic.color_name.pink": "Pink",
+  "monilabs.prismatic.color_name.red": "Red",
+  "monilabs.prismatic.color_name.turquoise": "Turquoise",
+  "monilabs.prismatic.color_name.yellow": "Yellow",
+  "monilabs.prismatic.current_mode": "Currently in %s mode"
+}

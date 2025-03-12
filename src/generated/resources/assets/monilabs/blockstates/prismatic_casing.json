@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "monilabs:block/prismatic_casing"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+package net.neganote.monilabs.data.lang;
+
+import com.tterrag.registrate.providers.RegistrateLangProvider;
+
+public class MoniLangHandler {
+    public static void init(RegistrateLangProvider provider) {
+        provider.add("monilabs.prismatic.current_mode", "Currently in %s mode");
+        provider.add("monilabs.prismatic.color_name.red", "Red");
+        provider.add("monilabs.prismatic.color_name.orange", "Orange");
+        provider.add("monilabs.prismatic.color_name.yellow", "Yellow");
+        provider.add("monilabs.prismatic.color_name.lime", "Lime");
+        provider.add("monilabs.prismatic.color_name.green", "Green");
+        provider.add("monilabs.prismatic.color_name.turquoise", "Turquoise");
+        provider.add("monilabs.prismatic.color_name.cyan", "Cyan");
+        provider.add("monilabs.prismatic.color_name.azure", "Azure");
+        provider.add("monilabs.prismatic.color_name.blue", "Blue");
+        provider.add("monilabs.prismatic.color_name.indigo", "Indigo");
+        provider.add("monilabs.prismatic.color_name.magenta", "Magenta");
+        provider.add("monilabs.prismatic.color_name.pink", "Pink");
+    }
+}

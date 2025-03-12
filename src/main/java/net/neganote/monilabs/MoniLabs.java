@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
-import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
@@ -16,33 +15,34 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.GenericEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.common.item.MoniItems;
-import net.neganote.monilabs.common.machine.MoniMachines;
+import net.neganote.monilabs.data.MoniBlocks;
+import net.neganote.monilabs.data.MoniMachines;
+import net.neganote.monilabs.data.MoniDataGen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(MoniLabsMod.MOD_ID)
-public class MoniLabsMod {
+@Mod(MoniLabs.MOD_ID)
+public class MoniLabs {
     public static final String MOD_ID = "monilabs";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static GTRegistrate REGISTRATE = GTRegistrate.create(MoniLabsMod.MOD_ID);
+    public static GTRegistrate REGISTRATE = GTRegistrate.create(MoniLabs.MOD_ID);
 
-    public static RegistryEntry<CreativeModeTab> MONI_CREATIVE_TAB = REGISTRATE.defaultCreativeTab(MoniLabsMod.MOD_ID,
+    public static RegistryEntry<CreativeModeTab> MONI_CREATIVE_TAB = REGISTRATE.defaultCreativeTab(MoniLabs.MOD_ID,
             builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(MoniLabsMod.MOD_ID, REGISTRATE))
-                    .title(REGISTRATE.addLang("itemGroup", MoniLabsMod.id("creative_tab"), "Moni Labs"))
+                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(MoniLabs.MOD_ID, REGISTRATE))
+                    .title(REGISTRATE.addLang("itemGroup", MoniLabs.id("creative_tab"), "Moni Labs"))
                     .icon(GTItems.ADVANCED_CIRCUIT_BOARD::asStack) // TODO: come up with own icon
                     .build())
             .register();
 
-    public MoniLabsMod() {
-        MoniLabsMod.init();
+    public MoniLabs() {
+        MoniLabs.init();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
@@ -64,7 +64,10 @@ public class MoniLabsMod {
     }
 
     public static void init() {
+        REGISTRATE.registerRegistrate();
+        MoniBlocks.init();
         MoniItems.init();
+        MoniDataGen.init();
     }
 
     public static ResourceLocation id(String path) {
@@ -85,7 +88,7 @@ public class MoniLabsMod {
     // You MUST have this for custom materials.
     // Remember to register them not to GT's namespace, but your own.
     private void addMaterialRegistries(MaterialRegistryEvent event) {
-        GTCEuAPI.materialManager.createRegistry(MoniLabsMod.MOD_ID);
+        GTCEuAPI.materialManager.createRegistry(MoniLabs.MOD_ID);
     }
 
     // As well as this.

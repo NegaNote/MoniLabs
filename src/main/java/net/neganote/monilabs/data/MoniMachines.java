@@ -1,0 +1,36 @@
+package net.neganote.monilabs.data;
+
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+
+import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static net.neganote.monilabs.MoniLabs.REGISTRATE;
+
+@SuppressWarnings("unused")
+public class MoniMachines {
+
+    static {
+        REGISTRATE.creativeModeTab(() -> MoniLabs.MONI_CREATIVE_TAB);
+    }
+
+    public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
+            .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
+            .appearanceBlock(MoniBlocks.PRISMATIC_CASING)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("CCC", "CCC", "CCC")
+                    .aisle("CCC", "C#C", "C#C")
+                    .aisle("CPC", "CCC", "CCC")
+                    .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(autoAbilities(true, false, false)))
+                    .where('P', controller(blocks(definition.getBlock())))
+                    .where('#', any())
+                    .build())
+            .register();
+
+    public static void init() {}
+}

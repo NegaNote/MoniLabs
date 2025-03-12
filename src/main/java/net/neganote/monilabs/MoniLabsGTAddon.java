@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class MoniLabsGTAddon implements IGTAddon {
     @Override
     public GTRegistrate getRegistrate() {
-        return MoniLabsMod.REGISTRATE;
+        return MoniLabs.REGISTRATE;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class MoniLabsGTAddon implements IGTAddon {
 
     @Override
     public String addonModId() {
-        return MoniLabsMod.MOD_ID;
+        return MoniLabs.MOD_ID;
     }
 
     @Override
