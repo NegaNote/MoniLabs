@@ -1,8 +1,6 @@
 package net.neganote.monilabs.data.lang;
 
-import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-import net.minecraft.network.chat.Style;
 
 public class MoniLangHandler {
     public static void init(RegistrateLangProvider provider) {
@@ -27,6 +25,6 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.color_list_random_start", "Possible Resulting Colors: ");
         provider.add("monilabs.recipe.color_list_random_start_relative", "Possible Resulting Color Increments: ");
         provider.add("monilabs.recipe.color_list_separator", ", ");
-        provider.add("monilabs.recipe.fully_random_color", "Resulting Color State:  " + TooltipHelper.RAINBOW_HSL.apply(Style.EMPTY) + "random color§r!");
+        provider.add("monilabs.recipe.fully_random_color", "Resulting Color State: a §5r§da§4n§cd§eo§am §bc§3o§7l§1o§5r§r!");
     }
 }

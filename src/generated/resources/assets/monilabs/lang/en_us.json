@@ -14,12 +14,13 @@
   "monilabs.prismatic.color_name.red": "§4Red§r",
   "monilabs.prismatic.color_name.turquoise": "§3Turquoise§r",
   "monilabs.prismatic.color_name.yellow": "§eYellow§r",
-  "monilabs.prismatic.current_color": "Currently has a color of %s",
-  "monilabs.recipe.color_list_random_end": ", or ",
-  "monilabs.recipe.color_list_random_separator": ", ",
-  "monilabs.recipe.color_list_random_start": "Crucible will become any of ",
-  "monilabs.recipe.fully_random_color": "Crucible will become a {color=#FFF93838}random color§r!",
-  "monilabs.recipe.required_color": "Requires Crucible to be %s",
-  "monilabs.recipe.result_color": "Crucible will become %s",
-  "monilabs.recipe.two_possible_colors": "Crucible will become either %s or %s"
+  "monilabs.prismatic.current_color": "Current color: %s",
+  "monilabs.recipe.color_list_random_start": "Possible Resulting Colors: ",
+  "monilabs.recipe.color_list_random_start_relative": "Possible Resulting Color Increments: ",
+  "monilabs.recipe.color_list_separator": ", ",
+  "monilabs.recipe.fully_random_color": "Resulting Color State: a §5r§da§4n§cd§eo§am §bc§3o§7l§1o§5r§r!",
+  "monilabs.recipe.required_color": "Required Initial Color: %s",
+  "monilabs.recipe.required_colors_start": "Accepted Initial Colors: %s",
+  "monilabs.recipe.result_color": "Resulting Color: %s",
+  "monilabs.recipe.result_color_relative": "Resulting Color Increment: %s"
 }

@@ -37,7 +37,7 @@ public class MoniRecipeTypes {
                 }
                 return "You made a mistake defining this recipe's input colors.";
 
-                return LocalizationUtils.format("monilabs.recipe.required_color", LocalizationUtils.format(Color.getColorFromKey(modulus).nameKey));
+                // return LocalizationUtils.format("monilabs.recipe.required_color", LocalizationUtils.format(Color.getColorFromKey(data.getInt("required_color")).nameKey));
             })
             .addDataInfo(data -> {
                 int modeSwitchType = data.getInt("mode_switch_type");

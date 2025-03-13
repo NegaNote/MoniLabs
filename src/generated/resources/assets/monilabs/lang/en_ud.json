@@ -14,12 +14,13 @@
   "monilabs.prismatic.color_name.red": "ɹ§pǝᴚㄣ§",
   "monilabs.prismatic.color_name.turquoise": "ɹ§ǝsıonbɹn⟘Ɛ§",
   "monilabs.prismatic.color_name.yellow": "ɹ§ʍoןןǝʎǝ§",
-  "monilabs.prismatic.current_color": "%s ɟo ɹoןoɔ ɐ sɐɥ ʎןʇuǝɹɹnƆ",
-  "monilabs.recipe.color_list_random_end": " ɹo '",
-  "monilabs.recipe.color_list_random_separator": " '",
-  "monilabs.recipe.color_list_random_start": " ɟo ʎuɐ ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ",
-  "monilabs.recipe.fully_random_color": "¡ɹ§ɹoןoɔ ɯopuɐɹ}8Ɛ8Ɛ6ℲℲℲ#=ɹoןoɔ{ ɐ ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ",
-  "monilabs.recipe.required_color": "%s ǝq oʇ ǝןqıɔnɹƆ sǝɹınbǝᴚ",
-  "monilabs.recipe.result_color": "%s ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ",
-  "monilabs.recipe.two_possible_colors": "%s ɹo %s ɹǝɥʇıǝ ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ"
+  "monilabs.prismatic.current_color": "%s :ɹoןoɔ ʇuǝɹɹnƆ",
+  "monilabs.recipe.color_list_random_start": " :sɹoןoƆ buıʇןnsǝᴚ ǝןqıssoԀ",
+  "monilabs.recipe.color_list_random_start_relative": " :sʇuǝɯǝɹɔuI ɹoןoƆ buıʇןnsǝᴚ ǝןqıssoԀ",
+  "monilabs.recipe.color_list_separator": " '",
+  "monilabs.recipe.fully_random_color": "¡ɹ§ɹϛ§oƖ§ןㄥ§oƐ§ɔq§ ɯɐ§oǝ§pɔ§uㄣ§ɐp§ɹϛ§ ɐ :ǝʇɐʇS ɹoןoƆ buıʇןnsǝᴚ",
+  "monilabs.recipe.required_color": "%s :ɹoןoƆ ןɐıʇıuI pǝɹınbǝᴚ",
+  "monilabs.recipe.required_colors_start": "%s :sɹoןoƆ ןɐıʇıuI pǝʇdǝɔɔⱯ",
+  "monilabs.recipe.result_color": "%s :ɹoןoƆ buıʇןnsǝᴚ",
+  "monilabs.recipe.result_color_relative": "%s :ʇuǝɯǝɹɔuI ɹoןoƆ buıʇןnsǝᴚ"
 }
