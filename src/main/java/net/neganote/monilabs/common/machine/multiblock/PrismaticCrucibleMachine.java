@@ -16,10 +16,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    private Color color;
+    private int colorKey;
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        color = Color.RED;
+        colorKey = Color.RED.key;
     }
 
     @Override
@@ -31,13 +31,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        color = Color.RED;
     }
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
-        if (!recipe.data.contains("required_color") || recipe.data.getInt("required_color") != color.key) {
+        if (!recipe.data.contains("required_color") || recipe.data.getInt("required_color") != colorKey) {
             return false;
         }
         return super.beforeWorking(recipe);
@@ -63,11 +62,11 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     private void changeColorState(Color newColor) {
-        color = newColor;
+        colorKey = newColor.key;
     }
 
     public Color getColorState() {
-        return color;
+        return Color.getColorFromKey(colorKey);
     }
 
     public enum ColorChangeMode {
