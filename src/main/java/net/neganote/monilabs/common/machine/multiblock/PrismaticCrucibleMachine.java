@@ -3,6 +3,9 @@ package net.neganote.monilabs.common.machine.multiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -10,10 +13,19 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
 public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class);
+
+    @Persisted
     private Color color;
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         color = Color.RED;
+    }
+
+    @Override
+    @NotNull
+    public ManagedFieldHolder getFieldHolder() {
+        return super.getFieldHolder();
     }
 
     @Override

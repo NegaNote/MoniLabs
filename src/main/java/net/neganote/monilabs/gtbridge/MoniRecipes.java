@@ -26,7 +26,6 @@ public class MoniRecipes {
 
         PRISMATIC_CRUCIBLE_RECIPES.recipeBuilder("prismatic_crucible_test_recipe_fully_random")
                 .addData("required_color", Color.GREEN.key)
-                //.addData("result_color", Color.PINK.key)
                 .addData("mode_switch_type", ColorChangeMode.FULL_RANDOM.key)
                 .inputItems(GOLD_INGOT, 4)
                 .outputItems(IRON_INGOT, 10)
