@@ -32,5 +32,16 @@ public class MoniRecipes {
                 .EUt(GTValues.VEX[GTValues.EV])
                 .duration(200)
                 .save(provider);
+
+        PRISMATIC_CRUCIBLE_RECIPES.recipeBuilder("prismatic_crucible_test_recipe_relative")
+                .addData("required_color", Color.YELLOW.key)
+                .addData("result_color", 2)
+                .addData("mode_switch_type", ColorChangeMode.DETERMINISTIC.key)
+                .addDataBool("color_change_relative", true)
+                .inputItems(IRON_INGOT, 4)
+                .outputItems(IRON_INGOT, 10)
+                .EUt(GTValues.VEX[GTValues.EV])
+                .duration(200)
+                .save(provider);
     }
 }
