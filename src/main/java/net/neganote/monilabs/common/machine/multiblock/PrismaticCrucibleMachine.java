@@ -59,9 +59,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     public enum ColorChangeMode {
-        DETERMINISTIC(1, "monilabs.prismatic.mode_name.deterministic"),
-        RANDOM_WITH_LIST(2, "monilabs.prismatic.mode_name.random"),
-        FULL_RANDOM(3, "monilabs.prismatic.mode_name.random");
+        DETERMINISTIC(0, "monilabs.prismatic.mode_name.deterministic"),
+        RANDOM_WITH_LIST(1, "monilabs.prismatic.mode_name.random"),
+        FULL_RANDOM(2, "monilabs.prismatic.mode_name.random");
 
         public final int key;
         public final String nameKey;
