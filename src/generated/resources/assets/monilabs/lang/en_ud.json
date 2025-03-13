@@ -1,6 +1,7 @@
 {
   "block.monilabs.prismatic_casing": "buısɐƆ ɔıʇɐɯsıɹԀ",
   "block.monilabs.prismatic_crucible": "ǝןqıɔnɹƆ ɔıʇɐɯsıɹԀ",
+  "gtceu.prismatic_crucible": "ǝןqıɔnɹƆ ɔıʇɐɯsıɹԀ",
   "itemGroup.monilabs.creative_tab": "sqɐꞀ ıuoW",
   "monilabs.prismatic.color_name.azure": "ɹ§ǝɹnzⱯ6§",
   "monilabs.prismatic.color_name.blue": "ɹ§ǝnןᗺƖ§",
@@ -19,6 +20,8 @@
   "monilabs.recipe.color_list_random_start_relative": " :sʇuǝɯǝɹɔuI ɹoןoƆ buıʇןnsǝᴚ ǝןqıssoԀ",
   "monilabs.recipe.color_list_separator": " '",
   "monilabs.recipe.fully_random_color": "¡ɹ§ɹϛ§oƖ§ןㄥ§oƐ§ɔq§ ɯɐ§oǝ§pɔ§uㄣ§ɐp§ɹϛ§ ɐ :ǝʇɐʇS ɹoןoƆ buıʇןnsǝᴚ",
+  "monilabs.recipe.mistake_input_colors": "˙sɹoןoɔ ʇnduı s,ǝdıɔǝɹ sıɥʇ buıuıɟǝp ǝʞɐʇsıɯ ɐ ǝpɐɯ noʎ",
+  "monilabs.recipe.mistake_output_colors": "˙sɹoןoɔ ʇndʇno s,ǝdıɔǝɹ sıɥʇ buıuıɟǝp ǝʞɐʇsıɯ ɐ ǝpɐɯ noʎ",
   "monilabs.recipe.required_color": "%s :ɹoןoƆ ןɐıʇıuI pǝɹınbǝᴚ",
   "monilabs.recipe.required_colors_start": "%s :sɹoןoƆ ןɐıʇıuI pǝʇdǝɔɔⱯ",
   "monilabs.recipe.result_color": "%s :ɹoןoƆ buıʇןnsǝᴚ",

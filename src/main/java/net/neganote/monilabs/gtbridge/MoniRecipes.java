@@ -2,6 +2,7 @@ package net.neganote.monilabs.gtbridge;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.nbt.CompoundTag;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.ColorChangeMode;
 
@@ -40,6 +41,25 @@ public class MoniRecipes {
                 .addData("color_change_relative", true)
                 .inputItems(IRON_INGOT, 4)
                 .outputItems(IRON_INGOT, 10)
+                .EUt(GTValues.VEX[GTValues.EV])
+                .duration(200)
+                .save(provider);
+
+        CompoundTag colorsTag = new CompoundTag();
+        colorsTag.putIntArray("required_colors", new int[]{
+                Color.RED.key,
+                Color.MAGENTA.key
+        });
+        colorsTag.putIntArray("possible_new_colors", new int[]{
+                Color.GREEN.key,
+                Color.AZURE.key
+        });
+
+        PRISMATIC_CRUCIBLE_RECIPES.recipeBuilder("prismatic_crucible_test_recipe_random_with_list")
+                .addData("colors_tag", colorsTag)
+                .addData("mode_switch_type", ColorChangeMode.RANDOM_WITH_LIST.key)
+                .inputItems(COPPER_INGOT, 4)
+                .outputItems(COPPER_BLOCK, 10)
                 .EUt(GTValues.VEX[GTValues.EV])
                 .duration(200)
                 .save(provider);

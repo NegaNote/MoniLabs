@@ -26,5 +26,10 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.color_list_random_start_relative", "Possible Resulting Color Increments: ");
         provider.add("monilabs.recipe.color_list_separator", ", ");
         provider.add("monilabs.recipe.fully_random_color", "Resulting Color State: a §5r§da§4n§cd§eo§am §bc§3o§7l§1o§5r§r!");
+
+        provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
+        provider.add("monilabs.recipe.mistake_output_colors", "You made a mistake defining this recipe's output colors.");
+
+        provider.add("gtceu.prismatic_crucible", "Prismatic Crucible");
     }
 }

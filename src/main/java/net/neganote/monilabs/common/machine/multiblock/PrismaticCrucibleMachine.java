@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,14 +38,15 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
-        if (!recipe.data.contains("required_color") && !recipe.data.contains("required_colors")) {
+        if (!recipe.data.contains("required_color") && !recipe.data.contains("colors_tag")) {
             return false;
         }
         if (recipe.data.contains("required_color") && recipe.data.getInt("required_color") != colorKey) {
             return false;
         }
-        if (recipe.data.contains("required_colors")) {
-            int[] inputColorArray = recipe.data.getIntArray("required_colors");
+        if (recipe.data.contains("colors_tag")) {
+            CompoundTag colorsTag = recipe.data.getCompound("colors_tag");
+            int[] inputColorArray = colorsTag.getIntArray("required_colors");
             if (Arrays.stream(inputColorArray).noneMatch(i -> i == colorKey)) {
                 return false;
             }
@@ -67,7 +69,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         switch (mode) {
             case DETERMINISTIC -> newKey = recipe.data.getInt("result_color");
             case RANDOM_WITH_LIST -> {
-                int[] newPossibleColors = recipe.data.getIntArray("possible_new_colors");
+                CompoundTag colorsTag = recipe.data.getCompound("colors_tag");
+                int[] newPossibleColors = colorsTag.getIntArray("possible_new_colors");
                 newKey = Color.getRandomColorFromKeys(newPossibleColors);
             }
             case FULL_RANDOM -> newKey = Color.getRandomColor();

@@ -1,6 +1,7 @@
 {
   "block.monilabs.prismatic_casing": "Prismatic Casing",
   "block.monilabs.prismatic_crucible": "Prismatic Crucible",
+  "gtceu.prismatic_crucible": "Prismatic Crucible",
   "itemGroup.monilabs.creative_tab": "Moni Labs",
   "monilabs.prismatic.color_name.azure": "§9Azure§r",
   "monilabs.prismatic.color_name.blue": "§1Blue§r",
@@ -19,6 +20,8 @@
   "monilabs.recipe.color_list_random_start_relative": "Possible Resulting Color Increments: ",
   "monilabs.recipe.color_list_separator": ", ",
   "monilabs.recipe.fully_random_color": "Resulting Color State: a §5r§da§4n§cd§eo§am §bc§3o§7l§1o§5r§r!",
+  "monilabs.recipe.mistake_input_colors": "You made a mistake defining this recipe's input colors.",
+  "monilabs.recipe.mistake_output_colors": "You made a mistake defining this recipe's output colors.",
   "monilabs.recipe.required_color": "Required Initial Color: %s",
   "monilabs.recipe.required_colors_start": "Accepted Initial Colors: %s",
   "monilabs.recipe.result_color": "Resulting Color: %s",
