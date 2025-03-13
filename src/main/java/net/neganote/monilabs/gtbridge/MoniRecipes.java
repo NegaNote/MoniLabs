@@ -37,7 +37,7 @@ public class MoniRecipes {
                 .addData("required_color", Color.YELLOW.key)
                 .addData("result_color", 2)
                 .addData("mode_switch_type", ColorChangeMode.DETERMINISTIC.key)
-                .addDataBool("color_change_relative", true)
+                .addData("color_change_relative", true)
                 .inputItems(IRON_INGOT, 4)
                 .outputItems(IRON_INGOT, 10)
                 .EUt(GTValues.VEX[GTValues.EV])
