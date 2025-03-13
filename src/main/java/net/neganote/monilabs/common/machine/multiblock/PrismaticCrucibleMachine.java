@@ -136,7 +136,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             };
         }
         public static Color getRandomColor() {
-            return getColorFromKey((int) Math.floor(Math.random() * 16.0));
+            return getColorFromKey((int) Math.floor(Math.random() * 12.0));
         }
 
         public static Color getRandomColorFromKeys(int[] keys) {
