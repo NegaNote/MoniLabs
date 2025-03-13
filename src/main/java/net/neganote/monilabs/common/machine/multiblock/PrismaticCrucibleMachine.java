@@ -13,7 +13,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
 public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private Color color;
@@ -25,7 +25,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     @NotNull
     public ManagedFieldHolder getFieldHolder() {
-        return super.getFieldHolder();
+        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
