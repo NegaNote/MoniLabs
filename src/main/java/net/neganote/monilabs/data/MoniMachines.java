@@ -37,7 +37,6 @@ public class MoniMachines {
             .additionalDisplay((controller, components) -> {
                 if (controller instanceof PrismaticCrucibleMachine prismMachine && controller.isFormed()) {
                     components.add(Component.translatable("monilabs.prismatic.current_color", Component.translatable(prismMachine.getColorState().nameKey)));
-                    components.add(Component.translatable("monilabs.prismatic.current_mode", Component.translatable(prismMachine.getCurrentMode().nameKey)));
                 }
             })
             // TODO: replace with custom renderer
