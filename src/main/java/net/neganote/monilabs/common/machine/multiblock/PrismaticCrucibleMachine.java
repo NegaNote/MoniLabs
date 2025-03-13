@@ -74,6 +74,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         RANDOM_WITH_LIST(1, "monilabs.prismatic.mode_name.random"),
         FULL_RANDOM(2, "monilabs.prismatic.mode_name.random");
 
+        public static final ColorChangeMode[] MODES = ColorChangeMode.values();
+
         public final int key;
         public final String nameKey;
 
@@ -82,16 +84,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             this.nameKey = nameKey;
         }
 
-        public static ColorChangeMode getModeFromKey(int key) {
-            return switch (key) {
-                case 1:
-                    yield ColorChangeMode.RANDOM_WITH_LIST;
-                case 2:
-                    yield ColorChangeMode.FULL_RANDOM;
-                case 0:
-                default:
-                    yield ColorChangeMode.DETERMINISTIC;
-            };
+        public static ColorChangeMode getModeFromKey(int pKey) {
+            return MODES[pKey];
         }
     }
 
@@ -109,6 +103,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         MAGENTA(10, "monilabs.prismatic.color_name.magenta"),
         PINK(11, "monilabs.prismatic.color_name.pink");
 
+        public static final Color[] COLORS = Color.values();
+
         public final String nameKey;
         public final int key;
 
@@ -117,34 +113,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             this.nameKey = nameKey;
         }
 
-        public static Color getColorFromKey(int modulus) {
-            return switch (modulus) {
-                case 1:
-                    yield Color.ORANGE;
-                case 2:
-                    yield Color.YELLOW;
-                case 3:
-                    yield Color.LIME;
-                case 4:
-                    yield Color.GREEN;
-                case 5:
-                    yield Color.TEAL;
-                case 6:
-                    yield Color.CYAN;
-                case 7:
-                    yield Color.AZURE;
-                case 8:
-                    yield Color.BLUE;
-                case 9:
-                    yield Color.INDIGO;
-                case 10:
-                    yield Color.MAGENTA;
-                case 11:
-                    yield Color.PINK;
-                case 0:
-                default:
-                    yield Color.RED;
-            };
+        public static Color getColorFromKey(int pKey) {
+            return COLORS[pKey];
         }
         public static Color getRandomColor() {
             return getColorFromKey((int) Math.floor(Math.random() * 12.0));
