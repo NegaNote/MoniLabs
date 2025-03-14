@@ -23,7 +23,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
     @Override
     public void registerClasses(ScriptType type, ClassFilter filter) {
         super.registerClasses(type, filter);
-        // allow user to access all gtceu classes by importing them.
+        // allow user to access all monilabs classes by importing them.
         filter.allow("net.neganote.monilabs");
     }
 
