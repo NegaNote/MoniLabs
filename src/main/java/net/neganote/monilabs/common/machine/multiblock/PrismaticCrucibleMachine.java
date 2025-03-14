@@ -49,16 +49,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         if (!isFormed()) {
             return 0;
         } else {
-            return colorKey;
-        }
-    }
-
-    @Override
-    public int getOutputDirectSignal(Direction direction) {
-        if (!isFormed()) {
-            return 0;
-        } else {
-            return colorKey;
+            return colorKey + 1;
         }
     }
 
