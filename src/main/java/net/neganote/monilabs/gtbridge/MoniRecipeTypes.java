@@ -27,16 +27,14 @@ public class MoniRecipeTypes {
                     CompoundTag colorsTag = data.getCompound("colors_tag");
                     int[] possibleOriginalColors = colorsTag.getIntArray("required_colors");
                     if (possibleOriginalColors.length < 2) {
+                        // throw new Error("possibleOriginalColors < 2");
                         return LocalizationUtils.format("monilabs.recipe.mistake_input_colors");
                     }
 
-                    StringBuilder builder = new StringBuilder(LocalizationUtils.format("monilabs.recipe.required_colors_start"));
-                    int[] truncated = copyOfRange(possibleOriginalColors, 0, possibleOriginalColors.length);
-                    builder.append(Arrays.stream(truncated).mapToObj(i -> String.valueOf(possibleOriginalColors[i]))
-                            .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator"))));
-
-                    return builder.toString();
+                    return LocalizationUtils.format("monilabs.recipe.required_colors_start") + Arrays.stream(possibleOriginalColors).mapToObj(String::valueOf)
+                            .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
                 }
+                // throw new Error("data.contains(\"colors_tag\") failed");
                 return LocalizationUtils.format("monilabs.recipe.mistake_input_colors");
             })
             .addDataInfo(data -> {
