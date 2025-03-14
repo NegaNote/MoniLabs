@@ -5,6 +5,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.core.Direction;
+import net.neganote.monilabs.MoniLabs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,8 +21,22 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private int colorKey;
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        colorKey = Color.RED.key;
+        MoniLabs.LOGGER.debug("Setting Prismatic Crucible's color state to unformed");
+        colorKey = Color.UNFORMED.key;
     }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        MoniLabs.LOGGER.debug("Loading Prismatic Crucible");
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        MoniLabs.LOGGER.debug("Unloading Prismatic Crucible");
+    }
+
 
     @Override
     @NotNull
@@ -31,6 +47,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+        MoniLabs.LOGGER.debug("Forming structure, setting color to red");
+        changeColorState(Color.RED);
     }
 
     @Override
@@ -40,6 +58,24 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             return false;
         }
         return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public int getOutputSignal(@Nullable Direction side) {
+        if (!isFormed()) {
+            return 0;
+        } else {
+            return colorKey;
+        }
+    }
+
+    @Override
+    public int getOutputDirectSignal(Direction direction) {
+        if (!isFormed()) {
+            return 0;
+        } else {
+            return colorKey;
+        }
     }
 
     @Override
@@ -63,6 +99,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     private void changeColorState(Color newColor) {
         colorKey = newColor.key;
+        updateSignal();
     }
 
     public Color getColorState() {
@@ -70,18 +107,16 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     public enum ColorChangeMode {
-        DETERMINISTIC(0, "monilabs.prismatic.mode_name.deterministic"),
-        RANDOM_WITH_LIST(1, "monilabs.prismatic.mode_name.random"),
-        FULL_RANDOM(2, "monilabs.prismatic.mode_name.random");
+        DETERMINISTIC(0),
+        RANDOM_WITH_LIST(1),
+        FULL_RANDOM(2);
 
         public static final ColorChangeMode[] MODES = ColorChangeMode.values();
 
         public final int key;
-        public final String nameKey;
 
-        ColorChangeMode(int key, String nameKey) {
+        ColorChangeMode(int key) {
             this.key = key;
-            this.nameKey = nameKey;
         }
 
         public static ColorChangeMode getModeFromKey(int pKey) {
@@ -90,18 +125,19 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     public enum Color {
-        RED(0, "monilabs.prismatic.color_name.red"),
-        ORANGE(1, "monilabs.prismatic.color_name.orange"),
-        YELLOW(2, "monilabs.prismatic.color_name.yellow"),
-        LIME(3, "monilabs.prismatic.color_name.lime"),
-        GREEN(4, "monilabs.prismatic.color_name.green"),
-        TEAL(5, "monilabs.prismatic.color_name.turquoise"),
-        CYAN(6, "monilabs.prismatic.color_name.cyan"),
-        AZURE(7, "monilabs.prismatic.color_name.azure"),
-        BLUE(8, "monilabs.prismatic.color_name.blue"),
-        INDIGO(9, "monilabs.prismatic.color_name.indigo"),
-        MAGENTA(10, "monilabs.prismatic.color_name.magenta"),
-        PINK(11, "monilabs.prismatic.color_name.pink");
+        UNFORMED(0, "monilabs.prismatic.color_name.unformed"),
+        RED(1, "monilabs.prismatic.color_name.red"),
+        ORANGE(2, "monilabs.prismatic.color_name.orange"),
+        YELLOW(3, "monilabs.prismatic.color_name.yellow"),
+        LIME(4, "monilabs.prismatic.color_name.lime"),
+        GREEN(5, "monilabs.prismatic.color_name.green"),
+        TEAL(6, "monilabs.prismatic.color_name.turquoise"),
+        CYAN(7, "monilabs.prismatic.color_name.cyan"),
+        AZURE(8, "monilabs.prismatic.color_name.azure"),
+        BLUE(9, "monilabs.prismatic.color_name.blue"),
+        INDIGO(10, "monilabs.prismatic.color_name.indigo"),
+        MAGENTA(11, "monilabs.prismatic.color_name.magenta"),
+        PINK(12, "monilabs.prismatic.color_name.pink");
 
         public static final Color[] COLORS = Color.values();
 
