@@ -5,10 +5,12 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
@@ -36,9 +38,20 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
-        if (!recipe.data.contains("required_color") || recipe.data.getInt("required_color") != colorKey) {
+        if (!recipe.data.contains("required_color") && !recipe.data.contains("colors_tag")) {
             return false;
         }
+        if (recipe.data.contains("required_color") && recipe.data.getInt("required_color") != colorKey) {
+            return false;
+        }
+        if (recipe.data.contains("colors_tag")) {
+            CompoundTag colorsTag = recipe.data.getCompound("colors_tag");
+            int[] inputColorArray = colorsTag.getIntArray("required_colors");
+            if (Arrays.stream(inputColorArray).noneMatch(i -> i == colorKey)) {
+                return false;
+            }
+        }
+
         return super.beforeWorking(recipe);
     }
 
@@ -50,15 +63,22 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             return;
         }
 
+        int newKey = 0;
+
         ColorChangeMode mode = ColorChangeMode.getModeFromKey(recipe.data.getInt("mode_switch_type"));
         switch (mode) {
-            case DETERMINISTIC -> changeColorState(Color.getColorFromKey(recipe.data.getInt("result_color")));
+            case DETERMINISTIC -> newKey = recipe.data.getInt("result_color");
             case RANDOM_WITH_LIST -> {
-                int[] newPossibleColors = recipe.data.getIntArray("possible_new_colors");
-                changeColorState(Color.getRandomColorFromKeys(newPossibleColors));
+                CompoundTag colorsTag = recipe.data.getCompound("colors_tag");
+                int[] newPossibleColors = colorsTag.getIntArray("possible_new_colors");
+                newKey = Color.getRandomColorFromKeys(newPossibleColors);
             }
-            case FULL_RANDOM -> changeColorState(Color.getRandomColor());
+            case FULL_RANDOM -> newKey = Color.getRandomColor();
         }
+        if (recipe.data.contains("color_change_relative") && recipe.data.getBoolean("color_change_relative")) {
+            newKey = (colorKey + newKey) % 12;
+        }
+        changeColorState(Color.getColorFromKey(newKey));
     }
 
     private void changeColorState(Color newColor) {
@@ -116,12 +136,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public static Color getColorFromKey(int pKey) {
             return COLORS[pKey];
         }
-        public static Color getRandomColor() {
-            return getColorFromKey((int) Math.floor(Math.random() * 12.0));
+        public static int getRandomColor() {
+            return (int) Math.floor(Math.random() * 12.0);
         }
 
-        public static Color getRandomColorFromKeys(int[] keys) {
-            return getColorFromKey(keys[(int) Math.floor(Math.random() * (double) keys.length)]);
+        public static int getRandomColorFromKeys(int[] keys) {
+            return keys[(int) Math.floor(Math.random() * (double) keys.length)];
         }
     }
 }

@@ -1,0 +1,1 @@
+net.neganote.monilabs.integration.kjs.MoniKubeJSPlugin

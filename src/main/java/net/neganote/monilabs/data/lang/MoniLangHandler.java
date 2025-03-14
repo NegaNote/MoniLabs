@@ -1,12 +1,10 @@
 package net.neganote.monilabs.data.lang;
 
-import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-import net.minecraft.network.chat.Style;
 
 public class MoniLangHandler {
     public static void init(RegistrateLangProvider provider) {
-        provider.add("monilabs.prismatic.current_color", "Currently has a color of %s");
+        provider.add("monilabs.prismatic.current_color", "Current color: %s");
         provider.add("monilabs.prismatic.color_name.red", "§4Red§r");
         provider.add("monilabs.prismatic.color_name.orange", "§6Orange§r");
         provider.add("monilabs.prismatic.color_name.yellow", "§eYellow§r");
@@ -20,12 +18,18 @@ public class MoniLangHandler {
         provider.add("monilabs.prismatic.color_name.magenta", "§dMagenta§r");
         provider.add("monilabs.prismatic.color_name.pink", "§cPink§r");
 
-        provider.add("monilabs.recipe.required_color", "Requires Crucible to be %s");
-        provider.add("monilabs.recipe.result_color", "Crucible will become %s");
-        provider.add("monilabs.recipe.two_possible_colors", "Crucible will become either %s or %s");
-        provider.add("monilabs.recipe.color_list_random_start", "Crucible will become any of ");
-        provider.add("monilabs.recipe.color_list_random_separator", ", ");
-        provider.add("monilabs.recipe.color_list_random_end", ", or ");
-        provider.add("monilabs.recipe.fully_random_color", "Crucible will become a " + TooltipHelper.RAINBOW_HSL.apply(Style.EMPTY) + "random color§r!");
+        provider.add("monilabs.recipe.required_color", "Required Initial Color: %s");
+        provider.add("monilabs.recipe.required_colors_start", "Accepted Initial Colors: %s");
+        provider.add("monilabs.recipe.result_color", "Resulting Color: %s");
+        provider.add("monilabs.recipe.result_color_relative", "Resulting Color Increment: %s");
+        provider.add("monilabs.recipe.color_list_random_start", "Possible Resulting Colors: ");
+        provider.add("monilabs.recipe.color_list_random_start_relative", "Possible Resulting Color Increments: ");
+        provider.add("monilabs.recipe.color_list_separator", ", ");
+        provider.add("monilabs.recipe.fully_random_color", "Resulting Color State: a §5r§da§4n§cd§eo§am §bc§3o§7l§1o§5r§r!");
+
+        provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
+        provider.add("monilabs.recipe.mistake_output_colors", "You made a mistake defining this recipe's output colors.");
+
+        provider.add("gtceu.prismatic_crucible", "Prismatic Crucible");
     }
 }
