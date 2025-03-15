@@ -21,5 +21,9 @@
   "monilabs.recipe.fully_random_color": "¡ɹ§ɹoןoɔ ɯopuɐɹ}8Ɛ8Ɛ6ℲℲℲ#=ɹoןoɔ{ ɐ ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ",
   "monilabs.recipe.required_color": "%s ǝq oʇ ǝןqıɔnɹƆ sǝɹınbǝᴚ",
   "monilabs.recipe.result_color": "%s ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ",
-  "monilabs.recipe.two_possible_colors": "%s ɹo %s ɹǝɥʇıǝ ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ"
+  "monilabs.recipe.two_possible_colors": "%s ɹo %s ɹǝɥʇıǝ ǝɯoɔǝq ןןıʍ ǝןqıɔnɹƆ",
+  "monilabs.tooltip.prismatic.0": "¡sɯǝʇı ɯɹoɟsuɐɹʇ oʇ %s ɟo ɹǝʍod ǝɥʇ ǝs∩",
+  "monilabs.tooltip.prismatic.1": "¡ǝʇɐʇs ɹoןoɔ ʇɔǝɹɹoɔ ǝɥʇ uı ʇnduı ǝq ⟘S∩W sǝdıɔǝᴚ",
+  "monilabs.tooltip.prismatic.2": "¡ʎןɯopuɐɹ ɹoןoɔ s,ǝןqıɔnɹɔ ǝɥʇ ǝbuɐɥɔ uǝʌǝ uɐɔ ʎǝɥ⟘",
+  "monilabs.tooltip.prismatic.rainbow": "ʍoquıɐɹ ǝɥʇ"
 }

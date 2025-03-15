@@ -27,5 +27,10 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.color_list_random_separator", ", ");
         provider.add("monilabs.recipe.color_list_random_end", ", or ");
         provider.add("monilabs.recipe.fully_random_color", "Crucible will become a " + TooltipHelper.RAINBOW_HSL.apply(Style.EMPTY) + "random color§r!");
+
+        provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
+        provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
+        provider.add("monilabs.tooltip.prismatic.1", "Recipes MUST be input in the correct color state!");
+        provider.add("monilabs.tooltip.prismatic.2", "They can even change the crucible's color randomly!");
     }
 }

@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
@@ -38,6 +39,11 @@ public class MoniMachines {
                 if (controller instanceof PrismaticCrucibleMachine prismMachine && controller.isFormed()) {
                     components.add(Component.translatable("monilabs.prismatic.current_color", Component.translatable(prismMachine.getColorState().nameKey)));
                 }
+            })
+            .tooltipBuilder((stack, list) -> {
+                list.add(Component.translatable("monilabs.tooltip.prismatic.0", Component.translatable("monilabs.tooltip.prismatic_crucible.rainbow").withStyle(TooltipHelper.RAINBOW_HSL)));
+                list.add(Component.translatable("monilabs.tooltip.prismatic.1"));
+                list.add(Component.translatable("monilabs.tooltip.prismatic.2"));
             })
             // TODO: replace with custom renderer
             .workableCasingRenderer(MoniLabs.id("block/casings/prismatic_casing"), GTCEu.id("block/multiblock/processing_array"))
