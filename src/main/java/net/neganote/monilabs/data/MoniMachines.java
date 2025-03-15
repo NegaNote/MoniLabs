@@ -41,7 +41,8 @@ public class MoniMachines {
                 }
             })
             .tooltipBuilder((stack, list) -> {
-                list.add(Component.translatable("monilabs.tooltip.prismatic.0", Component.translatable("monilabs.tooltip.prismatic_crucible.rainbow").withStyle(TooltipHelper.RAINBOW_HSL)));
+                list.add(Component.translatable("monilabs.tooltip.prismatic.0",
+                        Component.translatable("monilabs.tooltip.prismatic.rainbow").withStyle(TooltipHelper.RAINBOW_HSL_FAST)));
                 list.add(Component.translatable("monilabs.tooltip.prismatic.1"));
                 list.add(Component.translatable("monilabs.tooltip.prismatic.2"));
             })
