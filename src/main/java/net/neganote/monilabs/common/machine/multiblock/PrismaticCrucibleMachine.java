@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
@@ -38,20 +39,23 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
-        if (!recipe.data.contains("required_color") && !recipe.data.contains("colors_tag")) {
-            return false;
-        }
-        if (recipe.data.contains("required_color") && recipe.data.getInt("required_color") != colorKey) {
-            return false;
-        }
-        if (recipe.data.contains("colors_tag")) {
-            CompoundTag colorsTag = recipe.data.getCompound("colors_tag");
-            int[] inputColorArray = colorsTag.getIntArray("required_colors");
-            if (Arrays.stream(inputColorArray).noneMatch(i -> i == colorKey)) {
-                return false;
-            }
-        }
+        if (recipe.data.contains("input_states")) {
+            int inputStatesCount = recipe.data.getInt("input_states");
+            if (inputStatesCount == 1) {                            // Any state
+                if (recipe.data.getInt("input_states_0") != colorKey) return false;
 
+            } else if (inputStatesCount == Color.COLOR_COUNT) {     // One state
+                return super.beforeWorking(recipe);
+
+            } else {                                                // State list
+                boolean noMatch = IntStream.range(0, inputStatesCount)
+                        .map(i -> recipe.data.getInt("output_states_" + i))
+                        .noneMatch(s -> s == colorKey);
+                if (noMatch) {
+                    return false;
+                }
+            }
+        } //If input_states is undefined, assume any state is accepted to avoid edge cases.
         return super.beforeWorking(recipe);
     }
 
@@ -65,18 +69,22 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         int newKey = 0;
 
-        ColorChangeMode mode = ColorChangeMode.getModeFromKey(recipe.data.getInt("mode_switch_type"));
-        switch (mode) {
-            case DETERMINISTIC -> newKey = recipe.data.getInt("result_color");
-            case RANDOM_WITH_LIST -> {
-                CompoundTag colorsTag = recipe.data.getCompound("colors_tag");
-                int[] newPossibleColors = colorsTag.getIntArray("possible_new_colors");
-                newKey = Color.getRandomColorFromKeys(newPossibleColors);
-            }
-            case FULL_RANDOM -> newKey = Color.getRandomColor();
+        int outputStatesCount = recipe.data.getInt("output_states");
+        if (outputStatesCount == 1) {                                   // Deterministic
+            newKey = recipe.data.getInt("output_states_0");
+
+        } else if (outputStatesCount == Color.COLOR_COUNT) {            // Full random
+            newKey = Color.getRandomColor();
+
+        } else {                                                        // Random Among List
+            int[] outputStates = IntStream.range(0, outputStatesCount)
+                    .map(i -> recipe.data.getInt("output_states_" + i))
+                    .toArray();
+            newKey = Color.getRandomColorFromKeys(outputStates);
         }
+
         if (recipe.data.contains("color_change_relative") && recipe.data.getBoolean("color_change_relative")) {
-            newKey = (colorKey + newKey) % 12;
+            newKey = (colorKey + newKey) % Color.COLOR_COUNT;
         }
         changeColorState(Color.getColorFromKey(newKey));
     }
@@ -87,26 +95,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     public Color getColorState() {
         return Color.getColorFromKey(colorKey);
-    }
-
-    public enum ColorChangeMode {
-        DETERMINISTIC(0, "monilabs.prismatic.mode_name.deterministic"),
-        RANDOM_WITH_LIST(1, "monilabs.prismatic.mode_name.random"),
-        FULL_RANDOM(2, "monilabs.prismatic.mode_name.random");
-
-        public static final ColorChangeMode[] MODES = ColorChangeMode.values();
-
-        public final int key;
-        public final String nameKey;
-
-        ColorChangeMode(int key, String nameKey) {
-            this.key = key;
-            this.nameKey = nameKey;
-        }
-
-        public static ColorChangeMode getModeFromKey(int pKey) {
-            return MODES[pKey];
-        }
     }
 
     public enum Color {
@@ -128,6 +116,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public final String nameKey;
         public final int key;
 
+        public static final int COLOR_COUNT = Color.values().length;
+
         Color(int key, String nameKey) {
             this.key = key;
             this.nameKey = nameKey;
@@ -137,7 +127,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             return COLORS[pKey];
         }
         public static int getRandomColor() {
-            return (int) Math.floor(Math.random() * 12.0);
+            return (int) Math.floor(Math.random() * Color.COLOR_COUNT);
         }
 
         public static int getRandomColorFromKeys(int[] keys) {

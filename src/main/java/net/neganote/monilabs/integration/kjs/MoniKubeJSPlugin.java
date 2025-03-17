@@ -48,7 +48,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("MoniBlocks", MoniBlocks.class);
         event.add("MoniRecipeTypes", MoniRecipeTypes.class);
         event.add("PrismaticColor", PrismaticCrucibleMachine.Color.class);
-        event.add("PrismaticColorChangeMode", PrismaticCrucibleMachine.ColorChangeMode.class);
+        event.add("SpecialCase", MoniRecipeSchema.SpecialCase.class);
     }
 }
 
