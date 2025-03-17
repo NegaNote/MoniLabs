@@ -41,13 +41,14 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
         machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine machine && machine.isFormed()) {
             var level = machine.getLevel();
             var frontFacing = machine.getFrontFacing();
+            var color = machine.getColorState();
             assert level != null;
             float tick = level.getGameTime() + partialTicks;
-            renderCube(poseStack, buffer, frontFacing, tick, combinedLight, combinedOverlay);
+            renderCube(poseStack, buffer, frontFacing, tick, color, combinedLight, combinedOverlay);
         }
     }
 
-    private void renderCube(PoseStack poseStack, MultiBufferSource buffer, Direction frontFacing, float tick, int combinedLight, int combinedOverlay) {
+    private void renderCube(PoseStack poseStack, MultiBufferSource buffer, Direction frontFacing, float tick, PrismaticCrucibleMachine.Color color, int combinedLight, int combinedOverlay) {
         var modelManager = Minecraft.getInstance().getModelManager();
         poseStack.pushPose();
 
@@ -70,7 +71,7 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
         List<BakedQuad> quads = bakedModel.getQuads(null, null, GTValues.RNG);
 
         for (BakedQuad quad : quads) {
-            consumer.putBulkData(pose, quad, 1f, 1f, 1f, combinedLight, combinedOverlay);
+            consumer.putBulkData(pose, quad, color.r, color.g, color.b, combinedLight, combinedOverlay);
         }
         poseStack.popPose();
     }
