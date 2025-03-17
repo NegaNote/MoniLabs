@@ -26,7 +26,6 @@ public interface MoniRecipeSchema {
     }
 
     @SuppressWarnings({ "unused", "UnusedReturnValue" })
-    @Accessors(chain = true, fluent = true)
     class MoniRecipeJS extends GTRecipeSchema.GTRecipeJS {
 
         public GTRecipeSchema.GTRecipeJS inputStates(int... states) {
