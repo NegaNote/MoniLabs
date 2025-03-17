@@ -24,7 +24,7 @@ import org.joml.Quaternionf;
 import java.util.List;
 import java.util.function.Consumer;
 
-
+// Lots of this is mostly copied from CosmicCore tbh, thanks Ghosti
 public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
     public static final ResourceLocation BASE_CASING = MoniLabs.id("block/casings/prismatic_casing");
     public static final ResourceLocation FRONT_TEXTURES = GTCEu.id("block/multiblock/processing_array");
