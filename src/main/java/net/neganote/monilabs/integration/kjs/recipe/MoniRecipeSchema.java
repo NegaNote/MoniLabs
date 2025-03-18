@@ -4,7 +4,6 @@ package net.neganote.monilabs.integration.kjs.recipe;
 import com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema;
 
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
-import lombok.experimental.Accessors;
 
 import static com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema.*;
 import static net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.*;
@@ -17,15 +16,16 @@ public interface MoniRecipeSchema {
 
 
 
-    public enum SpecialCase {
+    enum SpecialCase {
         PRIMARY,
         SECONDARY,
         BASIC,
         TERTIARY,
-        ANY;
+        ANY
     }
 
     @SuppressWarnings({ "unused", "UnusedReturnValue" })
+    @Accessors(chain = true, fluent = true)
     class MoniRecipeJS extends GTRecipeSchema.GTRecipeJS {
 
         public GTRecipeSchema.GTRecipeJS inputStates(int... states) {
