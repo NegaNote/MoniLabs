@@ -1,30 +1,10 @@
-buildscript {
-    repositories {
-        maven {
-            name = 'forge'
-            url = 'https://files.minecraftforge.net/maven'
-        }
-        maven {
-            name = 'sponge'
-            url = 'https://repo.spongepowered.org/maven'
-        }
-    }
-
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
-}
-
 plugins {
     id "idea"
     id "maven-publish"
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.spongepowered.mixin' version '0.8.7'
+    id 'org.spongepowered.mixin' version '0.7.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
-
-apply plugin: 'org.spongepowered.mixin'
 
 def generatedResources = file("src/generated")
 
@@ -32,6 +12,12 @@ sourceSets {
     main {
         resources.srcDir generatedResources
     }
+}
+
+mixin {
+    // MixinGradle Settings
+    add sourceSets.main, 'mixins.monilabs.refmap.json'
+    config 'monilabs.mixins.json'
 }
 
 repositories {
@@ -43,6 +29,10 @@ repositories {
         content {
             includeGroup 'com.gregtechceu.gtceu'
         }
+    }
+    maven {
+        name = "sponge"
+        url = "https://repo.spongepowered.org/maven"
     }
     maven {
         name 'FirstDarkDev'
@@ -79,19 +69,15 @@ repositories {
     }
     maven {
         // EMI
-		name = "TerraformersMC"
-		url = "https://maven.terraformersmc.com/"
-	}
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
 
     maven {
         url = "https://maven.architectury.dev"
     }
     maven {
         url = "https://thedarkcolour.github.io/KotlinForForge/"
-    }
-    maven {
-        name = "Sponge"
-        url = 'https://repo.spongepowered.org/maven'
     }
 
 }
@@ -129,6 +115,9 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
+    // Apply Mixin AP
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
     // JEI, EMI, Jade
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
@@ -148,8 +137,6 @@ dependencies {
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
-
-    compileOnly 'org.spongepowered:mixin:0.7.5-SNAPSHOT'
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -179,12 +166,4 @@ tasks.withType(JavaCompile).configureEach {
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
     options.release.set(17)
-}
-
-jar {
-    manifest.attributes(
-            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-            'MixinConfigs': 'monilabs.mixins.json',
-            'FMLCorePluginContainsFMLMod': 'true',
-    )
 }

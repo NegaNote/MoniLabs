@@ -17,19 +17,14 @@ import java.util.stream.Collectors;
 @Mixin(value = KubeJSPlugins.class, remap = false)
 public class KubeJSPluginsMixin {
     @Unique
-    private static Logger moniLabs$LOGGER = LoggerFactory.getLogger("KubeJSMoniMixin");
+    private static final Logger moniLabs$LOGGER = LoggerFactory.getLogger("KubeJSMoniMixin");
 
-    @Unique
-    private static void moniLabs$beforeLoadidfkmethod(List<Mod> mods, boolean loadClientPlugins) {
+    @Inject(method= "load(Ljava/util/List;Z)V", at = @At(value = "HEAD"))
+    private static void moniLabs$injectBeforeLoad(List<Mod> mods, boolean loadClientPlugins, CallbackInfo ci) {
         moniLabs$LOGGER.debug("Attempting MoniLabs mixin...");
         int index = mods.indexOf(Platform.getMod("monilabs"));
         Mod mod = mods.remove(index);
         mods.add(mod);
         moniLabs$LOGGER.debug(mods.stream().map(Mod::getModId).collect(Collectors.joining("\n")));
-    }
-
-    @Inject(method= "load(Ljava/util/List;Z)V", at = @At(value = "HEAD"))
-    private static void beforeLoad(List<Mod> mods, boolean loadClientPlugins, CallbackInfo ci) {
-        moniLabs$beforeLoadidfkmethod(mods, loadClientPlugins);
     }
 }
