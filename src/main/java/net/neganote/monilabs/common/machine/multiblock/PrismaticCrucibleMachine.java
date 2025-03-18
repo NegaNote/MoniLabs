@@ -70,21 +70,25 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         int newKey = 0;
 
         int outputStatesCount = recipe.data.getInt("output_states");
-        if (outputStatesCount == 1) {                                   // Deterministic
-            newKey = recipe.data.getInt("output_states_0");
+        if (recipe.data.contains("output_states")) {
+            if (outputStatesCount == 1) {                                   // Deterministic
+                newKey = recipe.data.getInt("output_states_0");
 
-        } else if (outputStatesCount == Color.COLOR_COUNT) {            // Full random
+            } else if (outputStatesCount == Color.COLOR_COUNT) {            // Full random
+                newKey = Color.getRandomColor();
+
+            } else {                                                        // Random Among List
+                int[] outputStates = IntStream.range(0, outputStatesCount)
+                        .map(i -> recipe.data.getInt("output_states_" + i))
+                        .toArray();
+                newKey = Color.getRandomColorFromKeys(outputStates);
+            }
+
+            if (recipe.data.contains("color_change_relative") && recipe.data.getBoolean("color_change_relative")) {
+                newKey = (colorKey + newKey) % Color.COLOR_COUNT;
+            }
+        } else {
             newKey = Color.getRandomColor();
-
-        } else {                                                        // Random Among List
-            int[] outputStates = IntStream.range(0, outputStatesCount)
-                    .map(i -> recipe.data.getInt("output_states_" + i))
-                    .toArray();
-            newKey = Color.getRandomColorFromKeys(outputStates);
-        }
-
-        if (recipe.data.contains("color_change_relative") && recipe.data.getBoolean("color_change_relative")) {
-            newKey = (colorKey + newKey) % Color.COLOR_COUNT;
         }
         changeColorState(Color.getColorFromKey(newKey));
     }
