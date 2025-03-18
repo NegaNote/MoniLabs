@@ -49,7 +49,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
             } else {                                                // State list
                 boolean noMatch = IntStream.range(0, inputStatesCount)
-                        .map(i -> recipe.data.getInt("output_states_" + i))
+                        .map(i -> recipe.data.getInt("input_states_" + i))
                         .noneMatch(s -> s == colorKey);
                 if (noMatch) {
                     return false;
