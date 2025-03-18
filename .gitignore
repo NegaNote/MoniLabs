@@ -29,5 +29,6 @@ bin/
 *.DS_Store
 
 run/
+!run/kubejs/
 run-data/
 /src/generated/resources/.cache/*
