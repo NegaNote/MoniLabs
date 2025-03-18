@@ -4,5 +4,9 @@ pluginManagement {
     repositories {
         maven { url = 'https://maven.minecraftforge.net/' }
         maven { url = 'https://maven.parchmentmc.org' }
+        maven {
+            name = "Sponge"
+            url = 'https://repo.spongepowered.org/maven'
+        }
     }
 }
