@@ -16,6 +16,7 @@
   "monilabs.prismatic.color_name.turquoise": "§3Turquoise§r",
   "monilabs.prismatic.color_name.yellow": "§eYellow§r",
   "monilabs.prismatic.current_color": "Current color: %s",
+  "monilabs.recipe.any_input_color": "Can be any Color",
   "monilabs.recipe.color_list_random_start": "Possible Resulting Colors: ",
   "monilabs.recipe.color_list_random_start_relative": "Possible Resulting Color Increments: ",
   "monilabs.recipe.color_list_separator": ", ",
