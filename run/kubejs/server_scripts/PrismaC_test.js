@@ -1,0 +1,23 @@
+ServerEvents.recipes(event =>{
+    event.recipes.gtceu.prismatic_crucible("test1")
+        .itemInputs("minecraft:blue_dye")
+        .itemOutputs("minecraft:yellow_dye")
+        .EUt(128)
+        .duration(100)
+
+    event.recipes.gtceu.prismatic_crucible("test2")
+        .inputStates(0)
+        .itemInputs("minecraft:red_dye")
+        .itemOutputs("minecraft:green_dye")
+        .EUt(128)
+        .duration(100)
+        .outputStates(4)
+
+    event.recipes.gtceu.prismatic_crucible("test3")
+        .inputStates(4)
+        .itemInputs("minecraft:green_dye")
+        .itemOutputs("minecraft:red_dye")
+        .EUt(128)
+        .duration(100)
+        .outputStates(0)
+})
