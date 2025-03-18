@@ -18,15 +18,15 @@ public class MoniLangHandler {
         provider.add("monilabs.prismatic.color_name.magenta", "§dMagenta§r");
         provider.add("monilabs.prismatic.color_name.pink", "§cPink§r");
 
-        provider.add("monilabs.recipe.required_color", "Required Initial Color: %s");
-        provider.add("monilabs.recipe.required_colors_start", "Accepted Initial Colors: %s");
-        provider.add("monilabs.recipe.result_color", "Resulting Color: %s");
-        provider.add("monilabs.recipe.result_color_relative", "Resulting Color Increment: %s");
-        provider.add("monilabs.recipe.color_list_random_start", "Possible Resulting Colors: ");
-        provider.add("monilabs.recipe.color_list_random_start_relative", "Possible Resulting Color Increments: ");
+        provider.add("monilabs.recipe.required_color", "Required Initial Color: \n%s");
+        provider.add("monilabs.recipe.required_colors_start", "Accepted Initial Colors: \n%s");
+        provider.add("monilabs.recipe.result_color", "Resulting Color: \n%s");
+        provider.add("monilabs.recipe.result_color_relative", "Resulting Color Increment: \n%s");
+        provider.add("monilabs.recipe.color_list_random_start", "Possible Resulting Colors: \n");
+        provider.add("monilabs.recipe.color_list_random_start_relative", "Possible Resulting Color Increments: \n");
         provider.add("monilabs.recipe.color_list_separator", ", ");
-        provider.add("monilabs.recipe.fully_random_color", "Resulting Color State: a §5r§da§4n§cd§eo§am §bc§3o§7l§1o§5r§r!");
-        provider.add("monilabs.recipe.any_input_color", "Can be any Color");
+        provider.add("monilabs.recipe.fully_random_color", "Resulting Color State: \n§5R§dA§4N§cD§eO§aM §bC§3O§7L§1O§5R§r!");
+        provider.add("monilabs.recipe.any_input_color", "Accepted Initial Colors: \nANY");
 
 
         provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
