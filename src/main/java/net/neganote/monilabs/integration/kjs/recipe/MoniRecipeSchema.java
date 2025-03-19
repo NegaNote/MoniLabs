@@ -49,21 +49,17 @@ public interface MoniRecipeSchema {
         }
 
         // Used to have a shorthand for special cases in recipe definitions
+                case PRIMARY -> this.inputStates(0, 4, 8); // Red, Green, Blue
+                case SECONDARY -> this.inputStates(2, 6, 10); // Yellow, Cyan, Magenta
+                case BASIC -> this.inputStates(0, 2, 4, 6, 8, 10); // Primary + Secondary Colors
+                case TERTIARY -> this.inputStates(1, 3, 5, 7, 9, 11); // Non-Basic Colors
         public GTRecipeSchema.GTRecipeJS inputStates(String specialCase) {
-            try {
-                return this.inputStates(Integer.parseInt(specialCase));
-            } catch (final NumberFormatException e) {
-                SpecialCase specialCaseEnum = SpecialCase.valueOf(specialCase.toUpperCase());
-                return switch (specialCaseEnum) {
-                    case PRIMARY -> this.inputStates(0, 4, 8); // Red, Green, Blue
-                    case SECONDARY -> this.inputStates(2, 6, 10); // Yellow, Cyan, Magenta
-                    case BASIC -> this.inputStates(0, 2, 4, 6, 8, 10); // Primary + Secondary Colors
-                    case TERTIARY -> this.inputStates(1, 3, 5, 7, 9, 11); // Non-Basic Colors
+            SpecialCase specialCaseEnum = SpecialCase.valueOf(specialCase.toUpperCase());
+            return switch (specialCaseEnum) {
 
-                    // Saving computation by skipping unnecessary steps
-                    case ANY -> this.addData("output_states", Color.COLOR_COUNT);
-                };
-            }
+                // Saving computation by skipping unnecessary steps
+                case ANY -> this.addData("input_states", Color.COLOR_COUNT);
+            };
         }
 
 
@@ -92,22 +88,19 @@ public interface MoniRecipeSchema {
             return this.outputStates(false, states);
         }
 
-        // Used to have a shorthand for special cases in recipe definitions
-        public GTRecipeSchema.GTRecipeJS outputStates(String specialCase) {
-            try {
-                return this.inputStates(Integer.parseInt(specialCase));
-            } catch (final NumberFormatException e) {
-                SpecialCase specialCaseEnum = SpecialCase.valueOf(specialCase.toUpperCase());
-                return switch (specialCaseEnum) {
-                    case PRIMARY -> this.outputStates(0, 4, 8); // Red, Green, Blue
-                    case SECONDARY -> this.outputStates(2, 6, 10); // Yellow, Cyan, Magenta
-                    case BASIC -> this.outputStates(0, 2, 4, 6, 8, 10); // Primary + Secondary Colors
-                    case TERTIARY -> this.outputStates(1, 3, 5, 7, 9, 11); // Non-Basic Colors
 
-                    // Saving computation by skipping unnecessary steps
-                    case ANY -> this.addData("output_states", Color.COLOR_COUNT);
-                };
-            }
+        // Used to have a shorthand for special cases in recipe definitions
+                case PRIMARY -> this.outputStates(0, 4, 8); // Red, Green, Blue
+                case SECONDARY -> this.outputStates(2, 6, 10); // Yellow, Cyan, Magenta
+                case BASIC -> this.outputStates(0, 2, 4, 6, 8, 10); // Primary + Secondary Colors
+                case TERTIARY -> this.outputStates(1, 3, 5, 7, 9, 11); // Non-Basic Colors
+        public GTRecipeSchema.GTRecipeJS outputStates(String specialCase) {
+            SpecialCase specialCaseEnum = SpecialCase.valueOf(specialCase.toUpperCase());
+            return switch (specialCaseEnum) {
+
+                // Saving computation by skipping unnecessary steps
+                case ANY -> this.addData("output_states", Color.COLOR_COUNT);
+            };
         }
 
     }
