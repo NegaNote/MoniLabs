@@ -5,11 +5,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.core.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @ParametersAreNonnullByDefault
@@ -76,7 +76,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             return;
         }
 
-        int newKey = 0;
+        int newKey;
 
         int outputStatesCount = recipe.data.getInt("output_states");
         if (recipe.data.contains("output_states")) {
