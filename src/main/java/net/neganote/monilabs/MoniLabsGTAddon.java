@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
-import net.neganote.monilabs.gtbridge.MoniRecipes;
 
 import java.util.function.Consumer;
 
@@ -32,10 +31,13 @@ public class MoniLabsGTAddon implements IGTAddon {
         //CustomTagPrefixes.init();
     }
 
+    // Currently disabled because no recipes are defined in the mod.
+    /*
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
         MoniRecipes.init(provider);
     }
+    */
 
     @Override
     public void registerRecipeCapabilities() {

@@ -24,8 +24,8 @@ public class MoniMachines {
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
             .appearanceBlock(MoniBlocks.PRISMATIC_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
-            // TODO: replace with better, more artsy multi pattern
+            .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
+
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCC", "CCC", "CCC")
                     .aisle("CCC", "C#C", "C#C")

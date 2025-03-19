@@ -7,53 +7,79 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.ColorChangeMode;
 
-import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import static java.util.Arrays.copyOfRange;
+import java.util.stream.IntStream;
 
 public class MoniRecipeTypes {
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
             .addDataInfo(data -> {
-                int modulus = data.getInt("required_color");
-                return LocalizationUtils.format("monilabs.recipe.required_color", LocalizationUtils.format(Color.getColorFromKey(modulus).nameKey));
+                if (data.contains("input_states")) {
+                    int inputStatesCount = data.getInt("input_states");
+
+                    if (inputStatesCount == 1) {
+                        int modulus = data.getInt("input_states_0");
+                        return LocalizationUtils.format("monilabs.recipe.required_color",
+                                LocalizationUtils.format(Color.getColorFromKey(modulus).nameKey));
+
+                    }
+                    if (inputStatesCount == Color.COLOR_COUNT) {
+                        return LocalizationUtils.format("monilabs.recipe.any_input_color");
+
+                    }
+
+                    return LocalizationUtils.format("monilabs.recipe.required_colors_start") +
+                        IntStream.range(0, inputStatesCount)
+                            .map(i -> data.getInt("input_states_" + i))
+                            .mapToObj(s -> LocalizationUtils.format(Color.getColorFromKey(s).nameKey))
+                            .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
+                }
+                // Default behavior
+                return LocalizationUtils.format("monilabs.recipe.any_input_color");
             })
+            .addDataInfo(data -> "")
             .addDataInfo(data -> {
-                int modeSwitchType = data.getInt("mode_switch_type");
-                ColorChangeMode mode = ColorChangeMode.getModeFromKey(modeSwitchType);
+                if (data.contains("output_states")) {
+                    boolean isRelative = (data.contains("color_change_relative")
+                            && data.getBoolean("color_change_relative"));
+                    int outputStatesCount = data.getInt("output_states");
 
-                return switch (mode) {
-                    case DETERMINISTIC -> {
-                        int modulus = data.getInt("result_color");
-                        yield LocalizationUtils.format("monilabs.recipe.result_color", LocalizationUtils.format(Color.getColorFromKey(modulus).nameKey));
-                    }
-                    case RANDOM_WITH_LIST -> {
-                        int[] possibleNewColors = data.getIntArray("possible_new_colors");
-                        if (possibleNewColors.length == 0) {
-                            yield "";
-                        } else if (possibleNewColors.length == 1) {
-                            yield LocalizationUtils.format("monilabs.recipe.result_color", LocalizationUtils.format(Color.getColorFromKey(possibleNewColors[0]).nameKey));
-                        } else if (possibleNewColors.length == 2) {
-                            yield LocalizationUtils.format("monilabs.recipe.two_possible_colors",
-                                    LocalizationUtils.format(Color.getColorFromKey(possibleNewColors[0]).nameKey),
-                                    LocalizationUtils.format(Color.getColorFromKey(possibleNewColors[1]).nameKey));
-                        } else {
-                            StringBuilder builder = new StringBuilder(LocalizationUtils.format("monilabs.recipe.color_list_random_start"));
-                            int[] truncated = copyOfRange(possibleNewColors, 0, possibleNewColors.length - 1);
-                            builder.append(Arrays.stream(truncated).mapToObj(i -> LocalizationUtils.format(Color.getColorFromKey(possibleNewColors[i]).nameKey))
-                                    .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_random_separator"))));
-                            builder.append(LocalizationUtils.format("monilabs.recipe.color_list_random_end",
-                                    LocalizationUtils.format(Color.getColorFromKey(possibleNewColors[possibleNewColors.length - 1]).nameKey)));
-
-                            yield builder.toString();
+                    if (isRelative) {
+                        if (outputStatesCount == 1) {
+                            int modulus = data.getInt("output_states_0");
+                            return LocalizationUtils.format("monilabs.recipe.result_color_relative",
+                                        String.valueOf(modulus));
                         }
+                        if (outputStatesCount == Color.COLOR_COUNT) {
+                            return LocalizationUtils.format("monilabs.recipe.fully_random_color");
+                        }
+                        return LocalizationUtils.format("monilabs.recipe.color_list_random_start_relative") +
+                            IntStream.range(0, outputStatesCount)
+                                .map(i -> data.getInt("output_states_" + i))
+                                .mapToObj(String::valueOf)
+                                .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
+
+                    } else {
+                        if (outputStatesCount == 1) {
+                            int modulus = data.getInt("output_states_0");
+                            return LocalizationUtils.format("monilabs.recipe.result_color",
+                                    LocalizationUtils.format(Color.getColorFromKey(modulus).nameKey));
+                        }
+                        if (outputStatesCount == Color.COLOR_COUNT) {
+                            return LocalizationUtils.format("monilabs.recipe.fully_random_color");
+                        }
+                        return LocalizationUtils.format("monilabs.recipe.color_list_random_start") +
+                            IntStream.range(0, outputStatesCount)
+                                .map(i -> data.getInt("output_states_" + i))
+                                .mapToObj(s -> LocalizationUtils.format(Color.getColorFromKey(s).nameKey))
+                                .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
                     }
-                    case FULL_RANDOM -> LocalizationUtils.format("monilabs.recipe.fully_random_color");
-                };
+                }
+                // Default behavior
+                return LocalizationUtils.format("monilabs.recipe.fully_random_color");
             })
+            .addDataInfo(data -> "")
             .setMaxIOSize(3, 1, 1, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);

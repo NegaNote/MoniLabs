@@ -2,6 +2,7 @@ plugins {
     id "idea"
     id "maven-publish"
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
@@ -13,6 +14,12 @@ sourceSets {
     }
 }
 
+mixin {
+    // MixinGradle Settings
+    add sourceSets.main, 'mixins.monilabs.refmap.json'
+    config 'monilabs.mixins.json'
+}
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -22,6 +29,10 @@ repositories {
         content {
             includeGroup 'com.gregtechceu.gtceu'
         }
+    }
+    maven {
+        name = "sponge"
+        url = "https://repo.spongepowered.org/maven"
     }
     maven {
         name 'FirstDarkDev'
@@ -58,9 +69,9 @@ repositories {
     }
     maven {
         // EMI
-		name = "TerraformersMC"
-		url = "https://maven.terraformersmc.com/"
-	}
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
 
     maven {
         url = "https://maven.architectury.dev"
@@ -104,6 +115,9 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
+    // Apply Mixin AP
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
     // JEI, EMI, Jade
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
@@ -118,11 +132,11 @@ dependencies {
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
     runtimeOnly fg.deobf("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
-    runtimeOnly fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
 
     // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
 }
 
 tasks.named('processResources', ProcessResources).configure {
