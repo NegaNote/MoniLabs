@@ -37,4 +37,11 @@ ServerEvents.recipes(event =>{
         .duration(100)
         .outputStates(true, 4, -4)
 
+    event.recipes.gtceu.prismatic_crucible("test6")
+        .inputStates(PrismaticColor.RED.key)
+        .itemInputs("minecraft:stone")
+        .itemOutputs("minecraft:diamond", 4)
+        .EUt(128)
+        .duration(100)
+        .outputStates(4, 6, 7)
 })
