@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,8 +31,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        changeColorState(Color.RED);
     }
 
     @Override
@@ -57,6 +57,15 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             }
         } //If input_states is undefined, assume any state is accepted to avoid edge cases.
         return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public int getOutputSignal(@Nullable Direction side) {
+        if (!isFormed()) {
+            return 0;
+        } else {
+            return colorKey + 1;
+        }
     }
 
     @Override
@@ -95,6 +104,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     private void changeColorState(Color newColor) {
         colorKey = newColor.key;
+        updateSignal();
     }
 
     public Color getColorState() {
@@ -102,29 +112,35 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     public enum Color {
-        RED(0, "monilabs.prismatic.color_name.red"),
-        ORANGE(1, "monilabs.prismatic.color_name.orange"),
-        YELLOW(2, "monilabs.prismatic.color_name.yellow"),
-        LIME(3, "monilabs.prismatic.color_name.lime"),
-        GREEN(4, "monilabs.prismatic.color_name.green"),
-        TEAL(5, "monilabs.prismatic.color_name.turquoise"),
-        CYAN(6, "monilabs.prismatic.color_name.cyan"),
-        AZURE(7, "monilabs.prismatic.color_name.azure"),
-        BLUE(8, "monilabs.prismatic.color_name.blue"),
-        INDIGO(9, "monilabs.prismatic.color_name.indigo"),
-        MAGENTA(10, "monilabs.prismatic.color_name.magenta"),
-        PINK(11, "monilabs.prismatic.color_name.pink");
+        RED(0, "monilabs.prismatic.color_name.red", 1.0f, 0f, 0f),
+        ORANGE(1, "monilabs.prismatic.color_name.orange", 1.0f, 0.5f, 0f),
+        YELLOW(2, "monilabs.prismatic.color_name.yellow", 1.0f, 1.0f, 0f),
+        LIME(3, "monilabs.prismatic.color_name.lime", 0.5f, 1.0f, 0f),
+        GREEN(4, "monilabs.prismatic.color_name.green", 0f, 1.0f, 0f),
+        TEAL(5, "monilabs.prismatic.color_name.turquoise", 0f, 1.0f, 0.5f),
+        CYAN(6, "monilabs.prismatic.color_name.cyan", 0f, 1.0f, 1.0f),
+        AZURE(7, "monilabs.prismatic.color_name.azure", 0f, 0.5f, 1.0f),
+        BLUE(8, "monilabs.prismatic.color_name.blue", 0f, 0f, 1.0f),
+        INDIGO(9, "monilabs.prismatic.color_name.indigo", 0.5f, 0f, 1.0f),
+        MAGENTA(10, "monilabs.prismatic.color_name.magenta", 1.0f, 0f, 1.0f),
+        PINK(11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f);
 
         public static final Color[] COLORS = Color.values();
 
         public final String nameKey;
         public final int key;
+        public final float r;
+        public final float g;
+        public final float b;
 
         public static final int COLOR_COUNT = Color.values().length;
 
-        Color(int key, String nameKey) {
+        Color(int key, String nameKey, float r, float g, float b) {
             this.key = key;
             this.nameKey = nameKey;
+            this.r = r;
+            this.g = g;
+            this.b = b;
         }
 
         public static Color getColorFromKey(int pKey) {

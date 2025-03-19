@@ -1,11 +1,12 @@
 package net.neganote.monilabs.data;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
@@ -24,6 +25,7 @@ public class MoniMachines {
             .appearanceBlock(MoniBlocks.PRISMATIC_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
+
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCC", "CCC", "CCC")
                     .aisle("CCC", "C#C", "C#C")
@@ -39,8 +41,13 @@ public class MoniMachines {
                     components.add(Component.translatable("monilabs.prismatic.current_color", Component.translatable(prismMachine.getColorState().nameKey)));
                 }
             })
-            // TODO: replace with custom renderer
-            .workableCasingRenderer(MoniLabs.id("block/casings/prismatic_casing"), GTCEu.id("block/multiblock/processing_array"))
+            .tooltipBuilder((stack, list) -> {
+                list.add(Component.translatable("monilabs.tooltip.prismatic.0",
+                        Component.translatable("monilabs.tooltip.prismatic.rainbow").withStyle(TooltipHelper.RAINBOW_HSL_FAST)));
+                list.add(Component.translatable("monilabs.tooltip.prismatic.1"));
+                list.add(Component.translatable("monilabs.tooltip.prismatic.2"));
+            })
+            .renderer(PrismaticCrucibleRenderer::new)
             .register();
 
     public static void init() {}

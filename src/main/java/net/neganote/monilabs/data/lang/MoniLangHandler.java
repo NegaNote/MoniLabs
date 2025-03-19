@@ -33,5 +33,10 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.mistake_output_colors", "You made a mistake defining this recipe's output colors.");
 
         provider.add("gtceu.prismatic_crucible", "Prismatic Crucible");
+      
+        provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
+        provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
+        provider.add("monilabs.tooltip.prismatic.1", "Recipes MUST be input in the correct color state!");
+        provider.add("monilabs.tooltip.prismatic.2", "They can even change the crucible's color randomly!");
     }
 }
