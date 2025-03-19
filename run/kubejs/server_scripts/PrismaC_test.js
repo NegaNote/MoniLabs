@@ -19,7 +19,7 @@ ServerEvents.recipes(event =>{
         .itemOutputs("minecraft:red_dye")
         .EUt(128)
         .duration(100)
-        .outputStates([0])
+        .outputStates(0)
 
     event.recipes.gtceu.prismatic_crucible("test4")
         .inputStates("PRIMARY")
