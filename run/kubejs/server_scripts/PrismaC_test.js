@@ -20,4 +20,21 @@ ServerEvents.recipes(event =>{
         .EUt(128)
         .duration(100)
         .outputStates(0)
+
+    event.recipes.gtceu.prismatic_crucible("test4")
+        .inputStates(4, 6, 7)
+        .itemInputs("minecraft:stone")
+        .itemOutputs("minecraft:cobblestone")
+        .EUt(128)
+        .duration(100)
+        .outputStates(0, 1, 2)
+
+    event.recipes.gtceu.prismatic_crucible("test5")
+        .inputStatesSpecial(0)
+        .itemInputs("minecraft:white_dye")
+        .itemOutputs("minecraft:black_dye")
+        .EUt(128)
+        .duration(100)
+        .outputStates(true, 4, -4)
+
 })

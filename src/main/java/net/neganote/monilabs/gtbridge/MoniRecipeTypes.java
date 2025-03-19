@@ -32,7 +32,7 @@ public class MoniRecipeTypes {
                     return LocalizationUtils.format("monilabs.recipe.required_colors_start") +
                         IntStream.range(0, inputStatesCount)
                             .map(i -> data.getInt("input_states_" + i))
-                            .mapToObj(String::valueOf)
+                            .mapToObj(s -> LocalizationUtils.format(Color.getColorFromKey(s).nameKey))
                             .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
                 }
                 // Default behavior

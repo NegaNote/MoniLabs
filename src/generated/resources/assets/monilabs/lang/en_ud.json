@@ -18,13 +18,13 @@
   "monilabs.prismatic.current_color": "%s :ɹoןoɔ ʇuǝɹɹnƆ",
   "monilabs.recipe.any_input_color": "ʎNⱯ\n :sɹoןoƆ ןɐıʇıuI pǝʇdǝɔɔⱯ",
   "monilabs.recipe.color_list_random_start": "\n :sɹoןoƆ buıʇןnsǝᴚ ǝןqıssoԀ",
-  "monilabs.recipe.color_list_random_start_relative": "\n :sʇuǝɯǝɹɔuI ɹoןoƆ buıʇןnsǝᴚ ǝןqıssoԀ",
+  "monilabs.recipe.color_list_random_start_relative": "\n :sʇuǝɯǝɹɔuI ɹoןoƆ ǝןqıssoԀ",
   "monilabs.recipe.color_list_separator": " '",
   "monilabs.recipe.fully_random_color": "¡ɹ§ᴚϛ§OƖ§Ꞁㄥ§OƐ§Ɔq§ Wɐ§Oǝ§ᗡɔ§Nㄣ§Ɐp§ᴚϛ§\n :ǝʇɐʇS ɹoןoƆ buıʇןnsǝᴚ",
   "monilabs.recipe.mistake_input_colors": "˙sɹoןoɔ ʇnduı s,ǝdıɔǝɹ sıɥʇ buıuıɟǝp ǝʞɐʇsıɯ ɐ ǝpɐɯ noʎ",
   "monilabs.recipe.mistake_output_colors": "˙sɹoןoɔ ʇndʇno s,ǝdıɔǝɹ sıɥʇ buıuıɟǝp ǝʞɐʇsıɯ ɐ ǝpɐɯ noʎ",
   "monilabs.recipe.required_color": "%s\n :ɹoןoƆ ןɐıʇıuI pǝɹınbǝᴚ",
-  "monilabs.recipe.required_colors_start": "%s\n :sɹoןoƆ ןɐıʇıuI pǝʇdǝɔɔⱯ",
+  "monilabs.recipe.required_colors_start": "\n :sɹoןoƆ ןɐıʇıuI pǝʇdǝɔɔⱯ",
   "monilabs.recipe.result_color": "%s\n :ɹoןoƆ buıʇןnsǝᴚ",
   "monilabs.recipe.result_color_relative": "%s\n :ʇuǝɯǝɹɔuI ɹoןoƆ buıʇןnsǝᴚ"
 }

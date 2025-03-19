@@ -49,7 +49,7 @@ public interface MoniRecipeSchema {
         }
 
         // Used to have a shorthand for special cases in recipe definitions
-        public GTRecipeSchema.GTRecipeJS inputSpecialCase(SpecialCase specialCase) {
+        public GTRecipeSchema.GTRecipeJS inputStatesSpecial(SpecialCase specialCase) {
             return switch (specialCase) {
                 case PRIMARY -> this.inputStates(0, 4, 8); // Red, Green, Blue
                 case SECONDARY -> this.inputStates(2, 6, 10); // Yellow, Cyan, Magenta
@@ -89,7 +89,7 @@ public interface MoniRecipeSchema {
 
 
         // Used to have a shorthand for special cases in recipe definitions
-        public GTRecipeSchema.GTRecipeJS outputSpecialCase(SpecialCase specialCase) {
+        public GTRecipeSchema.GTRecipeJS outputStatesSpecial(SpecialCase specialCase) {
             return switch (specialCase) {
                 case PRIMARY -> this.outputStates(0, 4, 8); // Red, Green, Blue
                 case SECONDARY -> this.outputStates(2, 6, 10); // Yellow, Cyan, Magenta
