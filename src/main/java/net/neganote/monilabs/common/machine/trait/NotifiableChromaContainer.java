@@ -7,6 +7,8 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
+import lombok.Setter;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
@@ -34,6 +36,12 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Colo
     @Override
     public IO getHandlerIO() {
         return IO.IN;
+    }
+
+    public void setColor(Color newColor) {
+        this.heldColor = newColor;
+        // I assume this is where you'd notify the machine holding this, but idk how to do that
+        // For now it's probably okay because controller is the container so we alredy knew the color changed
     }
 
     @Override
