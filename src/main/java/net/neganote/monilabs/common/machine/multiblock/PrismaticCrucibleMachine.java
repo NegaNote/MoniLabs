@@ -115,7 +115,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         ANY(16, "", 0f, 0f, 0f);
 
         public static final Color[] COLORS = Color.values();
-
+        
         public static final Color[] ACTUAL_COLORS = new Color[]{RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE, BLUE, INDIGO, MAGENTA, PINK};
 
         public final String nameKey;
@@ -124,7 +124,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public final float g;
         public final float b;
 
-        public static final int COLOR_COUNT = COLORS.length;
+        public static final int COLOR_COUNT = 12;
 
         public static final int ACTUAL_COLOR_COUNT = ACTUAL_COLORS.length;
 
