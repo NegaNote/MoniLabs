@@ -37,4 +37,12 @@ ServerEvents.recipes(event =>{
         .EUt(128)
         .duration(100)
         .outputStates(PrismaticColor.GREEN)
+    
+    event.recipes.gtceu.prismatic_crucible("test7")
+        .inputColor(PrismaticColor.ANY)
+        .itemInputs("minecraft:dirt")
+        .itemOutputs("minecraft:diamond", 4)
+        .EUt(128)
+        .duration(100)
+        .outputStates(PrismaticColor.GREEN)
 })
