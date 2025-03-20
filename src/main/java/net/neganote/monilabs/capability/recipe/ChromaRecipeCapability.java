@@ -1,10 +1,16 @@
 package net.neganote.monilabs.capability.recipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
+import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
 import com.mojang.serialization.Codec;
+
+import neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
 public class ChromaRecipeCapability extends RecipeCapability<Color> {
@@ -16,7 +22,20 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
 
     @Override
     public boolean isRecipeSearchFilter() {
+        System.out.println("isRecipeSearchFilter() called!");
         return true;
+    }
+
+    @Override
+    public List<AbstractMapIngredient> convertToMapIngredient(Object ingredient) {
+        if (ingredient instanceof Color color) {
+            //TODO add the generic/special case "colors" ie primary colors
+            List<AbstractMapIngredient> list = new ArrayList<>();
+            list.add(new MapColorIngredient(color));
+            return list;
+        } else {
+            return super.convertToMapIngredient(ingredient);
+        }
     }
 
     private static class SerializerColor implements IContentSerializer<Color> {
