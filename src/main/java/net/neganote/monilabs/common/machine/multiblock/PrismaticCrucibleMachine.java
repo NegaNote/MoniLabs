@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.Direction;
+import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,9 +20,14 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     @Persisted
     private Color color;
+
+    @Persisted
+    private NotifiableChromaContainer notifiableChromaContainer;
+
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        color = Color.RED;
+        this.color = Color.RED;
+        this.notifiableChromaContainer = new NotifiableChromaContainer(this);
     }
 
     @Override
@@ -36,28 +42,28 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         changeColorState(Color.RED);
     }
 
-    @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        if (recipe == null) return false;
-        if (recipe.data.contains("input_states")) {
-            int inputStatesCount = recipe.data.getInt("input_states");
-            if (inputStatesCount == 1) {                            // Any state
-                if (recipe.data.getInt("input_states_0") != color.key) return false;
-
-            } else if (inputStatesCount == Color.COLOR_COUNT) {     // One state
-                return super.beforeWorking(recipe);
-
-            } else {                                                // State list
-                boolean noMatch = IntStream.range(0, inputStatesCount)
-                        .map(i -> recipe.data.getInt("input_states_" + i))
-                        .noneMatch(s -> s == color.key);
-                if (noMatch) {
-                    return false;
-                }
-            }
-        } //If input_states is undefined, assume any state is accepted to avoid edge cases.
-        return super.beforeWorking(recipe);
-    }
+//    @Override
+//    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+//        if (recipe == null) return false;
+//        if (recipe.data.contains("input_states")) {
+//            int inputStatesCount = recipe.data.getInt("input_states");
+//            if (inputStatesCount == 1) {                            // Any state
+//                if (recipe.data.getInt("input_states_0") != color.key) return false;
+//
+//            } else if (inputStatesCount == Color.COLOR_COUNT) {     // One state
+//                return super.beforeWorking(recipe);
+//
+//            } else {                                                // State list
+//                boolean noMatch = IntStream.range(0, inputStatesCount)
+//                        .map(i -> recipe.data.getInt("input_states_" + i))
+//                        .noneMatch(s -> s == color.key);
+//                if (noMatch) {
+//                    return false;
+//                }
+//            }
+//        } //If input_states is undefined, assume any state is accepted to avoid edge cases.
+//        return super.beforeWorking(recipe);
+//    }
 
     @Override
     public int getOutputSignal(@Nullable Direction side) {

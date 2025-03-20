@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import java.util.stream.IntStream;
 public class MoniRecipeTypes {
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
+            .setMaxSize(IO.IN, MoniRecipeCapabilities.CHROMA, 12)
             .addDataInfo(data -> {
                 if (data.contains("input_states")) {
                     int inputStatesCount = data.getInt("input_states");
@@ -79,6 +81,7 @@ public class MoniRecipeTypes {
                 // Default behavior
                 return LocalizationUtils.format("monilabs.recipe.fully_random_color");
             })
+
             .addDataInfo(data -> "")
             .setMaxIOSize(3, 1, 1, 0)
             .setEUIO(IO.IN)

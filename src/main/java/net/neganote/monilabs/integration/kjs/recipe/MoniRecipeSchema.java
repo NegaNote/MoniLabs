@@ -9,8 +9,7 @@ import static com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema.*;
 import static net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.*;
 
 import lombok.experimental.Accessors;
-
-import java.util.stream.IntStream;
+import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 
 public interface MoniRecipeSchema {
 
@@ -28,33 +27,21 @@ public interface MoniRecipeSchema {
     @Accessors(chain = true, fluent = true)
     class MoniRecipeJS extends GTRecipeSchema.GTRecipeJS {
 
-        public GTRecipeSchema.GTRecipeJS inputStates(int... states) {
-
-            assert states.length > 0;                    // Should never happen anyway
-            states = IntStream.of(states)
-                    .map(s -> Math.floorMod(s, Color.COLOR_COUNT))  // Keep all states within range.
-                    .sorted()                                           // Sort states
-                    .distinct()                                         // Remove duplicates
-                    .toArray();
-
-            this.addData("input_states", states.length);
-            if (states.length == Color.COLOR_COUNT) { // Saves adding and reading unnecessary data if ANY
-                return this;
+        public GTRecipeSchema.GTRecipeJS inputStates(Color... states) {
+            for (Color color : states) {
+                this.input(MoniRecipeCapabilities.CHROMA, color);
             }
 
-            for (int i = 0; i < states.length; i++) {
-                this.addData("input_states_" + i, states[i]);
-            }
             return this;
         }
 
         // Used to have a shorthand for special cases in recipe definitions
         public GTRecipeSchema.GTRecipeJS inputStatesSpecial(SpecialCase specialCase) {
             return switch (specialCase) {
-                case PRIMARY -> this.inputStates(0, 4, 8); // Red, Green, Blue
-                case SECONDARY -> this.inputStates(2, 6, 10); // Yellow, Cyan, Magenta
-                case BASIC -> this.inputStates(0, 2, 4, 6, 8, 10); // Primary + Secondary Colors
-                case TERTIARY -> this.inputStates(1, 3, 5, 7, 9, 11); // Non-Basic Colors
+                case PRIMARY -> this.inputStates(Color.RED, Color.GREEN, Color.BLUE); // Red, Green, Blue
+                case SECONDARY -> this.inputStates(Color.YELLOW, Color.CYAN, Color.MAGENTA); // Yellow, Cyan, Magenta
+                case BASIC -> this.inputStates(Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA); // Primary + Secondary Colors
+                case TERTIARY -> this.inputStates(Color.ORANGE, Color.LIME, Color.TEAL, Color.AZURE, Color.INDIGO, Color.PINK); // Non-Basic Colors
 
                 // Saving computation by skipping unnecessary steps
                 case ANY -> this.addData("input_states", Color.COLOR_COUNT);
@@ -62,14 +49,9 @@ public interface MoniRecipeSchema {
         }
 
 
-        public GTRecipeSchema.GTRecipeJS outputStates(boolean relative, int... states) {
+        public GTRecipeSchema.GTRecipeJS outputStates(boolean relative, Color... states) {
 
             assert states.length > 0;                    // Should never happen anyway
-            states = IntStream.of(states)
-                    .map(s -> Math.floorMod(s, Color.COLOR_COUNT))  // Keep all states within range.
-                    .sorted()                                           // Sort states
-                    .distinct()                                         // Remove duplicates
-                    .toArray();
 
             this.addData("output_states", states.length);
             this.addDataBool("color_change_relative", relative);
@@ -78,12 +60,12 @@ public interface MoniRecipeSchema {
             }
 
             for (int i = 0; i < states.length; i++) {
-                this.addData("output_states_" + i, states[i]);
+                this.addData("output_states_" + i, states[i].key);
             }
             return this;
         }
 
-        public GTRecipeSchema.GTRecipeJS outputStates(int... states) {
+        public GTRecipeSchema.GTRecipeJS outputStates(Color... states) {
             return this.outputStates(false, states);
         }
 
@@ -91,10 +73,10 @@ public interface MoniRecipeSchema {
         // Used to have a shorthand for special cases in recipe definitions
         public GTRecipeSchema.GTRecipeJS outputStatesSpecial(SpecialCase specialCase) {
             return switch (specialCase) {
-                case PRIMARY -> this.outputStates(0, 4, 8); // Red, Green, Blue
-                case SECONDARY -> this.outputStates(2, 6, 10); // Yellow, Cyan, Magenta
-                case BASIC -> this.outputStates(0, 2, 4, 6, 8, 10); // Primary + Secondary Colors
-                case TERTIARY -> this.outputStates(1, 3, 5, 7, 9, 11); // Non-Basic Colors
+                case PRIMARY -> this.outputStates(Color.RED, Color.GREEN, Color.BLUE); // Red, Green, Blue
+                case SECONDARY -> this.outputStates(Color.YELLOW, Color.CYAN, Color.MAGENTA); // Yellow, Cyan, Magenta
+                case BASIC -> this.outputStates(Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA); // Primary + Secondary Colors
+                case TERTIARY -> this.outputStates(Color.ORANGE, Color.LIME, Color.TEAL, Color.AZURE, Color.INDIGO, Color.PINK); // Non-Basic Colors
 
                 // Saving computation by skipping unnecessary steps
                 case ANY -> this.addData("output_states", Color.COLOR_COUNT);

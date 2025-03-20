@@ -2,11 +2,13 @@ package net.neganote.monilabs;
 
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
+import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import net.minecraft.data.recipes.FinishedRecipe;
+import com.gregtechceu.gtceu.integration.kjs.recipe.components.ContentJS;
+import com.mojang.datafixers.util.Pair;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
-
-import java.util.function.Consumer;
+import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.integration.kjs.recipe.ChromaComponent;
 
 @SuppressWarnings("unused")
 @GTAddon
@@ -44,13 +46,13 @@ public class MoniLabsGTAddon implements IGTAddon {
         MoniRecipeCapabilities.init();
     }
 
-    /*
-    public static NumberComponent.IntRange PRISMATIC_MODE_RANGE = new NumberComponent.IntRange(0, 2);
-    public static final ContentJS<Integer> PRISMATIC_MODE_OUT = new ContentJS<>(PRISMATIC_MODE_RANGE, MoniRecipeCapabilities.PRISMATIC_MODE, true);
+
+    public static final ChromaComponent CHROMA_COMPONENT = new ChromaComponent();
+    public static final ContentJS<PrismaticCrucibleMachine.Color> CHROMA_IN = new ContentJS<>(CHROMA_COMPONENT, MoniRecipeCapabilities.CHROMA, true);
 
     @Override
     public void registerRecipeKeys(KJSRecipeKeyEvent event) {
-
+        event.registerKey(MoniRecipeCapabilities.CHROMA, Pair.of(CHROMA_IN, null));
     }
-    */
+
 }
