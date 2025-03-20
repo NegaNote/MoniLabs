@@ -114,7 +114,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         TERTIARY(15, "", 0f, 0f, 0f),
         ANY(16, "", 0f, 0f, 0f);
 
-        public static final Color[] COLORS = new Color[]{RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE, BLUE, INDIGO, MAGENTA, PINK};
+        public static final Color[] COLORS = Color.values();
+
+        public static final Color[] ACTUAL_COLORS = new Color[]{RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE, BLUE, INDIGO, MAGENTA, PINK};
 
         public final String nameKey;
         public final int key;
@@ -123,6 +125,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public final float b;
 
         public static final int COLOR_COUNT = COLORS.length;
+
+        public static final int ACTUAL_COLOR_COUNT = ACTUAL_COLORS.length;
 
         Color(int key, String nameKey, float r, float g, float b) {
             this.key = key;
@@ -152,7 +156,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             return COLORS[pKey];
         }
         public static int getRandomColor() {
-            return (int) Math.floor(Math.random() * Color.COLOR_COUNT);
+            return (int) Math.floor(Math.random() * Color.ACTUAL_COLOR_COUNT);
         }
 
         public static int getRandomColorFromKeys(int[] keys) {

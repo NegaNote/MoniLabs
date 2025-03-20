@@ -29,6 +29,7 @@ ServerEvents.recipes(event =>{
         .itemOutputs("minecraft:black_dye")
         .EUt(128)
         .duration(100)
+        .outputStates(PrismaticColor.MAGENTA)
 
     event.recipes.gtceu.prismatic_crucible("test6")
         .inputColor(PrismaticColor.RED)
