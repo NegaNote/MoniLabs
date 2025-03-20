@@ -26,10 +26,26 @@ public interface MoniRecipeSchema {
     @SuppressWarnings({ "unused", "UnusedReturnValue" })
     @Accessors(chain = true, fluent = true)
     class MoniRecipeJS extends GTRecipeSchema.GTRecipeJS {
-        public GTRecipeSchema.GTRecipeJS inputColor(Color color) {
-            this.input(MoniRecipeCapabilities.CHROMA, color);
+
+        public GTRecipeSchema.GTRecipeJS inputStates(Color... states) {
+            for (Color color : states) {
+                this.input(MoniRecipeCapabilities.CHROMA, color);
+            }
 
             return this;
+        }
+
+        // Used to have a shorthand for special cases in recipe definitions
+        public GTRecipeSchema.GTRecipeJS inputStatesSpecial(SpecialCase specialCase) {
+            return switch (specialCase) {
+                case PRIMARY -> this.inputStates(Color.RED, Color.GREEN, Color.BLUE); // Red, Green, Blue
+                case SECONDARY -> this.inputStates(Color.YELLOW, Color.CYAN, Color.MAGENTA); // Yellow, Cyan, Magenta
+                case BASIC -> this.inputStates(Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA); // Primary + Secondary Colors
+                case TERTIARY -> this.inputStates(Color.ORANGE, Color.LIME, Color.TEAL, Color.AZURE, Color.INDIGO, Color.PINK); // Non-Basic Colors
+
+                // Saving computation by skipping unnecessary steps
+                case ANY -> this.addData("input_states", Color.COLOR_COUNT);
+            };
         }
 
 
