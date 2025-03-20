@@ -1,26 +1,21 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.Direction;
-import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 import java.util.stream.IntStream;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
-public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine implements IRecipeHandler<PrismaticCrucibleMachine.Color> {
+public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
@@ -46,29 +41,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super.onStructureInvalid();
         changeColorState(Color.RED);
     }
-
-//    @Override
-//    public boolean beforeWorking(@Nullable GTRecipe recipe) {
-//        if (recipe == null) return false;
-//        if (recipe.data.contains("input_states")) {
-//            int inputStatesCount = recipe.data.getInt("input_states");
-//            if (inputStatesCount == 1) {                            // Any state
-//                if (recipe.data.getInt("input_states_0") != color.key) return false;
-//
-//            } else if (inputStatesCount == Color.COLOR_COUNT) {     // One state
-//                return super.beforeWorking(recipe);
-//
-//            } else {                                                // State list
-//                boolean noMatch = IntStream.range(0, inputStatesCount)
-//                        .map(i -> recipe.data.getInt("input_states_" + i))
-//                        .noneMatch(s -> s == color.key);
-//                if (noMatch) {
-//                    return false;
-//                }
-//            }
-//        } //If input_states is undefined, assume any state is accepted to avoid edge cases.
-//        return super.beforeWorking(recipe);
-//    }
 
     @Override
     public int getOutputSignal(@Nullable Direction side) {
@@ -121,33 +93,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     public Color getColorState() {
         return color;
-    }
-
-    @Override
-    public List<Color> handleRecipeInner(IO io, GTRecipe recipe, List<Color> left, @Nullable String slotName, boolean simulate) {
-        List<Color> colors = recipe.getInputContents(MoniRecipeCapabilities.CHROMA)
-                .stream().map(c -> (Color) c.getContent())
-                .toList();
-        if (left.contains(color) || colors.contains(color)) {
-            return null;
-        } else {
-            return left;
-        }
-    }
-
-    @Override
-    public List<Object> getContents() {
-        return List.of(color);
-    }
-
-    @Override
-    public double getTotalContentAmount() {
-        return 1.0;
-    }
-
-    @Override
-    public RecipeCapability<Color> getCapability() {
-        return MoniRecipeCapabilities.CHROMA;
     }
 
     public enum Color {

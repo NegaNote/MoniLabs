@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
 import com.mojang.serialization.Codec;
 
-import neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
 public class ChromaRecipeCapability extends RecipeCapability<Color> {
@@ -22,16 +21,15 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
 
     @Override
     public boolean isRecipeSearchFilter() {
-        System.out.println("isRecipeSearchFilter() called!");
         return true;
     }
 
     @Override
     public List<AbstractMapIngredient> convertToMapIngredient(Object ingredient) {
-        if (ingredient instanceof Color color) {
+        if (ingredient instanceof Color ingredientColor) {
             //TODO add the generic/special case "colors" ie primary colors
             List<AbstractMapIngredient> list = new ArrayList<>();
-            list.add(new MapColorIngredient(color));
+            list.add(new MapColorIngredient(ingredientColor));
             return list;
         } else {
             return super.convertToMapIngredient(ingredient);

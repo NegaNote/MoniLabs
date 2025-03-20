@@ -1,4 +1,4 @@
-package neganote.monilabs.capability.recipe;
+package net.neganote.monilabs.capability.recipe;
 
 import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
 

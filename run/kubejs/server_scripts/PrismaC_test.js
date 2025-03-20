@@ -16,12 +16,12 @@ ServerEvents.recipes(event =>{
         .outputStates(PrismaticColor.RED)
 
     event.recipes.gtceu.prismatic_crucible("test4")
-        .inputStates(PrismaticColor.GREEN, PrismaticColor.CYAN, PrismaticColor.AZURE)
+        .inputStates(PrismaticColor.GREEN)
         .itemInputs("minecraft:stone")
         .itemOutputs("minecraft:cobblestone")
         .EUt(128)
         .duration(100)
-        .outputStates(PrismaticColor.RED, PrismaticColor.ORANGE, PrismaticColor.YELLOW)
+        .outputStates(PrismaticColor.RED)
 
     event.recipes.gtceu.prismatic_crucible("test5")
         .inputStatesSpecial(SpecialCase.BASIC)
@@ -36,5 +36,5 @@ ServerEvents.recipes(event =>{
         .itemOutputs("minecraft:diamond", 4)
         .EUt(128)
         .duration(100)
-        .outputStates(PrismaticColor.GREEN, PrismaticColor.CYAN, PrismaticColor.AZURE)
+        .outputStates(PrismaticColor.GREEN)
 })
