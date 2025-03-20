@@ -1,10 +1,4 @@
 ServerEvents.recipes(event =>{
-    event.recipes.gtceu.prismatic_crucible("test1")
-        .itemInputs("minecraft:blue_dye")
-        .itemOutputs("minecraft:yellow_dye")
-        .EUt(128)
-        .duration(100)
-
     event.recipes.gtceu.prismatic_crucible("test2")
         .inputStates(PrismaticColor.RED)
         .itemInputs("minecraft:red_dye")
@@ -30,7 +24,7 @@ ServerEvents.recipes(event =>{
         .outputStates(PrismaticColor.RED, PrismaticColor.ORANGE, PrismaticColor.YELLOW)
 
     event.recipes.gtceu.prismatic_crucible("test5")
-        .inputStatesSpecial(PrismaticColor.GREEN)
+        .inputStatesSpecial(SpecialCase.BASIC)
         .itemInputs("minecraft:white_dye")
         .itemOutputs("minecraft:black_dye")
         .EUt(128)

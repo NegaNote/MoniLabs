@@ -1,21 +1,26 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.Direction;
+import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.stream.IntStream;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
-public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
+public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine implements IRecipeHandler<PrismaticCrucibleMachine.Color> {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
@@ -115,6 +120,33 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     public Color getColorState() {
         return color;
+    }
+
+    @Override
+    public List<Color> handleRecipeInner(IO io, GTRecipe recipe, List<Color> left, @Nullable String slotName, boolean simulate) {
+        List<Color> colors = recipe.getInputContents(MoniRecipeCapabilities.CHROMA)
+                .stream().map(c -> (Color) c.getContent())
+                .toList();
+        if (left.contains(color) || colors.contains(color)) {
+            return null;
+        } else {
+            return left;
+        }
+    }
+
+    @Override
+    public List<Object> getContents() {
+        return List.of(color);
+    }
+
+    @Override
+    public double getTotalContentAmount() {
+        return 1.0;
+    }
+
+    @Override
+    public RecipeCapability<Color> getCapability() {
+        return MoniRecipeCapabilities.CHROMA;
     }
 
     public enum Color {
