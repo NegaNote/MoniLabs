@@ -57,6 +57,25 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Colo
         if (left.contains(heldColor) && colors.contains(heldColor)) {
             return null;
         } else {
+            for (Color color : colors) {
+                int key = this.heldColor.key;
+                if (key % 4 == 0) {
+                    if (color == Color.PRIMARY)
+                        return null;
+                    if (color == Color.BASIC)
+                        return null;
+                } else if ((key + 2) % 4 == 0) {
+                    if (color == Color.SECONDARY)
+                        return null;
+                    if (color == Color.BASIC)
+                        return null;
+                } else {
+                    if (color == Color.TERTIARY)
+                        return null;
+                }
+                if (color == Color.ANY)
+                    return null;
+            }
             return left;
         }
     }

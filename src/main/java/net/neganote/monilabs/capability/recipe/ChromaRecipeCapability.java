@@ -57,42 +57,6 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
         return content;
     }
 
-    @Override
-    public List<Object> compressIngredients(Collection<Object> ingredients) {
-        // this doesn't feel like compressing, but I guess if it works it works
-        // ¯\_(ツ)_/¯
-
-        List<Object> list = new ArrayList<>();
-
-        for (Object object : ingredients) {
-            if (object instanceof Color ingredientColor) {
-                list.add(Color.getColorFromKey(ingredientColor.key));
-            }
-        }
-
-        Set<Object> compressed = new ReferenceOpenHashSet<>();
-        for (Object ingredient : ingredients) {
-            if (ingredient instanceof Color ingredientColor) {
-
-                list.add(ingredientColor);
-                int key = ingredientColor.key;
-                if (key % 4 == 0) {
-                    list.add(Color.PRIMARY);
-                    list.add(Color.BASIC);
-                } else if ((key + 2) % 4 == 0) {
-                    list.add(Color.SECONDARY);
-                    list.add(Color.BASIC);
-                } else {
-                    list.add(Color.TERTIARY);
-                }
-                list.add(Color.ANY);
-            } else {
-                compressed.addAll(super.compressIngredients(list));
-            }
-        }
-        return new ArrayList<>(compressed);
-    }
-
     private static class SerializerColor implements IContentSerializer<Color> {
         public static SerializerColor INSTANCE = new SerializerColor();
 
