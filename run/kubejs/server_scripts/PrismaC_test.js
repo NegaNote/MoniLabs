@@ -1,6 +1,6 @@
 ServerEvents.recipes(event =>{
     event.recipes.gtceu.prismatic_crucible("test2")
-        .inputColor(PrismaticColor.RED)
+        .inputStates(PrismaticColor.RED)
         .itemInputs("minecraft:red_dye")
         .itemOutputs("minecraft:green_dye")
         .EUt(128)
@@ -8,7 +8,7 @@ ServerEvents.recipes(event =>{
         .outputStates(PrismaticColor.GREEN)
 
     event.recipes.gtceu.prismatic_crucible("test3")
-        .inputColor(PrismaticColor.GREEN)
+        .inputStates(PrismaticColor.GREEN)
         .itemInputs("minecraft:green_dye")
         .itemOutputs("minecraft:red_dye")
         .EUt(128)
@@ -16,7 +16,7 @@ ServerEvents.recipes(event =>{
         .outputStates(PrismaticColor.RED)
 
     event.recipes.gtceu.prismatic_crucible("test4")
-        .inputColor(PrismaticColor.GREEN)
+        .inputStates(PrismaticColor.GREEN)
         .itemInputs("minecraft:stone")
         .itemOutputs("minecraft:cobblestone")
         .EUt(128)
@@ -24,15 +24,14 @@ ServerEvents.recipes(event =>{
         .outputStates(PrismaticColor.RED)
 
     event.recipes.gtceu.prismatic_crucible("test5")
-        .inputColor(PrismaticColor.BASIC)
+        .inputStatesSpecial(SpecialCase.BASIC)
         .itemInputs("minecraft:white_dye")
         .itemOutputs("minecraft:black_dye")
         .EUt(128)
         .duration(100)
-        .outputStates(PrismaticColor.MAGENTA)
 
     event.recipes.gtceu.prismatic_crucible("test6")
-        .inputColor(PrismaticColor.RED)
+        .inputStates(PrismaticColor.RED)
         .itemInputs("minecraft:stone")
         .itemOutputs("minecraft:diamond", 4)
         .EUt(128)
