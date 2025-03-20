@@ -26,7 +26,7 @@
   "monilabs.recipe.required_color": "Required Initial Color: \n%s",
   "monilabs.recipe.required_colors_start": "Accepted Initial Colors: \n",
   "monilabs.recipe.result_color": "Resulting Color: \n%s",
-  "monilabs.recipe.result_color_relative": "Resulting Color Increment: \n%s"
+  "monilabs.recipe.result_color_relative": "Resulting Color Increment: \n%s",
   "monilabs.tooltip.prismatic.0": "Use the power of %s to transform items!",
   "monilabs.tooltip.prismatic.1": "Recipes MUST be input in the correct color state!",
   "monilabs.tooltip.prismatic.2": "They can even change the crucible's color randomly!",

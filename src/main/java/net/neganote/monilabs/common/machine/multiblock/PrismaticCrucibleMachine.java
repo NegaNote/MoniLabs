@@ -18,10 +18,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    private int colorKey;
+    private Color color;
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        colorKey = Color.RED.key;
+        color = Color.RED;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         if (recipe.data.contains("input_states")) {
             int inputStatesCount = recipe.data.getInt("input_states");
             if (inputStatesCount == 1) {                            // Any state
-                if (recipe.data.getInt("input_states_0") != colorKey) return false;
+                if (recipe.data.getInt("input_states_0") != color.key) return false;
 
             } else if (inputStatesCount == Color.COLOR_COUNT) {     // One state
                 return super.beforeWorking(recipe);
@@ -50,7 +50,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             } else {                                                // State list
                 boolean noMatch = IntStream.range(0, inputStatesCount)
                         .map(i -> recipe.data.getInt("input_states_" + i))
-                        .noneMatch(s -> s == colorKey);
+                        .noneMatch(s -> s == color.key);
                 if (noMatch) {
                     return false;
                 }
@@ -64,7 +64,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         if (!isFormed()) {
             return 0;
         } else {
-            return colorKey + 1;
+            return color.key + 1;
         }
     }
 
@@ -94,7 +94,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             }
 
             if (recipe.data.contains("color_change_relative") && recipe.data.getBoolean("color_change_relative")) {
-                newKey = (colorKey + newKey) % Color.COLOR_COUNT;
+                newKey = (color.key + newKey) % Color.COLOR_COUNT;
             }
         } else {
             newKey = Color.getRandomColor();
@@ -103,12 +103,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     private void changeColorState(Color newColor) {
-        colorKey = newColor.key;
+        color = newColor;
         updateSignal();
     }
 
     public Color getColorState() {
-        return Color.getColorFromKey(colorKey);
+        return color;
     }
 
     public enum Color {
