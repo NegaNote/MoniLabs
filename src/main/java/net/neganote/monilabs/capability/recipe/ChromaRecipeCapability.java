@@ -3,6 +3,7 @@ package net.neganote.monilabs.capability.recipe;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import java.util.Set;
 

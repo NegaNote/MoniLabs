@@ -107,10 +107,17 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         BLUE(8, "monilabs.prismatic.color_name.blue", 0f, 0f, 1.0f),
         INDIGO(9, "monilabs.prismatic.color_name.indigo", 0.5f, 0f, 1.0f),
         MAGENTA(10, "monilabs.prismatic.color_name.magenta", 1.0f, 0f, 1.0f),
-        PINK(11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f);
+        PINK(11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f),
+        PRIMARY(12, "", 0f, 0f, 0f),
+        SECONDARY(13, "", 0f, 0f, 0f),
+        BASIC(14, "", 0f, 0f, 0f),
+        TERTIARY(15, "", 0f, 0f, 0f),
+        ANY(16, "", 0f, 0f, 0f);
 
         public static final Color[] COLORS = Color.values();
         
+        public static final Color[] ACTUAL_COLORS = new Color[]{RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE, BLUE, INDIGO, MAGENTA, PINK};
+
         public static final Color[] ACTUAL_COLORS = new Color[]{RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE, BLUE, INDIGO, MAGENTA, PINK};
 
         public final String nameKey;
@@ -118,7 +125,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public final float r;
         public final float g;
         public final float b;
-
 
         public static final int COLOR_COUNT = COLORS.length;
 
@@ -132,11 +138,27 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             this.b = b;
         }
 
+        public boolean isPrimary() {
+            return this == RED || this == GREEN || this == BLUE;
+        }
+
+        public boolean isSecondary() {
+            return this == YELLOW || this == CYAN || this == MAGENTA;
+        }
+
+        public boolean isBasic() {
+            return isPrimary() || isSecondary();
+        }
+
+        public boolean isTertiary() {
+            return !isBasic();
+        }
+
         public static Color getColorFromKey(int pKey) {
             return COLORS[pKey];
         }
         public static int getRandomColor() {
-            return (int) Math.floor(Math.random() * Color.COLOR_COUNT);
+            return (int) Math.floor(Math.random() * Color.ACTUAL_COLOR_COUNT);
         }
 
         public static int getRandomColorFromKeys(int[] keys) {
