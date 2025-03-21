@@ -16,30 +16,6 @@ public class MoniRecipeTypes {
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
             .setMaxSize(IO.IN, MoniRecipeCapabilities.CHROMA, 12)
-            .addDataInfo(data -> {
-                if (data.contains("input_states")) {
-                    int inputStatesCount = data.getInt("input_states");
-
-                    if (inputStatesCount == 1) {
-                        int modulus = data.getInt("input_states_0");
-                        return LocalizationUtils.format("monilabs.recipe.required_color",
-                                LocalizationUtils.format(Color.getColorFromKey(modulus).nameKey));
-
-                    }
-                    if (inputStatesCount == Color.COLOR_COUNT) {
-                        return LocalizationUtils.format("monilabs.recipe.any_input_color");
-
-                    }
-
-                    return LocalizationUtils.format("monilabs.recipe.required_colors_start") +
-                        IntStream.range(0, inputStatesCount)
-                            .map(i -> data.getInt("input_states_" + i))
-                            .mapToObj(s -> LocalizationUtils.format(Color.getColorFromKey(s).nameKey))
-                            .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
-                }
-                // Default behavior
-                return LocalizationUtils.format("monilabs.recipe.any_input_color");
-            })
             .addDataInfo(data -> "")
             .addDataInfo(data -> {
                 if (data.contains("output_states")) {
@@ -81,7 +57,6 @@ public class MoniRecipeTypes {
                 // Default behavior
                 return LocalizationUtils.format("monilabs.recipe.fully_random_color");
             })
-
             .addDataInfo(data -> "")
             .setMaxIOSize(3, 1, 1, 0)
             .setEUIO(IO.IN)

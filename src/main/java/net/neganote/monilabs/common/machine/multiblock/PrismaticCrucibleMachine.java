@@ -149,7 +149,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         }
 
         public boolean isTertiary() {
-            return !isBasic();
+            return !isBasic() && isRealColor();
         }
 
         public static Color getColorFromKey(int pKey) {
@@ -161,6 +161,21 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         public static int getRandomColorFromKeys(int[] keys) {
             return keys[(int) Math.floor(Math.random() * (double) keys.length)];
+        }
+
+        public boolean isRealColor() {
+            return this == RED
+                    || this == ORANGE
+                    || this == YELLOW
+                    || this == LIME
+                    || this == GREEN
+                    || this == TEAL
+                    || this == CYAN
+                    || this == AZURE
+                    || this == BLUE
+                    || this == INDIGO
+                    || this == MAGENTA
+                    || this == PINK;
         }
     }
 }
