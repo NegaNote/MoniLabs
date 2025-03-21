@@ -3,10 +3,6 @@ package net.neganote.monilabs.capability.recipe;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
-
-import java.util.Set;
-
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
@@ -16,7 +12,6 @@ import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
 import com.mojang.serialization.Codec;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
 public class ChromaRecipeCapability extends RecipeCapability<Color> {
