@@ -1,6 +1,7 @@
 package net.neganote.monilabs.capability.recipe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.gson.JsonElement;
@@ -10,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
 import com.mojang.serialization.Codec;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
 public class ChromaRecipeCapability extends RecipeCapability<Color> {
@@ -27,13 +29,28 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
     @Override
     public List<AbstractMapIngredient> convertToMapIngredient(Object ingredient) {
         if (ingredient instanceof Color ingredientColor) {
-            //TODO add the generic/special case "colors" ie primary colors
-            List<AbstractMapIngredient> list = new ArrayList<>();
-            list.add(new MapColorIngredient(ingredientColor));
-            return list;
+            List<AbstractMapIngredient> ingredients = new ObjectArrayList<>();
+            ingredients.add(new MapColorIngredient(ingredientColor));
+            int key = ingredientColor.key;
+            if (key % 4 == 0) {
+                ingredients.add(new MapColorIngredient(Color.PRIMARY));
+                ingredients.add(new MapColorIngredient(Color.BASIC));
+            } else if ((key + 2) % 4 == 0) {
+                ingredients.add(new MapColorIngredient(Color.SECONDARY));
+                ingredients.add(new MapColorIngredient(Color.BASIC));
+            } else {
+                ingredients.add(new MapColorIngredient(Color.TERTIARY));
+            }
+            ingredients.add(new MapColorIngredient(Color.ANY));
+            return ingredients;
         } else {
             return super.convertToMapIngredient(ingredient);
         }
+    }
+
+    @Override
+    public Color copyInner(Color content) {
+        return content;
     }
 
     private static class SerializerColor implements IContentSerializer<Color> {
