@@ -1,10 +1,10 @@
 package net.neganote.monilabs.data;
 
-import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.data.GTModels;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.common.machine.part.PrismaticCoreBlock;
 import net.neganote.monilabs.data.recipe.RecipeTags;
 import net.neganote.monilabs.item.PrismaticCoreItem;
 
@@ -23,10 +23,10 @@ public class MoniBlocks {
             .build()
             .register();
 
-    public static BlockEntry<ActiveBlock> PRISMATIC_CORE = REGISTRATE
-            .block("prismatic_core", ActiveBlock::new)
+    public static BlockEntry<PrismaticCoreBlock> PRISMATIC_CORE = REGISTRATE
+            .block("prismatic_core", PrismaticCoreBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(GTModels.createActiveModel(MoniLabs.id("models/block/prismatic_core")))
+            .blockstate(PrismaticCoreBlock.createActiveModel(MoniLabs.id("models/block/prismatic_core")))
             .lang("§5P§dr§4i§cs§em§aa§bt§3i§7c §1C§5o§dr§4e")
             .item(PrismaticCoreItem::new)
             .defaultModel()

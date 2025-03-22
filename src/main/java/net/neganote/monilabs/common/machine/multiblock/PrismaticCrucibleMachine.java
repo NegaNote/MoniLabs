@@ -1,7 +1,6 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -9,12 +8,13 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neganote.monilabs.common.machine.part.PrismaticCorePartMachine;
+import net.neganote.monilabs.common.machine.part.PrismaticCoreBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 @ParametersAreNonnullByDefault
@@ -54,10 +54,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     public void onStructureFormed() {
         super.onStructureFormed();
 
-        for (IMultiPart part : getParts()) {
-            if (part instanceof PrismaticCorePartMachine core) {
+        for (Long longPos : Objects.requireNonNull(getActiveBlocks())) {
+            if (Objects.requireNonNull(getLevel()).getBlockState(BlockPos.of(longPos)).getBlock() instanceof PrismaticCoreBlock) {
                 BlockPos controllerPos = getPos();
-                BlockPos corePos = core.getPos();
+                BlockPos corePos = BlockPos.of(longPos);
 
                 float xDiff = (float) (corePos.getX() - controllerPos.getX()) + 0.5f;
                 float yDiff = (float) (corePos.getY() - controllerPos.getY()) + 0.5f;
