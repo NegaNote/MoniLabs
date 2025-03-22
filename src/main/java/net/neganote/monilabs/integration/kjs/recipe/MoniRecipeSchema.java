@@ -9,6 +9,7 @@ import static com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema.*;
 import static net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.*;
 
 import lombok.experimental.Accessors;
+import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 
 public interface MoniRecipeSchema {
@@ -27,7 +28,7 @@ public interface MoniRecipeSchema {
     @Accessors(chain = true, fluent = true)
     class MoniRecipeJS extends GTRecipeSchema.GTRecipeJS {
         public GTRecipeSchema.GTRecipeJS inputColor(Color color) {
-            this.input(MoniRecipeCapabilities.CHROMA, color);
+            this.input(MoniRecipeCapabilities.CHROMA, ChromaIngredient.of(color));
 
             return this;
         }
