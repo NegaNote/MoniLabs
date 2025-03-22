@@ -35,7 +35,7 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
         if (ingredient instanceof Color ingredientColor) {
             List<AbstractMapIngredient> ingredients = new ObjectArrayList<>();
             ingredients.add(new MapColorIngredient(ingredientColor));
-            int key = ingredientColor.key;
+            /* int key = ingredientColor.key;
             if (key % 4 == 0) {
                 ingredients.add(new MapColorIngredient(Color.PRIMARY));
                 ingredients.add(new MapColorIngredient(Color.BASIC));
@@ -45,7 +45,7 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
             } else {
                 ingredients.add(new MapColorIngredient(Color.TERTIARY));
             }
-            ingredients.add(new MapColorIngredient(Color.ANY));
+            ingredients.add(new MapColorIngredient(Color.ANY)); */
             return ingredients;
         } else {
             return super.convertToMapIngredient(ingredient);
