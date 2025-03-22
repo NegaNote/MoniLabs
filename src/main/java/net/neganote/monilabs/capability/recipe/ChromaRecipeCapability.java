@@ -18,7 +18,6 @@ import com.mojang.serialization.Codec;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
-import net.neganote.monilabs.MoniLabs;
 
 public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
     public static final ChromaRecipeCapability CAP = new ChromaRecipeCapability();
@@ -34,11 +33,9 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
 
     @Override
     public List<AbstractMapIngredient> convertToMapIngredient(Object ingredient) {
-        MoniLabs.LOGGER.info("Converting Chroma to Ingredient!");
-        MoniLabs.LOGGER.info(ingredient.toString());
         List<AbstractMapIngredient> ingredients = new ObjectArrayList<>();
         if (ingredient instanceof ChromaIngredient chroma) {
-            ingredients.add(new MapColorIngredient(chroma.color));
+            ingredients.add(new MapColorIngredient(chroma.color()));
             return ingredients;
         } else {
             if (ingredient instanceof Color ingredientColor) {
@@ -72,11 +69,10 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
 
     @Override
     public void addXEIInfo(WidgetGroup group, int xOffset, GTRecipe recipe, List<Content> contents, boolean perTick, boolean isInput, MutableInt yOffset) {
-        MoniLabs.LOGGER.info("Adding XEI Info!");
         if (contents.size() != 1) {
             group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.mistake_input_colors")));
         } else {
-            Color inputColor = ((ChromaIngredient) contents.get(0).getContent()).color;
+            Color inputColor = ((ChromaIngredient) contents.get(0).getContent()).color();
             if (inputColor.isRealColor()) {
                 group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.required_color",
                         LocalizationUtils.format(inputColor.nameKey))));
@@ -101,7 +97,7 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
     private static class SerializerColor implements IContentSerializer<ChromaIngredient> {
         public static SerializerColor INSTANCE = new SerializerColor();
 
-        public static final Codec<ChromaIngredient> CODEC = Codec.INT.xmap(i -> ChromaIngredient.of(Color.getColorFromKey(i)), color -> color.color.key);
+        public static final Codec<ChromaIngredient> CODEC = Codec.INT.xmap(i -> ChromaIngredient.of(Color.getColorFromKey(i)), color -> color.color().key);
 
         private SerializerColor() {}
         @Override
@@ -111,7 +107,7 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
 
         @Override
         public JsonElement toJson(ChromaIngredient content) {
-            return new JsonPrimitive(content.color.key);
+            return new JsonPrimitive(content.color().key);
         }
 
         @Override

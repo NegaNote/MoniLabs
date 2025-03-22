@@ -20,6 +20,6 @@ public class ChromaComponent implements RecipeComponent<Color> {
 
     @Override
     public Color read(RecipeJS recipeJS, Object o) {
-        return ((ChromaIngredient) o).color;
+        return ((ChromaIngredient) o).color();
     }
 }

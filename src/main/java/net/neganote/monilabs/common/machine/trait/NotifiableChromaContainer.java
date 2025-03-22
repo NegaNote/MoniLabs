@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import lombok.Setter;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
@@ -41,8 +40,7 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
 
     public void setColor(Color newColor) {
         this.heldColor = newColor;
-        // I assume this is where you'd notify the machine holding this, but idk how to do that
-        // For now it's probably okay because controller is the container so we alredy knew the color changed
+        notifyListeners();
     }
 
     @Override
@@ -53,7 +51,7 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     @Override
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left, @Nullable String slotName, boolean simulate) {
         List<Color> colors = recipe.getInputContents(MoniRecipeCapabilities.CHROMA)
-            .stream().map(c -> ((ChromaIngredient) c.getContent()).color)
+            .stream().map(c -> ((ChromaIngredient) c.getContent()).color())
                 .toList();
         int key = this.heldColor.key;
         for (Color color : colors) {
