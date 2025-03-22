@@ -11,15 +11,12 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
-import org.joml.Quaternionf;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -44,22 +41,20 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
             var color = machine.getColorState();
             assert level != null;
             float tick = level.getGameTime() + partialTicks;
-            renderCube(poseStack, buffer, frontFacing, tick, color, combinedLight, combinedOverlay);
+            renderCube(poseStack, buffer, frontFacing, tick, color, combinedLight, combinedOverlay, machine);
         }
     }
 
-    private void renderCube(PoseStack poseStack, MultiBufferSource buffer, Direction frontFacing, float tick, PrismaticCrucibleMachine.Color color, int combinedLight, int combinedOverlay) {
+    @SuppressWarnings("unused")
+    private void renderCube(PoseStack poseStack, MultiBufferSource buffer, Direction frontFacing, float tick, PrismaticCrucibleMachine.Color color, int combinedLight, int combinedOverlay, PrismaticCrucibleMachine machine) {
         var modelManager = Minecraft.getInstance().getModelManager();
         poseStack.pushPose();
 
         BakedModel bakedModel = modelManager.getModel(CUBE_MODEL);
-        Vec3i oppositeNormal = frontFacing.getOpposite().getNormal();
-        float x = (float) oppositeNormal.getX();
-        float y = (float) oppositeNormal.getY();
-        float z = (float) oppositeNormal.getZ();
 
-        poseStack.translate(x * 30.0 + 0.5, y * 30.0 + 0.5, z * 30.0 + 0.5);
-        poseStack.mulPose(new Quaternionf().rotateAxis(tick * Mth.TWO_PI / 40, x, y, z));
+        float[] renderOffset = machine.getRenderOffset();
+
+        poseStack.translate(renderOffset[0], renderOffset[1], renderOffset[2]);
 
         poseStack.scale(10.0f, 10.0f, 10.0f);
 

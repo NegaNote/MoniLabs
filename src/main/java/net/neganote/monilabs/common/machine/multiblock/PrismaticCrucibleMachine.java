@@ -1,11 +1,15 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Getter;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.neganote.monilabs.common.machine.part.PrismaticCorePartMachine;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +22,9 @@ import java.util.stream.IntStream;
 public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
+    @Getter
+    private float[] renderOffset;
+
     @Persisted
     private Color color;
 
@@ -28,6 +35,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super(holder, args);
         this.color = Color.RED;
         this.notifiableChromaContainer = new NotifiableChromaContainer(this);
+        this.renderOffset = new float[]{};
     }
 
     @Override
@@ -40,6 +48,24 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     public void onStructureInvalid() {
         super.onStructureInvalid();
         changeColorState(Color.RED);
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+
+        for (IMultiPart part : getParts()) {
+            if (part instanceof PrismaticCorePartMachine core) {
+                BlockPos controllerPos = getPos();
+                BlockPos corePos = core.getPos();
+
+                float xDiff = (float) (corePos.getX() - controllerPos.getX()) + 0.5f;
+                float yDiff = (float) (corePos.getY() - controllerPos.getY()) + 0.5f;
+                float zDiff = (float) (corePos.getZ() - controllerPos.getZ()) + 0.5f;
+                this.renderOffset = new float[]{xDiff, yDiff, zDiff};
+                break;
+            }
+        }
     }
 
     @Override

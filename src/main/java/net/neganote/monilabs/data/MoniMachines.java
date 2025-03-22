@@ -12,6 +12,7 @@ import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
+import static net.neganote.monilabs.data.MoniBlocks.PRISMATIC_CORE;
 
 @SuppressWarnings("unused")
 public class MoniMachines {
@@ -27,13 +28,14 @@ public class MoniMachines {
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
 
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("CCC", "CCC", "CCC")
+                    .aisle("CCC", "CCC", "CPC")
                     .aisle("CCC", "C#C", "C#C")
-                    .aisle("CCC", "CPC", "CCC")
+                    .aisle("CCC", "CMC", "CCC")
                     .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()).setMinGlobalLimited(9)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, false)))
-                    .where('P', controller(blocks(definition.getBlock())))
+                    .where('M', controller(blocks(definition.getBlock())))
+                    .where('P', blocks(PRISMATIC_CORE.get()))
                     .where('#', any())
                     .build())
             .additionalDisplay((controller, components) -> {

@@ -41,5 +41,6 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
         provider.add("monilabs.tooltip.prismatic.1", "Recipes MUST be input in the correct color state!");
         provider.add("monilabs.tooltip.prismatic.2", "They can even change the crucible's color randomly!");
+        provider.add("monilabs.tooltip.prismatic_core", "The core at the heart of the Prismatic Crucible!");
     }
 }
