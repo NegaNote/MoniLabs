@@ -2,6 +2,8 @@ package net.neganote.monilabs.capability.recipe;
 
 import java.util.List;
 
+import org.apache.commons.lang3.mutable.MutableInt;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -16,9 +18,8 @@ import com.mojang.serialization.Codec;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
-import org.apache.commons.lang3.mutable.MutableInt;
 
-public class ChromaRecipeCapability extends RecipeCapability<Color> {
+public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
     public static final ChromaRecipeCapability CAP = new ChromaRecipeCapability();
 
     protected ChromaRecipeCapability() {
@@ -32,28 +33,37 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
 
     @Override
     public List<AbstractMapIngredient> convertToMapIngredient(Object ingredient) {
-        if (ingredient instanceof Color ingredientColor) {
-            List<AbstractMapIngredient> ingredients = new ObjectArrayList<>();
-            ingredients.add(new MapColorIngredient(ingredientColor));
-            /* int key = ingredientColor.key;
-            if (key % 4 == 0) {
-                ingredients.add(new MapColorIngredient(Color.PRIMARY));
-                ingredients.add(new MapColorIngredient(Color.BASIC));
-            } else if ((key + 2) % 4 == 0) {
-                ingredients.add(new MapColorIngredient(Color.SECONDARY));
-                ingredients.add(new MapColorIngredient(Color.BASIC));
-            } else {
-                ingredients.add(new MapColorIngredient(Color.TERTIARY));
-            }
-            ingredients.add(new MapColorIngredient(Color.ANY)); */
+        List<AbstractMapIngredient> ingredients = new ObjectArrayList<>();
+        if (ingredient instanceof ChromaIngredient chroma) {
+            ingredients.add(new MapColorIngredient(chroma.color()));
             return ingredients;
         } else {
-            return super.convertToMapIngredient(ingredient);
+            if (ingredient instanceof Color ingredientColor) {
+
+                ingredients.add(new MapColorIngredient(ingredientColor));
+                int key = ingredientColor.key;
+            
+                if (key < Color.ACTUAL_COLOR_COUNT) {
+                    if (key % 4 == 0) {
+                        ingredients.add(new MapColorIngredient(Color.PRIMARY));
+                        ingredients.add(new MapColorIngredient(Color.BASIC));
+                    } else if ((key + 2) % 4 == 0) {
+                        ingredients.add(new MapColorIngredient(Color.SECONDARY));
+                        ingredients.add(new MapColorIngredient(Color.BASIC));
+                    } else {
+                        ingredients.add(new MapColorIngredient(Color.TERTIARY));
+                    }
+                    ingredients.add(new MapColorIngredient(Color.ANY));
+                }
+                return ingredients;
+            }
+
         }
+        return super.convertToMapIngredient(ingredient);
     }
 
     @Override
-    public Color copyInner(Color content) {
+    public ChromaIngredient copyInner(ChromaIngredient content) {
         return content;
     }
 
@@ -62,7 +72,7 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
         if (contents.size() != 1) {
             group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.mistake_input_colors")));
         } else {
-            Color inputColor = (Color) contents.get(0).getContent();
+            Color inputColor = ((ChromaIngredient) contents.get(0).getContent()).color();
             if (inputColor.isRealColor()) {
                 group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.required_color",
                         LocalizationUtils.format(inputColor.nameKey))));
@@ -84,38 +94,39 @@ public class ChromaRecipeCapability extends RecipeCapability<Color> {
 
     }
 
-    private static class SerializerColor implements IContentSerializer<Color> {
+    private static class SerializerColor implements IContentSerializer<ChromaIngredient> {
         public static SerializerColor INSTANCE = new SerializerColor();
 
-        public static final Codec<Color> CODEC = Codec.INT.xmap(Color::getColorFromKey, color -> color.key);
+        public static final Codec<ChromaIngredient> CODEC = Codec.INT.xmap(i -> ChromaIngredient.of(Color.getColorFromKey(i)), color -> color.color().key);
 
         private SerializerColor() {}
         @Override
-        public Color fromJson(JsonElement json) {
-            return Color.getColorFromKey(json.getAsInt());
+        public ChromaIngredient fromJson(JsonElement json) {
+            return ChromaIngredient.of(Color.getColorFromKey(json.getAsInt()));
         }
 
         @Override
-        public JsonElement toJson(Color content) {
-            return new JsonPrimitive(content.key);
+        public JsonElement toJson(ChromaIngredient content) {
+            return new JsonPrimitive(content.color().key);
         }
 
         @Override
-        public Color of(Object o) {
+        public ChromaIngredient of(Object o) {
             if (o instanceof Color color) {
-                return color;
-            } else {
-                return Color.RED;
+                return ChromaIngredient.of(color);
+            } else if (o instanceof ChromaIngredient chroma) {
+                return chroma;
             }
+            return ChromaIngredient.of(Color.RED);
         }
 
         @Override
-        public Color defaultValue() {
-            return Color.RED;
+        public ChromaIngredient defaultValue() {
+            return ChromaIngredient.of(Color.RED);
         }
 
         @Override
-        public Codec<Color> codec() {
+        public Codec<ChromaIngredient> codec() {
             return CODEC;
         }
     }

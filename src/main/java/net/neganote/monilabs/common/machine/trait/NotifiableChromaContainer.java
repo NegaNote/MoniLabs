@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import lombok.Setter;
+import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Color> {
+public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<ChromaIngredient> {
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(NotifiableChromaContainer.class,
             NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
 
@@ -40,44 +40,45 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Colo
 
     public void setColor(Color newColor) {
         this.heldColor = newColor;
-        // I assume this is where you'd notify the machine holding this, but idk how to do that
-        // For now it's probably okay because controller is the container so we alredy knew the color changed
+        notifyListeners();
     }
 
     @Override
-    public List<Color> handleRecipe(IO io, GTRecipe recipe, List<?> left, @Nullable String slotName, boolean simulate) {
+    public List<ChromaIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, @Nullable String slotName, boolean simulate) {
         return super.handleRecipe(io, recipe, left, slotName, simulate);
     }
 
     @Override
-    public List<Color> handleRecipeInner(IO io, GTRecipe recipe, List<Color> left, @Nullable String slotName, boolean simulate) {
+    public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left, @Nullable String slotName, boolean simulate) {
         List<Color> colors = recipe.getInputContents(MoniRecipeCapabilities.CHROMA)
-                .stream().map(c -> (Color) c.getContent())
+            .stream().map(c -> ((ChromaIngredient) c.getContent()).color())
                 .toList();
-        if (left.contains(heldColor) && colors.contains(heldColor)) {
-            return null;
-        } else {
-            for (Color color : colors) {
-                int key = this.heldColor.key;
-                if (key % 4 == 0) {
-                    if (color == Color.PRIMARY)
-                        return null;
-                    if (color == Color.BASIC)
-                        return null;
-                } else if ((key + 2) % 4 == 0) {
-                    if (color == Color.SECONDARY)
-                        return null;
-                    if (color == Color.BASIC)
-                        return null;
-                } else {
-                    if (color == Color.TERTIARY)
-                        return null;
-                }
-                if (color == Color.ANY)
+        int key = this.heldColor.key;
+        for (Color color : colors) {
+            if (color.key > Color.ACTUAL_COLOR_COUNT) {
+            if (key % 4 == 0) {
+                if (color == Color.PRIMARY)
+                    return null;
+                if (color == Color.BASIC)
+                    return null;
+            } else if ((key + 2) % 4 == 0) {
+                if (color == Color.SECONDARY)
+                    return null;
+                if (color == Color.BASIC)
+                    return null;
+            } else {
+                if (color == Color.TERTIARY)
                     return null;
             }
-            return left;
+            if (color == Color.ANY)
+                return null;
+            } else {
+                if (this.heldColor == color) {
+                    return null;
+                }
+            }
         }
+        return left;
     }
 
     @Override
@@ -96,7 +97,7 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Colo
     }
 
     @Override
-    public RecipeCapability<Color> getCapability() {
+    public RecipeCapability<ChromaIngredient> getCapability() {
         return MoniRecipeCapabilities.CHROMA;
     }
 
