@@ -26,10 +26,9 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticCoreBlock> PRISMATIC_CORE = REGISTRATE
             .block("prismatic_core", PrismaticCoreBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticCoreBlock.createActiveModel(MoniLabs.id("models/block/prismatic_core")))
+            .blockstate(PrismaticCoreBlock.createActiveModel(MoniLabs.id("block/prismatic_core")))
             .lang("§5P§dr§4i§cs§em§aa§bt§3i§7c §1C§5o§dr§4e")
             .item(PrismaticCoreItem::new)
-            .defaultModel()
             .build()
             .register();
 }

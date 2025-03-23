@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "monilabs:block/prismatic_core"
+    },
+    "active=true": {
+      "model": "monilabs:block/prismatic_core_active"
+    }
+  }
+}
