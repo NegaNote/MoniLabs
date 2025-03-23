@@ -34,12 +34,25 @@ public interface MoniRecipeSchema {
         }
 
 
-        public GTRecipeSchema.GTRecipeJS outputStates(boolean relative, Color... states) {
+        public GTRecipeSchema.GTRecipeJS outputStatesRelative(int... increments) {
+
+            assert increments.length > 0;                    // Should never happen anyway
+
+            this.addData("output_states", increments.length);
+            this.addDataBool("color_change_relative", true);
+
+            for (int i = 0; i < increments.length; i++) {
+                this.addData("output_states_" + i, increments[i]);
+            }
+            return this;
+        }
+
+        public GTRecipeSchema.GTRecipeJS outputStatesNormal(Color... states) {
 
             assert states.length > 0;                    // Should never happen anyway
 
             this.addData("output_states", states.length);
-            this.addDataBool("color_change_relative", relative);
+            this.addDataBool("color_change_relative", false);
             if (states.length == Color.COLOR_COUNT) {
                 return this;
             }
@@ -50,18 +63,14 @@ public interface MoniRecipeSchema {
             return this;
         }
 
-        public GTRecipeSchema.GTRecipeJS outputStates(Color... states) {
-            return this.outputStates(false, states);
-        }
-
 
         // Used to have a shorthand for special cases in recipe definitions
         public GTRecipeSchema.GTRecipeJS outputStatesSpecial(SpecialCase specialCase) {
             return switch (specialCase) {
-                case PRIMARY -> this.outputStates(Color.RED, Color.GREEN, Color.BLUE); // Red, Green, Blue
-                case SECONDARY -> this.outputStates(Color.YELLOW, Color.CYAN, Color.MAGENTA); // Yellow, Cyan, Magenta
-                case BASIC -> this.outputStates(Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA); // Primary + Secondary Colors
-                case TERTIARY -> this.outputStates(Color.ORANGE, Color.LIME, Color.TEAL, Color.AZURE, Color.INDIGO, Color.PINK); // Non-Basic Colors
+                case PRIMARY -> this.outputStatesNormal(Color.RED, Color.GREEN, Color.BLUE); // Red, Green, Blue
+                case SECONDARY -> this.outputStatesNormal(Color.YELLOW, Color.CYAN, Color.MAGENTA); // Yellow, Cyan, Magenta
+                case BASIC -> this.outputStatesNormal(Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA); // Primary + Secondary Colors
+                case TERTIARY -> this.outputStatesNormal(Color.ORANGE, Color.LIME, Color.TEAL, Color.AZURE, Color.INDIGO, Color.PINK); // Non-Basic Colors
 
                 // Saving computation by skipping unnecessary steps
                 case ANY -> this.addData("output_states", Color.COLOR_COUNT);

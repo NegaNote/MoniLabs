@@ -1,5 +1,6 @@
 {
   "values": [
-    "monilabs:prismatic_casing"
+    "monilabs:prismatic_casing",
+    "monilabs:prismatic_core"
   ]
 }
