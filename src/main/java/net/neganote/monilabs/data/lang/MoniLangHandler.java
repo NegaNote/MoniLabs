@@ -32,6 +32,7 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.basic_input", "Accepted Initial Colors: Primary | Secondary");
         provider.add("monilabs.recipe.tertiary_input", "Accepted Initial Colors: Tertiary");
         provider.add("monilabs.recipe.any_input_color", "Accepted Initial Colors: ANY");
+        provider.add("monilabs.recipe.input_color_not", "Accepted Initial Colors: NOT %s");
 
         provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
         provider.add("monilabs.recipe.mistake_output_colors",

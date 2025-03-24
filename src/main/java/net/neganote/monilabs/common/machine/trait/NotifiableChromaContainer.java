@@ -78,6 +78,46 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
                 }
                 if (color == Color.ANY)
                     return null;
+                if (color.isTypeNotColor()) {
+                    switch (color) {
+                        case NOT_RED -> {
+                            return this.heldColor == Color.RED ? left : null;
+                        }
+                        case NOT_ORANGE -> {
+                            return this.heldColor == Color.ORANGE ? left : null;
+                        }
+                        case NOT_YELLOW -> {
+                            return this.heldColor == Color.YELLOW ? left : null;
+                        }
+                        case NOT_LIME -> {
+                            return this.heldColor == Color.LIME ? left : null;
+                        }
+                        case NOT_GREEN -> {
+                            return this.heldColor == Color.GREEN ? left : null;
+                        }
+                        case NOT_TEAL -> {
+                            return this.heldColor == Color.TEAL ? left : null;
+                        }
+                        case NOT_CYAN -> {
+                            return this.heldColor == Color.CYAN ? left : null;
+                        }
+                        case NOT_AZURE -> {
+                            return this.heldColor == Color.AZURE ? left : null;
+                        }
+                        case NOT_BLUE -> {
+                            return this.heldColor == Color.BLUE ? left : null;
+                        }
+                        case NOT_INDIGO -> {
+                            return this.heldColor == Color.INDIGO ? left : null;
+                        }
+                        case NOT_MAGENTA -> {
+                            return this.heldColor == Color.MAGENTA ? left : null;
+                        }
+                        case NOT_PINK -> {
+                            return this.heldColor == Color.PINK ? left : null;
+                        }
+                    }
+                }
             } else {
                 if (this.heldColor == color) {
                     return null;

@@ -16,8 +16,10 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -146,12 +148,25 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         SECONDARY(13, "", 0f, 0f, 0f),
         BASIC(14, "", 0f, 0f, 0f),
         TERTIARY(15, "", 0f, 0f, 0f),
-        ANY(16, "", 0f, 0f, 0f);
+        ANY(16, "", 0f, 0f, 0f),
+        NOT_RED(17, "", 0f, 0f, 0f),
+        NOT_ORANGE(18, "", 0f, 0f, 0f),
+        NOT_YELLOW(19, "", 0f, 0f, 0f),
+        NOT_LIME(20, "", 0f, 0f, 0f),
+        NOT_GREEN(21, "", 0f, 0f, 0f),
+        NOT_TEAL(22, "", 0f, 0f, 0f),
+        NOT_CYAN(23, "", 0f, 0f, 0f),
+        NOT_AZURE(24, "", 0f, 0f, 0f),
+        NOT_BLUE(25, "", 0f, 0f, 0f),
+        NOT_INDIGO(26, "", 0f, 0f, 0f),
+        NOT_MAGENTA(27, "", 0f, 0f, 0f),
+        NOT_PINK(28, "", 0f, 0f, 0f);
 
         public static final Color[] COLORS = Color.values();
 
-        public static final Color[] ACTUAL_COLORS = new Color[] { RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE,
-                BLUE, INDIGO, MAGENTA, PINK };
+        public static final Color[] ACTUAL_COLORS = Arrays.copyOfRange(COLORS, 0, 12);
+
+        public static final Color[] NOT_COLORS = Arrays.copyOfRange(COLORS, 17, 29);
 
         public final String nameKey;
         public final int key;
@@ -200,8 +215,11 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         }
 
         public boolean isRealColor() {
-            return this == RED || this == ORANGE || this == YELLOW || this == LIME || this == GREEN || this == TEAL ||
-                    this == CYAN || this == AZURE || this == BLUE || this == INDIGO || this == MAGENTA || this == PINK;
+            return Stream.of(ACTUAL_COLORS).anyMatch(c -> c == this);
+        }
+
+        public boolean isTypeNotColor() {
+            return Stream.of(NOT_COLORS).anyMatch(c -> c == this);
         }
     }
 }

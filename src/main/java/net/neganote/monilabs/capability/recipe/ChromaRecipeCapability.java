@@ -19,6 +19,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
 
@@ -56,6 +57,34 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
                         ingredients.add(new MapColorIngredient(Color.TERTIARY));
                     }
                     ingredients.add(new MapColorIngredient(Color.ANY));
+                    switch (ingredientColor) {
+                        case RED -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_RED)
+                                .map(MapColorIngredient::new).toList());
+                        case ORANGE -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_ORANGE)
+                                .map(MapColorIngredient::new).toList());
+                        case YELLOW -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_YELLOW)
+                                .map(MapColorIngredient::new).toList());
+                        case LIME -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_LIME)
+                                .map(MapColorIngredient::new).toList());
+                        case GREEN -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_GREEN)
+                                .map(MapColorIngredient::new).toList());
+                        case TEAL -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_TEAL)
+                                .map(MapColorIngredient::new).toList());
+                        case CYAN -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_CYAN)
+                                .map(MapColorIngredient::new).toList());
+                        case AZURE -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_AZURE)
+                                .map(MapColorIngredient::new).toList());
+                        case BLUE -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_BLUE)
+                                .map(MapColorIngredient::new).toList());
+                        case INDIGO -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_INDIGO)
+                                .map(MapColorIngredient::new).toList());
+                        case MAGENTA -> ingredients
+                                .addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_MAGENTA)
+                                        .map(MapColorIngredient::new).toList());
+                        case PINK -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_PINK)
+                                .map(MapColorIngredient::new).toList());
+
+                    }
                 }
                 return ingredients;
             }
@@ -97,6 +126,25 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
                 } else if (inputColor == Color.ANY) {
                     group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
                             LocalizationUtils.format("monilabs.recipe.any_input_color")));
+                } else if (inputColor.isTypeNotColor()) {
+                    String formatted = "";
+                    switch (inputColor) {
+                        case NOT_RED -> formatted = LocalizationUtils.format(Color.RED.nameKey);
+                        case NOT_ORANGE -> formatted = LocalizationUtils.format(Color.ORANGE.nameKey);
+                        case NOT_YELLOW -> formatted = LocalizationUtils.format(Color.YELLOW.nameKey);
+                        case NOT_LIME -> formatted = LocalizationUtils.format(Color.LIME.nameKey);
+                        case NOT_GREEN -> formatted = LocalizationUtils.format(Color.GREEN.nameKey);
+                        case NOT_TEAL -> formatted = LocalizationUtils.format(Color.TEAL.nameKey);
+                        case NOT_CYAN -> formatted = LocalizationUtils.format(Color.CYAN.nameKey);
+                        case NOT_AZURE -> formatted = LocalizationUtils.format(Color.AZURE.nameKey);
+                        case NOT_BLUE -> formatted = LocalizationUtils.format(Color.BLUE.nameKey);
+                        case NOT_INDIGO -> formatted = LocalizationUtils.format(Color.INDIGO.nameKey);
+                        case NOT_MAGENTA -> formatted = LocalizationUtils.format(Color.MAGENTA.nameKey);
+                        case NOT_PINK -> formatted = LocalizationUtils.format(Color.PINK.nameKey);
+                    }
+                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                            LocalizationUtils.format("monilabs.recipe.input_color_not",
+                                    formatted)));
                 }
             }
 

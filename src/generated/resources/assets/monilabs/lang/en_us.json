@@ -23,6 +23,7 @@
   "monilabs.recipe.color_list_random_start_relative": "Possible Color Increments: \n",
   "monilabs.recipe.color_list_separator": ", ",
   "monilabs.recipe.fully_random_color": "Resulting Color State: \n§5R§dA§4N§cD§eO§aM §bC§3O§7L§1O§5R§r!",
+  "monilabs.recipe.input_color_not": "Accepted Initial Colors: NOT %s",
   "monilabs.recipe.mistake_input_colors": "You made a mistake defining this recipe's input colors.",
   "monilabs.recipe.mistake_output_colors": "You made a mistake defining this recipe's output colors.",
   "monilabs.recipe.primary_input": "Accepted Initial Colors: Primary",
