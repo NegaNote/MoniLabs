@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "monilabs:block/prismatic_focus"
+    },
+    "active=true": {
+      "model": "monilabs:block/prismatic_focus_active"
+    }
+  }
+}

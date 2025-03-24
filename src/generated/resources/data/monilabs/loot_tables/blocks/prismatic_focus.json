@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "monilabs:prismatic_core"
+          "name": "monilabs:prismatic_focus"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "monilabs:blocks/prismatic_core"
+  "random_sequence": "monilabs:blocks/prismatic_focus"
 }

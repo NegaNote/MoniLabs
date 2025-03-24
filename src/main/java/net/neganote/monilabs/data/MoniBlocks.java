@@ -29,7 +29,7 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticFocusBlock> PRISMATIC_FOCUS = REGISTRATE
             .block("prismatic_focus", PrismaticFocusBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticFocusBlock.createActiveModel(MoniLabs.id("block/prismatic_core")))
+            .blockstate(PrismaticFocusBlock.createActiveModel(MoniLabs.id("block/prismatic_focus")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Focus")
             .item(PrismaticFocusItem::new)
