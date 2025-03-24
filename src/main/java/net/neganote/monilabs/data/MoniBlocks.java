@@ -2,7 +2,6 @@ package net.neganote.monilabs.data;
 
 import com.gregtechceu.gtceu.common.data.GTModels;
 
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.MoniLabs;
@@ -11,6 +10,7 @@ import net.neganote.monilabs.data.recipe.RecipeTags;
 import net.neganote.monilabs.item.PrismaticFocusItem;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
@@ -21,7 +21,7 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> PRISMATIC_CASING = REGISTRATE
             .block("casings/prismatic_casing", PrismaticActiveBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createActiveModel(MoniLabs.id("block/casings/prismatic_casing")))
+            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel(MoniLabs.id("block/casings/prismatic_casing")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Casing")
             .item(BlockItem::new)
@@ -44,7 +44,7 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = REGISTRATE
             .block("prismatic_focus", PrismaticActiveBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createActiveModel(MoniLabs.id("block/prismatic_focus")))
+            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel(MoniLabs.id("block/prismatic_focus")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Focus")
             .item(PrismaticFocusItem::new)

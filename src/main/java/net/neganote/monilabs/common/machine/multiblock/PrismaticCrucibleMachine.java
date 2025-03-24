@@ -62,19 +62,19 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     public void onStructureFormed() {
         super.onStructureFormed();
 
-        for (Long longPos : Objects.requireNonNull(getActiveBlocks())) {
-            if (Objects.requireNonNull(getLevel()).getBlockState(BlockPos.of(longPos))
-                    .getBlock() instanceof PrismaticActiveBlock) {
-                BlockPos controllerPos = getPos();
-                BlockPos corePos = BlockPos.of(longPos);
-
-                float xDiff = (float) (corePos.getX() - controllerPos.getX()) + 0.5f;
-                float yDiff = (float) (corePos.getY() - controllerPos.getY()) + 0.5f;
-                float zDiff = (float) (corePos.getZ() - controllerPos.getZ()) + 0.5f;
-                this.renderOffset = new float[] { xDiff, yDiff, zDiff };
-                break;
-            }
-        }
+        // for (Long longPos : Objects.requireNonNull(getActiveBlocks())) {
+        // if (Objects.requireNonNull(getLevel()).getBlockState(BlockPos.of(longPos))
+        // .getBlock() instanceof PrismaticActiveBlock) {
+        // BlockPos controllerPos = getPos();
+        // BlockPos corePos = BlockPos.of(longPos);
+        //
+        // float xDiff = (float) (corePos.getX() - controllerPos.getX()) + 0.5f;
+        // float yDiff = (float) (corePos.getY() - controllerPos.getY()) + 0.5f;
+        // float zDiff = (float) (corePos.getZ() - controllerPos.getZ()) + 0.5f;
+        // this.renderOffset = new float[] { xDiff, yDiff, zDiff };
+        // break;
+        // }
+        // }
     }
 
     @Override
@@ -124,6 +124,28 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         updateSignal();
+        updateColoredActiveBlocks();
+    }
+
+    public void updateColoredActiveBlocks() {
+        if (activeBlocks != null) {
+            for (Long pos : activeBlocks) {
+                var blockPos = BlockPos.of(pos);
+                var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
+                if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
+                    var newState = block.changeColor(blockState, color.key);
+                    if (newState != blockState) {
+                        getLevel().setBlockAndUpdate(blockPos, newState);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateActiveBlocks(boolean active) {
+        super.updateActiveBlocks(active);
+        updateColoredActiveBlocks();
     }
 
     public Color getColorState() {
