@@ -21,7 +21,7 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> PRISMATIC_CASING = REGISTRATE
             .block("casings/prismatic_casing", PrismaticActiveBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel(MoniLabs.id("block/casings/prismatic_casing")))
+            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("casings/prismatic_casing", MoniLabs.id("block/casings/prismatic_casing")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Casing")
             .item(BlockItem::new)
@@ -44,7 +44,7 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = REGISTRATE
             .block("prismatic_focus", PrismaticActiveBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel(MoniLabs.id("block/prismatic_focus")))
+            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("prismatic_focus", MoniLabs.id("block/prismatic_focus")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Focus")
             .item(PrismaticFocusItem::new)
