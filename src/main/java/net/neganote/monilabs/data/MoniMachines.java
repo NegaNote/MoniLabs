@@ -24,17 +24,18 @@ public class MoniMachines {
 
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
-            .appearanceBlock(MoniBlocks.PRISMATIC_CASING)
+            .appearanceBlock(MoniBlocks.PRISMATIC_CONTAINMENT_LINING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
 
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("CCC", "CCC", "CPC")
-                    .aisle("CCC", "C#C", "C#C")
-                    .aisle("CCC", "CMC", "CCC")
-                    .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()).setMinGlobalLimited(9)
+                    .aisle("LLL", "LCL", "LPL")
+                    .aisle("LLL", "L#L", "L#L")
+                    .aisle("LLL", "LML", "LLL")
+                    .where('L', blocks(MoniBlocks.PRISMATIC_CONTAINMENT_LINING.get()).setMinGlobalLimited(9)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, false)))
+                    .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()))
                     .where('M', controller(blocks(definition.getBlock())))
                     .where('P', blocks(PRISMATIC_FOCUS.get()))
                     .where('#', any())

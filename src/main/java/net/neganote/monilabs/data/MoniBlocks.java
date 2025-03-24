@@ -2,9 +2,11 @@ package net.neganote.monilabs.data;
 
 import com.gregtechceu.gtceu.common.data.GTModels;
 
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.MoniLabs;
-import net.neganote.monilabs.common.machine.part.PrismaticFocusBlock;
+import net.neganote.monilabs.common.machine.part.PrismaticActiveBlock;
 import net.neganote.monilabs.data.recipe.RecipeTags;
 import net.neganote.monilabs.item.PrismaticFocusItem;
 
@@ -16,20 +18,33 @@ public class MoniBlocks {
 
     public static void init() {}
 
-    public static BlockEntry<Block> PRISMATIC_CASING = REGISTRATE
-            .block("prismatic_casing", Block::new)
+    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_CASING = REGISTRATE
+            .block("casings/prismatic_casing", PrismaticActiveBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(GTModels.cubeAllModel("prismatic_casing", MoniLabs.id("block/casings/prismatic_casing")))
+            .blockstate(PrismaticActiveBlock.createActiveModel(MoniLabs.id("block/casings/prismatic_casing")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Casing")
-            .item()
+            .item(BlockItem::new)
+            .model(NonNullBiConsumer.noop())
             .build()
             .register();
 
-    public static BlockEntry<PrismaticFocusBlock> PRISMATIC_FOCUS = REGISTRATE
-            .block("prismatic_focus", PrismaticFocusBlock::new)
+    public static BlockEntry<Block> PRISMATIC_CONTAINMENT_LINING = REGISTRATE
+            .block("casings/prismatic_containment_lining", Block::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticFocusBlock.createActiveModel(MoniLabs.id("block/prismatic_focus")))
+            .blockstate(GTModels.cubeAllModel("casings/prismatic_containment_lining",
+                    MoniLabs.id("block/casings/prismatic_containment_lining")))
+            .tag(RecipeTags.MINEABLE_WITH_WRENCH)
+            .lang("Prismatic Containment Lining")
+            .item(BlockItem::new)
+            .model(NonNullBiConsumer.noop())
+            .build()
+            .register();
+
+    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = REGISTRATE
+            .block("prismatic_focus", PrismaticActiveBlock::new)
+            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+            .blockstate(PrismaticActiveBlock.createActiveModel(MoniLabs.id("block/prismatic_focus")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Focus")
             .item(PrismaticFocusItem::new)

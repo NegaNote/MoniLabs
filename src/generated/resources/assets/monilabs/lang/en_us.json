@@ -1,5 +1,6 @@
 {
-  "block.monilabs.prismatic_casing": "Prismatic Casing",
+  "block.monilabs.casings.prismatic_casing": "Prismatic Casing",
+  "block.monilabs.casings.prismatic_containment_lining": "Prismatic Containment Lining",
   "block.monilabs.prismatic_crucible": "Prismatic Crucible",
   "block.monilabs.prismatic_focus": "Prismatic Focus",
   "gtceu.prismatic_crucible": "Prismatic Crucible",

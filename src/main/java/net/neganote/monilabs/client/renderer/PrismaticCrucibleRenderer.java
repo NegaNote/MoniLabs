@@ -2,7 +2,6 @@ package net.neganote.monilabs.client.renderer;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -27,7 +26,7 @@ import java.util.function.Consumer;
 // Lots of this is mostly copied from CosmicCore tbh, thanks Ghosti
 public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
-    public static final ResourceLocation BASE_CASING = MoniLabs.id("block/casings/prismatic_casing");
+    public static final ResourceLocation BASE_CASING = MoniLabs.id("block/casings/prismatic_containment_lining");
     public static final ResourceLocation FRONT_TEXTURES = GTCEu.id("block/multiblock/processing_array");
 
     public static final ResourceLocation CUBE_MODEL = MoniLabs.id("block/prismac/cube");
@@ -40,15 +39,15 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity &&
-                machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine machine && machine.isFormed()) {
-            var level = machine.getLevel();
-            var frontFacing = machine.getFrontFacing();
-            var color = machine.getColorState();
-            assert level != null;
-            float tick = level.getGameTime() + partialTicks;
-            renderCube(poseStack, buffer, frontFacing, tick, color, combinedLight, combinedOverlay, machine);
-        }
+        // if (blockEntity instanceof IMachineBlockEntity machineBlockEntity &&
+        // machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine machine && machine.isFormed()) {
+        // var level = machine.getLevel();
+        // var frontFacing = machine.getFrontFacing();
+        // var color = machine.getColorState();
+        // assert level != null;
+        // float tick = level.getGameTime() + partialTicks;
+        // renderCube(poseStack, buffer, frontFacing, tick, color, combinedLight, combinedOverlay, machine);
+        // }
     }
 
     @SuppressWarnings("unused")

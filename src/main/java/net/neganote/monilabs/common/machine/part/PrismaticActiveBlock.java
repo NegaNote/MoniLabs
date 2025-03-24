@@ -11,13 +11,13 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 
 // Despite the name, this only exists for the multi to attach a renderer to it.
-public class PrismaticFocusBlock extends ActiveBlock {
+public class PrismaticActiveBlock extends ActiveBlock {
 
-    public PrismaticFocusBlock(Properties properties) {
+    public PrismaticActiveBlock(Properties properties) {
         super(properties);
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, PrismaticFocusBlock>, RegistrateBlockstateProvider> createActiveModel(ResourceLocation modelPath) {
+    public static NonNullBiConsumer<DataGenContext<Block, PrismaticActiveBlock>, RegistrateBlockstateProvider> createActiveModel(ResourceLocation modelPath) {
         return (ctx, prov) -> {
             ActiveBlock block = ctx.getEntry();
             ModelFile inactive = prov.models().getExistingFile(modelPath);

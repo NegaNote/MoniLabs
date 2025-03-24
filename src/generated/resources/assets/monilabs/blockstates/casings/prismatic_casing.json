@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "monilabs:block/casings/prismatic_casing"
+    },
+    "active=true": {
+      "model": "monilabs:block/casings/prismatic_casing_active"
+    }
+  }
+}

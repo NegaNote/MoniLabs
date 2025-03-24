@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "monilabs:prismatic_casing"
+          "name": "monilabs:casings/prismatic_containment_lining"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "monilabs:blocks/prismatic_casing"
+  "random_sequence": "monilabs:blocks/casings/prismatic_containment_lining"
 }
