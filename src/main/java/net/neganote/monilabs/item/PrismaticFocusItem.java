@@ -16,9 +16,9 @@ import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class PrismaticCoreItem extends BlockItem {
+public class PrismaticFocusItem extends BlockItem {
 
-    public PrismaticCoreItem(Block pBlock, Properties pProperties) {
+    public PrismaticFocusItem(Block pBlock, Properties pProperties) {
         super(pBlock, pProperties);
     }
 

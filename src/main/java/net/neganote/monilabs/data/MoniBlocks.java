@@ -4,9 +4,9 @@ import com.gregtechceu.gtceu.common.data.GTModels;
 
 import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.MoniLabs;
-import net.neganote.monilabs.common.machine.part.PrismaticCoreBlock;
+import net.neganote.monilabs.common.machine.part.PrismaticFocusBlock;
 import net.neganote.monilabs.data.recipe.RecipeTags;
-import net.neganote.monilabs.item.PrismaticCoreItem;
+import net.neganote.monilabs.item.PrismaticFocusItem;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 
@@ -26,13 +26,13 @@ public class MoniBlocks {
             .build()
             .register();
 
-    public static BlockEntry<PrismaticCoreBlock> PRISMATIC_CORE = REGISTRATE
-            .block("prismatic_core", PrismaticCoreBlock::new)
+    public static BlockEntry<PrismaticFocusBlock> PRISMATIC_FOCUS = REGISTRATE
+            .block("prismatic_focus", PrismaticFocusBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticCoreBlock.createActiveModel(MoniLabs.id("block/prismatic_core")))
+            .blockstate(PrismaticFocusBlock.createActiveModel(MoniLabs.id("block/prismatic_core")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
-            .lang("§5P§dr§4i§cs§em§aa§bt§3i§7c §1C§5o§dr§4e")
-            .item(PrismaticCoreItem::new)
+            .lang("Prismatic Focus")
+            .item(PrismaticFocusItem::new)
             .build()
             .register();
 }

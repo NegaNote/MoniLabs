@@ -13,7 +13,7 @@ import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
-import static net.neganote.monilabs.data.MoniBlocks.PRISMATIC_CORE;
+import static net.neganote.monilabs.data.MoniBlocks.PRISMATIC_FOCUS;
 
 @SuppressWarnings("unused")
 public class MoniMachines {
@@ -36,7 +36,7 @@ public class MoniMachines {
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, false)))
                     .where('M', controller(blocks(definition.getBlock())))
-                    .where('P', blocks(PRISMATIC_CORE.get()))
+                    .where('P', blocks(PRISMATIC_FOCUS.get()))
                     .where('#', any())
                     .build())
             .additionalDisplay((controller, components) -> {

@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neganote.monilabs.common.machine.part.PrismaticCoreBlock;
+import net.neganote.monilabs.common.machine.part.PrismaticFocusBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 
 import lombok.Getter;
@@ -64,7 +64,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         for (Long longPos : Objects.requireNonNull(getActiveBlocks())) {
             if (Objects.requireNonNull(getLevel()).getBlockState(BlockPos.of(longPos))
-                    .getBlock() instanceof PrismaticCoreBlock) {
+                    .getBlock() instanceof PrismaticFocusBlock) {
                 BlockPos controllerPos = getPos();
                 BlockPos corePos = BlockPos.of(longPos);
 
