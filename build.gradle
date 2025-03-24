@@ -5,6 +5,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id "eclipse"
+    id 'com.diffplug.spotless' version '7.0.2'
 }
 
 def generatedResources = file("src/generated")
@@ -112,6 +113,8 @@ minecraft {
         }
     }
 }
+
+apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"

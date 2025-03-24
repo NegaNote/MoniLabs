@@ -1,13 +1,15 @@
 package net.neganote.monilabs.integration.kjs.recipe;
 
+import net.neganote.monilabs.capability.recipe.ChromaIngredient;
+import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import dev.latvian.mods.kubejs.recipe.RecipeJS;
 import dev.latvian.mods.kubejs.recipe.component.RecipeComponent;
-import net.neganote.monilabs.capability.recipe.ChromaIngredient;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
 public class ChromaComponent implements RecipeComponent<Color> {
+
     @Override
     public Class<?> componentClass() {
         return ChromaIngredient.class;

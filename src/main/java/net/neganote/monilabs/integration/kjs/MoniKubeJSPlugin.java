@@ -1,17 +1,19 @@
 package net.neganote.monilabs.integration.kjs;
 
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import dev.latvian.mods.kubejs.KubeJSPlugin;
-import dev.latvian.mods.kubejs.recipe.schema.RegisterRecipeSchemasEvent;
-import dev.latvian.mods.kubejs.script.BindingsEvent;
-import dev.latvian.mods.kubejs.script.ScriptType;
-import dev.latvian.mods.kubejs.util.ClassFilter;
+
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.data.MoniBlocks;
 import net.neganote.monilabs.data.MoniMachines;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.integration.kjs.recipe.MoniRecipeSchema;
+
+import dev.latvian.mods.kubejs.KubeJSPlugin;
+import dev.latvian.mods.kubejs.recipe.schema.RegisterRecipeSchemasEvent;
+import dev.latvian.mods.kubejs.script.BindingsEvent;
+import dev.latvian.mods.kubejs.script.ScriptType;
+import dev.latvian.mods.kubejs.util.ClassFilter;
 
 @SuppressWarnings("unused")
 public class MoniKubeJSPlugin extends KubeJSPlugin {
@@ -51,4 +53,3 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("SpecialCase", MoniRecipeSchema.SpecialCase.class);
     }
 }
-

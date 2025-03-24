@@ -1,15 +1,18 @@
 package net.neganote.monilabs.common.machine.part;
 
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ModelFile;
 
+import com.tterrag.registrate.providers.DataGenContext;
+import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+
 // Despite the name, this only exists for the multi to attach a renderer to it.
 public class PrismaticCoreBlock extends ActiveBlock {
+
     public PrismaticCoreBlock(Properties properties) {
         super(properties);
     }

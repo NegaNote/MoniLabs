@@ -3,24 +3,30 @@ package net.neganote.monilabs.common.machine.multiblock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import lombok.Getter;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.neganote.monilabs.common.machine.part.PrismaticCoreBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
+
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.stream.IntStream;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
 public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     private float[] renderOffset;
@@ -29,13 +35,13 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private Color color;
 
     @Persisted
-    private NotifiableChromaContainer notifiableChromaContainer;
+    private final NotifiableChromaContainer notifiableChromaContainer;
 
     public PrismaticCrucibleMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.color = Color.RED;
         this.notifiableChromaContainer = new NotifiableChromaContainer(this);
-        this.renderOffset = new float[]{};
+        this.renderOffset = new float[] {};
     }
 
     @Override
@@ -55,14 +61,15 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super.onStructureFormed();
 
         for (Long longPos : Objects.requireNonNull(getActiveBlocks())) {
-            if (Objects.requireNonNull(getLevel()).getBlockState(BlockPos.of(longPos)).getBlock() instanceof PrismaticCoreBlock) {
+            if (Objects.requireNonNull(getLevel()).getBlockState(BlockPos.of(longPos))
+                    .getBlock() instanceof PrismaticCoreBlock) {
                 BlockPos controllerPos = getPos();
                 BlockPos corePos = BlockPos.of(longPos);
 
                 float xDiff = (float) (corePos.getX() - controllerPos.getX()) + 0.5f;
                 float yDiff = (float) (corePos.getY() - controllerPos.getY()) + 0.5f;
                 float zDiff = (float) (corePos.getZ() - controllerPos.getZ()) + 0.5f;
-                this.renderOffset = new float[]{xDiff, yDiff, zDiff};
+                this.renderOffset = new float[] { xDiff, yDiff, zDiff };
                 break;
             }
         }
@@ -122,6 +129,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     public enum Color {
+
         RED(0, "monilabs.prismatic.color_name.red", 1.0f, 0f, 0f),
         ORANGE(1, "monilabs.prismatic.color_name.orange", 1.0f, 0.5f, 0f),
         YELLOW(2, "monilabs.prismatic.color_name.yellow", 1.0f, 1.0f, 0f),
@@ -142,7 +150,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         public static final Color[] COLORS = Color.values();
 
-        public static final Color[] ACTUAL_COLORS = new Color[]{RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE, BLUE, INDIGO, MAGENTA, PINK};
+        public static final Color[] ACTUAL_COLORS = new Color[] { RED, ORANGE, YELLOW, LIME, GREEN, TEAL, CYAN, AZURE,
+                BLUE, INDIGO, MAGENTA, PINK };
 
         public final String nameKey;
         public final int key;
@@ -181,6 +190,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public static Color getColorFromKey(int pKey) {
             return COLORS[pKey];
         }
+
         public static int getRandomColor() {
             return (int) Math.floor(Math.random() * Color.ACTUAL_COLOR_COUNT);
         }
@@ -190,18 +200,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         }
 
         public boolean isRealColor() {
-            return this == RED
-                    || this == ORANGE
-                    || this == YELLOW
-                    || this == LIME
-                    || this == GREEN
-                    || this == TEAL
-                    || this == CYAN
-                    || this == AZURE
-                    || this == BLUE
-                    || this == INDIGO
-                    || this == MAGENTA
-                    || this == PINK;
+            return this == RED || this == ORANGE || this == YELLOW || this == LIME || this == GREEN || this == TEAL ||
+                    this == CYAN || this == AZURE || this == BLUE || this == INDIGO || this == MAGENTA || this == PINK;
         }
     }
 }

@@ -5,8 +5,10 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
+
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
@@ -14,30 +16,32 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MoniRecipeTypes {
+
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
             .setMaxSize(IO.IN, MoniRecipeCapabilities.CHROMA, 12)
             .addDataInfo(data -> "")
             .addDataInfo(data -> {
                 if (data.contains("output_states")) {
-                    boolean isRelative = (data.contains("color_change_relative")
-                            && data.getBoolean("color_change_relative"));
+                    boolean isRelative = (data.contains("color_change_relative") &&
+                            data.getBoolean("color_change_relative"));
                     int outputStatesCount = data.getInt("output_states");
 
                     if (isRelative) {
                         if (outputStatesCount == 1) {
                             int modulus = data.getInt("output_states_0");
                             return LocalizationUtils.format("monilabs.recipe.result_color_relative",
-                                        String.valueOf(modulus));
+                                    String.valueOf(modulus));
                         }
                         if (outputStatesCount == Color.COLOR_COUNT) {
                             return LocalizationUtils.format("monilabs.recipe.fully_random_color");
                         }
                         return LocalizationUtils.format("monilabs.recipe.color_list_random_start_relative") +
-                            IntStream.range(0, outputStatesCount)
-                                .map(i -> data.getInt("output_states_" + i))
-                                .mapToObj(String::valueOf)
-                                .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
+                                IntStream.range(0, outputStatesCount)
+                                        .map(i -> data.getInt("output_states_" + i))
+                                        .mapToObj(String::valueOf)
+                                        .collect(Collectors.joining(
+                                                LocalizationUtils.format("monilabs.recipe.color_list_separator")));
 
                     } else {
                         if (outputStatesCount == 1) {
@@ -49,10 +53,11 @@ public class MoniRecipeTypes {
                             return LocalizationUtils.format("monilabs.recipe.fully_random_color");
                         }
                         return LocalizationUtils.format("monilabs.recipe.color_list_random_start") +
-                            IntStream.range(0, outputStatesCount)
-                                .map(i -> data.getInt("output_states_" + i))
-                                .mapToObj(s -> LocalizationUtils.format(Color.getColorFromKey(s).nameKey))
-                                .collect(Collectors.joining(LocalizationUtils.format("monilabs.recipe.color_list_separator")));
+                                IntStream.range(0, outputStatesCount)
+                                        .map(i -> data.getInt("output_states_" + i))
+                                        .mapToObj(s -> LocalizationUtils.format(Color.getColorFromKey(s).nameKey))
+                                        .collect(Collectors.joining(
+                                                LocalizationUtils.format("monilabs.recipe.color_list_separator")));
                     }
                 }
                 // Default behavior
@@ -64,6 +69,5 @@ public class MoniRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE);
 
-    public static void init() {
-    }
+    public static void init() {}
 }

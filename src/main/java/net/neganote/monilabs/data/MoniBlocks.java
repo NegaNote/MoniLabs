@@ -1,16 +1,19 @@
 package net.neganote.monilabs.data;
 
 import com.gregtechceu.gtceu.common.data.GTModels;
-import com.tterrag.registrate.util.entry.BlockEntry;
+
 import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.part.PrismaticCoreBlock;
 import net.neganote.monilabs.data.recipe.RecipeTags;
 import net.neganote.monilabs.item.PrismaticCoreItem;
 
+import com.tterrag.registrate.util.entry.BlockEntry;
+
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
 public class MoniBlocks {
+
     public static void init() {}
 
     public static BlockEntry<Block> PRISMATIC_CASING = REGISTRATE

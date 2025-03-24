@@ -1,25 +1,27 @@
 package net.neganote.monilabs.capability.recipe;
 
-import java.util.List;
-
-import org.apache.commons.lang3.mutable.MutableInt;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
+
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import com.mojang.serialization.Codec;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.mojang.serialization.Codec;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.apache.commons.lang3.mutable.MutableInt;
+
+import java.util.List;
+
 public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
+
     public static final ChromaRecipeCapability CAP = new ChromaRecipeCapability();
 
     protected ChromaRecipeCapability() {
@@ -42,7 +44,7 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
 
                 ingredients.add(new MapColorIngredient(ingredientColor));
                 int key = ingredientColor.key;
-            
+
                 if (key < Color.ACTUAL_COLOR_COUNT) {
                     if (key % 4 == 0) {
                         ingredients.add(new MapColorIngredient(Color.PRIMARY));
@@ -68,38 +70,48 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
     }
 
     @Override
-    public void addXEIInfo(WidgetGroup group, int xOffset, GTRecipe recipe, List<Content> contents, boolean perTick, boolean isInput, MutableInt yOffset) {
+    public void addXEIInfo(WidgetGroup group, int xOffset, GTRecipe recipe, List<Content> contents, boolean perTick,
+                           boolean isInput, MutableInt yOffset) {
         if (contents.size() != 1) {
-            group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.mistake_input_colors")));
+            group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                    LocalizationUtils.format("monilabs.recipe.mistake_input_colors")));
         } else {
             Color inputColor = ((ChromaIngredient) contents.get(0).getContent()).color();
             if (inputColor.isRealColor()) {
-                group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.required_color",
-                        LocalizationUtils.format(inputColor.nameKey))));
+                group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                        LocalizationUtils.format("monilabs.recipe.required_color",
+                                LocalizationUtils.format(inputColor.nameKey))));
             } else {
                 if (inputColor == Color.PRIMARY) {
-                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.primary_input")));
+                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                            LocalizationUtils.format("monilabs.recipe.primary_input")));
                 } else if (inputColor == Color.SECONDARY) {
-                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.secondary_input")));
+                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                            LocalizationUtils.format("monilabs.recipe.secondary_input")));
                 } else if (inputColor == Color.BASIC) {
-                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.basic_input")));
+                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                            LocalizationUtils.format("monilabs.recipe.basic_input")));
                 } else if (inputColor == Color.TERTIARY) {
-                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.tertiary_input")));
+                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                            LocalizationUtils.format("monilabs.recipe.tertiary_input")));
                 } else if (inputColor == Color.ANY) {
-                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10), LocalizationUtils.format("monilabs.recipe.any_input_color")));
+                    group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                            LocalizationUtils.format("monilabs.recipe.any_input_color")));
                 }
             }
 
         }
-
     }
 
     private static class SerializerColor implements IContentSerializer<ChromaIngredient> {
+
         public static SerializerColor INSTANCE = new SerializerColor();
 
-        public static final Codec<ChromaIngredient> CODEC = Codec.INT.xmap(i -> ChromaIngredient.of(Color.getColorFromKey(i)), color -> color.color().key);
+        public static final Codec<ChromaIngredient> CODEC = Codec.INT
+                .xmap(i -> ChromaIngredient.of(Color.getColorFromKey(i)), color -> color.color().key);
 
         private SerializerColor() {}
+
         @Override
         public ChromaIngredient fromJson(JsonElement json) {
             return ChromaIngredient.of(Color.getColorFromKey(json.getAsInt()));

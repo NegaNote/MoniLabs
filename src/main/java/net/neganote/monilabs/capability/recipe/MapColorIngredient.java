@@ -11,7 +11,7 @@ public class MapColorIngredient extends AbstractMapIngredient {
     public MapColorIngredient(Color color) {
         this.color = color;
     }
-    
+
     @Override
     protected int hash() {
         return color.key;
@@ -30,7 +30,6 @@ public class MapColorIngredient extends AbstractMapIngredient {
     @Override
     public String toString() {
         return "MapColorIngredient{" +
-            "color=" + color + "}";
+                "color=" + color + "}";
     }
-
 }
