@@ -9,12 +9,12 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.neganote.monilabs.common.machine.part.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -152,8 +152,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         for (int i = 0; i < 5; i++) {
             center = center.relative(back);
             fluidBlockOffsets.add(center.subtract(pos));
-//            fluidBlockOffsets.add(center.relative(clockWise).subtract(pos));
-//            fluidBlockOffsets.add(center.relative(counterClockWise).subtract(pos));
+            // fluidBlockOffsets.add(center.relative(clockWise).subtract(pos));
+            // fluidBlockOffsets.add(center.relative(counterClockWise).subtract(pos));
         }
     }
 
