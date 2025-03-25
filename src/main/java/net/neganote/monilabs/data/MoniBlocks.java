@@ -22,8 +22,7 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> PRISMATIC_CASING = REGISTRATE
             .block("casings/prismatic_casing", PrismaticActiveBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("casings/prismatic_casing",
-                    MoniLabs.id("block/casings/prismatic_casing")))
+            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/casings/prismatic_casing", MoniLabs.id("block/casings/prismatic_casing")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Casing")
             .color(() -> PrismaticActiveBlockColor::new)
@@ -35,7 +34,7 @@ public class MoniBlocks {
     public static BlockEntry<Block> PRISMATIC_CONTAINMENT_LINING = REGISTRATE
             .block("casings/prismatic_containment_lining", Block::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(GTModels.cubeAllModel("casings/prismatic_containment_lining",
+            .blockstate(GTModels.cubeAllModel("block/casings/prismatic_containment_lining",
                     MoniLabs.id("block/casings/prismatic_containment_lining")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .lang("Prismatic Containment Lining")
@@ -47,12 +46,12 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = REGISTRATE
             .block("prismatic_focus", PrismaticActiveBlock::new)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("prismatic_focus",
-                    MoniLabs.id("block/prismatic_focus")))
+            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("prismatic_focus", MoniLabs.id("block/prismatic_focus")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
             .color(() -> PrismaticActiveBlockColor::new)
             .lang("Prismatic Focus")
             .item(PrismaticFocusItem::new)
+            .model(NonNullBiConsumer.noop())
             .build()
             .register();
 }

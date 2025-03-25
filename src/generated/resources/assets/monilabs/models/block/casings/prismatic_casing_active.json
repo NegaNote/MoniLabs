@@ -41,7 +41,7 @@
     }
   ],
   "textures": {
-    "layer0": "monilabs:block/prismatic_focus",
-    "layer1": "monilabs:block/prismatic_focus_inactive"
+    "layer0": "monilabs:block/casings/prismatic_casing",
+    "layer1": "monilabs:block/casings/prismatic_casing_active"
   }
 }
