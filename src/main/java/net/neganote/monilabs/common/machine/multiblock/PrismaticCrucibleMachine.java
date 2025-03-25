@@ -2,22 +2,26 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.neganote.monilabs.common.machine.part.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -31,7 +35,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
-    private float[] renderOffset;
+    @Persisted
+    @RequireRerender
+    private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
     @Persisted
     private Color color;
@@ -43,7 +49,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super(holder, args);
         this.color = Color.RED;
         this.notifiableChromaContainer = new NotifiableChromaContainer(this);
-        this.renderOffset = new float[] {};
+        saveOffsets();
     }
 
     @Override
@@ -56,25 +62,14 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     public void onStructureInvalid() {
         super.onStructureInvalid();
         changeColorState(Color.RED);
+        fluidBlockOffsets.clear();
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
 
-        // for (Long longPos : Objects.requireNonNull(getActiveBlocks())) {
-        // if (Objects.requireNonNull(getLevel()).getBlockState(BlockPos.of(longPos))
-        // .getBlock() instanceof PrismaticActiveBlock) {
-        // BlockPos controllerPos = getPos();
-        // BlockPos corePos = BlockPos.of(longPos);
-        //
-        // float xDiff = (float) (corePos.getX() - controllerPos.getX()) + 0.5f;
-        // float yDiff = (float) (corePos.getY() - controllerPos.getY()) + 0.5f;
-        // float zDiff = (float) (corePos.getZ() - controllerPos.getZ()) + 0.5f;
-        // this.renderOffset = new float[] { xDiff, yDiff, zDiff };
-        // break;
-        // }
-        // }
+        saveOffsets();
     }
 
     @Override
@@ -146,6 +141,20 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     public void updateActiveBlocks(boolean active) {
         super.updateActiveBlocks(active);
         updateColoredActiveBlocks();
+    }
+
+    // Stolen from LargeChemicalBathMachine
+    protected void saveOffsets() {
+        Direction up = RelativeDirection.UP.getRelativeFacing(getFrontFacing(), getUpwardsFacing(), isFlipped());
+        Direction back = getFrontFacing().getOpposite();
+        BlockPos pos = getPos();
+        BlockPos center = pos.relative(up);
+        for (int i = 0; i < 5; i++) {
+            center = center.relative(back);
+            fluidBlockOffsets.add(center.subtract(pos));
+//            fluidBlockOffsets.add(center.relative(clockWise).subtract(pos));
+//            fluidBlockOffsets.add(center.relative(counterClockWise).subtract(pos));
+        }
     }
 
     public Color getColorState() {
