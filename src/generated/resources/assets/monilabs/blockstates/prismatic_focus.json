@@ -3,41 +3,8 @@
     "active=false": {
       "model": "monilabs:block/prismatic_focus"
     },
-    "active=true,color=0": {
-      "model": "monilabs:block/prismatic_focus_active_red"
-    },
-    "active=true,color=1": {
-      "model": "monilabs:block/prismatic_focus_active_orange"
-    },
-    "active=true,color=10": {
-      "model": "monilabs:block/prismatic_focus_active_magenta"
-    },
-    "active=true,color=11": {
-      "model": "monilabs:block/prismatic_focus_active_pink"
-    },
-    "active=true,color=2": {
-      "model": "monilabs:block/prismatic_focus_active_yellow"
-    },
-    "active=true,color=3": {
-      "model": "monilabs:block/prismatic_focus_active_lime"
-    },
-    "active=true,color=4": {
-      "model": "monilabs:block/prismatic_focus_active_green"
-    },
-    "active=true,color=5": {
-      "model": "monilabs:block/prismatic_focus_active_teal"
-    },
-    "active=true,color=6": {
-      "model": "monilabs:block/prismatic_focus_active_cyan"
-    },
-    "active=true,color=7": {
-      "model": "monilabs:block/prismatic_focus_active_azure"
-    },
-    "active=true,color=8": {
-      "model": "monilabs:block/prismatic_focus_active_blue"
-    },
-    "active=true,color=9": {
-      "model": "monilabs:block/prismatic_focus_active_indigo"
+    "active=true": {
+      "model": "monilabs:block/prismatic_focus_active"
     }
   }
 }

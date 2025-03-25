@@ -154,35 +154,35 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     public enum Color {
 
-        RED(0, "monilabs.prismatic.color_name.red", 1.0f, 0f, 0f),
-        ORANGE(1, "monilabs.prismatic.color_name.orange", 1.0f, 0.5f, 0f),
-        YELLOW(2, "monilabs.prismatic.color_name.yellow", 1.0f, 1.0f, 0f),
-        LIME(3, "monilabs.prismatic.color_name.lime", 0.5f, 1.0f, 0f),
-        GREEN(4, "monilabs.prismatic.color_name.green", 0f, 1.0f, 0f),
-        TEAL(5, "monilabs.prismatic.color_name.turquoise", 0f, 1.0f, 0.5f),
-        CYAN(6, "monilabs.prismatic.color_name.cyan", 0f, 1.0f, 1.0f),
-        AZURE(7, "monilabs.prismatic.color_name.azure", 0f, 0.5f, 1.0f),
-        BLUE(8, "monilabs.prismatic.color_name.blue", 0f, 0f, 1.0f),
-        INDIGO(9, "monilabs.prismatic.color_name.indigo", 0.5f, 0f, 1.0f),
-        MAGENTA(10, "monilabs.prismatic.color_name.magenta", 1.0f, 0f, 1.0f),
-        PINK(11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f),
-        PRIMARY(12, "", 0f, 0f, 0f),
-        SECONDARY(13, "", 0f, 0f, 0f),
-        BASIC(14, "", 0f, 0f, 0f),
-        TERTIARY(15, "", 0f, 0f, 0f),
-        ANY(16, "", 0f, 0f, 0f),
-        NOT_RED(17, "", 0f, 0f, 0f),
-        NOT_ORANGE(18, "", 0f, 0f, 0f),
-        NOT_YELLOW(19, "", 0f, 0f, 0f),
-        NOT_LIME(20, "", 0f, 0f, 0f),
-        NOT_GREEN(21, "", 0f, 0f, 0f),
-        NOT_TEAL(22, "", 0f, 0f, 0f),
-        NOT_CYAN(23, "", 0f, 0f, 0f),
-        NOT_AZURE(24, "", 0f, 0f, 0f),
-        NOT_BLUE(25, "", 0f, 0f, 0f),
-        NOT_INDIGO(26, "", 0f, 0f, 0f),
-        NOT_MAGENTA(27, "", 0f, 0f, 0f),
-        NOT_PINK(28, "", 0f, 0f, 0f);
+        RED(0, "monilabs.prismatic.color_name.red", 1.0f, 0f, 0f, 0xFFFF0000),
+        ORANGE(1, "monilabs.prismatic.color_name.orange", 1.0f, 0.5f, 0f, 0xFFFF8000),
+        YELLOW(2, "monilabs.prismatic.color_name.yellow", 1.0f, 1.0f, 0f, 0xFFFFFF00),
+        LIME(3, "monilabs.prismatic.color_name.lime", 0.5f, 1.0f, 0f, 0xFF80FF00),
+        GREEN(4, "monilabs.prismatic.color_name.green", 0f, 1.0f, 0f, 0xFF00FF00),
+        TEAL(5, "monilabs.prismatic.color_name.turquoise", 0f, 1.0f, 0.5f, 0xFF00FF80),
+        CYAN(6, "monilabs.prismatic.color_name.cyan", 0f, 1.0f, 1.0f, 0xFF00FFFF),
+        AZURE(7, "monilabs.prismatic.color_name.azure", 0f, 0.5f, 1.0f, 0xFF0080FF),
+        BLUE(8, "monilabs.prismatic.color_name.blue", 0f, 0f, 1.0f, 0xFF0000FF),
+        INDIGO(9, "monilabs.prismatic.color_name.indigo", 0.5f, 0f, 1.0f, 0xFF8000FF),
+        MAGENTA(10, "monilabs.prismatic.color_name.magenta", 1.0f, 0f, 1.0f, 0xFFFF00FF),
+        PINK(11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f, 0xFFFF0080),
+        PRIMARY(12, "", 0f, 0f, 0f, 0),
+        SECONDARY(13, "", 0f, 0f, 0f, 0),
+        BASIC(14, "", 0f, 0f, 0f, 0),
+        TERTIARY(15, "", 0f, 0f, 0f, 0),
+        ANY(16, "", 0f, 0f, 0f, 0),
+        NOT_RED(17, "", 0f, 0f, 0f, 0),
+        NOT_ORANGE(18, "", 0f, 0f, 0f, 0),
+        NOT_YELLOW(19, "", 0f, 0f, 0f, 0),
+        NOT_LIME(20, "", 0f, 0f, 0f, 0),
+        NOT_GREEN(21, "", 0f, 0f, 0f, 0),
+        NOT_TEAL(22, "", 0f, 0f, 0f, 0),
+        NOT_CYAN(23, "", 0f, 0f, 0f, 0),
+        NOT_AZURE(24, "", 0f, 0f, 0f, 0),
+        NOT_BLUE(25, "", 0f, 0f, 0f, 0),
+        NOT_INDIGO(26, "", 0f, 0f, 0f, 0),
+        NOT_MAGENTA(27, "", 0f, 0f, 0f, 0),
+        NOT_PINK(28, "", 0f, 0f, 0f, 0);
 
         public static final Color[] COLORS = Color.values();
 
@@ -196,16 +196,19 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         public final float g;
         public final float b;
 
+        public final int integerColor;
+
         public static final int COLOR_COUNT = COLORS.length;
 
         public static final int ACTUAL_COLOR_COUNT = ACTUAL_COLORS.length;
 
-        Color(int key, String nameKey, float r, float g, float b) {
+        Color(int key, String nameKey, float r, float g, float b, int integerColor) {
             this.key = key;
             this.nameKey = nameKey;
             this.r = r;
             this.g = g;
             this.b = b;
+            this.integerColor = integerColor;
         }
 
         public boolean isPrimary() {
