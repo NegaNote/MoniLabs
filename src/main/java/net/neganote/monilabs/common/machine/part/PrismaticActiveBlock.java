@@ -33,12 +33,14 @@ public class PrismaticActiveBlock extends ActiveBlock {
     public static NonNullBiConsumer<DataGenContext<Block, PrismaticActiveBlock>, RegistrateBlockstateProvider> createPrismaticActiveModel(String name, ResourceLocation texturePath) {
         return (ctx, prov) -> {
             ActiveBlock block = ctx.getEntry();
-            ModelFile inactive = prov.models().withExistingParent(name, GTCEu.id("block/cube_2_layer/tinted_top/all"))
+            ModelFile inactive = prov.models().withExistingParent(name, GTCEu.id("block/cube_2_layer/tinted_both/all"))
                     .texture("bot_all", texturePath)
-                    .texture("top_all", texturePath.withSuffix("_inactive"));
+                    .texture("top_all", texturePath.withSuffix("_inactive"))
+                    .renderType("cutout_mipped");
             ModelFile active = prov.models().withExistingParent(name + "_active", GTCEu.id("block/cube_2_layer/tinted_top/all"))
                     .texture("bot_all", texturePath)
-                    .texture("top_all", texturePath.withSuffix("_active"));
+                    .texture("top_all", texturePath.withSuffix("_active"))
+                    .renderType("cutout_mipped");
             prov.getVariantBuilder(block)
                     .partialState().with(ActiveBlock.ACTIVE, false).modelForState().modelFile(inactive).addModel()
                     .partialState().with(ActiveBlock.ACTIVE, true).modelForState().modelFile(active).addModel();

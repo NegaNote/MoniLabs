@@ -19,10 +19,10 @@ public class PrismaticActiveBlockColor implements BlockColor {
                         int pTintIndex) {
         int colorKey = pState.getValue(PrismaticActiveBlock.COLOR);
         Color color = Color.getColorFromKey(colorKey);
-        if (color.isRealColor() && pState.getValue(ActiveBlock.ACTIVE)) {
+        if (color.isRealColor() && pState.getValue(ActiveBlock.ACTIVE) && pTintIndex == 1) {
             return color.integerColor;
         } else {
-            return 0xFF808080;
+            return 0xFFFFFFFF;
         }
     }
 }

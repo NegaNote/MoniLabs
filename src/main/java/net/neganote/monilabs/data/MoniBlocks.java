@@ -27,7 +27,10 @@ public class MoniBlocks {
             .lang("Prismatic Casing")
             .color(() -> PrismaticActiveBlockColor::new)
             .item(BlockItem::new)
-            .model(NonNullBiConsumer.noop())
+            .model(((ctx, prov) -> {
+                BlockItem item = ctx.getEntry();
+                prov.blockItem(() -> item);
+            }))
             .build()
             .register();
 
@@ -51,7 +54,10 @@ public class MoniBlocks {
             .color(() -> PrismaticActiveBlockColor::new)
             .lang("Prismatic Focus")
             .item(PrismaticFocusItem::new)
-            .model(NonNullBiConsumer.noop())
+            .model(((ctx, prov) -> {
+                BlockItem item = ctx.getEntry();
+                prov.blockItem(() -> item);
+            }))
             .build()
             .register();
 }

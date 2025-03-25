@@ -1,47 +1,8 @@
 {
-  "parent": "monilabs:block/prismatic_active_block",
-  "elements": [
-    {
-      "faces": {
-        "down": {
-          "texture": "#layer0",
-          "tintindex": 1
-        },
-        "east": {
-          "texture": "#layer0",
-          "tintindex": 1
-        },
-        "north": {
-          "texture": "#layer0",
-          "tintindex": 1
-        },
-        "south": {
-          "texture": "#layer0",
-          "tintindex": 1
-        },
-        "up": {
-          "texture": "#layer0",
-          "tintindex": 1
-        },
-        "west": {
-          "texture": "#layer0",
-          "tintindex": 1
-        }
-      },
-      "from": [
-        0,
-        0,
-        0
-      ],
-      "to": [
-        16,
-        16,
-        16
-      ]
-    }
-  ],
+  "parent": "gtceu:block/cube_2_layer/tinted_top/all",
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
-    "layer0": "monilabs:block/casings/prismatic_casing",
-    "layer1": "monilabs:block/casings/prismatic_casing_active"
+    "bot_all": "monilabs:block/casings/prismatic_casing",
+    "top_all": "monilabs:block/casings/prismatic_casing_active"
   }
 }
