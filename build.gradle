@@ -128,6 +128,7 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     runtimeOnly fg.deobf("dev.emi:emi-forge:${emi_version}+${minecraft_version}")
     runtimeOnly fg.deobf("curse.maven:jade-324717:5390389")
+    compileOnly fg.deobf("curse.maven:jade-324717:5390389")
 
     // GregTech and dependencies
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtceu_version}:slim") { transitive = false }

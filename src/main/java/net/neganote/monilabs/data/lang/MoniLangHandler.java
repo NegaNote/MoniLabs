@@ -45,5 +45,7 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.prismatic.1", "Recipes MUST be input in the correct color state!");
         provider.add("monilabs.tooltip.prismatic.2", "They can even change the crucible's color randomly!");
         provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
+
+        provider.add("config.jade.plugin_monilabs.color_info", "Prismatic Crucible Color Info");
     }
 }
