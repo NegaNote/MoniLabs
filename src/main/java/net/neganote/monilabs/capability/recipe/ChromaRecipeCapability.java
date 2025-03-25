@@ -101,6 +101,7 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
     @Override
     public void addXEIInfo(WidgetGroup group, int xOffset, GTRecipe recipe, List<Content> contents, boolean perTick,
                            boolean isInput, MutableInt yOffset) {
+
         if (contents.size() != 1) {
             group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
                     LocalizationUtils.format("monilabs.recipe.mistake_input_colors")));
@@ -111,6 +112,8 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
                         LocalizationUtils.format("monilabs.recipe.required_color",
                                 LocalizationUtils.format(inputColor.nameKey))));
             } else {
+                group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
+                        LocalizationUtils.format("monilabs.recipe.accepted_colors")));
                 if (inputColor == Color.PRIMARY) {
                     group.addWidget(new LabelWidget(xOffset + 3, yOffset.addAndGet(10),
                             LocalizationUtils.format("monilabs.recipe.primary_input")));

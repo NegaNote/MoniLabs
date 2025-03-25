@@ -11,9 +11,6 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class MoniRecipeTypes {
 
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
@@ -35,12 +32,19 @@ public class MoniRecipeTypes {
                         if (outputStatesCount == Color.COLOR_COUNT) {
                             return LocalizationUtils.format("monilabs.recipe.fully_random_color");
                         }
-                        return LocalizationUtils.format("monilabs.recipe.color_list_random_start_relative") +
-                                IntStream.range(0, outputStatesCount)
-                                        .map(i -> data.getInt("output_states_" + i))
-                                        .mapToObj(String::valueOf)
-                                        .collect(Collectors.joining(
-                                                LocalizationUtils.format("monilabs.recipe.color_list_separator")));
+                        StringBuilder builder = new StringBuilder(
+                                LocalizationUtils.format("monilabs.recipe.color_list_random_start_relative"));
+                        for (int i = 0; i < outputStatesCount; i++) {
+                            builder.append(LocalizationUtils
+                                    .format(Color.getColorFromKey(data.getInt("output_states_" + i)).nameKey));
+                            if (i % 3 == 2) {
+                                builder.append("\n");
+                            } else {
+                                builder.append(LocalizationUtils.format("monilabs.recipe.color_list_separator"));
+                            }
+
+                        }
+                        return builder.toString();
 
                     } else {
                         if (outputStatesCount == 1) {
@@ -51,17 +55,25 @@ public class MoniRecipeTypes {
                         if (outputStatesCount == Color.COLOR_COUNT) {
                             return LocalizationUtils.format("monilabs.recipe.fully_random_color");
                         }
-                        return LocalizationUtils.format("monilabs.recipe.color_list_random_start") +
-                                IntStream.range(0, outputStatesCount)
-                                        .map(i -> data.getInt("output_states_" + i))
-                                        .mapToObj(s -> LocalizationUtils.format(Color.getColorFromKey(s).nameKey))
-                                        .collect(Collectors.joining(
-                                                LocalizationUtils.format("monilabs.recipe.color_list_separator")));
+                        StringBuilder builder = new StringBuilder(
+                                LocalizationUtils.format("monilabs.recipe.color_list_random_start"));
+                        for (int i = 0; i < outputStatesCount; i++) {
+                            builder.append(LocalizationUtils
+                                    .format(Color.getColorFromKey(data.getInt("output_states_" + i)).nameKey));
+                            if (i % 3 == 2) {
+                                builder.append("\n");
+                            } else {
+                                builder.append(LocalizationUtils.format("monilabs.recipe.color_list_separator"));
+                            }
+
+                        }
+                        return builder.toString();
                     }
                 }
                 // Default behavior
                 return LocalizationUtils.format("monilabs.recipe.fully_random_color");
             })
+            .addDataInfo(data -> "")
             .addDataInfo(data -> "")
             .setMaxIOSize(3, 1, 1, 0)
             .setEUIO(IO.IN)
