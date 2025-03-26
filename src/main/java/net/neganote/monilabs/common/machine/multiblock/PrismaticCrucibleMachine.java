@@ -60,8 +60,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     @Override
     public void onStructureInvalid() {
-        updateColoredActiveBlocks(false);
         changeColorState(Color.RED);
+        updateColoredActiveBlocks(false);
         fluidBlockOffsets.clear();
         super.onStructureInvalid();
     }
@@ -115,13 +115,13 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             newKey = Color.getRandomColor();
         }
         changeColorState(Color.getColorFromKey(newKey));
+        updateColoredActiveBlocks(true);
     }
 
     private void changeColorState(Color newColor) {
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         updateSignal();
-        updateColoredActiveBlocks(true);
     }
 
     public void updateColoredActiveBlocks(boolean active) {
