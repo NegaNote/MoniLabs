@@ -4,8 +4,8 @@ import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
-
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
@@ -30,6 +30,7 @@ public class MoniMachines {
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
 
             .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
                     .aisle("LLL       LLL", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
                     .aisle("LLLLL   LLLLL", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F L     L F ", " LLL     LLL ")
                     .aisle("LLLLLLLLLLLLL", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  FLL   LLF  ", " LLLL   LLLL ")
@@ -43,6 +44,7 @@ public class MoniMachines {
                     .aisle("LLLLLLMLLLLLL", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  FLL   LLF  ", " LLLL   LLLL ")
                     .aisle("LLLLL   LLLLL", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F L     L F ", " LLL     LLL ")
                     .aisle("LLL       LLL", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    // spotless:on
                     .where('L', blocks(MoniBlocks.PRISMATIC_CONTAINMENT_LINING.get()).setMinGlobalLimited(9)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, false)))

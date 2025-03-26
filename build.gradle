@@ -113,7 +113,11 @@ minecraft {
         }
     }
 }
-
+spotless {
+    java {
+        toggleOffOn()
+    }
+}
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 dependencies {
