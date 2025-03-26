@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
@@ -48,6 +49,7 @@ public class MoniMachines {
                     .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()))
                     .where('M', controller(blocks(definition.getBlock())))
                     .where('P', blocks(PRISMATIC_FOCUS.get()))
+                    .where('F', frames(GTMaterials.NaquadahAlloy))
                     .where(' ', any())
                     .build())
             .additionalDisplay((controller, components) -> {
