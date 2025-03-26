@@ -40,6 +40,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
     @Persisted
+    @RequireRerender
     private Color color;
 
     @Persisted
@@ -72,6 +73,18 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         saveOffsets();
         updateColoredActiveBlocks(true);
+    }
+
+    // Not currently used now, but would reset the machine's color
+    // if there were multiple recipe types and the mode was switched
+    @Override
+    public void setActiveRecipeType(int activeRecipeType) {
+        super.setActiveRecipeType(activeRecipeType);
+        // Make this check because this method is also used to set the recipe
+        // mode on world load
+        if (isFormed()) {
+            changeColorState(Color.RED);
+        }
     }
 
     @Override
