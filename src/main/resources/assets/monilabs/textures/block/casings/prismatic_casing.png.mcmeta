@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "monilabs:block/casings/prismatic_casing_ctm"
+    }
+}

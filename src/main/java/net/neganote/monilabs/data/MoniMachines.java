@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
@@ -29,16 +30,29 @@ public class MoniMachines {
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
 
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("LLL", "LCL", "LPL")
-                    .aisle("LLL", "L#L", "L#L")
-                    .aisle("LLL", "LML", "LLL")
+                    // spotless:off
+                    .aisle("LLL       LLL", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("LLLLL   LLLLL", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F L     L F ", " LLL     LLL ")
+                    .aisle("LLLLLLLLLLLLL", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  FLL   LLF  ", " LLLL   LLLL ")
+                    .aisle(" LLCCCCCCCLL ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", " LLCCC CCCLL ", " LLLL   LLLL ")
+                    .aisle(" LLCLLCLLCLL ", "     LCL     ", "      C      ", "             ", "             ", "             ", "             ", "     LCL     ", "  LCLCCCLCL  ", "  LL     LL  ")
+                    .aisle("  LCLLLLLCL  ", "    L   L    ", "             ", "             ", "             ", "             ", "      F      ", "    LLCLL    ", "   CCL LCC   ", "             ")
+                    .aisle("  LCCLLLCCL  ", "    C   C    ", "    C   C    ", "             ", "             ", "             ", "     FPF     ", "    CCCCC    ", "    C   C    ", "             ")
+                    .aisle("  LCLLLLLCL  ", "    L   L    ", "             ", "             ", "             ", "             ", "      F      ", "    LLCLL    ", "   CCL LCC   ", "             ")
+                    .aisle(" LLCLLCLLCLL ", "     LCL     ", "      C      ", "             ", "             ", "             ", "             ", "     LCL     ", "  LCLCCCLCL  ", "  LL     LL  ")
+                    .aisle(" LLCCCCCCCLL ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", "   C     C   ", " LLCCC CCCLL ", " LLLL   LLLL ")
+                    .aisle("LLLLLLMLLLLLL", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  F       F  ", "  FLL   LLF  ", " LLLL   LLLL ")
+                    .aisle("LLLLL   LLLLL", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F L     L F ", " LLL     LLL ")
+                    .aisle("LLL       LLL", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    // spotless:on
                     .where('L', blocks(MoniBlocks.PRISMATIC_CONTAINMENT_LINING.get()).setMinGlobalLimited(9)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, false)))
                     .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()))
                     .where('M', controller(blocks(definition.getBlock())))
                     .where('P', blocks(PRISMATIC_FOCUS.get()))
-                    .where('#', any())
+                    .where('F', frames(GTMaterials.Neutronium))
+                    .where(' ', any())
                     .build())
             .additionalDisplay((controller, components) -> {
                 if (controller instanceof PrismaticCrucibleMachine prismMachine && controller.isFormed()) {
