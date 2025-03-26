@@ -49,7 +49,7 @@ public class MoniMachines {
                     .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()))
                     .where('M', controller(blocks(definition.getBlock())))
                     .where('P', blocks(PRISMATIC_FOCUS.get()))
-                    .where('F', frames(GTMaterials.NaquadahAlloy))
+                    .where('F', frames(GTMaterials.Neutronium))
                     .where(' ', any())
                     .build())
             .additionalDisplay((controller, components) -> {
