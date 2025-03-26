@@ -126,7 +126,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     public void updateColoredActiveBlocks(boolean active) {
         super.updateActiveBlocks(active);
-        if (activeBlocks != null) {
+        if (active && activeBlocks != null) {
             for (Long pos : activeBlocks) {
                 var blockPos = BlockPos.of(pos);
                 var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
