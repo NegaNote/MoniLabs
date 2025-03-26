@@ -60,9 +60,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     @Override
     public void onStructureInvalid() {
-        super.onStructureInvalid();
+        updateColoredActiveBlocks(false);
         changeColorState(Color.RED);
         fluidBlockOffsets.clear();
+        super.onStructureInvalid();
     }
 
     @Override
@@ -70,6 +71,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super.onStructureFormed();
 
         saveOffsets();
+        updateColoredActiveBlocks(true);
     }
 
     @Override
@@ -119,10 +121,11 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         updateSignal();
-        updateColoredActiveBlocks();
+        updateColoredActiveBlocks(true);
     }
 
-    public void updateColoredActiveBlocks() {
+    public void updateColoredActiveBlocks(boolean active) {
+        super.updateActiveBlocks(active);
         if (activeBlocks != null) {
             for (Long pos : activeBlocks) {
                 var blockPos = BlockPos.of(pos);
@@ -139,8 +142,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     @Override
     public void updateActiveBlocks(boolean active) {
-        super.updateActiveBlocks(active);
-        updateColoredActiveBlocks();
+        // Does Nothing LMAO, behavior changed
+        // See updateColoredActiveBlocks
     }
 
     // Stolen from LargeChemicalBathMachine
