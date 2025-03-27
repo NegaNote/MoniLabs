@@ -39,6 +39,11 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
     }
 
     @Override
+    public boolean hasTESR(BlockEntity blockEntity) {
+        return true;
+    }
+
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
