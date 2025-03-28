@@ -16,7 +16,7 @@ public class MoniRecipeTypes {
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
             .setMaxSize(IO.IN, MoniRecipeCapabilities.CHROMA, 12)
-            .addDataInfo(data -> "")
+            .addDataInfo(data -> " ")
             .addDataInfo(data -> {
                 if (data.contains("output_states")) {
                     boolean isRelative = (data.contains("color_change_relative") &&
@@ -73,8 +73,8 @@ public class MoniRecipeTypes {
                 // Default behavior
                 return LocalizationUtils.format("monilabs.recipe.fully_random_color");
             })
-            .addDataInfo(data -> "")
-            .addDataInfo(data -> "")
+            .addDataInfo(data -> " ")
+            .addDataInfo(data -> " ")
             .setMaxIOSize(3, 1, 1, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);

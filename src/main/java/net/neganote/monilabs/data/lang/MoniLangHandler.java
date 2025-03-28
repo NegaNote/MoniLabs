@@ -11,7 +11,7 @@ public class MoniLangHandler {
         provider.add("monilabs.prismatic.color_name.yellow", "§eYellow§r");
         provider.add("monilabs.prismatic.color_name.lime", "§aLime§r");
         provider.add("monilabs.prismatic.color_name.green", "§2Green§r");
-        provider.add("monilabs.prismatic.color_name.turquoise", "§3Turquoise§r");
+        provider.add("monilabs.prismatic.color_name.teal", "§3Teal§r");
         provider.add("monilabs.prismatic.color_name.cyan", "§bCyan§r");
         provider.add("monilabs.prismatic.color_name.azure", "§9Azure§r");
         provider.add("monilabs.prismatic.color_name.blue", "§1Blue§r");

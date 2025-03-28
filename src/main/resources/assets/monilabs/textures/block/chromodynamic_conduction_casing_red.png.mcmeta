@@ -1,0 +1,9 @@
+{
+    "ldlib": {
+        "connection": "monilabs:block/chromodynamic_conduction_casing_red_ctm"
+    },
+    "animation": {
+        "interpolate": true,
+        "frametime": 40
+    }
+}
