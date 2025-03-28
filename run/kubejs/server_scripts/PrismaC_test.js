@@ -5,7 +5,7 @@ ServerEvents.recipes(event =>{
         .itemOutputs("minecraft:diamond_block")
         .EUt(512)
         .duration(100)
-        .outputStatesNormal(true, 1)
+        .outputStatesRelative(1)
 
     event.recipes.gtceu.prismatic_crucible("test1")
         .inputColor(PrismaticColor.RED)
