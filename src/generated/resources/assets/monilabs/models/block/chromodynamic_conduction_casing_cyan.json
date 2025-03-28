@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "monilabs:block/chromodynamic_conduction_casing_cyan"
+  }
+}

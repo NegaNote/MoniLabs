@@ -25,7 +25,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 // Parts copied from LargeChemicalBathRenderer
 public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
-    public static final ResourceLocation BASE_CASING = MoniLabs.id("block/casings/prismatic_containment_lining");
+    public static final ResourceLocation BASE_CASING = MoniLabs.id("block/dimensional_stabilization_netherite_casing");
     public static final ResourceLocation FRONT_TEXTURES = GTCEu.id("block/multiblock/processing_array");
 
     private final FluidBlockRenderer fluidBlockRenderer;
@@ -36,6 +36,11 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
                 .setFaceOffset(-0.125f)
                 .setForcedLight(LightTexture.FULL_BRIGHT)
                 .getRenderer();
+    }
+
+    @Override
+    public boolean hasTESR(BlockEntity blockEntity) {
+        return true;
     }
 
     @Override

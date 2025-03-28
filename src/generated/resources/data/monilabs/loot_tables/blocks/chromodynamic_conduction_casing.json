@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "monilabs:casings/prismatic_containment_lining"
+          "name": "monilabs:chromodynamic_conduction_casing"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "monilabs:blocks/casings/prismatic_containment_lining"
+  "random_sequence": "monilabs:blocks/chromodynamic_conduction_casing"
 }

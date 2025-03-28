@@ -1,8 +1,0 @@
-{
-  "parent": "gtceu:block/cube_2_layer/tinted_top/all",
-  "render_type": "minecraft:cutout_mipped",
-  "textures": {
-    "bot_all": "monilabs:block/prismatic_focus",
-    "top_all": "monilabs:block/prismatic_focus_active"
-  }
-}

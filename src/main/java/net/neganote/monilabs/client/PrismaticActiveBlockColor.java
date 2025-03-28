@@ -6,8 +6,8 @@ import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
-import net.neganote.monilabs.common.machine.part.PrismaticActiveBlock;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

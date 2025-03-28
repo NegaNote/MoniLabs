@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "monilabs:block/dimensional_stabilization_netherite_casing"
+  }
+}

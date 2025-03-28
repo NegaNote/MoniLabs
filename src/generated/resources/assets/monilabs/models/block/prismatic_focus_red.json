@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "monilabs:block/prismatic_focus"
+    "all": "monilabs:block/prismatic_focus_red"
   }
 }
