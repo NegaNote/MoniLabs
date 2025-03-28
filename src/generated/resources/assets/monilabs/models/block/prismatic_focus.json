@@ -1,6 +1,6 @@
 {
   "parent": "gtceu:block/cube_2_layer/tinted_both/all",
-  "render_type": "minecraft:cutout_mipped",
+  "render_type": "minecraft:translucent",
   "textures": {
     "bot_all": "monilabs:block/prismatic_focus",
     "top_all": "monilabs:block/prismatic_focus_inactive"
