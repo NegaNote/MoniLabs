@@ -1,4 +1,12 @@
 ServerEvents.recipes(event =>{
+    event.recipes.gtceu.prismatic_crucible("test0")
+        .outputStatesSpecial(SpecialCase.ANY)
+        .itemInputs("minecraft:diamond_block")
+        .itemOutputs("minecraft:diamond_block")
+        .EUt(512)
+        .duration(100)
+        .outputStatesNormal(true, 1)
+
     event.recipes.gtceu.prismatic_crucible("test1")
         .inputColor(PrismaticColor.RED)
         .itemInputs("minecraft:red_dye")
