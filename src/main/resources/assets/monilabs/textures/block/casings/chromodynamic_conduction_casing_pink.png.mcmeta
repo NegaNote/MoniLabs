@@ -1,6 +1,6 @@
 {
     "ldlib": {
-        "connection": "monilabs:block/casings/prismatic_casing_active_ctm"
+        "connection": "monilabs:block/casings/chromodynamic_conduction_casing_pink_ctm"
     },
     "animation": {
         "interpolate": true,
