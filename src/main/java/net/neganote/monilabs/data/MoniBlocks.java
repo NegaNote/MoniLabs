@@ -3,6 +3,7 @@ package net.neganote.monilabs.data;
 import com.gregtechceu.gtceu.common.data.GTModels;
 
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.PrismaticActiveBlockColor;
@@ -12,6 +13,7 @@ import net.neganote.monilabs.item.PrismaticFocusItem;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
@@ -19,7 +21,8 @@ public class MoniBlocks {
 
     public static void init() {}
 
-    public static BlockEntry<PrismaticActiveBlock> registerPrismaticActiveBlock(String name, String internal) {
+    public static BlockEntry<PrismaticActiveBlock> registerPrismaticActiveBlock(String name, String internal,
+                                                                                NonNullBiFunction<Block, Item.Properties, ? extends Item> func) {
         return REGISTRATE
                 .block(internal, PrismaticActiveBlock::new)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
@@ -28,17 +31,17 @@ public class MoniBlocks {
                 .tag(RecipeTags.MINEABLE_WITH_WRENCH)
                 .lang(name)
                 .color(() -> PrismaticActiveBlockColor::new)
-                .item(BlockItem::new)
+                .item(func)
                 .model((ctx, prov) -> {
-                    BlockItem item = ctx.getEntry();
+                    BlockItem item = (BlockItem) ctx.getEntry();
                     prov.blockItem(() -> item);
                 })
                 .build()
                 .register();
     }
 
-    public static BlockEntry<PrismaticActiveBlock> CHROMODYNAMIC_CONDUCTION_CASING =
-            registerPrismaticActiveBlock("Chromodynamic Conduction Casing", "casings/chromodynamic_conduction_casing");
+    public static BlockEntry<PrismaticActiveBlock> CHROMODYNAMIC_CONDUCTION_CASING = registerPrismaticActiveBlock(
+            "Chromodynamic Conduction Casing", "casings/chromodynamic_conduction_casing", BlockItem::new);
 
     public static BlockEntry<Block> PRISMATIC_CONTAINMENT_LINING = REGISTRATE
             .block("casings/prismatic_containment_lining", Block::new)
@@ -52,6 +55,6 @@ public class MoniBlocks {
             .build()
             .register();
 
-    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS =
-            registerPrismaticActiveBlock("Prismatic Focus", "prismatic_focus");
+    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = registerPrismaticActiveBlock("Prismatic Focus",
+            "prismatic_focus", PrismaticFocusItem::new);
 }
