@@ -42,7 +42,7 @@ public class MoniBlocks {
             .blockstate(GTModels.cubeAllModel("dimensional_stabilization_netherite_casing",
                     MoniLabs.id("block/dimensional_stabilization_netherite_casing")))
             .tag(RecipeTags.MINEABLE_WITH_WRENCH)
-            .lang("Prismatic Containment Lining")
+            .lang("Dimensional Stabilization Netherite Casing")
             .item(BlockItem::new)
             .build()
             .register();
