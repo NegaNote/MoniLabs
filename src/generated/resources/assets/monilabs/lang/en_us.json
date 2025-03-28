@@ -1,6 +1,6 @@
 {
-  "block.monilabs.casings.prismatic_casing": "Prismatic Casing",
-  "block.monilabs.casings.prismatic_containment_lining": "Prismatic Containment Lining",
+  "block.monilabs.chromodynamic_conduction_casing": "Chromodynamic Conduction Casing",
+  "block.monilabs.dimensional_stabilization_netherite_casing": "Prismatic Containment Lining",
   "block.monilabs.prismatic_crucible": "Prismatic Crucible",
   "block.monilabs.prismatic_focus": "Prismatic Focus",
   "config.jade.plugin_monilabs.color_info": "Prismatic Crucible Color Info",

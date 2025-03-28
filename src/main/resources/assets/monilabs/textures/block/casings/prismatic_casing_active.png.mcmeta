@@ -1,9 +1,0 @@
-{
-    "ldlib": {
-        "connection": "monilabs:block/casings/prismatic_casing_active_ctm"
-    },
-    "animation": {
-        "interpolate": true,
-        "frametime": 40
-    }
-}

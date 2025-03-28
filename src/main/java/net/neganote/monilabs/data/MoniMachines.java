@@ -25,7 +25,7 @@ public class MoniMachines {
 
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
-            .appearanceBlock(MoniBlocks.PRISMATIC_CONTAINMENT_LINING)
+            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
 
@@ -45,9 +45,10 @@ public class MoniMachines {
                     .aisle("LLLLL   LLLLL", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F         F ", " F L     L F ", " LLL     LLL ")
                     .aisle("LLL       LLL", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
                     // spotless:on
-                    .where('L', blocks(MoniBlocks.PRISMATIC_CONTAINMENT_LINING.get()).setMinGlobalLimited(9)
-                            .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(autoAbilities(true, false, false)))
+                    .where('L',
+                            blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()).setMinGlobalLimited(9)
+                                    .or(autoAbilities(definition.getRecipeTypes()))
+                                    .or(autoAbilities(true, false, false)))
                     .where('C', blocks(MoniBlocks.CHROMODYNAMIC_CONDUCTION_CASING.get()))
                     .where('M', controller(blocks(definition.getBlock())))
                     .where('P', blocks(PRISMATIC_FOCUS.get()))

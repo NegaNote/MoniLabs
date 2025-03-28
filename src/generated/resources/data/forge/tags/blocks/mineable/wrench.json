@@ -1,7 +1,7 @@
 {
   "values": [
-    "monilabs:casings/prismatic_casing",
-    "monilabs:casings/prismatic_containment_lining",
+    "monilabs:chromodynamic_conduction_casing",
+    "monilabs:dimensional_stabilization_netherite_casing",
     "monilabs:prismatic_focus"
   ]
 }

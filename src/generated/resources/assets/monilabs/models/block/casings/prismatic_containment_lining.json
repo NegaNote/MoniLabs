@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "monilabs:block/casings/prismatic_containment_lining"
-  }
-}
