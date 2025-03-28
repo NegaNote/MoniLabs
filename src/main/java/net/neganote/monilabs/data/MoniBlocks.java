@@ -19,21 +19,26 @@ public class MoniBlocks {
 
     public static void init() {}
 
-    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_CASING = REGISTRATE
-            .block("casings/prismatic_casing", PrismaticActiveBlock::new)
-            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/casings/prismatic_casing",
-                    MoniLabs.id("block/casings/prismatic_casing")))
-            .tag(RecipeTags.MINEABLE_WITH_WRENCH)
-            .lang("Prismatic Casing")
-            .color(() -> PrismaticActiveBlockColor::new)
-            .item(BlockItem::new)
-            .model((ctx, prov) -> {
-                BlockItem item = ctx.getEntry();
-                prov.blockItem(() -> item);
-            })
-            .build()
-            .register();
+    public static BlockEntry<PrismaticActiveBlock> registerPrismaticActiveBlock(String name, String internal) {
+        return REGISTRATE
+                .block(internal, PrismaticActiveBlock::new)
+                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+                .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/" + internal,
+                        MoniLabs.id("block/" + internal)))
+                .tag(RecipeTags.MINEABLE_WITH_WRENCH)
+                .lang(name)
+                .color(() -> PrismaticActiveBlockColor::new)
+                .item(BlockItem::new)
+                .model((ctx, prov) -> {
+                    BlockItem item = ctx.getEntry();
+                    prov.blockItem(() -> item);
+                })
+                .build()
+                .register();
+    }
+
+    public static BlockEntry<PrismaticActiveBlock> CHROMODYNAMIC_CONDUCTION_CASING =
+            registerPrismaticActiveBlock("Chromodynamic Conduction Casing", "casings/chromodynamic_conduction_casing");
 
     public static BlockEntry<Block> PRISMATIC_CONTAINMENT_LINING = REGISTRATE
             .block("casings/prismatic_containment_lining", Block::new)
@@ -47,19 +52,6 @@ public class MoniBlocks {
             .build()
             .register();
 
-    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = REGISTRATE
-            .block("prismatic_focus", PrismaticActiveBlock::new)
-            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("prismatic_focus",
-                    MoniLabs.id("block/prismatic_focus")))
-            .tag(RecipeTags.MINEABLE_WITH_WRENCH)
-            .color(() -> PrismaticActiveBlockColor::new)
-            .lang("Prismatic Focus")
-            .item(PrismaticFocusItem::new)
-            .model((ctx, prov) -> {
-                BlockItem item = ctx.getEntry();
-                prov.blockItem(() -> item);
-            })
-            .build()
-            .register();
+    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS =
+            registerPrismaticActiveBlock("Prismatic Focus", "prismatic_focus");
 }

@@ -48,7 +48,7 @@ public class MoniMachines {
                     .where('L', blocks(MoniBlocks.PRISMATIC_CONTAINMENT_LINING.get()).setMinGlobalLimited(9)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, false)))
-                    .where('C', blocks(MoniBlocks.PRISMATIC_CASING.get()))
+                    .where('C', blocks(MoniBlocks.CHROMODYNAMIC_CONDUCTION_CASING.get()))
                     .where('M', controller(blocks(definition.getBlock())))
                     .where('P', blocks(PRISMATIC_FOCUS.get()))
                     .where('F', frames(GTMaterials.Neutronium))
