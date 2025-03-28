@@ -1,4 +1,4 @@
-package net.neganote.monilabs.common.machine.part;
+package net.neganote.monilabs.common.block;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;

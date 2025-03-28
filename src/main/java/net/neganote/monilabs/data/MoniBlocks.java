@@ -6,7 +6,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.PrismaticActiveBlockColor;
-import net.neganote.monilabs.common.machine.part.PrismaticActiveBlock;
+import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.data.recipe.RecipeTags;
 import net.neganote.monilabs.item.PrismaticFocusItem;
 
