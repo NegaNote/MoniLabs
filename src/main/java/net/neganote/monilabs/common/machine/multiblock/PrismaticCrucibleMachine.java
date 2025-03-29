@@ -135,7 +135,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         updateSignal();
-        scheduleRenderUpdate();
     }
 
     public void updateColoredActiveBlocks(boolean active) {
