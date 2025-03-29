@@ -13,6 +13,7 @@ import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
