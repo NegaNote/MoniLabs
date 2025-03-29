@@ -27,6 +27,7 @@ public class MoniMachines {
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
+            .allowExtendedFacing(false)
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
 
             .pattern(definition -> FactoryBlockPattern.start()

@@ -3,21 +3,21 @@ package net.neganote.monilabs.client.renderer;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.client.renderer.block.FluidBlockRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.RenderUtil;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.RenderTypeHelper;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 
@@ -26,20 +26,21 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import java.util.Collection;
+
+import static com.gregtechceu.gtceu.client.util.RenderUtil.getNormal;
+import static com.gregtechceu.gtceu.client.util.RenderUtil.getVertices;
+import static net.minecraft.util.FastColor.ARGB32.*;
+import static net.minecraft.util.FastColor.ARGB32.alpha;
+
 // Parts copied from LargeChemicalBathRenderer
 public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
     public static final ResourceLocation BASE_CASING = MoniLabs.id("block/dimensional_stabilization_netherite_casing");
     public static final ResourceLocation FRONT_TEXTURES = GTCEu.id("block/multiblock/processing_array");
 
-    private final FluidBlockRenderer fluidBlockRenderer;
-
     public PrismaticCrucibleRenderer() {
         super(BASE_CASING, FRONT_TEXTURES);
-        fluidBlockRenderer = FluidBlockRenderer.Builder.create()
-                .setFaceOffset(-0.125f)
-                .setForcedLight(LightTexture.FULL_BRIGHT)
-                .getRenderer();
     }
 
     @Override
@@ -67,13 +68,42 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
                     pcm.isFlipped());
             if (up.getAxis() != Direction.Axis.Y) up = up.getOpposite();
 
-            fluidBlockRenderer.drawPlane(up, pcm.getFluidBlockOffsets(), pose.pose(), consumer, Fluids.LAVA,
-                    RenderUtil.FluidTextureType.STILL, combinedOverlay, pcm.getPos());
+            drawPlane(up, pcm.getFluidBlockOffsets(), pose.pose(), consumer, GTMaterials.Iron.getFluid(),
+                    RenderUtil.FluidTextureType.STILL, combinedOverlay, pcm);
             poseStack.popPose();
 
         }
     }
 
+    // Stolen and modified from FluidBlockRenderer
+    public static void drawPlane(Direction face, Collection<BlockPos> offsets, Matrix4f pose, VertexConsumer consumer,
+                                 Fluid fluid, RenderUtil.FluidTextureType texture, int combinedOverlay,
+                                 PrismaticCrucibleMachine machine) {
+        var fluidClientInfo = IClientFluidTypeExtensions.of(fluid);
+        var sprite = texture.map(fluidClientInfo);
+        float u0 = sprite.getU0();
+        float v0 = sprite.getV0();
+        float u1 = sprite.getU1();
+        float v1 = sprite.getV1();
+        int color = machine.getColorState().integerColor;
+        int r = red(color);
+        int g = green(color);
+        int b = blue(color);
+        int a = alpha(color);
+        var normal = getNormal(face);
+        var vertices = transformVertices(getVertices(face), face);
+        BlockPos prevOffset = null;
+        for (var offset : offsets) {
+            BlockPos currOffset = prevOffset == null ? offset : offset.subtract(prevOffset);
+            pose.translate(currOffset.getX(), currOffset.getY(), currOffset.getZ());
+            drawFace(pose, consumer, vertices, normal, u0, u1, v0, v1, r, g, b, a, combinedOverlay,
+                    // magic number for fullbright
+                    15728880);
+            prevOffset = offset;
+        }
+    }
+
+    // Stolen from FluidBlockRenderer
     public static void drawFace(Matrix4f pose, VertexConsumer consumer, Vector3f[] vertices, Vector3f normal, float u0,
                                 float u1, float v0, float v1, int r, int g, int b, int a, int combinedOverlay,
                                 int combinedLight) {
@@ -89,6 +119,22 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
         vert = vertices[3];
         RenderUtil.vertex(pose, consumer, vert.x, vert.y, vert.z, r, g, b, a, u1, v1, combinedOverlay, combinedLight,
                 normal.x, normal.y, normal.z);
+    }
+
+    // Stolen from FluidBlockRenderer
+    public static Vector3f[] transformVertices(Vector3f[] vertices, Direction face) {
+        var newVertices = new Vector3f[4];
+        float offsetX = 0;
+        float offsetY = 0;
+        float offsetZ = 0;
+        switch (face) {
+            case DOWN, UP -> offsetY -= 0.125F;
+            case NORTH, SOUTH -> offsetZ -= 0.125F;
+            case WEST, EAST -> offsetX -= 0.125F;
+        }
+        for (int i = 0; i < 4; i++)
+            newVertices[i] = RenderUtil.transformVertex(vertices[i], face, offsetX, offsetY, offsetZ);
+        return newVertices;
     }
 
     @SuppressWarnings("unused")
