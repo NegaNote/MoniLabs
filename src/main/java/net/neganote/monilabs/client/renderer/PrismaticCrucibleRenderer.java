@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.client.util.RenderUtil;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -97,8 +98,7 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
             BlockPos currOffset = prevOffset == null ? offset : offset.subtract(prevOffset);
             pose.translate(currOffset.getX(), currOffset.getY(), currOffset.getZ());
             drawFace(pose, consumer, vertices, normal, u0, u1, v0, v1, r, g, b, a, combinedOverlay,
-                    // magic number for fullbright
-                    15728880);
+                    LightTexture.FULL_BRIGHT);
             prevOffset = offset;
         }
     }
