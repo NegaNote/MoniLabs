@@ -165,11 +165,22 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         Direction back = getFrontFacing().getOpposite();
         BlockPos pos = getPos();
         BlockPos center = pos.relative(up);
-        for (int i = 0; i < 5; i++) {
+        Direction clockWise;
+        Direction counterClockWise;
+        if (up == Direction.UP || up == Direction.DOWN) {
+            clockWise = getFrontFacing().getClockWise();
+            counterClockWise = getFrontFacing().getCounterClockWise();
+        } else {
+            clockWise = Direction.UP;
+            counterClockWise = Direction.DOWN;
+        }
+        center = center.relative(back);
+        center = center.relative(back);
+        for (int i = 2; i < 5; i++) {
             center = center.relative(back);
             fluidBlockOffsets.add(center.subtract(pos));
-            // fluidBlockOffsets.add(center.relative(clockWise).subtract(pos));
-            // fluidBlockOffsets.add(center.relative(counterClockWise).subtract(pos));
+            fluidBlockOffsets.add(center.relative(clockWise).subtract(pos));
+            fluidBlockOffsets.add(center.relative(counterClockWise).subtract(pos));
         }
     }
 

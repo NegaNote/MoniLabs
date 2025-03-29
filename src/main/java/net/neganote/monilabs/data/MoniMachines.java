@@ -68,6 +68,7 @@ public class MoniMachines {
                 list.add(Component.translatable("monilabs.tooltip.prismatic.1"));
                 list.add(Component.translatable("monilabs.tooltip.prismatic.2"));
             })
+            .hasTESR(true)
             .renderer(PrismaticCrucibleRenderer::new)
             .register();
 
