@@ -13,8 +13,7 @@ import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
-
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -48,14 +47,8 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     }
 
     @Override
-    public List<ChromaIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, @Nullable String slotName,
-                                               boolean simulate) {
-        return super.handleRecipe(io, recipe, left, slotName, simulate);
-    }
-
-    @Override
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left,
-                                                    @Nullable String slotName, boolean simulate) {
+                                                    boolean simulate) {
         List<Color> colors = recipe.getInputContents(MoniRecipeCapabilities.CHROMA)
                 .stream().map(c -> ((ChromaIngredient) c.getContent()).color())
                 .toList();
@@ -128,7 +121,7 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     }
 
     @Override
-    public List<Object> getContents() {
+    public @NotNull List<Object> getContents() {
         return List.of(heldColor);
     }
 
