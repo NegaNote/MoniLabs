@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.neganote.monilabs.MoniLabs;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -26,8 +27,10 @@ public class LaserUtil {
     }
 
     public static void renderLaser(Vector3f ray, PoseStack poseStack, MultiBufferSource bufferSource,
-                                   float red, float green, float blue, float alpha, float partialTick, long gameTime) {
-        renderLaser(ray, poseStack, bufferSource, red, green, blue, alpha, 0.0F, 0.0F, 0.0F, partialTick, gameTime,
+                                   float red, float green, float blue, float alpha, float xOffset, float yOffset,
+                                   float zOffset, float partialTick, long gameTime) {
+        renderLaser(ray, poseStack, bufferSource, red, green, blue, alpha, xOffset, yOffset, zOffset, partialTick,
+                gameTime,
                 BeaconRenderer.BEAM_LOCATION);
     }
 
@@ -48,6 +51,8 @@ public class LaserUtil {
         var maxV = -1.0F + vRelated;
         var minV = beamLength * (0.5F / .1f) + maxV;
         poseStack.mulPose(Axis.YP.rotationDegrees(step * 2.25F - 45.0F));
+        var mat = poseStack.last().pose();
+        MoniLabs.LOGGER.debug("PoseStack matrix: {}", mat.toString());
         poseStack.translate(xOffset, yOffset, zOffset);
         renderPart(poseStack, bufferSource.getBuffer(RenderType.beaconBeam(texture, false)),
                 red, green, blue, alpha, 0, beamLength,

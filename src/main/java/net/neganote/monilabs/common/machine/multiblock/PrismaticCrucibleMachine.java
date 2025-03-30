@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
@@ -39,12 +38,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     @Getter
     @Persisted
-    @RequireRerender
     private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
     @Persisted
     @DescSynced
-    @RequireRerender
     private Color color;
 
     @Getter
