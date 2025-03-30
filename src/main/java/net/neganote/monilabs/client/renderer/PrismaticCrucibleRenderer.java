@@ -21,9 +21,11 @@ import net.minecraftforge.client.RenderTypeHelper;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.utils.LaserUtil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -56,7 +58,6 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
         if (blockEntity instanceof IMachineBlockEntity machineBlockEntity &&
                 machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine pcm && pcm.isFormed() &&
                 pcm.isActive()) {
-
             var level = pcm.getLevel();
             var color = pcm.getColorState();
             assert level != null;
@@ -73,13 +74,26 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
                     RenderUtil.FluidTextureType.STILL, combinedOverlay, pcm);
             poseStack.popPose();
 
+            long gameTime = level.getGameTime();
+
+            Vector3f ray = new Vector3f(6.0F * (float) up.getNormal().getX(), 6.0F * (float) up.getNormal().getY(),
+                    6.0F * (float) up.getNormal().getZ());
+
+            float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX());
+            float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY());
+            float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ());
+
+            LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.b, color.g, 1.0F, xOffset, yOffset, zOffset,
+                    partialTicks, gameTime,
+                    MoniLabs.id("block/prismatic_focus"));
         }
     }
 
     // Stolen and modified from FluidBlockRenderer
-    public static void drawPlane(Direction face, Collection<BlockPos> offsets, Matrix4f pose, VertexConsumer consumer,
-                                 Fluid fluid, RenderUtil.FluidTextureType texture, int combinedOverlay,
-                                 PrismaticCrucibleMachine machine) {
+    public static void drawPlane(Direction face, @NotNull Collection<BlockPos> offsets, Matrix4f pose,
+                                 VertexConsumer consumer,
+                                 Fluid fluid, RenderUtil.@NotNull FluidTextureType texture, int combinedOverlay,
+                                 @NotNull PrismaticCrucibleMachine machine) {
         var fluidClientInfo = IClientFluidTypeExtensions.of(fluid);
         var sprite = texture.map(fluidClientInfo);
         float u0 = sprite.getU0();

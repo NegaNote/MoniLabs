@@ -11,8 +11,10 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
+import net.neganote.monilabs.data.MoniBlocks;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +45,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @RequireRerender
     private Color color;
 
+    @Getter
+    @Persisted
+    private BlockPos focusPos;
+
     @Persisted
     private final NotifiableChromaContainer notifiableChromaContainer;
 
@@ -51,6 +57,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         this.color = Color.RED;
         this.notifiableChromaContainer = new NotifiableChromaContainer(this);
         saveOffsets();
+        focusPos = null;
     }
 
     @Override
@@ -67,9 +74,21 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super.onStructureInvalid();
     }
 
+
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+
+        for (Long longPos : Objects.requireNonNull(activeBlocks)) {
+            BlockPos pos = BlockPos.of(longPos);
+            if (Objects.requireNonNull(getLevel()).getBlockState(pos).getBlock() == MoniBlocks.PRISMATIC_FOCUS.get()) {
+                focusPos = pos;
+                MoniLabs.LOGGER.debug("Prismatic Focus found: ({}, {}, {})", focusPos.getX(), focusPos.getY(),
+                        focusPos.getZ());
+                break;
+            }
+        }
 
         saveOffsets();
         updateColoredActiveBlocks(true);
