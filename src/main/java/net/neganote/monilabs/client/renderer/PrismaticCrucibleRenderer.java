@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -57,7 +58,7 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
                        int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof IMachineBlockEntity machineBlockEntity &&
                 machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine pcm && pcm.isFormed() &&
-                pcm.isActive()) {
+                pcm.isActive() && pcm.getFocusPos() != null) {
             var level = pcm.getLevel();
             var color = pcm.getColorState();
             assert level != null;
@@ -85,7 +86,7 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
             LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.b, color.g, 1.0F, xOffset, yOffset, zOffset,
                     partialTicks, gameTime,
-                    MoniLabs.id("block/prismatic_focus"));
+                    BeaconRenderer.BEAM_LOCATION);
         }
     }
 

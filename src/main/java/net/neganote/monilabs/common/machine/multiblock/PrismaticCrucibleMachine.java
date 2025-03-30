@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -42,10 +43,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
     @Persisted
+    @DescSynced
     @RequireRerender
     private Color color;
 
     @Getter
+    @DescSynced
     @Persisted
     private BlockPos focusPos;
 
@@ -73,8 +76,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         fluidBlockOffsets.clear();
         super.onStructureInvalid();
     }
-
-
 
     @Override
     public void onStructureFormed() {
