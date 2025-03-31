@@ -75,7 +75,7 @@ public class MoniRecipeTypes {
             })
             .addDataInfo(data -> " ")
             .addDataInfo(data -> " ")
-            .setMaxIOSize(3, 1, 1, 0)
+            .setMaxIOSize(3, 1, 1, 1)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
