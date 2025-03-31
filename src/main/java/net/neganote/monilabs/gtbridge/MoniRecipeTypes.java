@@ -17,6 +17,7 @@ public class MoniRecipeTypes {
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
             .setMaxSize(IO.IN, MoniRecipeCapabilities.CHROMA, 12)
             .addDataInfo(data -> " ")
+            .addDataInfo(data -> " ")
             .addDataInfo(data -> {
                 if (data.contains("output_states")) {
                     boolean isRelative = (data.contains("color_change_relative") &&
