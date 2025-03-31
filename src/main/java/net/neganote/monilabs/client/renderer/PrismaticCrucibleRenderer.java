@@ -76,8 +76,10 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
             long gameTime = level.getGameTime();
 
-            Vector3f ray = new Vector3f(6.0F * (float) up.getNormal().getX(), 6.0F * (float) up.getNormal().getY(),
-                    6.0F * (float) up.getNormal().getZ());
+            Direction down = up.getOpposite();
+
+            Vector3f ray = new Vector3f(6.0F * (float) down.getNormal().getX(), 6.0F * (float) down.getNormal().getY(),
+                    6.0F * (float) down.getNormal().getZ());
 
             float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX());
             float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY());

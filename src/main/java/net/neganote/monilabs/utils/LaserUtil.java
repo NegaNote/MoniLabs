@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.neganote.monilabs.MoniLabs;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -43,7 +42,9 @@ public class LaserUtil {
         var beamDirection = new Vector3f(0, 1, 0);
         var wantedNorm = ray.normalize(new Vector3f());
         var angle = getRotationAngle(beamDirection, wantedNorm);
-        poseStack.mulPose(Axis.of(getRotationAxis(beamDirection, wantedNorm, beamDirection)).rotation(angle));
+        if (Math.abs(Math.sin(angle)) >= 0.001F) {
+            poseStack.mulPose(Axis.of(getRotationAxis(beamDirection, wantedNorm, beamDirection)).rotation(angle));
+        }
         // calculate beam length and self rotation
         var beamLength = ray.length();
         var step = Math.floorMod(gameTime, 40) + partialTick;
@@ -51,8 +52,6 @@ public class LaserUtil {
         var maxV = -1.0F + vRelated;
         var minV = beamLength * (0.5F / .1f) + maxV;
         poseStack.mulPose(Axis.YP.rotationDegrees(step * 2.25F - 45.0F));
-        var mat = poseStack.last().pose();
-        MoniLabs.LOGGER.debug("PoseStack matrix: {}", mat.toString());
         poseStack.translate(xOffset, yOffset, zOffset);
         renderPart(poseStack, bufferSource.getBuffer(RenderType.beaconBeam(texture, false)),
                 red, green, blue, alpha, 0, beamLength,
