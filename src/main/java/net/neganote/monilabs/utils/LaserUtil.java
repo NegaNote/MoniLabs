@@ -38,6 +38,8 @@ public class LaserUtil {
                                    float zOffset, float partialTick, long gameTime,
                                    ResourceLocation texture) {
         poseStack.pushPose();
+        poseStack.translate(xOffset, yOffset, zOffset);
+        poseStack.translate(ray.x, ray.y, ray.z);
         // calculate rotation to point in ray direction
         var beamDirection = new Vector3f(0, 1, 0);
         var wantedNorm = ray.normalize(new Vector3f());
@@ -52,7 +54,6 @@ public class LaserUtil {
         var maxV = -1.0F + vRelated;
         var minV = beamLength * (0.5F / .1f) + maxV;
         poseStack.mulPose(Axis.YP.rotationDegrees(step * 2.25F - 45.0F));
-        poseStack.translate(xOffset, yOffset, zOffset);
         renderPart(poseStack, bufferSource.getBuffer(RenderType.beaconBeam(texture, false)),
                 red, green, blue, alpha, 0, beamLength,
                 0, .1f, .1f, 0, -.1f, 0, 0, -.1f, 0, 1, minV, maxV);

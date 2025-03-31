@@ -81,11 +81,11 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
             Vector3f ray = new Vector3f(6.0F * (float) down.getNormal().getX(), 6.0F * (float) down.getNormal().getY(),
                     6.0F * (float) down.getNormal().getZ());
 
-            float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX());
-            float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY());
-            float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ());
+            float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX()) + 0.5F;
+            float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY()) + 0.5F;
+            float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ()) + 0.5F;
 
-            LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.b, color.g, 1.0F, xOffset, yOffset, zOffset,
+            LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.g, color.b, 1.0F, xOffset, yOffset, zOffset,
                     partialTicks, gameTime);
         }
     }
