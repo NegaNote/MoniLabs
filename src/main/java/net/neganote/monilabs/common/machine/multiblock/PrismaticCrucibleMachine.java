@@ -123,12 +123,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         int newKey;
 
-        int outputStatesCount = recipe.data.getInt("output_states");
         if (recipe.data.contains("output_states")) {
+            int outputStatesCount = recipe.data.getInt("output_states");
             if (outputStatesCount == 1) {                                   // Deterministic
                 newKey = recipe.data.getInt("output_states_0");
 
-            } else if (outputStatesCount == Color.COLOR_COUNT) {            // Full random
+            } else if (outputStatesCount == Color.ACTUAL_COLOR_COUNT) {            // Full random
                 newKey = Color.getRandomColor();
 
             } else {                                                        // Random Among List
@@ -139,7 +139,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             }
 
             if (recipe.data.contains("color_change_relative") && recipe.data.getBoolean("color_change_relative")) {
-                newKey = (color.key + newKey) % Color.COLOR_COUNT;
+                newKey = (color.key + newKey) % Color.ACTUAL_COLOR_COUNT;
             }
         } else {
             newKey = Color.getRandomColor();

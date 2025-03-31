@@ -28,7 +28,7 @@ ServerEvents.recipes(event =>{
         .itemInputs("minecraft:dirt")
         .EUt(128)
         .duration(100)
-        .outputStatesSpecial(SpecialCase.ANY)
+        .outputStatesRelative(1)
 
     event.recipes.gtceu.prismatic_crucible("test5")
         .inputColor(PrismaticColor.TERTIARY)
