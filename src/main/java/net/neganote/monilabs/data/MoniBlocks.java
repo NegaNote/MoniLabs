@@ -1,5 +1,6 @@
 package net.neganote.monilabs.data;
 
+import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.data.GTModels;
 
 import net.minecraft.world.item.BlockItem;
@@ -23,7 +24,8 @@ public class MoniBlocks {
                                                                                 NonNullBiFunction<Block, Item.Properties, ? extends BlockItem> func) {
         return REGISTRATE
                 .block(internal, PrismaticActiveBlock::new)
-                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
+                        .lightLevel((b) -> b.getValue(ActiveBlock.ACTIVE) ? 15 : 0))
                 .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/" + internal,
                         MoniLabs.id(internal)))
                 .tag(RecipeTags.MINEABLE_WITH_WRENCH)

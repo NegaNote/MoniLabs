@@ -56,8 +56,7 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof IMachineBlockEntity machineBlockEntity &&
-                machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine pcm && pcm.isFormed() &&
-                pcm.isActive() && pcm.getFocusPos() != null) {
+                machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine pcm && pcm.isFormed()) {
             var level = pcm.getLevel();
             var color = pcm.getColorState();
             assert level != null;
@@ -78,15 +77,19 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
             Direction down = up.getOpposite();
 
-            Vector3f ray = new Vector3f(6.0F * (float) down.getNormal().getX(), 6.0F * (float) down.getNormal().getY(),
-                    6.0F * (float) down.getNormal().getZ());
+            if (pcm.isActive() && pcm.getFocusPos() != null) {
+                Vector3f ray = new Vector3f(6.0F * (float) down.getNormal().getX(),
+                        6.0F * (float) down.getNormal().getY(),
+                        6.0F * (float) down.getNormal().getZ());
 
-            float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX()) + 0.5F;
-            float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY()) + 0.5F;
-            float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ()) + 0.5F;
+                float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX()) + 0.5F;
+                float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY()) + 0.5F;
+                float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ()) + 0.5F;
 
-            LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.g, color.b, 1.0F, xOffset, yOffset, zOffset,
-                    partialTicks, gameTime);
+                LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.g, color.b, 1.0F, xOffset, yOffset,
+                        zOffset,
+                        partialTicks, gameTime);
+            }
         }
     }
 

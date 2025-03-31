@@ -11,7 +11,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 import net.neganote.monilabs.data.MoniBlocks;
@@ -82,8 +81,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             BlockPos pos = BlockPos.of(longPos);
             if (Objects.requireNonNull(getLevel()).getBlockState(pos).getBlock() == MoniBlocks.PRISMATIC_FOCUS.get()) {
                 focusPos = pos;
-                MoniLabs.LOGGER.debug("Prismatic Focus found: ({}, {}, {})", focusPos.getX(), focusPos.getY(),
-                        focusPos.getZ());
                 break;
             }
         }
