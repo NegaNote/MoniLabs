@@ -3,6 +3,7 @@ package net.neganote.monilabs.data;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.data.GTModels;
 
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +29,7 @@ public class MoniBlocks {
                         .lightLevel((b) -> b.getValue(ActiveBlock.ACTIVE) ? 15 : 0))
                 .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/" + internal,
                         MoniLabs.id(internal)))
-                .tag(RecipeTags.MINEABLE_WITH_WRENCH)
+                .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
                 .lang(name)
                 .item(func)
                 .build()
@@ -43,7 +44,7 @@ public class MoniBlocks {
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
             .blockstate(GTModels.cubeAllModel("dimensional_stabilization_netherite_casing",
                     MoniLabs.id("block/dimensional_stabilization_netherite_casing")))
-            .tag(RecipeTags.MINEABLE_WITH_WRENCH)
+            .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
             .lang("Dimensional Stabilization Netherite Casing")
             .item(BlockItem::new)
             .build()
