@@ -7,6 +7,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.data.recipe.RecipeTags;
@@ -25,6 +26,7 @@ public class MoniBlocks {
                                                                                 NonNullBiFunction<Block, Item.Properties, ? extends BlockItem> func) {
         return REGISTRATE
                 .block(internal, PrismaticActiveBlock::new)
+                .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
                         .lightLevel((b) -> b.getValue(ActiveBlock.ACTIVE) ? 15 : 0))
                 .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/" + internal,
@@ -41,6 +43,7 @@ public class MoniBlocks {
 
     public static BlockEntry<Block> DIMENSIONAL_STABILIZATION_NETHERITE_CASING = REGISTRATE
             .block("dimensional_stabilization_netherite_casing", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
             .blockstate(GTModels.cubeAllModel("dimensional_stabilization_netherite_casing",
                     MoniLabs.id("block/dimensional_stabilization_netherite_casing")))
