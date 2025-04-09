@@ -155,34 +155,6 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
         return newVertices;
     }
 
-    @SuppressWarnings("unused")
-    // private void renderCube(PoseStack poseStack, MultiBufferSource buffer, Direction frontFacing, float tick,
-    // PrismaticCrucibleMachine.Color color, int combinedLight, int combinedOverlay,
-    // PrismaticCrucibleMachine machine) {
-    // var modelManager = Minecraft.getInstance().getModelManager();
-    // poseStack.pushPose();
-    //
-    // BakedModel bakedModel = modelManager.getModel(CUBE_MODEL);
-    //
-    // float[] renderOffset = machine.getRenderOffset();
-    //
-    // poseStack.translate(renderOffset[0], renderOffset[1], renderOffset[2]);
-    //
-    // poseStack.scale(10.0f, 10.0f, 10.0f);
-    //
-    // PoseStack.Pose pose = poseStack.last();
-    //
-    // VertexConsumer consumer = buffer.getBuffer(RenderType.solid());
-    //
-    // @SuppressWarnings("deprecation")
-    // List<BakedQuad> quads = bakedModel.getQuads(null, null, GTValues.RNG);
-    //
-    // for (BakedQuad quad : quads) {
-    // consumer.putBulkData(pose, quad, color.r, color.g, color.b, combinedLight, combinedOverlay);
-    // }
-    // poseStack.popPose();
-    // }
-
     @OnlyIn(Dist.CLIENT)
     public float reBakeCustomQuadsOffset() {
         return 0f;
