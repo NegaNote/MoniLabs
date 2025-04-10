@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
-import net.neganote.monilabs.data.MoniBlocks;
+import net.neganote.monilabs.common.block.MoniBlocks;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package net.neganote.monilabs.data;
+package net.neganote.monilabs.common.block;
 
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.data.GTModels;
@@ -9,9 +9,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neganote.monilabs.MoniLabs;
-import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.data.recipe.RecipeTags;
-import net.neganote.monilabs.item.PrismaticFocusItem;
+import net.neganote.monilabs.common.item.PrismaticFocusItem;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiFunction;

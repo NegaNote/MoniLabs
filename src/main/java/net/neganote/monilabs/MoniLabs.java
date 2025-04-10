@@ -21,9 +21,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.common.item.MoniItems;
-import net.neganote.monilabs.data.MoniBlocks;
+import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.data.MoniDataGen;
-import net.neganote.monilabs.data.MoniMachines;
+import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;

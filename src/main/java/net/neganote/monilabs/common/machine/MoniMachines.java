@@ -1,4 +1,4 @@
-package net.neganote.monilabs.data;
+package net.neganote.monilabs.common.machine;
 
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -9,12 +9,13 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
+import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
-import static net.neganote.monilabs.data.MoniBlocks.PRISMATIC_FOCUS;
+import static net.neganote.monilabs.common.block.MoniBlocks.PRISMATIC_FOCUS;
 
 @SuppressWarnings("unused")
 public class MoniMachines {

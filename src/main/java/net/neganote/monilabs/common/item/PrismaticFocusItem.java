@@ -1,4 +1,4 @@
-package net.neganote.monilabs.item;
+package net.neganote.monilabs.common.item;
 
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
