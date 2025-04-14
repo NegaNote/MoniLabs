@@ -3,9 +3,9 @@ package net.neganote.monilabs.integration.kjs;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.neganote.monilabs.MoniLabs;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.machine.MoniMachines;
+import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.integration.kjs.recipe.MoniRecipeSchema;
 
