@@ -1,5 +1,6 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
+import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -18,7 +19,6 @@ import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -103,15 +103,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     @Override
-    public int getOutputSignal(@Nullable Direction side) {
-        if (!isFormed()) {
-            return 0;
-        } else {
-            return color.key + 1;
-        }
-    }
-
-    @Override
     public void afterWorking() {
         super.afterWorking();
         GTRecipe recipe = recipeLogic.getLastRecipe();
@@ -149,7 +140,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private void changeColorState(Color newColor) {
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
-        updateSignal();
+        getCoverContainer().getCovers().forEach((CoverBehavior::onChanged));
     }
 
     @Override
