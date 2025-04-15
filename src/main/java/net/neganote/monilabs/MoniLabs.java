@@ -1,6 +1,7 @@
 package net.neganote.monilabs;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.common.block.MoniBlocks;
+import net.neganote.monilabs.common.cover.MoniCovers;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.data.MoniDataGen;
@@ -41,7 +43,7 @@ public class MoniLabs {
             builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(MoniLabs.MOD_ID, REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", MoniLabs.id("creative_tab"), "Moni Labs"))
-                    .icon(GTItems.ADVANCED_CIRCUIT_BOARD::asStack) // TODO: come up with own icon
+                    .icon(GTItems.ADVANCED_CIRCUIT_BOARD::asStack)
                     .build())
             .register();
 
@@ -56,6 +58,7 @@ public class MoniLabs {
         modEventBus.addListener(this::modifyMaterials);
         modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        modEventBus.addGenericListener(CoverDefinition.class, this::registerCovers);
 
         // Most other events are fired on Forge's bus.
         // If we want to use annotations to register event listeners,
@@ -107,5 +110,9 @@ public class MoniLabs {
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         MoniMachines.init();
+    }
+
+    private void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
+        MoniCovers.init();
     }
 }
