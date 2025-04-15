@@ -15,7 +15,7 @@ public class MoniRecipeTypes {
 
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes
             .register("prismatic_crucible", GTRecipeTypes.MULTIBLOCK)
-            .setMaxSize(IO.IN, MoniRecipeCapabilities.CHROMA, 12)
+            .setMaxSize(IO.BOTH, MoniRecipeCapabilities.CHROMA, 1)
             .addDataInfo(data -> " ")
             .addDataInfo(data -> " ")
             .addDataInfo(data -> {
@@ -76,7 +76,9 @@ public class MoniRecipeTypes {
             })
             .addDataInfo(data -> " ")
             .addDataInfo(data -> " ")
-            .setMaxIOSize(3, 1, 1, 1)
+            .addDataInfo(data -> " ")
+            .addDataInfo(data -> " ")
+            .setMaxIOSize(3, 3, 1, 1)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
