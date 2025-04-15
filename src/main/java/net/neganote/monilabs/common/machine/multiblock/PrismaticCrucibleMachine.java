@@ -11,6 +11,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
@@ -162,6 +163,19 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                     var newState = block.changeColor(blockState, color.key);
                     if (newState != blockState) {
                         getLevel().setBlockAndUpdate(blockPos, newState);
+                    }
+                }
+            }
+        } else if (!isFormed()) {
+            // this horrifying mess is required in order to get the multi to turn off the casings
+            // if an IMultiPart is broken. As for why? fuck if I know ¯\_(ツ)_/¯
+            var cache = getMultiblockState().getCache();
+            for (BlockPos pos : cache) {
+                BlockState blockState = Objects.requireNonNull(getLevel()).getBlockState(pos);
+                if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
+                    var newState = block.changeActive(blockState, false);
+                    if (newState != blockState) {
+                        getLevel().setBlockAndUpdate(pos, newState);
                     }
                 }
             }
