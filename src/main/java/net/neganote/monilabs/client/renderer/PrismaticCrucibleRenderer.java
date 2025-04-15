@@ -167,6 +167,6 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
     @Override
     public int getViewDistance() {
-        return 64;
+        return 256;
     }
 }
