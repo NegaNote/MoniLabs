@@ -1,5 +1,6 @@
 package net.neganote.monilabs.common.machine;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -10,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.block.MoniBlocks;
+import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
@@ -72,6 +74,22 @@ public class MoniMachines {
             })
             .hasTESR(true)
             .renderer(PrismaticCrucibleRenderer::new)
+            .register();
+
+    public static MultiblockMachineDefinition OMNIC_SYNTHESIZER = REGISTRATE
+            .multiblock("omnic_synthesizer", OmnicSynthesizerMachine::new)
+            .recipeTypes(MoniRecipeTypes.OMNIC_SYNTHESIZER_RECIPES)
+            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("XXXCXXX")
+                    .where('X', blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(autoAbilities(true, false, false)))
+                    .where('C', controller(blocks(definition.getBlock())))
+                    .build())
+            .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
+                    GTCEu.id("block/multiblock/processing_array"))
+            .recipeModifiers(OmnicSynthesizerMachine.recipeModifier())
             .register();
 
     public static void init() {}
