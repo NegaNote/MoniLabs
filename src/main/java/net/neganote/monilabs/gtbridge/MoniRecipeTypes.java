@@ -82,5 +82,11 @@ public class MoniRecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static GTRecipeType OMNIC_SYNTHESIZER_RECIPES = GTRecipeTypes
+            .register("omnic_synthesizer", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 3, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
     public static void init() {}
 }

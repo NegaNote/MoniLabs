@@ -25,6 +25,7 @@ import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.cover.MoniCovers;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
+import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.MoniDataGen;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
@@ -67,6 +68,7 @@ public class MoniLabs {
     }
 
     public static void init() {
+        MoniConfig.init();
         REGISTRATE.registerRegistrate();
         MoniBlocks.init();
         MoniItems.init();
