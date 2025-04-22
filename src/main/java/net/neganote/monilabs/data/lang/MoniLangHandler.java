@@ -39,7 +39,11 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.mistake_output_colors",
                 "You made a mistake defining this recipe's output colors.");
 
+        provider.add("monilabs.recipe.diversity_info",
+                "Output is variable based on\nmaterial diversity before\neach use of the synthesizer.");
+
         provider.add("gtceu.prismatic_crucible", "Prismatic Crucible");
+        provider.add("gtceu.omnic_synthesizer", "Omnic Synthesizer");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
         provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
