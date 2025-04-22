@@ -6,11 +6,15 @@ import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.integration.kjs.recipe.components.ContentJS;
 
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.integration.kjs.recipe.ChromaComponent;
+import net.neganote.monilabs.recipe.MoniRecipes;
 
 import com.mojang.datafixers.util.Pair;
+
+import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 @GTAddon
@@ -34,13 +38,10 @@ public class MoniLabsGTAddon implements IGTAddon {
         // CustomTagPrefixes.init();
     }
 
-    // Currently disabled because no recipes are defined in the mod.
-    /*
-     * @Override
-     * public void addRecipes(Consumer<FinishedRecipe> provider) {
-     * MoniRecipes.init(provider);
-     * }
-     */
+    @Override
+    public void addRecipes(Consumer<FinishedRecipe> provider) {
+        MoniRecipes.init(provider);
+    }
 
     @Override
     public void registerRecipeCapabilities() {
