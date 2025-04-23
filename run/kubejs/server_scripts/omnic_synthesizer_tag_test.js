@@ -1,8 +1,12 @@
 const omnic_synthesis = (event, item) => {
-    event.add("monilabs:omnic_synthesizer_input", item);
+    event.recipes.gtceu.omnic_synthesizer("omnic_synthesis_from_" + item)
+        .itemInputs(item)
+        .itemOutputs("monilabs:mote_of_omnium")
+        .EUt(120000)
+        .duration(2)
 }
 
-ServerEvents.tags("item", event => {
+ServerEvents.recipes(event => {
     omnic_synthesis(event, "minecraft:iron_ingot");
     omnic_synthesis(event, "minecraft:gold_ingot");
     omnic_synthesis(event, "minecraft:copper_ingot");

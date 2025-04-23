@@ -11,6 +11,7 @@
   "item.monilabs.chroma_detector_cover": "Chroma Detector Cover",
   "item.monilabs.mote_of_omnium": "Mote of Omnium",
   "itemGroup.monilabs.creative_tab": "Moni Labs",
+  "monilabs.omnic.current_diversity_points": "Current diversity points: %s",
   "monilabs.prismatic.color_name.azure": "§9Azure§r",
   "monilabs.prismatic.color_name.blue": "§1Blue§r",
   "monilabs.prismatic.color_name.cyan": "§bCyan§r",
