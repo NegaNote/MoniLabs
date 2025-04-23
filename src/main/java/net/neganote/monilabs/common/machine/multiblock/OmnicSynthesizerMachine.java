@@ -1,10 +1,9 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
@@ -14,7 +13,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.neganote.monilabs.config.MoniConfig;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +30,7 @@ public class OmnicSynthesizerMachine extends WorkableElectricMultiblockMachine {
 
     @Persisted
     @DescSynced
-    private int diversityPoints = 0;
+    public int diversityPoints = 0;
 
     public OmnicSynthesizerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -51,26 +49,21 @@ public class OmnicSynthesizerMachine extends WorkableElectricMultiblockMachine {
     public static RecipeModifier recipeModifier() {
         return (metaMachine, gtRecipe) -> {
             if (metaMachine instanceof OmnicSynthesizerMachine omnic) {
+                Item item = RecipeHelper.getInputItems(gtRecipe).get(0).getItem();
                 double multiplier = 0.0;
-                var itemIngredients = gtRecipe.getInputContents(ItemRecipeCapability.CAP);
-                for (Content ingredient : itemIngredients) {
-                    if (ingredient.getContent() instanceof ItemStack itemStack) {
-                        if (omnic.diversityList.contains(itemStack.getItem())) {
-                            int index = omnic.diversityList.indexOf(itemStack.getItem());
-                            omnic.diversityPoints += (int) Math
-                                    .floor(Math.pow(index, MoniConfig.INSTANCE.values.omnicSynthesizerExponent));
-                            multiplier = (double) omnic.diversityPoints / 100;
-                            omnic.diversityPoints = omnic.diversityPoints % 100;
-                            Item item = omnic.diversityList.remove(index);
-                            omnic.diversityList.add(0, item);
-                            break;
-                        } else {
-                            omnic.diversityList.add(0, itemStack.getItem());
-                        }
-                    }
+                if (omnic.diversityList.contains(item)) {
+                    int index = omnic.diversityList.indexOf(item);
+                    omnic.diversityPoints += (int) Math
+                            .floor(Math.pow(index, MoniConfig.INSTANCE.values.omnicSynthesizerExponent));
+                    multiplier = (double) omnic.diversityPoints / 100;
+                    omnic.diversityPoints = omnic.diversityPoints % 100;
+                    Item temp = omnic.diversityList.remove(index);
+                    omnic.diversityList.add(0, temp);
+                } else {
+                    omnic.diversityList.add(0, item);
                 }
                 return ModifierFunction.builder()
-                        .inputModifier(ContentModifier.multiplier(multiplier))
+                        .outputModifier(ContentModifier.multiplier(multiplier))
                         .build();
             }
             return ModifierFunction.NULL;

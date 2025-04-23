@@ -87,6 +87,11 @@ public class MoniMachines {
                             .or(autoAbilities(true, false, false)))
                     .where('C', controller(blocks(definition.getBlock())))
                     .build())
+            .additionalDisplay((controller, list) -> {
+                if (controller instanceof OmnicSynthesizerMachine omnic) {
+                    list.add(Component.translatable("monilabs.omnic.current_diversity_points", omnic.diversityPoints));
+                }
+            })
             .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
                     GTCEu.id("block/multiblock/processing_array"))
             .recipeModifiers(OmnicSynthesizerMachine.recipeModifier())
