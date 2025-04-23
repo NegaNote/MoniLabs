@@ -84,9 +84,10 @@ public class MoniRecipeTypes {
 
     public static GTRecipeType OMNIC_SYNTHESIZER_RECIPES = GTRecipeTypes
             .register("omnic_synthesizer", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(1, 3, 0, 0)
+            .setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
             .addDataInfo(data -> LocalizationUtils.format("monilabs.recipe.diversity_info"))
+            .addDataInfo(data -> " ")
             .addDataInfo(data -> " ")
             .addDataInfo(data -> " ")
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
