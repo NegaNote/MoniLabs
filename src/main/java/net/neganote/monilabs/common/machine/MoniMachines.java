@@ -5,11 +5,13 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.block.MoniBlocks;
+import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
@@ -72,6 +74,18 @@ public class MoniMachines {
             })
             .hasTESR(true)
             .renderer(PrismaticCrucibleRenderer::new)
+            .register();
+
+    public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = REGISTRATE
+            .multiblock("creative_energy_multi", CreativeEnergyMultiMachine::new)
+            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("X@X")
+                    .where("X", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
+                    .where("@", controller(blocks(definition.getBlock())))
+                    .build())
             .register();
 
     public static void init() {}
