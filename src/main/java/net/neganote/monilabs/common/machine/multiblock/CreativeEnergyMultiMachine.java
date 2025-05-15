@@ -20,7 +20,7 @@ public class CreativeEnergyMultiMachine extends WorkableElectricMultiblockMachin
         MachineOwner owner = getOwner();
         UUID ownerUUID = owner == null ? new UUID(0L, 0L) : owner.getUUID();
         if (getLevel() instanceof ServerLevel serverLevel) {
-            CreativeEnergySavedData savedData = CreativeEnergySavedData.getOrCreate(serverLevel);
+            CreativeEnergySavedData savedData = CreativeEnergySavedData.getOrCreate(serverLevel.getServer().overworld());
             savedData.setEnabled(ownerUUID, isWorkingAllowed);
         }
         super.setWorkingEnabled(isWorkingAllowed);
