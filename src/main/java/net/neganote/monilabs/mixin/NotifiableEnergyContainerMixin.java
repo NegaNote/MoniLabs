@@ -49,6 +49,8 @@ public class NotifiableEnergyContainerMixin extends MachineTrait {
         }
     }
 
+    // This injection is so that it doesn't try and modify the *actual* stored energy, which could easily cheese
+    // the power substation and the like to be filled even after the boolean is set back to false.
     @Inject(method = "changeEnergy", at = @At(value = "HEAD"), cancellable = true)
     private void monilabs$injectBeforeChangeEnergy(long energyToAdd, CallbackInfoReturnable<Long> cir) {
         if (getMachine().getLevel() instanceof ServerLevel serverLevel) {
