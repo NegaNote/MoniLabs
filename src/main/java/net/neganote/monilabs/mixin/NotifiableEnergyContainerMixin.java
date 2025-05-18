@@ -3,7 +3,6 @@ package net.neganote.monilabs.mixin;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
-import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
@@ -40,8 +39,25 @@ public class NotifiableEnergyContainerMixin extends MachineTrait {
         if (getMachine().getLevel() instanceof ServerLevel serverLevel) {
             CreativeEnergySavedData savedData = CreativeEnergySavedData
                     .getOrCreate(serverLevel.getServer().overworld());
-            MachineOwner owner = getMachine().getOwner();
-            UUID uuid = owner == null ? new UUID(0L, 0L) : owner.getUUID();
+            UUID uuid = getMachine().getOwnerUUID();
+            if (uuid == null) {
+                uuid = new UUID(0, 0);
+            }
+            if (savedData.isEnabledFor(uuid)) {
+                cir.setReturnValue(getEnergyCapacity());
+            }
+        }
+    }
+
+    @Inject(method = "changeEnergy", at = @At(value = "HEAD"), cancellable = true)
+    private void monilabs$injectBeforeChangeEnergy(long energyToAdd, CallbackInfoReturnable<Long> cir) {
+        if (getMachine().getLevel() instanceof ServerLevel serverLevel) {
+            CreativeEnergySavedData savedData = CreativeEnergySavedData
+                    .getOrCreate(serverLevel.getServer().overworld());
+            UUID uuid = getMachine().getOwnerUUID();
+            if (uuid == null) {
+                uuid = new UUID(0, 0);
+            }
             if (savedData.isEnabledFor(uuid)) {
                 cir.setReturnValue(getEnergyCapacity());
             }
@@ -50,6 +66,6 @@ public class NotifiableEnergyContainerMixin extends MachineTrait {
 
     @Override
     public ManagedFieldHolder getFieldHolder() {
-        return null;
+        return NotifiableEnergyContainer.MANAGED_FIELD_HOLDER;
     }
 }

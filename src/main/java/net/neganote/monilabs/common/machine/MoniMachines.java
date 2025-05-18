@@ -9,8 +9,8 @@ import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
@@ -86,15 +86,24 @@ public class MoniMachines {
             .recipeTypes(MoniRecipeTypes.OMNIC_SYNTHESIZER_RECIPES)
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("#CCCCC#", "#CCCCC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CCCCC#", "#CCCCC#")
-                    .aisle("CCCCCCC", "CHMMMHC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CHMMMHC", "CCCCCCC")
-                    .aisle("CCCCCCC", "CMXYXMC", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "CMXYXMC", "CCCCCCC")
-                    .aisle("CCCCCCC", "CMYYYMC", "G YYY G", "G YYY G", "G YYY G", "G YYY G", "G YYY G", "CMYYYMC", "CCCCCCC")
-                    .aisle("CCCCCCC", "CMXYXMC", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "CMXYXMC", "CCCCCCC")
-                    .aisle("CCCCCCC", "CHMMMHC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CHMMMHC", "CCCCCCC")
-                    .aisle("CCCCCCC", "CCCCCCC", "#CCCCC#", "#CCCCC#", "#CCCCC#", "#CCCCC#", "#CCCCC#", "CCCCCCC", "CCCCCCC")
-                    .aisle("CCCCCCC", "#CCCCC#", "#CCCCC#", "#CNNNC#", "###N###", "###N###", "###N###", "#CNNNC#", "CCCCCCC")
-                    .aisle("#CCCCC#", "##C@C##", "##CCC##", "#######", "#######", "#######", "#######", "#######", "#CCCCC#")
+                    .aisle("#CCCCC#", "#CCCCC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CCCCC#",
+                            "#CCCCC#")
+                    .aisle("CCCCCCC", "CHMMMHC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CHMMMHC",
+                            "CCCCCCC")
+                    .aisle("CCCCCCC", "CMXYXMC", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "CMXYXMC",
+                            "CCCCCCC")
+                    .aisle("CCCCCCC", "CMYYYMC", "G YYY G", "G YYY G", "G YYY G", "G YYY G", "G YYY G", "CMYYYMC",
+                            "CCCCCCC")
+                    .aisle("CCCCCCC", "CMXYXMC", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "CMXYXMC",
+                            "CCCCCCC")
+                    .aisle("CCCCCCC", "CHMMMHC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CHMMMHC",
+                            "CCCCCCC")
+                    .aisle("CCCCCCC", "CCCCCCC", "#CCCCC#", "#CCCCC#", "#CCCCC#", "#CCCCC#", "#CCCCC#", "CCCCCCC",
+                            "CCCCCCC")
+                    .aisle("CCCCCCC", "#CCCCC#", "#CCCCC#", "#CNNNC#", "###N###", "###N###", "###N###", "#CNNNC#",
+                            "CCCCCCC")
+                    .aisle("#CCCCC#", "##C@C##", "##CCC##", "#######", "#######", "#######", "#######", "#######",
+                            "#CCCCC#")
                     .where("@", controller(blocks(definition.get())))
                     .where("G", blocks(GTBlocks.CLEANROOM_GLASS.get()))
                     .where("H", blocks(GTBlocks.HIGH_POWER_CASING.get()))
@@ -104,8 +113,7 @@ public class MoniMachines {
                     .where("Y", blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
                     .where("C", blocks(GCYMBlocks.CASING_ATOMIC.get()).setMinGlobalLimited(220)
                             .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1))
-                    )
+                            .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
                     .where(" ", air())
                     .where("#", any())
                     .build())
@@ -129,6 +137,8 @@ public class MoniMachines {
                     .where("X", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
                     .where("@", controller(blocks(definition.getBlock())))
                     .build())
+            .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
+                    GTCEu.id("block/multiblock/processing_array"))
             .register();
 
     public static void init() {}
