@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
@@ -132,10 +131,11 @@ public class MoniMachines {
             .langValue("Black Hole Energy Accumulation and Translocation Station")
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
+            .recipeTypes(MoniRecipeTypes.CREATIVE_ENERGY_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("X@X")
-                    .where("X", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
+                    .where("X", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes())))
                     .where("@", controller(blocks(definition.getBlock())))
                     .build())
             .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),

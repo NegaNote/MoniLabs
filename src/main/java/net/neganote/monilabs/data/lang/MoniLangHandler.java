@@ -45,7 +45,8 @@ public class MoniLangHandler {
                 "Output is variable based on\nthe material diversity\nbefore each use of\nthe synthesizer.");
 
         provider.add("gtceu.prismatic_crucible", "Prismatic Crucible");
-        provider.add("gtceu.omnic_synthesizer", "Omnic Synthesizer");
+        provider.add("gtceu.omnic_synthesis", "Omnic Synthesis");
+        provider.add("gtceu.bheats", "Black Hole Energy Accumulation");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
         provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
