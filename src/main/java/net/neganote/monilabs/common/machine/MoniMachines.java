@@ -129,6 +129,7 @@ public class MoniMachines {
 
     public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = REGISTRATE
             .multiblock("creative_energy_multi", CreativeEnergyMultiMachine::new)
+            .langValue("Black Hole Energy Accumulation and Translocation Station")
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
