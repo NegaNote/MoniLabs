@@ -3,14 +3,19 @@ package net.neganote.monilabs.common.machine;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.block.MoniBlocks;
+import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
@@ -81,11 +86,28 @@ public class MoniMachines {
             .recipeTypes(MoniRecipeTypes.OMNIC_SYNTHESIZER_RECIPES)
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("XXXCXXX")
-                    .where('X', blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
+                    .aisle("#CCCCC#", "#CCCCC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CCCCC#", "#CCCCC#")
+                    .aisle("CCCCCCC", "CHMMMHC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CHMMMHC", "CCCCCCC")
+                    .aisle("CCCCCCC", "CMXYXMC", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "CMXYXMC", "CCCCCCC")
+                    .aisle("CCCCCCC", "CMYYYMC", "G YYY G", "G YYY G", "G YYY G", "G YYY G", "G YYY G", "CMYYYMC", "CCCCCCC")
+                    .aisle("CCCCCCC", "CMXYXMC", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "G XYX G", "CMXYXMC", "CCCCCCC")
+                    .aisle("CCCCCCC", "CHMMMHC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CH   HC", "CHMMMHC", "CCCCCCC")
+                    .aisle("CCCCCCC", "CCCCCCC", "#CCCCC#", "#CCCCC#", "#CCCCC#", "#CCCCC#", "#CCCCC#", "CCCCCCC", "CCCCCCC")
+                    .aisle("CCCCCCC", "#CCCCC#", "#CCCCC#", "#CNNNC#", "###N###", "###N###", "###N###", "#CNNNC#", "CCCCCCC")
+                    .aisle("#CCCCC#", "##C@C##", "##CCC##", "#######", "#######", "#######", "#######", "#######", "#CCCCC#")
+                    .where("@", controller(blocks(definition.get())))
+                    .where("G", blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where("H", blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where("M", frames(GTMaterials.get("crystal_matrix")))
+                    .where("N", frames(GTMaterials.NaquadahAlloy))
+                    .where("X", blocks(GTBlocks.COMPUTER_CASING.get()))
+                    .where("Y", blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
+                    .where("C", blocks(GCYMBlocks.CASING_ATOMIC.get()).setMinGlobalLimited(220)
                             .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(autoAbilities(true, false, false)))
-                    .where('C', controller(blocks(definition.getBlock())))
+                            .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1))
+                    )
+                    .where(" ", air())
+                    .where("#", any())
                     .build())
             .additionalDisplay((controller, list) -> {
                 if (controller instanceof OmnicSynthesizerMachine omnic) {
@@ -95,6 +117,18 @@ public class MoniMachines {
             .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
                     GTCEu.id("block/multiblock/processing_array"))
             .recipeModifiers(OmnicSynthesizerMachine.recipeModifier())
+            .register();
+
+    public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = REGISTRATE
+            .multiblock("creative_energy_multi", CreativeEnergyMultiMachine::new)
+            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("X@X")
+                    .where("X", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
+                    .where("@", controller(blocks(definition.getBlock())))
+                    .build())
             .register();
 
     public static void init() {}
