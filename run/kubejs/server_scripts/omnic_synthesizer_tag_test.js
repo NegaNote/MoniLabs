@@ -1,5 +1,5 @@
 const omnic_synthesis = (event, item) => {
-    event.recipes.gtceu.omnic_synthesizer("omnic_synthesis_from_" + item)
+    event.recipes.gtceu.omnic_synthesis("omnic_synthesis_from_" + item)
         .itemInputs(item)
         .itemOutputs("monilabs:mote_of_omnium")
         .EUt(120000)
