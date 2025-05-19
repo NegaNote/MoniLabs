@@ -121,8 +121,8 @@ public class MoniMachines {
                     list.add(Component.translatable("monilabs.omnic.current_diversity_points", omnic.diversityPoints));
                 }
             })
-            .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
-                    GTCEu.id("block/multiblock/processing_array"))
+            .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"),
+                    GTCEu.id("block/multiblock/fusion_reactor"))
             .recipeModifiers(OmnicSynthesizerMachine.recipeModifier())
             .register();
 
