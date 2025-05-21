@@ -5,41 +5,41 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 
 import net.minecraft.server.level.ServerLevel;
-import net.neganote.monilabs.saveddata.CreativeEnergySavedData;
+import net.neganote.monilabs.saveddata.CreativeDataAccessSavedData;
 
 import java.util.UUID;
 
-public class CreativeEnergyMultiMachine extends WorkableElectricMultiblockMachine {
+public class CreativeDataMultiMachine extends WorkableElectricMultiblockMachine {
 
-    private final ConditionalSubscriptionHandler creativeEnergySubscription;
+    private final ConditionalSubscriptionHandler creativeDataSubscription;
 
-    public CreativeEnergyMultiMachine(IMachineBlockEntity holder, Object... args) {
+    public CreativeDataMultiMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
 
-        this.creativeEnergySubscription = new ConditionalSubscriptionHandler(this, this::tickEnableCreativeEnergy,
+        this.creativeDataSubscription = new ConditionalSubscriptionHandler(this, this::tickEnableCreativeData,
                 this::isSubscriptionActive);
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        creativeEnergySubscription.updateSubscription();
+        creativeDataSubscription.updateSubscription();
     }
 
-    public void enableCreativeEnergy(boolean enabled) {
+    public void enableCreativeData(boolean enabled) {
         UUID ownerUUID = getOwnerUUID();
         if (ownerUUID == null) {
             ownerUUID = new UUID(0L, 0L);
         }
         if (getLevel() instanceof ServerLevel serverLevel) {
-            CreativeEnergySavedData savedData = CreativeEnergySavedData
+            CreativeDataAccessSavedData savedData = CreativeDataAccessSavedData
                     .getOrCreate(serverLevel.getServer().overworld());
             savedData.setEnabled(ownerUUID, enabled);
         }
     }
 
-    private void tickEnableCreativeEnergy() {
-        enableCreativeEnergy(isActive() && getRecipeLogic().isWorkingEnabled());
+    private void tickEnableCreativeData() {
+        enableCreativeData(isActive() && getRecipeLogic().isWorkingEnabled());
     }
 
     private Boolean isSubscriptionActive() {
@@ -50,14 +50,14 @@ public class CreativeEnergyMultiMachine extends WorkableElectricMultiblockMachin
     public void setWorkingEnabled(boolean isWorkingAllowed) {
         super.setWorkingEnabled(isWorkingAllowed);
         if (!isWorkingAllowed) {
-            enableCreativeEnergy(false);
+            enableCreativeData(false);
         }
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        enableCreativeEnergy(false);
-        creativeEnergySubscription.unsubscribe();
+        enableCreativeData(false);
+        creativeDataSubscription.unsubscribe();
     }
 }

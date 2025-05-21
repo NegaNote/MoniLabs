@@ -1,5 +1,6 @@
 {
   "block.monilabs.chromodynamic_conduction_casing": "Chromodynamic Conduction Casing",
+  "block.monilabs.creative_data_multi": "Creative Data Multi",
   "block.monilabs.creative_energy_multi": "Black Hole Energy Accumulation and Translocation Station",
   "block.monilabs.dimensional_stabilization_netherite_casing": "Dimensional Stabilization Netherite Casing",
   "block.monilabs.omnic_synthesizer": "Omnic Synthesizer",
@@ -7,6 +8,7 @@
   "block.monilabs.prismatic_focus": "Prismatic Focus",
   "config.jade.plugin_monilabs.color_info": "Prismatic Crucible Color Info",
   "gtceu.bheats": "Black Hole Energy Accumulation",
+  "gtceu.creative_data": "Creative Data Generation",
   "gtceu.omnic_synthesis": "Omnic Synthesis",
   "gtceu.prismatic_crucible": "Prismatic Crucible",
   "item.monilabs.chroma_detector_cover": "Chroma Detector Cover",

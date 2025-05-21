@@ -96,5 +96,9 @@ public class MoniRecipeTypes {
             .register("bheats", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 1, 0);
 
+    public static GTRecipeType CREATIVE_DATA_RECIPES = GTRecipeTypes
+            .register("creative_data", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 1, 0);
+
     public static void init() {}
 }

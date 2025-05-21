@@ -14,6 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.block.MoniBlocks;
+import net.neganote.monilabs.common.machine.multiblock.CreativeDataMultiMachine;
 import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
@@ -161,6 +162,22 @@ public class MoniMachines {
                     .where("R", blocks(GTBlocks.MACHINE_CASING_UIV.get()))
                     .where("@", controller(blocks(definition.getBlock())))
                     .where(" ", any())
+                    .build())
+            .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
+                    GTCEu.id("block/multiblock/processing_array"))
+            .register();
+
+    public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = REGISTRATE
+            .multiblock("creative_data_multi", CreativeDataMultiMachine::new)
+            .langValue("Creative Data Multi")
+            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(MoniRecipeTypes.CREATIVE_DATA_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("N@N")
+                    .where("@", controller(blocks(definition.getBlock())))
+                    .where("N", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes())))
                     .build())
             .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
                     GTCEu.id("block/multiblock/processing_array"))

@@ -47,6 +47,7 @@ public class MoniLangHandler {
         provider.add("gtceu.prismatic_crucible", "Prismatic Crucible");
         provider.add("gtceu.omnic_synthesis", "Omnic Synthesis");
         provider.add("gtceu.bheats", "Black Hole Energy Accumulation");
+        provider.add("gtceu.creative_data", "Creative Data Generation");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
         provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
