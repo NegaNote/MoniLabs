@@ -4,8 +4,10 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
+    "DataAccessHatchMixin",
     "KubeJSPluginsMixin",
-    "NotifiableEnergyContainerMixin"
+    "NotifiableEnergyContainerMixin",
+    "OpticalDataHatchMixin"
   ],
   "client": [
   ],
