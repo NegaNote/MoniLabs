@@ -168,20 +168,42 @@ public class MoniMachines {
             .register();
 
     public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = REGISTRATE
-            .multiblock("creative_data_multi", CreativeDataMultiMachine::new)
-            .langValue("Creative Data Multi")
-            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(MoniRecipeTypes.CREATIVE_DATA_RECIPES)
-            .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("N@N")
-                    .where("@", controller(blocks(definition.getBlock())))
-                    .where("N", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
-                            .or(autoAbilities(definition.getRecipeTypes())))
-                    .build())
-            .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
-                    GTCEu.id("block/multiblock/processing_array"))
-            .register();
+                    .multiblock("creative_data_multi", CreativeDataMultiMachine::new)
+                    .langValue("Creative Data Multi")
+                    .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
+                    .rotationState(RotationState.NON_Y_AXIS)
+                    .recipeTypes(MoniRecipeTypes.CREATIVE_DATA_RECIPES)
+                    .pattern(definition -> FactoryBlockPattern.start()
+                                .aisle("###NNNNNNN###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "             ", "             ", "             ", "             ")
+                                .aisle("##NNNNNNNNN##", "###NDDNDDN###", "###NDDNDDN###", "###NDDNDDN###", "###NCCCCCN###", "###NNNNNNN###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "###NNNNNNN###", "             ", "             ", "             ", "             ")
+                                .aisle("#NNNNNNNNNNN#", "##NAHHAHHAN##", "##NAHHAHHAN##", "##NAHHHHHAN##", "##NAHHCHHAN##", "##NNAAAAANN##", "##NNNNNNNNN##", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "##FNNNNNNNF##", "##NN     NN##", "             ", "             ", "             ", "             ")
+                                .aisle("NNNNNNNNNNNNN", "#NA#######AN#", "#NA#######AN#", "#NA###G###AN#", "#NA##GCG##AN#", "#NA###G###AN#", "##N#######N##", "###NNNNNNN###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "###FNNCNNF###", "##NN     NN##", "#NN       NN#", "             ", "             ", "             ", "             ") 
+                                .aisle("NNNNNNNNNNNNN", "#DH#######HD#", "#DH#######HD#", "#DH###G###HD#", "#CH##GCG##HC#", "#NA###G###AN#", "##N#######N##", "###NGGGGGN###", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####FFFFF####", "####FNCNF####", "###NN   NN###", "##N       N##", "#N         N#", "             ", "             ", "             ", "             ")
+                                .aisle("NNNNNNNNNNNNN", "#DH###G###HD#", "#DH###G###HD#", "#DH###G###HD#", "#CHGGGCGGGHC#", "#NA###G###AN#", "##N###G###N##", "###NGGGGGN###", "######G######", "######G######", "######G######", "######G######", "######G######", "######G######", "######G######", "####FNCNF####", "####N   N####", "###N     N###", "##N       N##", "#N         N#", "             ", "             ", "             ", "             ")     
+                                .aisle("NNNNNNNNNNNNN", "#NA##GCG##AN#", "#NA##GCG##AN#", "#NHGGGCGGGHN#", "#CCCCCCCCCCC#", "#NAGGGCGGGAN#", "##N##GCG##N##", "###NGGCGGN###", "#####GCG#####", "#####GCG#####", "#####GCG#####", "#####GCG#####", "#####GCG#####", "#####GCG#####", "#####GCG#####", "####FCCCF####", "####C C C####", "###N  C  N###", "##N   C   N##", "#N    C    N#", "      C      ", "      C      ", "      C      ", "      I      ")
+                                .aisle("NNNNNNNNNNNNN", "#DH###G###HD#", "#DH###G###HD#", "#DH###G###HD#", "#CHGGGCGGGHC#", "#NA###G###AN#", "##N###G###N##", "###NGGGGGN###", "######G######", "######G######", "######G######", "######G######", "######G######", "######G######", "######G######", "####FNCNF####", "####N   N####", "###N     N###", "##N       N##", "#N         N#", "             ", "             ", "             ", "             ")
+                                .aisle("NNNNNNNNNNNNN", "#DH#######HD#", "#DH#######HD#", "#DH###G###HD#", "#CH##GCG##HC#", "#NA###G###AN#", "##N#######N##", "###NGGGGGN###", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####F###F####", "####FFFFF####", "####FNCNF####", "###NN   NN###", "##N       N##", "#N         N#", "             ", "             ", "             ", "             ")
+                                .aisle("NNNNNNNNNNNNN", "#NA#######AN#", "#NA#######AN#", "#NA###G###AN#", "#NA##GCG##AN#", "#NA###G###AN#", "##N#######N##", "###NNNNNNN###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "###FNNCNNF###", "##NN     NN##", "#NN       NN#", "             ", "             ", "             ", "             ")
+                                .aisle("#NNNNNNNNNNN#", "##NAHHAHHAN##", "##NAHHAHHAN##", "##NAHHHHHAN##", "##NAHHCHHAN##", "##NNAAAAANN##", "##NNNNNNNNN##", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "##FNNNNNNNF##", "##NN     NN##", "             ", "             ", "             ", "             ")
+                                .aisle("##NNNNNNNNN##", "###NDDNDDN###", "###NDDNDDN###", "###NDDNDDN###", "###NCCCCCN###", "###NNNNNNN###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "###NNNNNNN###", "             ", "             ", "             ", "             ")
+                                .aisle("###NNN@NNN###", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "             ", "             ", "             ", "             ")
+                                    .where(" ", any())
+                                    .where("#", any())
+                                    .where("@", controller(blocks(definition.getBlock())))
+                                    .where("G", blocks(GTBlocks.FUSION_GLASS.get()))
+                                    .where("A", blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
+                                    .where("H", blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                                    .where("C", blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
+                                    .where("F", frames(GTMaterials.Europium))
+                                    .where("I", blocks(GTBlocks.MACHINE_CASING_UIV.get()))
+                                    .where("D", blocks(GTBlocks.COMPUTER_CASING.get())
+                                        .or(abilities(PartAbility.DATA_ACCESS)))
+                                    .where("N", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
+                                                    .or(autoAbilities(definition.getRecipeTypes())))
+                                    .build())
+                    .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
+                                    GTCEu.id("block/multiblock/processing_array"))
+                    .register();
 
     public static void init() {}
 }
