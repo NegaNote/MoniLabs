@@ -105,8 +105,7 @@ public class MoniMachines {
                     .where("X", blocks(GTBlocks.COMPUTER_CASING.get()))
                     .where("Y", blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
                     .where("C", blocks(GCYMBlocks.CASING_ATOMIC.get()).setMinGlobalLimited(220)
-                            .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
+                            .or(autoAbilities(definition.getRecipeTypes())))
                     .where("#", any())
                     .build())
             .additionalDisplay((controller, list) -> {
