@@ -114,6 +114,10 @@ public class MoniLabs {
         MoniMachines.init();
     }
 
+    public static ResourceLocation kjsResLoc(String path) {
+        return new ResourceLocation("kubejs", path);
+    }
+
     private void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
         MoniCovers.init();
     }

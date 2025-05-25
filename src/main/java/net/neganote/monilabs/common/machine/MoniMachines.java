@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.block.MoniBlocks;
@@ -33,7 +34,6 @@ public class MoniMachines {
 
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
-            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowExtendedFacing(false)
             .recipeTypes(MoniRecipeTypes.PRISMATIC_CRUCIBLE_RECIPES)
@@ -55,7 +55,9 @@ public class MoniMachines {
                     .aisle("LLL#######LLL", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
                     // spotless:on
                     .where('L',
-                            blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()).setMinGlobalLimited(9)
+                            blocks(ForgeRegistries.BLOCKS
+                                    .getValue(MoniLabs.kjsResLoc("dimensional_stabilization_netherite_casing")))
+                                    .setMinGlobalLimited(9)
                                     .or(autoAbilities(definition.getRecipeTypes()))
                                     .or(autoAbilities(true, false, false)))
                     .where('C', blocks(MoniBlocks.CHROMODYNAMIC_CONDUCTION_CASING.get()))
@@ -84,7 +86,6 @@ public class MoniMachines {
     public static MultiblockMachineDefinition OMNIC_SYNTHESIZER = REGISTRATE
             .multiblock("omnic_synthesizer", OmnicSynthesizerMachine::new)
             .recipeTypes(MoniRecipeTypes.OMNIC_SYNTHESIZER_RECIPES)
-            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     // spotless:off
                     .aisle("#CCCCC#", "#CCCCC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CGGGC#", "#CCCCC#", "#CCCCC#")
@@ -121,7 +122,6 @@ public class MoniMachines {
     public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = REGISTRATE
             .multiblock("creative_energy_multi", CreativeEnergyMultiMachine::new)
             .langValue("Omnidimensional Power Singularity")
-            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.CREATIVE_ENERGY_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
@@ -142,8 +142,10 @@ public class MoniMachines {
                     .aisle("#####NN@NN#####","#####NNNNN#####","#######F#######","#######F#######","#######F#######","###############","###############","###############","###############","#######H#######","#######H#######","#######H#######","#####AAHAA#####","#######H#######","#####AAHAA#####","#######H#######","#######H#######","#######H#######","#######R#######")
                     .aisle("###############","###############","###############","###############","###############","###############","###############","###############","###############","###############","###############","#######H#######","#######H#######","#######H#######","#######H#######","#######H#######","#######H#######","#######H#######","###############")
                     // spotless:on
-                    .where("N", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
-                            .or(autoAbilities(definition.getRecipeTypes())))
+                    .where("N",
+                            blocks(ForgeRegistries.BLOCKS
+                                    .getValue(MoniLabs.kjsResLoc("dimensional_stabilization_netherite_casing")))
+                                    .or(autoAbilities(definition.getRecipeTypes())))
                     .where("A", blocks(GCYMBlocks.CASING_ATOMIC.get()))
                     .where("F", frames(GTMaterials.NaquadahAlloy))
                     .where("V", blocks(GCYMBlocks.HEAT_VENT.get()))
@@ -161,7 +163,6 @@ public class MoniMachines {
     public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = REGISTRATE
             .multiblock("creative_data_multi", CreativeDataMultiMachine::new)
             .langValue("Creative Data Multi")
-            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.CREATIVE_DATA_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
@@ -190,8 +191,9 @@ public class MoniMachines {
                     .where("I", blocks(GTBlocks.MACHINE_CASING_UIV.get()))
                     .where("D", blocks(GTBlocks.COMPUTER_CASING.get())
                             .or(abilities(PartAbility.DATA_ACCESS)))
-                    .where("N", blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
-                            .or(autoAbilities(definition.getRecipeTypes())))
+                    .where("N",
+                            blocks(ForgeRegistries.BLOCKS.getValue(MoniLabs.kjsResLoc("bioalloy_casing")))
+                                    .or(autoAbilities(definition.getRecipeTypes())))
                     .build())
             .workableCasingRenderer(MoniLabs.id("block/dimensional_stabilization_netherite_casing"),
                     GTCEu.id("block/multiblock/processing_array"))
