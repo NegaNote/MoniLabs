@@ -78,8 +78,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     public void onStructureFormed() {
         super.onStructureFormed();
 
-        for (Long longPos : Objects.requireNonNull(activeBlocks)) {
-            BlockPos pos = BlockPos.of(longPos);
+        for (BlockPos pos : getMultiblockState().getCache()) {
             if (Objects.requireNonNull(getLevel()).getBlockState(pos).getBlock() == MoniBlocks.PRISMATIC_FOCUS.get()) {
                 focusPos = pos;
                 break;

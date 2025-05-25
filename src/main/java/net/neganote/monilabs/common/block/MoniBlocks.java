@@ -14,6 +14,7 @@ import net.neganote.monilabs.data.recipe.RecipeTags;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiFunction;
+import org.jetbrains.annotations.NotNull;
 
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
@@ -40,18 +41,24 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> CHROMODYNAMIC_CONDUCTION_CASING = registerPrismaticActiveBlock(
             "Chromodynamic Conduction Casing", "chromodynamic_conduction_casing", BlockItem::new);
 
-    public static BlockEntry<Block> DIMENSIONAL_STABILIZATION_NETHERITE_CASING = REGISTRATE
-            .block("dimensional_stabilization_netherite_casing", Block::new)
-            .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-            .blockstate(GTModels.cubeAllModel("dimensional_stabilization_netherite_casing",
-                    MoniLabs.id("block/dimensional_stabilization_netherite_casing")))
-            .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
-            .lang("Dimensional Stabilization Netherite Casing")
-            .item(BlockItem::new)
-            .build()
-            .register();
+    public static BlockEntry<Block> DIMENSIONAL_STABILIZATION_NETHERITE_CASING = registerSimpleBlock(
+            "dimensional_stabilization_netherite_casing", "Dimensional Stabilization Netherite Casing", BlockItem::new);
 
-    public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = registerPrismaticActiveBlock("Prismatic Focus",
-            "prismatic_focus", PrismaticFocusItem::new);
+    private static @NotNull BlockEntry<Block> registerSimpleBlock(String name, String lang,
+                                                                  NonNullBiFunction<Block, Item.Properties, ? extends BlockItem> func) {
+        return REGISTRATE
+                .block(name, Block::new)
+                .initialProperties(() -> Blocks.IRON_BLOCK)
+                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+                .blockstate(GTModels.cubeAllModel(name,
+                        MoniLabs.id("block/" + name)))
+                .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+                .lang(lang)
+                .item(func)
+                .build()
+                .register();
+    }
+
+    public static BlockEntry<Block> PRISMATIC_FOCUS = registerSimpleBlock("prismatic_focus",
+            "Prismatic Focus", PrismaticFocusItem::new);
 }
