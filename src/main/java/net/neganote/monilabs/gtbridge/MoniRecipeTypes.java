@@ -93,7 +93,7 @@ public class MoniRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
     public static GTRecipeType CREATIVE_ENERGY_RECIPES = GTRecipeTypes
-            .register("bheats", GTRecipeTypes.MULTIBLOCK)
+            .register("omnidimensional_power_singularity", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 1, 0);
 
     public static GTRecipeType CREATIVE_DATA_RECIPES = GTRecipeTypes

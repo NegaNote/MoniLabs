@@ -107,7 +107,6 @@ public class MoniMachines {
                     .where("C", blocks(GCYMBlocks.CASING_ATOMIC.get()).setMinGlobalLimited(220)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
-                    .where("#", air())
                     .where("#", any())
                     .build())
             .additionalDisplay((controller, list) -> {
@@ -122,7 +121,7 @@ public class MoniMachines {
 
     public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = REGISTRATE
             .multiblock("creative_energy_multi", CreativeEnergyMultiMachine::new)
-            .langValue("Black#Hole#Energy#Accumulation#and#Translocation#Station")
+            .langValue("Omnidimensional Power Singularity")
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.CREATIVE_ENERGY_RECIPES)
@@ -162,7 +161,7 @@ public class MoniMachines {
 
     public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = REGISTRATE
             .multiblock("creative_data_multi", CreativeDataMultiMachine::new)
-            .langValue("Creative#Data#Multi")
+            .langValue("Creative Data Multi")
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.CREATIVE_DATA_RECIPES)
