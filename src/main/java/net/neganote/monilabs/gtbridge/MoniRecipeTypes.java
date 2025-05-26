@@ -11,6 +11,7 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
+@SuppressWarnings("unused")
 public class MoniRecipeTypes {
 
     public static final GTRecipeType PRISMATIC_CRUCIBLE_RECIPES = GTRecipeTypes

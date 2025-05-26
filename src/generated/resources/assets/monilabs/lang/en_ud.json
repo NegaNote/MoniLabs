@@ -1,10 +1,5 @@
 {
   "block.monilabs.chromodynamic_conduction_casing": "buısɐƆ uoıʇɔnpuoƆ ɔıɯɐuʎpoɯoɹɥƆ",
-  "block.monilabs.creative_data_multi": "ıʇןnW ɐʇɐᗡ ǝʌıʇɐǝɹƆ",
-  "block.monilabs.creative_energy_multi": "ʎʇıɹɐןnbuıS ɹǝʍoԀ ןɐuoısuǝɯıpıuɯO",
-  "block.monilabs.dimensional_stabilization_netherite_casing": "buısɐƆ ǝʇıɹǝɥʇǝN uoıʇɐzıןıqɐʇS ןɐuoısuǝɯıᗡ",
-  "block.monilabs.omnic_synthesizer": "ɹǝzısǝɥʇuʎS ɔıuɯO",
-  "block.monilabs.prismatic_crucible": "ǝןqıɔnɹƆ ɔıʇɐɯsıɹԀ",
   "block.monilabs.prismatic_focus": "snɔoℲ ɔıʇɐɯsıɹԀ",
   "config.jade.plugin_monilabs.color_info": "oɟuI ɹoןoƆ ǝןqıɔnɹƆ ɔıʇɐɯsıɹԀ",
   "gtceu.creative_data": "uoıʇɐɹǝuǝ⅁ ɐʇɐᗡ ǝʌıʇɐǝɹƆ",
@@ -12,7 +7,6 @@
   "gtceu.omnidimensional_power_singularity": "ʎʇıɹɐןnbuıS ɹǝʍoԀ ןɐuoısuǝɯıpıuɯO",
   "gtceu.prismatic_crucible": "ǝןqıɔnɹƆ ɔıʇɐɯsıɹԀ",
   "item.monilabs.chroma_detector_cover": "ɹǝʌoƆ ɹoʇɔǝʇǝᗡ ɐɯoɹɥƆ",
-  "item.monilabs.mote_of_omnium": "ɯnıuɯO ɟo ǝʇoW",
   "itemGroup.monilabs.creative_tab": "sqɐꞀ ıuoW",
   "monilabs.omnic.current_diversity_points": "%s :sʇuıod ʎʇısɹǝʌıp ʇuǝɹɹnƆ",
   "monilabs.prismatic.color_name.azure": "ɹ§ǝɹnzⱯ6§",

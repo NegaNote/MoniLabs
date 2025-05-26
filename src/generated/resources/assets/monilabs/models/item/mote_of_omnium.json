@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "monilabs:item/mote_of_omnium",
-    "layer1": "monilabs:item/mote_of_omnium_overlay"
-  }
-}

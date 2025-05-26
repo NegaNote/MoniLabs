@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
+@SuppressWarnings("unused")
 public class MoniBlocks {
 
     public static void init() {}
@@ -40,9 +41,6 @@ public class MoniBlocks {
 
     public static BlockEntry<PrismaticActiveBlock> CHROMODYNAMIC_CONDUCTION_CASING = registerPrismaticActiveBlock(
             "Chromodynamic Conduction Casing", "chromodynamic_conduction_casing", BlockItem::new);
-
-    public static BlockEntry<Block> DIMENSIONAL_STABILIZATION_NETHERITE_CASING = registerSimpleBlock(
-            "dimensional_stabilization_netherite_casing", "Dimensional Stabilization Netherite Casing", BlockItem::new);
 
     private static @NotNull BlockEntry<Block> registerSimpleBlock(String name, String lang,
                                                                   NonNullBiFunction<Block, Item.Properties, ? extends BlockItem> func) {

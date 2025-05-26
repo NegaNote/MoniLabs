@@ -1,6 +1,5 @@
 package net.neganote.monilabs.client.renderer;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
@@ -19,7 +18,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.RenderTypeHelper;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.utils.LaserUtil;
 
@@ -37,13 +35,11 @@ import static net.minecraft.util.FastColor.ARGB32.*;
 import static net.minecraft.util.FastColor.ARGB32.alpha;
 
 // Parts copied from LargeChemicalBathRenderer
+@SuppressWarnings("unused")
 public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
 
-    public static final ResourceLocation BASE_CASING = MoniLabs.id("block/dimensional_stabilization_netherite_casing");
-    public static final ResourceLocation FRONT_TEXTURES = GTCEu.id("block/multiblock/processing_array");
-
-    public PrismaticCrucibleRenderer() {
-        super(BASE_CASING, FRONT_TEXTURES);
+    public PrismaticCrucibleRenderer(ResourceLocation baseCasing, ResourceLocation workableModel) {
+        super(baseCasing, workableModel);
     }
 
     @Override

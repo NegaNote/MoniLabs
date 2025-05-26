@@ -1,10 +1,5 @@
 {
   "block.monilabs.chromodynamic_conduction_casing": "Chromodynamic Conduction Casing",
-  "block.monilabs.creative_data_multi": "Creative Data Multi",
-  "block.monilabs.creative_energy_multi": "Omnidimensional Power Singularity",
-  "block.monilabs.dimensional_stabilization_netherite_casing": "Dimensional Stabilization Netherite Casing",
-  "block.monilabs.omnic_synthesizer": "Omnic Synthesizer",
-  "block.monilabs.prismatic_crucible": "Prismatic Crucible",
   "block.monilabs.prismatic_focus": "Prismatic Focus",
   "config.jade.plugin_monilabs.color_info": "Prismatic Crucible Color Info",
   "gtceu.creative_data": "Creative Data Generation",
@@ -12,7 +7,6 @@
   "gtceu.omnidimensional_power_singularity": "Omnidimensional Power Singularity",
   "gtceu.prismatic_crucible": "Prismatic Crucible",
   "item.monilabs.chroma_detector_cover": "Chroma Detector Cover",
-  "item.monilabs.mote_of_omnium": "Mote of Omnium",
   "itemGroup.monilabs.creative_tab": "Moni Labs",
   "monilabs.omnic.current_diversity_points": "Current diversity points: %s",
   "monilabs.prismatic.color_name.azure": "§9Azure§r",
