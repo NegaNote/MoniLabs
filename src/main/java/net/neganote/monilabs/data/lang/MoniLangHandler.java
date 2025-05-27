@@ -44,7 +44,6 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.diversity_info",
                 "Output is variable based on\nthe material diversity\nbefore each use of\nthe synthesizer.");
 
-        provider.add("gtceu.prismatic_crucible", "Prismatic Crucible");
         provider.add("gtceu.omnic_synthesis", "Omnic Synthesis");
         provider.add("gtceu.omnidimensional_power_singularity", "Omnidimensional Power Singularity");
         provider.add("gtceu.creative_data", "Creative Data Generation");
