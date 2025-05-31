@@ -7,6 +7,8 @@
   "gtceu.omniscience_research_beacon": "Omniscience Research Beacon",
   "item.monilabs.chroma_detector_cover": "Chroma Detector Cover",
   "itemGroup.monilabs.creative_tab": "Moni Labs",
+  "monilabs.multiblock.duplicate.1": "This multiblock is a duplicate",
+  "monilabs.multiblock.duplicate.2": "Only one can exist",
   "monilabs.omnic.current_diversity_points": "Current diversity points: %s",
   "monilabs.prismatic.color_name.azure": "§9Azure§r",
   "monilabs.prismatic.color_name.blue": "§1Blue§r",

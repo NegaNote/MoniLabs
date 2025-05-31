@@ -37,6 +37,9 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.any_input_color", "ANY");
         provider.add("monilabs.recipe.input_color_not", "NOT %s");
 
+        provider.add("monilabs.multiblock.duplicate.1", "This multiblock is a duplicate");
+        provider.add("monilabs.multiblock.duplicate.2", "Only one can exist");
+
         provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
         provider.add("monilabs.recipe.mistake_output_colors",
                 "You made a mistake defining this recipe's output colors.");

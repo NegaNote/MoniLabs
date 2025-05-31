@@ -2,14 +2,14 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 
 import net.minecraft.server.level.ServerLevel;
 import net.neganote.monilabs.saveddata.CreativeDataAccessSavedData;
 
 import java.util.UUID;
 
-public class CreativeDataMultiMachine extends WorkableElectricMultiblockMachine {
+@SuppressWarnings("unused")
+public class CreativeDataMultiMachine extends UniqueWorkableElectricMultiblockMachine {
 
     private final ConditionalSubscriptionHandler creativeDataSubscription;
 
