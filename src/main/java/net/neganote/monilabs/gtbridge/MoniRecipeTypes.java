@@ -97,11 +97,18 @@ public class MoniRecipeTypes {
 
     public static GTRecipeType CREATIVE_ENERGY_RECIPES = GTRecipeTypes
             .register("omnidimensional_power_singularity", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0, 0, 1, 0);
+            .setMaxIOSize(0, 0, 1, 0)
+            .addDataInfo(data -> LocalizationUtils.format("monilabs.recipe.infinite_power"))
+            .addDataInfo(data -> " ")
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL);
 
     public static GTRecipeType CREATIVE_DATA_RECIPES = GTRecipeTypes
-            .register("creative_data", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0, 0, 1, 0);
+            .register("omniscience_research_beacon", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 1, 0)
+            .addDataInfo(data -> " ")
+            .addDataInfo(data -> LocalizationUtils.format("monilabs.recipe.infinite_research"))
+            .addDataInfo(data -> " ")
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL);
 
     public static void init() {}
 }
