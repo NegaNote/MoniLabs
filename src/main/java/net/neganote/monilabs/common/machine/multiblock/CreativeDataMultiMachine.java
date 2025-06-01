@@ -38,6 +38,12 @@ public class CreativeDataMultiMachine extends UniqueWorkableElectricMultiblockMa
         }
     }
 
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        enableCreativeData(false);
+    }
+
     private void tickEnableCreativeData() {
         enableCreativeData(isActive() && getRecipeLogic().isWorkingEnabled());
     }

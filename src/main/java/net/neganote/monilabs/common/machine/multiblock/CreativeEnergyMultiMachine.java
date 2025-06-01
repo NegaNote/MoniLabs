@@ -38,6 +38,12 @@ public class CreativeEnergyMultiMachine extends UniqueWorkableElectricMultiblock
         }
     }
 
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        enableCreativeEnergy(false);
+    }
+
     private void tickEnableCreativeEnergy() {
         enableCreativeEnergy(isActive() && getRecipeLogic().isWorkingEnabled());
     }
