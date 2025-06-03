@@ -1,6 +1,7 @@
 {
   "values": [
     "monilabs:chromodynamic_conduction_casing",
-    "monilabs:prismatic_focus"
+    "monilabs:prismatic_focus",
+    "monilabs:knowledge_transmission_array"
   ]
 }

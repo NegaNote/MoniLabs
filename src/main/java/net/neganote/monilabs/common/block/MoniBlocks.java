@@ -42,21 +42,24 @@ public class MoniBlocks {
     public static BlockEntry<PrismaticActiveBlock> CHROMODYNAMIC_CONDUCTION_CASING = registerPrismaticActiveBlock(
             "Chromodynamic Conduction Casing", "chromodynamic_conduction_casing", BlockItem::new);
 
-    private static @NotNull BlockEntry<Block> registerSimpleBlock(String name, String lang,
+    private static @NotNull BlockEntry<Block> registerSimpleBlock(String name, String internal,
                                                                   NonNullBiFunction<Block, Item.Properties, ? extends BlockItem> func) {
         return REGISTRATE
-                .block(name, Block::new)
+                .block(internal, Block::new)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-                .blockstate(GTModels.cubeAllModel(name,
-                        MoniLabs.id("block/" + name)))
+                .blockstate(GTModels.cubeAllModel(internal,
+                        MoniLabs.id("block/" + internal)))
                 .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
-                .lang(lang)
+                .lang(name)
                 .item(func)
                 .build()
                 .register();
     }
 
-    public static BlockEntry<Block> PRISMATIC_FOCUS = registerSimpleBlock("prismatic_focus",
-            "Prismatic Focus", PrismaticFocusItem::new);
+    public static BlockEntry<Block> PRISMATIC_FOCUS = registerSimpleBlock("Prismatic Focus",
+            "prismatic_focus", PrismaticFocusItem::new);
+
+    public static BlockEntry<Block> KNOWLEDGE_TRANSMISSION_ARRAY = registerSimpleBlock("Knowledge Transmission Array",
+            "knowledge_transmission_array", BlockItem::new);
 }
