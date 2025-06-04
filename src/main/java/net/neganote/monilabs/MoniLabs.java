@@ -43,8 +43,8 @@ public class MoniLabs {
     public static RegistryEntry<CreativeModeTab> MONI_CREATIVE_TAB = REGISTRATE.defaultCreativeTab(MoniLabs.MOD_ID,
             builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(MoniLabs.MOD_ID, REGISTRATE))
-                    .title(REGISTRATE.addLang("itemGroup", MoniLabs.id("creative_tab"), "Moni Labs"))
-                    .icon(GTItems.ADVANCED_CIRCUIT_BOARD::asStack)
+                    .title(REGISTRATE.addLang("itemGroup", MoniLabs.id("creative_tab"), "Moni Labs (Coremod)"))
+                    .icon(MoniCovers.CHROMA_DETECTOR_ITEM::asStack)
                     .build())
             .register();
 
