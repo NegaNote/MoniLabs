@@ -42,7 +42,6 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
             return ingredients;
         } else {
             if (ingredient instanceof Color ingredientColor) {
-
                 ingredients.add(new MapColorIngredient(ingredientColor));
                 int key = ingredientColor.key;
 
@@ -84,6 +83,49 @@ public class ChromaRecipeCapability extends RecipeCapability<ChromaIngredient> {
                         case PINK -> ingredients.addAll(Stream.of(Color.NOT_COLORS).filter(c -> c != Color.NOT_PINK)
                                 .map(MapColorIngredient::new).toList());
 
+                    }
+                } else {
+                    switch (ingredientColor) {
+                        case NOT_RED -> ingredients.addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.RED)
+                                .map(MapColorIngredient::new).toList());
+                        case NOT_ORANGE -> ingredients
+                                .addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.ORANGE)
+                                        .map(MapColorIngredient::new).toList());
+                        case NOT_YELLOW -> ingredients
+                                .addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.YELLOW)
+                                        .map(MapColorIngredient::new).toList());
+                        case NOT_LIME -> ingredients.addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.LIME)
+                                .map(MapColorIngredient::new).toList());
+                        case NOT_GREEN -> ingredients
+                                .addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.GREEN)
+                                        .map(MapColorIngredient::new).toList());
+                        case NOT_TEAL -> ingredients.addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.TEAL)
+                                .map(MapColorIngredient::new).toList());
+                        case NOT_CYAN -> ingredients.addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.CYAN)
+                                .map(MapColorIngredient::new).toList());
+                        case NOT_AZURE -> ingredients
+                                .addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.AZURE)
+                                        .map(MapColorIngredient::new).toList());
+                        case NOT_BLUE -> ingredients.addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.BLUE)
+                                .map(MapColorIngredient::new).toList());
+                        case NOT_INDIGO -> ingredients
+                                .addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.INDIGO)
+                                        .map(MapColorIngredient::new).toList());
+                        case NOT_MAGENTA -> ingredients
+                                .addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.MAGENTA)
+                                        .map(MapColorIngredient::new).toList());
+                        case NOT_PINK -> ingredients.addAll(Stream.of(Color.ACTUAL_COLORS).filter(c -> c != Color.PINK)
+                                .map(MapColorIngredient::new).toList());
+                        case ANY -> ingredients
+                                .addAll(Stream.of(Color.ACTUAL_COLORS).map(MapColorIngredient::new).toList());
+                        case PRIMARY -> ingredients
+                                .addAll(Stream.of(Color.PRIMARY_COLORS).map(MapColorIngredient::new).toList());
+                        case SECONDARY -> ingredients
+                                .addAll(Stream.of(Color.SECONDARY_COLORS).map(MapColorIngredient::new).toList());
+                        case BASIC -> ingredients
+                                .addAll(Stream.of(Color.BASIC_COLORS).map(MapColorIngredient::new).toList());
+                        case TERTIARY -> ingredients
+                                .addAll(Stream.of(Color.TERTIARY_COLORS).map(MapColorIngredient::new).toList());
                     }
                 }
                 return ingredients;

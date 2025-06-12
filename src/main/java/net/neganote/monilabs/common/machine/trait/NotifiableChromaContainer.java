@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
+import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
@@ -17,6 +18,7 @@ import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<ChromaIngredient> {
 
@@ -50,9 +52,10 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     @Override
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left,
                                                     boolean simulate) {
-        List<Color> colors = recipe.getInputContents(MoniRecipeCapabilities.CHROMA)
-                .stream().map(c -> ((ChromaIngredient) c.getContent()).color())
-                .toList();
+        Color recipeColor = ((ChromaIngredient) recipe.getInputContents(MoniRecipeCapabilities.CHROMA).get(0)
+                .getContent()).color();
+        List<Color> colors = MoniRecipeCapabilities.CHROMA.convertToMapIngredient(recipeColor).stream()
+                .map(MapColorIngredient.class::cast).filter(Objects::nonNull).map(ing -> ing.color).toList();
         int key = this.heldColor.key;
         for (Color color : colors) {
             if (color.key > Color.ACTUAL_COLOR_COUNT) {
@@ -112,10 +115,9 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
                         }
                     }
                 }
-            } else {
-                if (this.heldColor == color) {
-                    return null;
-                }
+            }
+            if (this.heldColor == color) {
+                return null;
             }
         }
         return left;

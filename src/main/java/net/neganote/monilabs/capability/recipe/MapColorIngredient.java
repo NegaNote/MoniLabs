@@ -6,7 +6,7 @@ import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.
 
 public class MapColorIngredient extends AbstractMapIngredient {
 
-    private final Color color;
+    public final Color color;
 
     public MapColorIngredient(Color color) {
         this.color = color;

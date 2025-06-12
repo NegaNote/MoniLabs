@@ -140,6 +140,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         getCoverContainer().getCovers().forEach((CoverBehavior::onChanged));
+        updateActiveBlocks(isFormed());
     }
 
     @Override
@@ -239,6 +240,14 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         public static final Color[] NOT_COLORS = Arrays.copyOfRange(COLORS, 17, 29);
 
+        public static final Color[] PRIMARY_COLORS = new Color[] { RED, GREEN, BLUE };
+
+        public static final Color[] SECONDARY_COLORS = new Color[] { YELLOW, CYAN, MAGENTA };
+
+        public static final Color[] BASIC_COLORS = new Color[] { RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA };
+
+        public static final Color[] TERTIARY_COLORS = new Color[] { ORANGE, LIME, TEAL, AZURE, INDIGO, PINK };
+
         public final String nameKey;
         public final int key;
         public final float r;
@@ -278,6 +287,13 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         public static Color getColorFromKey(int pKey) {
             return COLORS[pKey];
+        }
+
+        @Override
+        public String toString() {
+            return "Color{" +
+                    "nameKey='" + nameKey + '\'' +
+                    '}';
         }
 
         public static int getRandomColor() {
