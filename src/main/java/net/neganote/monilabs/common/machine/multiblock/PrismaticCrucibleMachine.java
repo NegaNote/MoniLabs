@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
@@ -69,7 +70,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public void onStructureInvalid() {
         changeColorState(Color.RED);
-        updateActiveBlocks(false);
         fluidBlockOffsets.clear();
         super.onStructureInvalid();
     }
@@ -127,13 +127,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             }
 
             if (recipe.data.contains("color_change_relative") && recipe.data.getBoolean("color_change_relative")) {
-                newKey = (color.key + newKey) % Color.ACTUAL_COLOR_COUNT;
+                newKey = Mth.positiveModulo(color.key + newKey, Color.ACTUAL_COLOR_COUNT);
             }
         } else {
             newKey = Color.getRandomColor();
         }
         changeColorState(Color.getColorFromKey(newKey));
-        updateActiveBlocks(true);
     }
 
     private void changeColorState(Color newColor) {
