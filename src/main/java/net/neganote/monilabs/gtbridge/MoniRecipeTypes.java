@@ -95,6 +95,12 @@ public class MoniRecipeTypes {
             .addDataInfo(data -> " ")
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static GTRecipeType SCULK_VAT_RECIPES = GTRecipeTypes
+            .register("sculk_vat", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 1, 1)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
     public static GTRecipeType CREATIVE_ENERGY_RECIPES = GTRecipeTypes
             .register("omnidimensional_power_singularity", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 1, 0)
