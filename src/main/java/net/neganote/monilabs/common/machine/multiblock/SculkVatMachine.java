@@ -43,7 +43,6 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
                 double modifier = Math.pow(1.0 / Math.exp(7.0 * Math.pow((x - 0.5), 2.0)), 2.0);
                 MoniLabs.LOGGER.debug("sculk vat modifier: {}", modifier);
                 return ModifierFunction.builder()
-                        .inputModifier(new ContentModifier(modifier, 0.0))
                         .outputModifier(new ContentModifier(modifier, 0.0))
                         .build();
             } else {
