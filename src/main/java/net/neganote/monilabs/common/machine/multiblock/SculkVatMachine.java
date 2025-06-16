@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
 import net.minecraftforge.fluids.FluidStack;
-import net.neganote.monilabs.MoniLabs;
 
 @SuppressWarnings("unused")
 public class SculkVatMachine extends WorkableElectricMultiblockMachine {
@@ -32,16 +31,13 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
                 }
                 var fluidExportHatchTank = tempList.get(0);
                 int capacity = fluidExportHatchTank.getTankCapacity(0);
-                MoniLabs.LOGGER.debug("Sculk vat capacity: {}", capacity);
                 var contents = fluidExportHatchTank.getContents();
                 int stored = 0;
                 if (!contents.isEmpty()) {
                     stored = ((FluidStack) contents.get(0)).getAmount();
                 }
-                MoniLabs.LOGGER.debug("sculk vat stored: {}", stored);
                 double x = (double) stored / capacity;
                 double modifier = Math.pow(1.0 / Math.exp(7.0 * Math.pow((x - 0.5), 2.0)), 2.0);
-                MoniLabs.LOGGER.debug("sculk vat modifier: {}", modifier);
                 return ModifierFunction.builder()
                         .outputModifier(new ContentModifier(modifier, 0.0))
                         .build();
