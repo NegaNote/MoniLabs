@@ -1,10 +1,14 @@
 package net.neganote.monilabs.common.machine;
 
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
 import net.minecraft.network.chat.Component;
+import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.client.renderer.ChromaSensorHatchRenderer;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +34,15 @@ public class MoniMachines {
             }
         };
     }
+
+    public static MachineDefinition CHROMA_SENSOR_HATCH = MoniLabs.REGISTRATE
+            .machine("chroma_sensor_hatch", ChromaSensorHatchPartMachine::new)
+            .langValue("Chroma Sensor Hatch")
+            .tooltips(Component.translatable("monilabs.tooltip.chroma_sensor_hatch.0"),
+                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
+                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
+            .renderer(() -> new ChromaSensorHatchRenderer("block/overlay/machine/overlay_chroma_sensor_"))
+            .register();
 
     public static void init() {}
 }

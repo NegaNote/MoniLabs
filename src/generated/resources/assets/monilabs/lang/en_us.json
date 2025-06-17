@@ -1,4 +1,5 @@
 {
+  "block.monilabs.chroma_sensor_hatch": "Chroma Sensor Hatch",
   "block.monilabs.chromodynamic_conduction_casing": "Chromodynamic Conduction Casing",
   "block.monilabs.knowledge_transmission_array": "Knowledge Transmission Array",
   "block.monilabs.prismatic_focus": "Prismatic Focus",
@@ -6,7 +7,6 @@
   "gtceu.omnic_synthesis": "Omnic Synthesis",
   "gtceu.omnidimensional_power_singularity": "Omnidimensional Power Singularity",
   "gtceu.omniscience_research_beacon": "Omniscience Research Beacon",
-  "item.monilabs.chroma_detector_cover": "Chroma Detector Cover",
   "itemGroup.monilabs.creative_tab": "Moni Labs (Coremod)",
   "monilabs.multiblock.duplicate.1": "This multiblock is a duplicate",
   "monilabs.multiblock.duplicate.2": "Only one can exist",
@@ -43,6 +43,9 @@
   "monilabs.recipe.result_color_relative": "Resulting Color Increment: \n%s",
   "monilabs.recipe.secondary_input": "Secondary",
   "monilabs.recipe.tertiary_input": "Tertiary",
+  "monilabs.tooltip.chroma_sensor_hatch.0": "Outputs color state of Prismatic Crucible",
+  "monilabs.tooltip.chroma_sensor_hatch.1": "as a redstone signal. 0 for unformed,",
+  "monilabs.tooltip.chroma_sensor_hatch.2": "1-12 for each color the PrismaC can be in.",
   "monilabs.tooltip.prismatic.0": "Use the power of %s to transform items!",
   "monilabs.tooltip.prismatic.1": "Recipes MUST be input in the correct color state!",
   "monilabs.tooltip.prismatic.2": "They can even change the crucible's color randomly!",

@@ -60,6 +60,10 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.prismatic.2", "They can even change the crucible's color randomly!");
         provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
 
+        provider.add("monilabs.tooltip.chroma_sensor_hatch.0", "Outputs color state of Prismatic Crucible");
+        provider.add("monilabs.tooltip.chroma_sensor_hatch.1", "as a redstone signal. 0 for unformed,");
+        provider.add("monilabs.tooltip.chroma_sensor_hatch.2", "1-12 for each color the PrismaC can be in.");
+
         provider.add("config.jade.plugin_monilabs.color_info", "Prismatic Crucible Color Info");
     }
 }

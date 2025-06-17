@@ -21,7 +21,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.common.block.MoniBlocks;
-import net.neganote.monilabs.common.cover.MoniCovers;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.config.MoniConfig;
@@ -43,7 +42,7 @@ public class MoniLabs {
             builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(MoniLabs.MOD_ID, REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", MoniLabs.id("creative_tab"), "Moni Labs (Coremod)"))
-                    .icon(MoniCovers.CHROMA_DETECTOR_ITEM::asStack)
+                    .icon(MoniMachines.CHROMA_SENSOR_HATCH::asStack)
                     .build())
             .register();
 
@@ -117,7 +116,5 @@ public class MoniLabs {
         return new ResourceLocation("kubejs", path);
     }
 
-    private void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
-        MoniCovers.init();
-    }
+    private void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {}
 }
