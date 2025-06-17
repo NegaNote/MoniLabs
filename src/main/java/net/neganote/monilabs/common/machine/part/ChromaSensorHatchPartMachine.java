@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 
 import net.minecraft.core.Direction;
-import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +18,6 @@ public class ChromaSensorHatchPartMachine extends TieredPartMachine {
     @Override
     public int getOutputSignal(Direction direction) {
         if (direction == getFrontFacing() || direction == getFrontFacing().getOpposite()) {
-            MoniLabs.LOGGER.info("Direction: {}, front facing: {}", direction, getFrontFacing());
             var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
                     .map(PrismaticCrucibleMachine.class::cast)
                     .toList();
