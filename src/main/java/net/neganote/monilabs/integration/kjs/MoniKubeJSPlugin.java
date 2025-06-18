@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.machine.MoniMachines;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.common.machine.multiblock.*;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.integration.kjs.recipe.MoniRecipeSchema;
 
@@ -51,5 +51,13 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("MoniRecipeTypes", MoniRecipeTypes.class);
         event.add("PrismaticColor", PrismaticCrucibleMachine.Color.class);
         event.add("SpecialCase", MoniRecipeSchema.SpecialCase.class);
+
+        // Specific Machines
+        event.add("AntimatterGeneratorMachine", AntimatterGeneratorMachine.class);
+        event.add("CreativeDataMultiMachine", CreativeDataMultiMachine.class);
+        event.add("CreativeEnergyMultiMachine", CreativeEnergyMultiMachine.class);
+        event.add("OmnicSynthesizerMachine", OmnicSynthesizerMachine.class);
+        event.add("PrismaticCrucibleMachine", PrismaticCrucibleMachine.class);
+        event.add("SculkVatMachine", SculkVatMachine.class);
     }
 }
