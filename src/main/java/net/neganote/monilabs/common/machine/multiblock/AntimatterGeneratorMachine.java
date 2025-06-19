@@ -4,10 +4,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -17,25 +13,6 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
 
     public AntimatterGeneratorMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-    }
-
-    public static RecipeModifier recipeModifier() {
-        return (machine, recipe) -> {
-            if (machine instanceof AntimatterGeneratorMachine antiGenerator) {
-                var parallels = ParallelLogic.getParallelAmount(machine, recipe, 1000000000);
-                if (parallels == 1) {
-                    return ModifierFunction.IDENTITY;
-                } else {
-                    return ModifierFunction.builder()
-                            .modifyAllContents(ContentModifier.multiplier(parallels))
-                            .eutMultiplier(parallels)
-                            .parallels(parallels)
-                            .build();
-                }
-            } else {
-                return ModifierFunction.IDENTITY;
-            }
-        };
     }
 
     @Override

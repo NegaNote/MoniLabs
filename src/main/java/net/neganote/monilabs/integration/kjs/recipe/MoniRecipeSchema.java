@@ -73,6 +73,11 @@ public interface MoniRecipeSchema {
                 case ANY -> this.addData("output_states", Color.COLOR_COUNT);
             };
         }
+
+        public GTRecipeSchema.GTRecipeJS activateAntimatterRandomness() {
+            this.addDataBool("antimatterRandom", true);
+            return this;
+        }
     }
 
     RecipeSchema SCHEMA = new RecipeSchema(MoniRecipeJS.class, MoniRecipeJS::new, DURATION, DATA, CONDITIONS,

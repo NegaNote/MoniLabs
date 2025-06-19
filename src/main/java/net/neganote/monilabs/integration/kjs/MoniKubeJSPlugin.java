@@ -8,6 +8,7 @@ import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.common.machine.multiblock.*;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.integration.kjs.recipe.MoniRecipeSchema;
+import net.neganote.monilabs.recipe.MoniRecipeModifiers;
 
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.recipe.schema.RegisterRecipeSchemasEvent;
@@ -49,6 +50,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("MoniMachines", MoniMachines.class);
         event.add("MoniBlocks", MoniBlocks.class);
         event.add("MoniRecipeTypes", MoniRecipeTypes.class);
+        event.add("MoniRecipeModifiers", MoniRecipeModifiers.class);
         event.add("PrismaticColor", PrismaticCrucibleMachine.Color.class);
         event.add("SpecialCase", MoniRecipeSchema.SpecialCase.class);
 
@@ -58,6 +60,5 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("CreativeEnergyMultiMachine", CreativeEnergyMultiMachine.class);
         event.add("OmnicSynthesizerMachine", OmnicSynthesizerMachine.class);
         event.add("PrismaticCrucibleMachine", PrismaticCrucibleMachine.class);
-        event.add("SculkVatMachine", SculkVatMachine.class);
     }
 }
