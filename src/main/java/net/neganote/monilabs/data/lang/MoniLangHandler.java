@@ -49,10 +49,13 @@ public class MoniLangHandler {
 
         provider.add("monilabs.recipe.infinite_power", "Imbues your factory with\nInfinite Power");
         provider.add("monilabs.recipe.infinite_research", "Imbues your factory with\nthe Wisdom of the Universe");
+        provider.add("monilabs.recipe.antimatter_random_range", "Input and outputs\nvary by %sx-%sx");
 
+        provider.add("gtceu.sculk_vat", "Sculk Vat");
         provider.add("gtceu.omnic_synthesis", "Omnic Synthesis");
         provider.add("gtceu.omnidimensional_power_singularity", "Omnidimensional Power Singularity");
         provider.add("gtceu.omniscience_research_beacon", "Omniscience Research Beacon");
+        provider.add("gtceu.antimatter_manipulator", "Antimatter Manipulation");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
         provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");

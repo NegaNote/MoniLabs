@@ -100,8 +100,10 @@ public class MoniRecipeModifiers {
         };
     }
 
-    public static RecipeModifier antiMatterManipulatorRecipeModifier(float minInclusive, float maxExclusive) {
+    public static RecipeModifier antiMatterManipulatorRecipeModifier() {
         return (machine, recipe) -> {
+            float minInclusive = MoniConfig.INSTANCE.values.antimatterRandomMinInclusive;
+            float maxExclusive = MoniConfig.INSTANCE.values.antimatterRandomMaxExclusive;
             FloatProvider rand = UniformFloat.of(minInclusive, maxExclusive);
             boolean shouldBeRandom = recipe.data.contains("antimatterRandom") &&
                     recipe.data.getBoolean("antimatterRandom");

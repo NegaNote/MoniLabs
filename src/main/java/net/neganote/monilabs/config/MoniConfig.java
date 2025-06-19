@@ -28,5 +28,11 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "The exponent used each time the Omnic Synthesizer performs an operation." })
         public double omnicSynthesizerExponent = 1.557;
+        @Configurable
+        @Configurable.Comment({ "Minimum multiplier to antimatter generation (inclusive)." })
+        public float antimatterRandomMinInclusive = 0.5f;
+        @Configurable
+        @Configurable.Comment({ "Maximum multiplier to antimatter generation (exclusive)." })
+        public float antimatterRandomMaxExclusive = 2.0f;
     }
 }

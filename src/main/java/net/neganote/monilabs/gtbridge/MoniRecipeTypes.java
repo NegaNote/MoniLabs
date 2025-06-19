@@ -4,12 +4,14 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.config.MoniConfig;
 
 @SuppressWarnings("unused")
 public class MoniRecipeTypes {
@@ -115,6 +117,21 @@ public class MoniRecipeTypes {
             .addDataInfo(data -> LocalizationUtils.format("monilabs.recipe.infinite_research"))
             .addDataInfo(data -> " ")
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL);
+
+    public static GTRecipeType ANTIMATTER_MANIPULATOR_RECIPES = GTRecipeTypes
+            .register("antimatter_manipulator", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 1, 1, 1)
+            .addDataInfo(data -> {
+                if (data.contains("antimatterRandom") && data.getBoolean("antimatterRandom")) {
+                    float minInclusive = MoniConfig.INSTANCE.values.antimatterRandomMinInclusive;
+                    float maxExclusive = MoniConfig.INSTANCE.values.antimatterRandomMaxExclusive;
+                    return LocalizationUtils.format("monilabs.recipe.antimatter_random_range",
+                            FormattingUtil.formatNumber2Places(minInclusive),
+                            FormattingUtil.formatNumber2Places(maxExclusive));
+                } else {
+                    return "";
+                }
+            });
 
     public static void init() {}
 }
