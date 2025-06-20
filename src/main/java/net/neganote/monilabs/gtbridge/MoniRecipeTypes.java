@@ -87,40 +87,10 @@ public class MoniRecipeTypes {
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
     }
 
-    public static GTRecipeType OMNIC_SYNTHESIZER_RECIPES = GTRecipeTypes
-            .register("omnic_synthesis", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(1, 1, 0, 0)
-            .setEUIO(IO.IN)
-            .addDataInfo(data -> LocalizationUtils.format("monilabs.recipe.diversity_info"))
-            .addDataInfo(data -> " ")
-            .addDataInfo(data -> " ")
-            .addDataInfo(data -> " ")
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
-
-    public static GTRecipeType SCULK_VAT_RECIPES = GTRecipeTypes
-            .register("sculk_vat", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0, 0, 1, 1)
-            .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
-
-    public static GTRecipeType CREATIVE_ENERGY_RECIPES = GTRecipeTypes
-            .register("omnidimensional_power_singularity", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0, 0, 1, 0)
-            .addDataInfo(data -> LocalizationUtils.format("monilabs.recipe.infinite_power"))
-            .addDataInfo(data -> " ")
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL);
-
-    public static GTRecipeType CREATIVE_DATA_RECIPES = GTRecipeTypes
-            .register("omniscience_research_beacon", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0, 0, 1, 0)
-            .addDataInfo(data -> " ")
-            .addDataInfo(data -> LocalizationUtils.format("monilabs.recipe.infinite_research"))
-            .addDataInfo(data -> " ")
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL);
-
     public static GTRecipeType ANTIMATTER_MANIPULATOR_RECIPES = GTRecipeTypes
             .register("antimatter_manipulator", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(1, 1, 1, 1)
+            .setMaxIOSize(1, 1, 3, 1)
+            .setEUIO(IO.IN)
             .addDataInfo(data -> {
                 if (data.contains("antimatterRandom") && data.getBoolean("antimatterRandom")) {
                     float minInclusive = MoniConfig.INSTANCE.values.antimatterRandomMinInclusive;

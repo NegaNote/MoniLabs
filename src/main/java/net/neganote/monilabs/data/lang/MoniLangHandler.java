@@ -44,17 +44,8 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.mistake_output_colors",
                 "You made a mistake defining this recipe's output colors.");
 
-        provider.add("monilabs.recipe.diversity_info",
-                "Output is variable based on\nthe material diversity\nbefore each use of\nthe synthesizer.");
-
-        provider.add("monilabs.recipe.infinite_power", "Imbues your factory with\nInfinite Power");
-        provider.add("monilabs.recipe.infinite_research", "Imbues your factory with\nthe Wisdom of the Universe");
         provider.add("monilabs.recipe.antimatter_random_range", "Input and outputs\nvary by %sx-%sx");
 
-        provider.add("gtceu.sculk_vat", "Sculk Vat");
-        provider.add("gtceu.omnic_synthesis", "Omnic Synthesis");
-        provider.add("gtceu.omnidimensional_power_singularity", "Omnidimensional Power Singularity");
-        provider.add("gtceu.omniscience_research_beacon", "Omniscience Research Beacon");
         provider.add("gtceu.antimatter_manipulator", "Antimatter Manipulation");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
