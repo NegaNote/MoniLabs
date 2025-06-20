@@ -37,7 +37,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
     }
 
     private void generateEnergyTick() {
-        if (isWorkingEnabled()) {
+        if (isWorkingEnabled() && isFormed()) {
             List<IFluidHandlerModifiable> hatches = getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP)
                     .stream()
                     .filter(IFluidHandlerModifiable.class::isInstance)
@@ -68,7 +68,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
             int reactive = Math.min(hatches.get(0).getFluidInTank(0).getAmount(),
                     hatches.get(1).getFluidInTank(0).getAmount());
 
-            double bonus = Math.log10(reactive);
+            double bonus = Math.log10(reactive) + 1.0;
 
             assert getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP).size() ==
                     1 : "There must be exactly 1 dynamo or laser source hatch on the Antimatter Generator";
@@ -86,5 +86,17 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
         for (var hatch : hatches) {
             hatch.setFluidInTank(0, FluidStack.EMPTY);
         }
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        generationSubscription.updateSubscription();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        generationSubscription.updateSubscription();
     }
 }
