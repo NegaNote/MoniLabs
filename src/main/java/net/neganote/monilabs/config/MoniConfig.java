@@ -1,5 +1,7 @@
 package net.neganote.monilabs.config;
 
+import com.gregtechceu.gtceu.api.GTValues;
+
 import net.neganote.monilabs.MoniLabs;
 
 import dev.toma.configuration.Configuration;
@@ -34,5 +36,14 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "Maximum multiplier to antimatter generation (exclusive)." })
         public float antimatterRandomMaxExclusive = 2.0f;
+        @Configurable
+        @Configurable.Comment({ "Maximum multiplier to antimatter generation (exclusive)." })
+        public long euPerAntimatterMillibucket = GTValues.V[GTValues.UEV];
+        @Configurable
+        @Configurable.Comment({ "Fluid ID for the antimatter fuel." })
+        public String antimatterFuelID = "minecraft:water";
+        @Configurable
+        @Configurable.Comment({ "Fluid ID for the matter to annihilate with the antimatter fuel." })
+        public String annihilatableMatterID = "minecraft:lava";
     }
 }
