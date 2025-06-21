@@ -88,7 +88,8 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
                     .filter(IEnergyContainer.class::isInstance)
                     .map(IEnergyContainer.class::cast)
                     .forEach(container -> container.addEnergy(
-                            (long) (reactive * MoniConfig.INSTANCE.values.euPerAntimatterMillibucket * batchBonus * tierBonus)));
+                            (long) (reactive * MoniConfig.INSTANCE.values.euPerAntimatterMillibucket * batchBonus *
+                                    tierBonus)));
             voidFluids(hatches);
         }
     }

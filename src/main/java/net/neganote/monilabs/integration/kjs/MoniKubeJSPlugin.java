@@ -7,6 +7,7 @@ import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.common.machine.multiblock.*;
+import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.integration.kjs.recipe.MoniRecipeSchema;
 import net.neganote.monilabs.recipe.MoniRecipeModifiers;
@@ -52,6 +53,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("MoniBlocks", MoniBlocks.class);
         event.add("MoniRecipeTypes", MoniRecipeTypes.class);
         event.add("MoniRecipeModifiers", MoniRecipeModifiers.class);
+        event.add("MoniConfig", MoniConfig.class);
         event.add("PrismaticColor", PrismaticCrucibleMachine.Color.class);
         event.add("SpecialCase", MoniRecipeSchema.SpecialCase.class);
 
