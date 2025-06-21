@@ -23,6 +23,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
     protected ConditionalSubscriptionHandler generationSubscription;
     protected Fluid antimatterFuelFluid;
     protected Fluid annihilatableMatterFluid;
+    protected Fluid annihilatableMatterBonusFluid;
 
     public AntimatterGeneratorMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -34,6 +35,9 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
         this.annihilatableMatterFluid = ForgeRegistries.FLUIDS
                 .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.annihilatableMatterID, ':'));
         assert this.annihilatableMatterFluid != null : "annihilatableMatterID is not a valid fluid ID";
+        this.annihilatableMatterBonusFluid = ForgeRegistries.FLUIDS
+                .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.annihilatableMatterBonusID, ':'));
+        assert this.annihilatableMatterBonusFluid != null : "annihilatableMatterBonusID is not a valid fluid ID";
     }
 
     private void generateEnergyTick() {
@@ -60,7 +64,14 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
             }
 
             int tankWithMatter = tankWithFuel == 0 ? 1 : 0;
-            if (hatches.get(tankWithMatter).getFluidInTank(0).getFluid() != annihilatableMatterFluid) {
+            Fluid matterFluid = hatches.get(tankWithMatter).getFluidInTank(0).getFluid();
+
+            double tierBonus;
+            if (matterFluid == annihilatableMatterBonusFluid) {
+                tierBonus = MoniConfig.INSTANCE.values.antimatterSecondTierBonusMultiplier;
+            } else if (matterFluid == annihilatableMatterFluid) {
+                tierBonus = 1.0;
+            } else {
                 voidFluids(hatches);
                 return;
             }
@@ -68,7 +79,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
             int reactive = Math.min(hatches.get(0).getFluidInTank(0).getAmount(),
                     hatches.get(1).getFluidInTank(0).getAmount());
 
-            double bonus = Math.log10(reactive) + 1.0;
+            double batchBonus = Math.log10(reactive) + 1.0;
 
             assert getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP).size() ==
                     1 : "There must be exactly 1 dynamo or laser source hatch on the Antimatter Generator";
@@ -77,7 +88,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
                     .filter(IEnergyContainer.class::isInstance)
                     .map(IEnergyContainer.class::cast)
                     .forEach(container -> container.addEnergy(
-                            (long) (reactive * MoniConfig.INSTANCE.values.euPerAntimatterMillibucket * bonus)));
+                            (long) (reactive * MoniConfig.INSTANCE.values.euPerAntimatterMillibucket * batchBonus * tierBonus)));
             voidFluids(hatches);
         }
     }
