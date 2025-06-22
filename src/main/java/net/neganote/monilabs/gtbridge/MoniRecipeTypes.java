@@ -101,7 +101,8 @@ public class MoniRecipeTypes {
                 } else {
                     return "";
                 }
-            });
+            })
+            .addDataInfo(data -> "");
 
     public static void init() {}
 }
