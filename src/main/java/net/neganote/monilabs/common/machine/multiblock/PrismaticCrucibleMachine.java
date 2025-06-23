@@ -14,7 +14,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
@@ -52,6 +51,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Persisted
     private BlockPos focusPos;
 
+    private BlockPos structMin;
+
+    private BlockPos structMax;
+
     @Persisted
     private final NotifiableChromaContainer notifiableChromaContainer;
 
@@ -59,8 +62,29 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super(holder, args);
         this.color = Color.RED;
         this.notifiableChromaContainer = new NotifiableChromaContainer(this);
+        structMin = getPos();
+        structMax = getPos();
         saveOffsets();
         focusPos = null;
+    }
+
+    private void saveStructBoundingBox() {
+        var cache = getMultiblockState().getCache();
+        if (structMin.equals(getPos()) && structMax.equals(getPos())) {
+            for (BlockPos pos : cache) {
+                if (structMin == null || structMax == null) {
+                    structMin = pos;
+                    structMax = pos;
+                } else {
+                    structMin = new BlockPos(Math.min(pos.getX(), structMin.getX()),
+                            Math.min(pos.getY(), structMin.getY()),
+                            Math.min(pos.getZ(), structMin.getZ()));
+                    structMax = new BlockPos(Math.max(pos.getX(), structMax.getX()),
+                            Math.max(pos.getY(), structMax.getY()),
+                            Math.max(pos.getZ(), structMax.getZ()));
+                }
+            }
+        }
     }
 
     @Override
@@ -86,6 +110,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                 break;
             }
         }
+
+        saveStructBoundingBox();
 
         saveOffsets();
         updateActiveBlocks(true);
@@ -141,7 +167,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         getCoverContainer().getCovers().forEach((CoverBehavior::onChanged));
-        updateActiveBlocks(isFormed());
         getParts().stream().filter(ChromaSensorHatchPartMachine.class::isInstance)
                 .map(ChromaSensorHatchPartMachine.class::cast)
                 .forEach(IRedstoneSignalMachine::updateSignal);
@@ -149,28 +174,30 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     @Override
     public void updateActiveBlocks(boolean active) {
-        super.updateActiveBlocks(isFormed());
         if (activeBlocks != null) {
-            for (Long pos : activeBlocks) {
+            for (long pos : activeBlocks) {
                 var blockPos = BlockPos.of(pos);
                 var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
                 if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
-                    var newState = block.changeColor(blockState, color.key);
+                    var newState = block.changeActive(blockState, active || isFormed());
+                    newState = block.changeColor(newState, color.key);
                     if (newState != blockState) {
                         getLevel().setBlockAndUpdate(blockPos, newState);
                     }
                 }
             }
         } else if (!isFormed()) {
-            // this horrifying mess is required in order to get the multi to turn off the casings
-            // if an IMultiPart is broken. As for why? fuck if I know ¯\_(ツ)_/¯
-            var cache = getMultiblockState().getCache();
-            for (BlockPos pos : cache) {
-                BlockState blockState = Objects.requireNonNull(getLevel()).getBlockState(pos);
-                if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
-                    var newState = block.changeActive(blockState, false);
-                    if (newState != blockState) {
-                        getLevel().setBlockAndUpdate(pos, newState);
+            for (int x = structMin.getX(); x <= structMax.getX(); x++) {
+                for (int y = structMin.getY(); y <= structMax.getY(); y++) {
+                    for (int z = structMin.getZ(); z <= structMax.getZ(); z++) {
+                        var blockPos = new BlockPos(x, y, z);
+                        var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
+                        if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
+                            var newState = block.changeActive(blockState, false);
+                            if (newState != blockState) {
+                                getLevel().setBlockAndUpdate(blockPos, newState);
+                            }
+                        }
                     }
                 }
             }
