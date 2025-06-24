@@ -9,7 +9,8 @@ import net.neganote.monilabs.client.renderer.ChromaSensorHatchRenderer;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
-import net.neganote.monilabs.common.machine.part.XPHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.SculkExperienceSensorHatchPartMachine;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,9 +46,15 @@ public class MoniMachines {
             .renderer(() -> new ChromaSensorHatchRenderer("block/overlay/machine/overlay_chroma_sensor_"))
             .register();
 
-    public static MachineDefinition XP_HATCH = MoniLabs.REGISTRATE
-            .machine("xp_hatch", XPHatchPartMachine::new)
-            .langValue("XP Hatch")
+    public static MachineDefinition SCULK_XP_DRAINING_HATCH = MoniLabs.REGISTRATE
+            .machine("sculk_xp_draining_hatch", SculkExperienceDrainingHatchPartMachine::new)
+            .langValue("Sculk XP Draining Hatch")
+            .overlayTieredHullRenderer("") // TODO: get actual overlay for XP Hatch
+            .register();
+
+    public static MachineDefinition SCULK_XP_SENSOR_HATCH = MoniLabs.REGISTRATE
+            .machine("sculk_xp_sensor_hatch", SculkExperienceSensorHatchPartMachine::new)
+            .langValue("Sculk XP Sensor Hatch")
             .overlayTieredHullRenderer("") // TODO: get actual overlay for XP Hatch
             .register();
 

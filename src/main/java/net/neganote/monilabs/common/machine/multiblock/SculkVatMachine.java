@@ -12,7 +12,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
-import net.neganote.monilabs.common.machine.part.XPHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.SculkExperienceSensorHatchPartMachine;
 
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -38,9 +39,9 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
     private void xpHatchTick() {
         if (timer == 0 && isWorkingEnabled()) {
             var array = getParts().stream()
-                    .filter(XPHatchPartMachine.class::isInstance)
-                    .map(XPHatchPartMachine.class::cast)
-                    .toArray(XPHatchPartMachine[]::new);
+                    .filter(SculkExperienceDrainingHatchPartMachine.class::isInstance)
+                    .map(SculkExperienceDrainingHatchPartMachine.class::cast)
+                    .toArray(SculkExperienceDrainingHatchPartMachine[]::new);
 
             if (array.length != 1) {
                 // Don't do this work if there isn't an xp hatch
@@ -59,6 +60,15 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             xpTank.setFluidInTank(0, FluidStack.EMPTY);
 
             xpBuffer -= xpBuffer >> 4;
+
+            var array2 = getParts().stream()
+                    .filter(SculkExperienceSensorHatchPartMachine.class::isInstance)
+                    .map(SculkExperienceSensorHatchPartMachine.class::cast)
+                    .toArray(SculkExperienceSensorHatchPartMachine[]::new);
+
+            if (array2.length == 1) {
+                array2[0].updateSignal();
+            }
         }
         timer = timer + 1 % 8;
     }

@@ -15,9 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
-public class XPHatchPartMachine extends FluidHatchPartMachine {
+public class SculkExperienceDrainingHatchPartMachine extends FluidHatchPartMachine {
 
-    public XPHatchPartMachine(IMachineBlockEntity holder) {
+    public SculkExperienceDrainingHatchPartMachine(IMachineBlockEntity holder) {
         super(holder, GTValues.ZPM, IO.IN, FluidType.BUCKET_VOLUME, 1);
     }
 
@@ -25,5 +25,10 @@ public class XPHatchPartMachine extends FluidHatchPartMachine {
     protected @NotNull NotifiableFluidTank createTank(int initialCapacity, int slots, Object @NotNull... args) {
         return super.createTank(initialCapacity, slots).setFilter(fluidStack -> fluidStack.getFluid().isSame(
                 Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(new ResourceLocation("enderio", "xp_juice")))));
+    }
+
+    @Override
+    public boolean swapIO() {
+        return false;
     }
 }
