@@ -37,13 +37,20 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
 
     private void xpHatchTick() {
         if (timer == 0 && isWorkingEnabled()) {
-            var xpHatch = getParts().stream()
+            var array = getParts().stream()
                     .filter(XPHatchPartMachine.class::isInstance)
                     .map(XPHatchPartMachine.class::cast)
-                    .toArray(XPHatchPartMachine[]::new)[0];
+                    .toArray(XPHatchPartMachine[]::new);
+
+            if (array.length != 1) {
+                // Don't do this work if there isn't an xp hatch
+                return;
+            }
+
+            var xpHatch = array[0];
 
             var xpTank = (NotifiableFluidTank) xpHatch.getRecipeHandlers().get(0)
-                    .getCapability(FluidRecipeCapability.CAP);
+                    .getCapability(FluidRecipeCapability.CAP).get(0);
             int stored = 0;
             if (!xpTank.isEmpty()) {
                 stored = ((FluidStack) xpTank.getContents().get(0)).getAmount();

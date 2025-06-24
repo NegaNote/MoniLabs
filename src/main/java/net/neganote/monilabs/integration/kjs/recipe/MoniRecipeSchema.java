@@ -78,6 +78,12 @@ public interface MoniRecipeSchema {
             this.addDataBool("antimatterRandom", true);
             return this;
         }
+
+        public GTRecipeSchema.GTRecipeJS xpRange(int min, int max) {
+            this.addData("minimumXp", min);
+            this.addData("maximumXp", max);
+            return this;
+        }
     }
 
     RecipeSchema SCHEMA = new RecipeSchema(MoniRecipeJS.class, MoniRecipeJS::new, DURATION, DATA, CONDITIONS,
