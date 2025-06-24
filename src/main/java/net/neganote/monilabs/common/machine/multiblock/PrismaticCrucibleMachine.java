@@ -101,6 +101,13 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     @Override
+    public void onRotated(Direction oldFacing, Direction newFacing) {
+        super.onRotated(oldFacing, newFacing);
+        structMin = getPos();
+        structMax = getPos();
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
 

@@ -9,6 +9,7 @@ import net.neganote.monilabs.client.renderer.ChromaSensorHatchRenderer;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.XPHatchPartMachine;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +43,12 @@ public class MoniMachines {
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
             .renderer(() -> new ChromaSensorHatchRenderer("block/overlay/machine/overlay_chroma_sensor_"))
+            .register();
+
+    public static MachineDefinition XP_HATCH = MoniLabs.REGISTRATE
+            .machine("xp_hatch", XPHatchPartMachine::new)
+            .langValue("XP Hatch")
+            .overlayTieredHullRenderer("") // TODO: get actual overlay for XP Hatch
             .register();
 
     public static void init() {}
