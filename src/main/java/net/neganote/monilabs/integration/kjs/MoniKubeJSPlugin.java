@@ -63,6 +63,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("CreativeEnergyMultiMachine", CreativeEnergyMultiMachine.class);
         event.add("OmnicSynthesizerMachine", OmnicSynthesizerMachine.class);
         event.add("PrismaticCrucibleMachine", PrismaticCrucibleMachine.class);
+        event.add("SculkVatMachine", SculkVatMachine.class);
 
         // Renderers
         event.add("PrismaticCrucibleRenderer", PrismaticCrucibleRenderer.class);
