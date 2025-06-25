@@ -2,12 +2,15 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -15,12 +18,18 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
@@ -32,10 +41,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -49,6 +55,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MicroverseProjectorMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    private final Item quantumFluxItem;
 
     @Getter
     @Persisted
@@ -86,6 +94,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         this.tier = tier;
         this.microverseHandler = new ConditionalSubscriptionHandler(this, this::microverseTick, this::isFormed);
         updateMicroverse(0, false);
+        this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.of("kubejs:quantum_flux", ':'));
+        assert this.quantumFluxItem != null;
     }
 
     @Override
@@ -98,6 +108,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public void onStructureInvalid() {
         updateMicroverse(0, false);
         super.onStructureInvalid();
+        microverseHandler.updateSubscription();
     }
 
     @Override
@@ -108,6 +119,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+        microverseHandler.updateSubscription();
     }
 
     @Override
@@ -165,9 +177,22 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     public void microverseTick() {
         if (timer == 0 && microverse.isRepairable) {
+            var itemHandlers = getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
             if (microverse.isHungry) {
-                // TODO: eat flux and return amount as "fluxCount"
-                int fluxCount = 1;
+                int fluxCount = 0;
+
+                for (var itemHandler : itemHandlers) {
+                    for (int i = 0; i < itemHandler.getSlots(); i++) {
+                        var stack = itemHandler.getStackInSlot(i);
+                        if (stack.getItem() == quantumFluxItem) {
+                            fluxCount += stack.getCount();
+                            itemHandler.setStackInSlot(i, ItemStack.EMPTY);
+                        }
+                    }
+                }
 
                 int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
                 if (fluxCount * 100 > missingHealth) {
@@ -182,9 +207,31 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             } else {
                 int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
                 int missingFlux = missingHealth / 100;
-                // TODO: determine available flux as "fluxCount", cap it at missingFlux
-                // Also consume all flux, capped at missingFlux
-                int fluxCount = 1;
+                int acc = missingFlux;
+                List<Ingredient> fluxList = new ObjectArrayList<>();
+                while (acc >= 64) {
+                    fluxList.add(Ingredient.of(new ItemStack(quantumFluxItem, 64)));
+                    acc -= 64;
+                }
+                if (acc != 0) {
+                    fluxList.add(Ingredient.of(new ItemStack(quantumFluxItem, acc)));
+                }
+                for (var itemHandler : itemHandlers) {
+                    fluxList = itemHandler.handleRecipe(IO.IN, null, fluxList, false);
+                    if (fluxList == null) {
+                        break;
+                    }
+                }
+
+                int fluxCount = missingFlux;
+                if (fluxList != null) {
+                    for (Ingredient ingredient : fluxList) {
+                        var items = ingredient.getItems();
+                        for (ItemStack item : items) {
+                            fluxCount -= item.getCount();
+                        }
+                    }
+                }
 
                 microverseIntegrity += fluxCount * 100;
             }
