@@ -154,7 +154,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         super.afterWorking();
         if (activeRecipe.data.contains("updated_microverse")) {
             int updatedMicroverse = activeRecipe.data.getInt("updated_microverse");
-            updateMicroverse(updatedMicroverse & 7, updatedMicroverse > 7);
+            updateMicroverse(updatedMicroverse, activeRecipe.data.getBoolean("keep_integrity"));
         }
         activeRecipe = null;
     }
