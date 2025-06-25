@@ -120,6 +120,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public void onStructureFormed() {
         super.onStructureFormed();
         microverseHandler.updateSubscription();
+        // TODO: Cache flux input bus for performance
     }
 
     @Override
@@ -148,8 +149,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             int decayRate = activeRecipe.data.getInt("damage_rate");
             microverseIntegrity -= decayRate;
             if (microverseIntegrity <= 0) {
-                // Return the first input of the recipe in the output hatch
-                // OPTIONAL: Make this behavior configurable for evil deeds >:3
+                // TODO: Return the first input of the recipe in the output hatch
+                // TODO OPTIONAL: Make this behavior configurable for evil deeds >:3
                 if (microverse == Microverse.SHATTERED) {
                     microverseIntegrity = MICROVERSE_MAX_INTEGRITY >> 1; // start at half integrity
                     microverse = Microverse.CORRUPTED;
@@ -169,7 +170,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public void afterWorking() {
         super.afterWorking();
         if (activeRecipe.data.contains("updated_microverse")) {
-            int updatedMicroverse = activeRecipe.data.getInt("updatedMicroverse");
+            int updatedMicroverse = activeRecipe.data.getInt("updated_microverse");
             updateMicroverse(updatedMicroverse & 7, updatedMicroverse > 7);
         }
         activeRecipe = null;
