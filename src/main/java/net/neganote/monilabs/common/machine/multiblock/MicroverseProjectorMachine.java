@@ -164,18 +164,28 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     }
 
     public void microverseTick() {
-        if (timer == 0) {
-            // TODO: eat flux and return amount as "fluxCount"
-            int fluxCount = 1;
+        if (timer == 0 && microverse.isRepairable) {
+            if (microverse.isHungry) {
+                // TODO: eat flux and return amount as "fluxCount"
+                int fluxCount = 1;
 
-            int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
-            if (fluxCount * 100 > missingHealth) {
-                microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
-                int rollbackCount = (fluxCount * 100 - missingHealth) / 100; // number of excess flux (a half-useful flux is not excess)
-                if (activeRecipe != null && recipeLogic.getProgress() > 1) {
-                    recipeLogic.setProgress(Math.max(1, recipeLogic.getProgress() - (20 * rollbackCount)));
+                int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
+                if (fluxCount * 100 > missingHealth) {
+                    microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
+                    int rollbackCount = (fluxCount * 100 - missingHealth) / 100; // number of excess flux (a half-useful flux is not excess)
+                    if (activeRecipe != null && recipeLogic.getProgress() > 1) {
+                        recipeLogic.setProgress(Math.max(1, recipeLogic.getProgress() - (20 * rollbackCount)));
+                    }
+                } else {
+                    microverseIntegrity += fluxCount * 100;
                 }
             } else {
+                int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
+                int missingFlux = missingHealth / 100;
+                // TODO: determine available flux as "fluxCount", cap it at missingFlux
+                // Also consume all flux, capped at missingFlux
+                int fluxCount = 1;
+
                 microverseIntegrity += fluxCount * 100;
             }
         }
@@ -193,20 +203,23 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     public enum Microverse {
 
-        NONE(0, false),
-        NORMAL(0, true),
-        HOSTILE(2, false),
-        SHATTERED(0, false),
-        CORRUPTED(1, true);
+        NONE(0, false, false),
+        NORMAL(0, true, false),
+        HOSTILE(2, false, false),
+        SHATTERED(0, false, false),
+        CORRUPTED(1, true, true);
 
         public static final Microverse[] MICROVERSES = Microverse.values();
 
         public final int decayRate;
         public final boolean isRepairable;
 
-        Microverse(int decayRate, boolean isRepairable) {
+        public final boolean isHungry;
+
+        Microverse(int decayRate, boolean isRepairable, boolean isHungry) {
             this.decayRate = decayRate;
             this.isRepairable = isRepairable;
+            this.isHungry = isHungry;
         }
 
         public static MicroverseProjectorMachine.Microverse getMicroverseFromKey(int pKey) {
