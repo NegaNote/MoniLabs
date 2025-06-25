@@ -1,49 +1,32 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.neganote.monilabs.common.block.MoniBlocks;
-import net.neganote.monilabs.common.block.PrismaticActiveBlock;
-import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
-import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
-import net.neganote.monilabs.common.machine.part.SculkExperienceSensorHatchPartMachine;
-import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -88,7 +71,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     private final int MICROVERSE_MAX_INTEGRITY = 10000;
     private final int FLUX_REPAIR_AMOUNT = 100;
 
-
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
         this.tier = tier;
@@ -127,7 +109,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
         if (microverseIntegrity == 0) return false;
-        if (!recipe.data.contains("required_microverse") || recipe.data.getInt("required_microverse") != microverse.ordinal()) {
+        if (!recipe.data.contains("required_microverse") ||
+                recipe.data.getInt("required_microverse") != microverse.ordinal()) {
             return false;
         }
         if (super.beforeWorking(recipe)) {
@@ -139,7 +122,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     }
 
     @Override
-    public boolean onWorking(){
+    public boolean onWorking() {
         if (!super.onWorking()) {
             activeRecipe = null;
             return false;
@@ -198,7 +181,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
                 if (fluxCount * 100 > missingHealth) {
                     microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
-                    int rollbackCount = (fluxCount * 100 - missingHealth) / 100; // number of excess flux (a half-useful flux is not excess)
+                    int rollbackCount = (fluxCount * 100 - missingHealth) / 100; // number of excess flux (a half-useful
+                                                                                 // flux is not excess)
                     if (activeRecipe != null && recipeLogic.getProgress() > 1) {
                         recipeLogic.setProgress(Math.max(1, recipeLogic.getProgress() - (20 * rollbackCount)));
                     }
@@ -245,7 +229,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         if (microverse == Microverse.NONE) {
             microverseIntegrity = 0;
         } else {
-            microverseIntegrity = ( keepIntegrity ? microverseIntegrity : MICROVERSE_MAX_INTEGRITY );
+            microverseIntegrity = (keepIntegrity ? microverseIntegrity : MICROVERSE_MAX_INTEGRITY);
         }
     }
 
@@ -275,12 +259,12 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         }
 
         /*
-        @Override
-        public String toString() {
-            return "Color{" +
-                    "nameKey='" + nameKey + '\'' +
-                    '}';
-        }
+         * @Override
+         * public String toString() {
+         * return "Color{" +
+         * "nameKey='" + nameKey + '\'' +
+         * '}';
+         * }
          */
     }
 }
