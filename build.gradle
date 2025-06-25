@@ -151,6 +151,9 @@ dependencies {
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    // MAE2 for cloud chamber effects
+    implementation fg.deobf("curse.maven:mae2-1028068:6689575")
 }
 
 tasks.named('processResources', ProcessResources).configure {

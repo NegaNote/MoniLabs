@@ -1,8 +1,12 @@
 package net.neganote.monilabs.common.block;
 
+import static net.neganote.monilabs.MoniLabs.REGISTRATE;
+
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.data.GTModels;
-
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiFunction;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -11,12 +15,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.item.PrismaticFocusItem;
 import net.neganote.monilabs.data.recipe.RecipeTags;
-
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import org.jetbrains.annotations.NotNull;
 
-import static net.neganote.monilabs.MoniLabs.REGISTRATE;
+import stone.mae2.bootstrap.MAE2Tags;
 
 @SuppressWarnings("unused")
 public class MoniBlocks {
@@ -62,4 +63,20 @@ public class MoniBlocks {
 
     public static BlockEntry<Block> KNOWLEDGE_TRANSMISSION_ARRAY = registerSimpleBlock("Knowledge Transmission Array",
             "knowledge_transmission_array", BlockItem::new);
+
+    public static final BlockEntry<PRISMBlock> PRISM_GLASS = REGISTRATE
+        .block("prism_glass", PRISMBlock::new)
+        .initialProperties(() -> Blocks.GLASS)
+        .addLayer(() -> RenderType::translucent)
+        .blockstate(PRISMBlock
+            .createPRISMModel("block/prism_glass",
+                MoniLabs.id("prism_glass")))
+        .tag(RecipeTags.MINEABLE_WITH_WRENCH,
+            BlockTags.MINEABLE_WITH_PICKAXE, MAE2Tags.CLOUD_CHAMBERS)
+        .item(BlockItem::new)
+        // .model((ctx, prov) -> prov
+        // .withExistingParent(prov.name(ctx),
+        // MoniLabs.id("block/prism")))
+        .build()
+        .register();
 }
