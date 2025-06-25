@@ -72,6 +72,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         super(holder, args);
         this.tier = tier;
         this.microverseHandler = null; // TODO later
+        updateMicroverse(0, false);
     }
 
     @Override
@@ -82,6 +83,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     @Override
     public void onStructureInvalid() {
+        updateMicroverse(0, false);
         super.onStructureInvalid();
     }
 
