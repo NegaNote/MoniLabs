@@ -1,10 +1,13 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -16,9 +19,13 @@ import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.SculkExperienceSensorHatchPartMachine;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 
 import lombok.Getter;
@@ -39,6 +46,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachine {
 
     private final ConditionalSubscriptionHandler microverseHandler;
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MicroverseProjectorMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
@@ -64,14 +72,19 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @DescSynced
     private int microverseIntegrity;
 
+    @Persisted
+    @Getter
+    private int timer = 0;
+
     // Constant for max health. Takes 500s (8m20s) to decay at a rate of 1/tick
     private final int MICROVERSE_MAX_INTEGRITY = 10000;
+    private final int FLUX_REPAIR_AMOUNT = 100;
 
 
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
         this.tier = tier;
-        this.microverseHandler = null; // TODO later
+        this.microverseHandler = new ConditionalSubscriptionHandler(this, this::microverseTick, this::isFormed);
         updateMicroverse(0, false);
     }
 
@@ -150,6 +163,25 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         activeRecipe = null;
     }
 
+    public void microverseTick() {
+        if (timer == 0) {
+            // TODO: eat flux and return amount as "fluxCount"
+            int fluxCount = 1;
+
+            int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
+            if (fluxCount * 100 > missingHealth) {
+                microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
+                int rollbackCount = (fluxCount * 100 - missingHealth) / 100; // number of excess flux (a half-useful flux is not excess)
+                if (activeRecipe != null && recipeLogic.getProgress() > 1) {
+                    recipeLogic.setProgress(Math.max(1, recipeLogic.getProgress() - (20 * rollbackCount)));
+                }
+            } else {
+                microverseIntegrity += fluxCount * 100;
+            }
+        }
+        timer = (timer + 1) % 20;
+    }
+
     private void updateMicroverse(int pKey, boolean keepIntegrity) {
         microverse = Microverse.getMicroverseFromKey(pKey);
         if (microverse == Microverse.NONE) {
@@ -163,9 +195,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         NONE(0, false),
         NORMAL(0, true),
-        HOSTILE(0, false),
+        HOSTILE(2, false),
         SHATTERED(0, false),
-        CORRUPTED(0, true);
+        CORRUPTED(1, true);
 
         public static final Microverse[] MICROVERSES = Microverse.values();
 
@@ -179,8 +211,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         public static MicroverseProjectorMachine.Microverse getMicroverseFromKey(int pKey) {
             return MICROVERSES[pKey];
-        }
-
         }
 
         /*
