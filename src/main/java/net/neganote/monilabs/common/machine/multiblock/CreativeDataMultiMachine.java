@@ -96,7 +96,8 @@ public class CreativeDataMultiMachine extends UniqueWorkableElectricMultiblockMa
     }
 
     private void transcendentConversion() {
-        if (transcendentConversionTimer == 0 && inputBuses != null && isActive() && getRecipeLogic().isWorkingEnabled()) {
+        if (transcendentConversionTimer == 0 && inputBuses != null && isActive() &&
+                getRecipeLogic().isWorkingEnabled()) {
             // An unfortunate side effect of this method of checking is that the ORB will only do its thing if
             // the output has an *entire empty output slot's worth* available.
             // If you have any idea how to sidestep this, feel free to suggest something.
