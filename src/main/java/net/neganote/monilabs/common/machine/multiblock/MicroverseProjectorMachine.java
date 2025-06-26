@@ -238,6 +238,12 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             }
         }
         timer = (timer + 1) % 20;
+        if (microverse.decayRate != 0) {
+            microverseIntegrity -= microverse.decayRate;
+            if (microverseIntegrity <= 0) {
+                updateMicroverse(0, false);
+            }
+        }
     }
 
     private void updateMicroverse(int pKey, boolean keepIntegrity) {
