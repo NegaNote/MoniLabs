@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
@@ -16,12 +17,16 @@ import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPar
 import net.neganote.monilabs.common.machine.part.SculkExperienceSensorHatchPartMachine;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
 public class SculkVatMachine extends WorkableElectricMultiblockMachine {
 
     private final ConditionalSubscriptionHandler xpHatchSubscription;
+
+    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SculkVatMachine.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @Getter
@@ -118,5 +123,10 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             }
         }
         return true;
+    }
+
+    @Override
+    public @NotNull ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 }
