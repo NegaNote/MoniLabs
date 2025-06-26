@@ -94,6 +94,7 @@ public interface MoniRecipeSchema {
             this.addData("damage_rate", rate);
             return this;
         }
+
         public GTRecipeSchema.GTRecipeJS updateMicroverse(int i) {
             return this.updateMicroverse(i, false);
         }
