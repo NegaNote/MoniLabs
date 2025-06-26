@@ -50,6 +50,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @DescSynced
     private GTRecipe activeRecipe;
     // Used for microverse projector tier
+    @Getter
     private final int tier;
 
     // Microverse type currently active

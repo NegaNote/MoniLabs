@@ -61,7 +61,7 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
             var fluidRenderType = ItemBlockRenderTypes.getRenderLayer(GTMaterials.Iron.getFluid().defaultFluidState());
             var consumer = buffer.getBuffer(RenderTypeHelper.getEntityRenderType(fluidRenderType, false));
             consumer = consumer.color(color.r, color.g, color.b, 1.0F);
-            var up = RelativeDirection.UP.getRelativeFacing(pcm.getFrontFacing(), pcm.getUpwardsFacing(),
+            var up = RelativeDirection.UP.getRelative(pcm.getFrontFacing(), pcm.getUpwardsFacing(),
                     pcm.isFlipped());
             if (up.getAxis() != Direction.Axis.Y) up = up.getOpposite();
 
