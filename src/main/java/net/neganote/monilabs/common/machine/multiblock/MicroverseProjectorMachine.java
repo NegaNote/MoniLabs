@@ -253,9 +253,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         NONE(0, false, false),
         NORMAL(0, true, false),
-        HOSTILE(2, false, false),
+        HOSTILE(20, false, false),
         SHATTERED(0, false, false),
-        CORRUPTED(1, true, true);
+        CORRUPTED(10, true, true);
 
         public static final Microverse[] MICROVERSES = Microverse.values();
 
