@@ -69,8 +69,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     private int timer = 0;
 
     // Constant for max health. Takes 500s (8m20s) to decay at a rate of 1/tick
-    private final int MICROVERSE_MAX_INTEGRITY = 10000;
-    private final int FLUX_REPAIR_AMOUNT = 100;
+    private final int MICROVERSE_MAX_INTEGRITY = 100_000;
+    private final int FLUX_REPAIR_AMOUNT = 1000;
 
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
