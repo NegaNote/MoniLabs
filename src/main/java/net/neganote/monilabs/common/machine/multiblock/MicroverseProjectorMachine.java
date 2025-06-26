@@ -69,8 +69,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     private int timer = 0;
 
     // Constant for max health. Takes 500s (8m20s) to decay at a rate of 1/tick
-    private final int MICROVERSE_MAX_INTEGRITY = 10000;
-    private final int FLUX_REPAIR_AMOUNT = 100;
+    private final int MICROVERSE_MAX_INTEGRITY = 100_000;
+    private final int FLUX_REPAIR_AMOUNT = 1000;
 
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
@@ -238,6 +238,12 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             }
         }
         timer = (timer + 1) % 20;
+        if (microverse.decayRate != 0) {
+            microverseIntegrity -= microverse.decayRate;
+            if (microverseIntegrity <= 0) {
+                updateMicroverse(0, false);
+            }
+        }
     }
 
     private void updateMicroverse(int pKey, boolean keepIntegrity) {
@@ -253,9 +259,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         NONE(0, false, false),
         NORMAL(0, true, false),
-        HOSTILE(2, false, false),
+        HOSTILE(20, false, false),
         SHATTERED(0, false, false),
-        CORRUPTED(1, true, true);
+        CORRUPTED(10, true, true);
 
         public static final Microverse[] MICROVERSES = Microverse.values();
 
