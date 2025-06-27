@@ -51,5 +51,8 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "Bonus multiplier for the second tier of annihilant." })
         public double antimatterSecondTierBonusMultiplier = 4.0;
+        @Configurable
+        @Configurable.Comment({ "" })
+        public boolean microminerReturnedOnZeroIntegrity = true;
     }
 }

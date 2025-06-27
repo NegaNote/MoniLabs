@@ -23,6 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import lombok.Setter;
+import net.neganote.monilabs.config.MoniConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -133,8 +134,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             int decayRate = activeRecipe.data.getInt("damage_rate");
             microverseIntegrity -= decayRate;
             if (microverseIntegrity <= 0) {
-                // TODO OPTIONAL: Make returning the first item configurable for evil deeds >:3
-                if (true) {
+                if (MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
                     var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
                             .getContent();
                     List<Ingredient> left = List.of(contents);
