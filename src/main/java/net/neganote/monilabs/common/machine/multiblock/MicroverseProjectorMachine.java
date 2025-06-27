@@ -70,6 +70,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Getter
     private int timer = 0;
 
+    private List<NotifiableItemStackHandler> inputBuses = null;
+    private List<NotifiableItemStackHandler> outputBuses = null;
+
     // Constant for max health. Takes 500s (8m20s) to decay at a rate of 1/tick
     private final int MICROVERSE_MAX_INTEGRITY = 100_000;
     private final int FLUX_REPAIR_AMOUNT = 1000;
@@ -94,6 +97,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         updateMicroverse(0, false);
         super.onStructureInvalid();
         microverseHandler.updateSubscription();
+        inputBuses = null;
+        outputBuses = null;
     }
 
     @Override
@@ -103,6 +108,18 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     @Override
     public void onStructureFormed() {
+        if (inputBuses == null) {
+            inputBuses = getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
+        }
+        if (outputBuses == null && MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
+            outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
+        }
         super.onStructureFormed();
         microverseHandler.updateSubscription();
     }
@@ -138,11 +155,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
                             .getContent();
                     List<Ingredient> left = List.of(contents);
-
-                    var outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
-                            .filter(NotifiableItemStackHandler.class::isInstance)
-                            .map(NotifiableItemStackHandler.class::cast)
-                            .toList();
                     for (var outputBus : outputBuses) {
                         left = outputBus.handleRecipe(IO.OUT, null, left, false);
                         if (left == null) {
@@ -178,14 +190,10 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     public void microverseTick() {
         if (timer == 0 && microverse.isRepairable) {
-            var itemHandlers = getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP).stream()
-                    .filter(NotifiableItemStackHandler.class::isInstance)
-                    .map(NotifiableItemStackHandler.class::cast)
-                    .toList();
             if (microverse.isHungry) {
                 int fluxCount = 0;
 
-                for (var itemHandler : itemHandlers) {
+                for (var itemHandler : inputBuses) {
                     for (int i = 0; i < itemHandler.getSlots(); i++) {
                         var stack = itemHandler.getStackInSlot(i);
                         if (stack.getItem() == quantumFluxItem) {
@@ -218,7 +226,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 if (acc != 0) {
                     fluxList.add(Ingredient.of(new ItemStack(quantumFluxItem, acc)));
                 }
-                for (var itemHandler : itemHandlers) {
+                for (var itemHandler : inputBuses) {
                     fluxList = itemHandler.handleRecipe(IO.IN, null, fluxList, false);
                     if (fluxList == null) {
                         break;
