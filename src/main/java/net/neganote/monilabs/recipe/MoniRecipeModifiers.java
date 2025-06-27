@@ -2,10 +2,8 @@ package net.neganote.monilabs.recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic.*;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
@@ -23,8 +21,6 @@ import net.neganote.monilabs.common.machine.multiblock.AntimatterGeneratorMachin
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.config.MoniConfig;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -121,8 +117,7 @@ public class MoniRecipeModifiers {
         };
     }
 
-    public static @NotNull ModifierFunction microverseOverclock(@NotNull MetaMachine machine,
-                                                                @NotNull GTRecipe recipe) {
+    public static RecipeModifier MICROVERSE_OC = (machine, recipe) -> {
         if (!(machine instanceof MicroverseProjectorMachine projector)) {
             return RecipeModifier.nullWrongType(MicroverseProjectorMachine.class, machine);
         }
@@ -132,9 +127,10 @@ public class MoniRecipeModifiers {
         }
         int recipeTier = recipe.data.getByte("projector_tier");
         int maxOCs = projector.getTier() - RecipeHelper.getRecipeEUtTier(recipe);
+        // MoniLabs.LOGGER.info("projectorTier: {}, recipeTier: {}, maxOCs: {}", projectorTier, recipeTier, maxOCs);
         OverclockingLogic logic = (p, v) -> microverseTierOC(projectorTier, recipeTier, maxOCs);
         return logic.getModifier(machine, recipe, projector.getOverclockVoltage());
-    }
+    };
 
     public static OCResult microverseTierOC(int projectorTier, int recipeTier, int maxOCs) {
         int perfectOCAmount = Math.min(projectorTier - recipeTier, maxOCs);
@@ -142,9 +138,11 @@ public class MoniRecipeModifiers {
         if (maxOCs > perfectOCAmount) {
             int normalOCAmount = maxOCs - perfectOCAmount;
             durationMultiplier *= Math.pow(OverclockingLogic.STD_DURATION_FACTOR, normalOCAmount);
+            // MoniLabs.LOGGER.info("durationMultiplier: {}", durationMultiplier);
             return new OCResult(Math.pow(4, perfectOCAmount) * Math.pow(2, normalOCAmount), durationMultiplier, maxOCs,
                     1);
         } else {
+            // MoniLabs.LOGGER.info("durationMultiplier: {}", durationMultiplier);
             return new OCResult(Math.pow(4, perfectOCAmount), durationMultiplier, perfectOCAmount, 1);
         }
     }

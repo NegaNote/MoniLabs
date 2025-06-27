@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.model.data.ModelData;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
+import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine.Microverse;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -40,7 +41,7 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
                        int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof MetaMachineBlockEntity mmbe &&
                 mmbe.getMetaMachine() instanceof MicroverseProjectorMachine projector && projector.isFormed() &&
-                projector.getMicroverse() != MicroverseProjectorMachine.Microverse.NONE) {
+                projector.getMicroverse() != Microverse.NONE) {
             var frontFacing = projector.getFrontFacing();
             var upwardsFacing = projector.getUpwardsFacing();
 
@@ -48,7 +49,7 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
 
             Direction left = RelativeDirection.LEFT.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
 
-            int tier = projector.getTier();
+            int tier = projector.getProjectorTier();
 
             renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, combinedOverlay, tier);
         }
@@ -95,8 +96,7 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
 
     private void renderCuboid(PoseStack stack, MultiBufferSource buffer, Direction upwards, Direction front,
                               Direction left, int combinedLight, int combinedOverlay, int offsetFront, int offsetUp,
-                              float scaleFactorFB, float scaleFactorUD,
-                              float scaleFactorLR) {
+                              float scaleFactorFB, float scaleFactorUD, float scaleFactorLR) {
         // Setup
         stack.pushPose();
         var modelManager = Minecraft.getInstance().getModelManager();
