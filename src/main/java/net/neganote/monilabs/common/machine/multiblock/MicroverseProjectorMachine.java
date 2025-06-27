@@ -52,7 +52,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     private GTRecipe activeRecipe;
     // Used for microverse projector tier
     @Getter
-    private final int tier;
+    private final int projectorTier;
 
     // Microverse type currently active
     @Persisted
@@ -79,7 +79,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
-        this.tier = tier;
+        this.projectorTier = tier;
         this.microverseHandler = new ConditionalSubscriptionHandler(this, this::microverseTick, this::isFormed);
         updateMicroverse(0, false);
         this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.of("kubejs:quantum_flux", ':'));
