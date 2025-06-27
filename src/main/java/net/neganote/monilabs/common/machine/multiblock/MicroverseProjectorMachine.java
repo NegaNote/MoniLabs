@@ -149,7 +149,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         if (activeRecipe.data.contains("damage_rate")) {
             int decayRate = activeRecipe.data.getInt("damage_rate");
-            microverseIntegrity -= decayRate;
+            microverseIntegrity -= decayRate * activeRecipe.parallels;
             if (microverseIntegrity <= 0) {
                 if (MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
                     var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
@@ -248,7 +248,11 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         }
         timer = (timer + 1) % 20;
         if (microverse.decayRate != 0) {
-            microverseIntegrity -= microverse.decayRate;
+            int decayRate = microverse.decayRate;
+            if (activeRecipe != null) {
+                decayRate *= activeRecipe.parallels;
+            }
+            microverseIntegrity -= decayRate;
             if (microverseIntegrity <= 0) {
                 updateMicroverse(0, false);
             }
