@@ -139,6 +139,13 @@ public class MoniRecipeModifiers {
     public static OCResult microverseTierOC(int projectorTier, int recipeTier, int maxOCs) {
         int perfectOCAmount = Math.min(projectorTier - recipeTier, maxOCs);
         double durationMultiplier = Math.pow(OverclockingLogic.PERFECT_DURATION_FACTOR, perfectOCAmount);
-        return new OCResult(Math.pow(4, perfectOCAmount), durationMultiplier, perfectOCAmount, 1);
+        if (maxOCs > perfectOCAmount) {
+            int normalOCAmount = maxOCs - perfectOCAmount;
+            durationMultiplier *= Math.pow(OverclockingLogic.STD_DURATION_FACTOR, normalOCAmount);
+            return new OCResult(Math.pow(4, perfectOCAmount) * Math.pow(2, normalOCAmount), durationMultiplier, maxOCs,
+                    1);
+        } else {
+            return new OCResult(Math.pow(4, perfectOCAmount), durationMultiplier, perfectOCAmount, 1);
+        }
     }
 }
