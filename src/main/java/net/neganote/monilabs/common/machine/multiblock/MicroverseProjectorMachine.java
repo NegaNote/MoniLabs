@@ -14,6 +14,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -64,6 +65,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     // Current microverse integrity/"health"
     @Persisted
     @DescSynced
+    @Getter
     private int microverseIntegrity;
 
     @Persisted
@@ -268,13 +270,25 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         }
     }
 
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+        if (isFormed()) {
+            textList.add(Component.translatable("microverse.monilabs.current_microverse",
+                    Component.translatable(microverse.langKey)));
+            if (microverse != Microverse.NONE) {
+                textList.add(Component.translatable("microverse.monilabs.integrity", microverseIntegrity));
+            }
+        }
+    }
+
     public enum Microverse {
 
-        NONE(0, false, false),
-        NORMAL(0, true, false),
-        HOSTILE(20, false, false),
-        SHATTERED(0, false, false),
-        CORRUPTED(10, true, true);
+        NONE(0, 0, false, false, "microverse.monilabs.type.none"),
+        NORMAL(1, 0, true, false, "microverse.monilabs.type.normal"),
+        HOSTILE(2, 20, false, false, "microverse.monilabs.type.hostile"),
+        SHATTERED(3, 0, false, false, "microverse.monilabs.type.shattered"),
+        CORRUPTED(4, 10, true, true, "microverse.monilabs.type.corrupted");
 
         public static final Microverse[] MICROVERSES = Microverse.values();
 
@@ -283,10 +297,16 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         public final boolean isHungry;
 
-        Microverse(int decayRate, boolean isRepairable, boolean isHungry) {
+        public final String langKey;
+
+        public final int key;
+
+        Microverse(int key, int decayRate, boolean isRepairable, boolean isHungry, String langKey) {
             this.decayRate = decayRate;
             this.isRepairable = isRepairable;
             this.isHungry = isHungry;
+            this.langKey = langKey;
+            this.key = key;
         }
 
         public static MicroverseProjectorMachine.Microverse getMicroverseFromKey(int pKey) {

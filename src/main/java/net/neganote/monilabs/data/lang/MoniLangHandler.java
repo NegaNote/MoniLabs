@@ -58,6 +58,16 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.chroma_sensor_hatch.1", "as a redstone signal. 0 for unformed,");
         provider.add("monilabs.tooltip.chroma_sensor_hatch.2", "1-12 for each color the PrismaC can be in.");
 
+        provider.add("microverse.monilabs.type.none", "None");
+        provider.add("microverse.monilabs.type.normal", "Normal");
+        provider.add("microverse.monilabs.type.hostile", "Hostile");
+        provider.add("microverse.monilabs.type.shattered", "Shattered");
+        provider.add("microverse.monilabs.type.corrupted", "Corrupted");
+
+        provider.add("microverse.monilabs.current_microverse", "Microverse type: %s");
+        provider.add("microverse.monilabs.integrity", "Microverse integrity: %d");
+
         provider.add("config.jade.plugin_monilabs.color_info", "Prismatic Crucible Color Info");
+        provider.add("config.jade.plugin_monilabs.microverse_info", "Microverse Projector Info");
     }
 }
