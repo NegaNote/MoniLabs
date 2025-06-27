@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
@@ -60,6 +61,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @DescSynced
     @Setter
     @Getter
+    @RequireRerender
     private Microverse microverse;
 
     // Current microverse integrity/"health"
@@ -129,13 +131,13 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
-        if (microverseIntegrity == 0) return false;
-        if (!recipe.data.contains("required_microverse") ||
+        if (microverseIntegrity == 0 && microverse != Microverse.NONE) return false;
+        if (recipe.data.contains("required_microverse") &&
                 recipe.data.getInt("required_microverse") != microverse.ordinal()) {
             return false;
         }
         if (super.beforeWorking(recipe)) {
-            activeRecipe = recipeLogic.getLastRecipe();
+            activeRecipe = recipe;
             return true;
         } else {
             return false;
@@ -149,10 +151,10 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             return false;
         } // Wondering when to calculate super.onWorking
 
-        if (activeRecipe.data.contains("damage_rate")) {
+        if (activeRecipe != null && activeRecipe.data.contains("damage_rate")) {
             int decayRate = activeRecipe.data.getInt("damage_rate");
-            microverseIntegrity -= decayRate * activeRecipe.parallels;
-            if (microverseIntegrity <= 0) {
+            microverseIntegrity = Math.max(microverseIntegrity - decayRate * activeRecipe.parallels, 0);
+            if (microverseIntegrity == 0 && microverse != Microverse.NONE) {
                 if (MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
                     var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
                             .getContent();
