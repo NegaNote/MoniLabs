@@ -39,7 +39,8 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof MetaMachineBlockEntity mmbe &&
-                mmbe.getMetaMachine() instanceof MicroverseProjectorMachine projector && projector.isFormed()) {
+                mmbe.getMetaMachine() instanceof MicroverseProjectorMachine projector && projector.isFormed() &&
+                projector.getMicroverse() != MicroverseProjectorMachine.Microverse.NONE) {
             var frontFacing = projector.getFrontFacing();
             var upwardsFacing = projector.getUpwardsFacing();
 
@@ -57,18 +58,44 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
                                   Direction left, int combinedLight, int combinedOverlay, int tier) {
         switch (tier) {
             case 1:
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -1, 1, 0,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -1, 1,
                         1.008f, 1.008f, 1.008f);
                 break;
             case 2:
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -2, 2, 0,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -2, 2,
                         3.008f, 3.008f, 3.008f);
+                break;
+            case 3:
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -4, 2,
+                        5f, 7.008f, 5f);
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -4, 2,
+                        7.008f, 5f, 5f);
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -4, 2,
+                        5f, 5f, 7.008f);
+                break;
+            case 4:
+                // Lower square
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 1,
+                        3f, 1f, 5.008f);
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 1,
+                        5.008f, 1f, 3f);
+
+                // Middle tube
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 5,
+                        1.008f, 7f, 1.008f);
+
+                // Upper square
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 9,
+                        3f, 1f, 5.008f);
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 9,
+                        5.008f, 1f, 3f);
+                break;
         }
     }
 
     private void renderCuboid(PoseStack stack, MultiBufferSource buffer, Direction upwards, Direction front,
                               Direction left, int combinedLight, int combinedOverlay, int offsetFront, int offsetUp,
-                              int offsetLeft, float scaleFactorFB, float scaleFactorUD,
+                              float scaleFactorFB, float scaleFactorUD,
                               float scaleFactorLR) {
         // Setup
         stack.pushPose();
@@ -81,11 +108,7 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
 
         // Calculate offset
         Vec3i movement = upwardsNormal.multiply(offsetUp);
-        // MoniLabs.LOGGER.info("movement after upwards offset: {}", movement);
         movement = movement.offset(frontNormal.multiply(offsetFront));
-        // MoniLabs.LOGGER.info("movement after front offset: {}", movement);
-        movement = movement.offset(leftNormal.multiply(offsetLeft));
-        // MoniLabs.LOGGER.info("movement after left offset: {}", movement);
 
         // Calculate scaling factors
         float scaleFactorX = 0.0f;

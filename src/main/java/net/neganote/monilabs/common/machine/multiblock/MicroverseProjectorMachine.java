@@ -57,6 +57,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Persisted
     @DescSynced
     @Setter
+    @Getter
     private Microverse microverse;
 
     // Current microverse integrity/"health"
