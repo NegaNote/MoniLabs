@@ -122,12 +122,13 @@ public class MoniRecipeModifiers {
             return RecipeModifier.nullWrongType(MicroverseProjectorMachine.class, machine);
         }
         int projectorTier = projector.getProjectorTier();
-        if (!recipe.data.contains("projector_tier")) {
-            return ModifierFunction.NULL;
+        int recipeTier;
+        if (recipe.data.contains("projector_tier")) {
+            recipeTier = recipe.data.getByte("projector_tier");
+        } else {
+            recipeTier = 1;
         }
-        int recipeTier = recipe.data.getByte("projector_tier");
         int maxOCs = projector.getTier() - RecipeHelper.getRecipeEUtTier(recipe);
-        // MoniLabs.LOGGER.info("projectorTier: {}, recipeTier: {}, maxOCs: {}", projectorTier, recipeTier, maxOCs);
         OverclockingLogic logic = (p, v) -> microverseTierOC(projectorTier, recipeTier, maxOCs);
         return logic.getModifier(machine, recipe, projector.getOverclockVoltage());
     };
@@ -138,12 +139,7 @@ public class MoniRecipeModifiers {
         if (maxOCs > perfectOCAmount) {
             int normalOCAmount = maxOCs - perfectOCAmount;
             durationMultiplier *= Math.pow(OverclockingLogic.STD_DURATION_FACTOR, normalOCAmount);
-            // MoniLabs.LOGGER.info("durationMultiplier: {}", durationMultiplier);
-            return new OCResult(Math.pow(4, perfectOCAmount) * Math.pow(2, normalOCAmount), durationMultiplier, maxOCs,
-                    1);
-        } else {
-            // MoniLabs.LOGGER.info("durationMultiplier: {}", durationMultiplier);
-            return new OCResult(Math.pow(4, perfectOCAmount), durationMultiplier, perfectOCAmount, 1);
         }
+        return new OCResult(Math.pow(4, maxOCs), durationMultiplier, perfectOCAmount, 1);
     }
 }

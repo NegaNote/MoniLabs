@@ -10,7 +10,7 @@
   "gtceu.antimatter_manipulator": "Antimatter Manipulation",
   "itemGroup.monilabs.creative_tab": "Moni Labs (Coremod)",
   "microverse.monilabs.current_microverse": "Microverse type: %s",
-  "microverse.monilabs.integrity": "Microverse integrity: %d",
+  "microverse.monilabs.integrity": "Microverse integrity: %.2f%%",
   "microverse.monilabs.type.corrupted": "Corrupted",
   "microverse.monilabs.type.hostile": "Hostile",
   "microverse.monilabs.type.none": "None",

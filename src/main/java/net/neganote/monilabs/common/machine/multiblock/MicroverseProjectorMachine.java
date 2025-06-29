@@ -78,8 +78,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     private List<NotifiableItemStackHandler> outputBuses = null;
 
     // Constant for max health. Takes 500s (8m20s) to decay at a rate of 1/tick
-    private final int MICROVERSE_MAX_INTEGRITY = 100_000;
-    private final int FLUX_REPAIR_AMOUNT = 1000;
+    public static final int MICROVERSE_MAX_INTEGRITY = 100_000;
+    public static final int FLUX_REPAIR_AMOUNT = 1000;
 
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
@@ -279,7 +279,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             textList.add(Component.translatable("microverse.monilabs.current_microverse",
                     Component.translatable(microverse.langKey)));
             if (microverse != Microverse.NONE) {
-                textList.add(Component.translatable("microverse.monilabs.integrity", microverseIntegrity));
+                textList.add(Component.translatable("microverse.monilabs.integrity",
+                        (float) microverseIntegrity / FLUX_REPAIR_AMOUNT));
             }
         }
     }

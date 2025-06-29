@@ -29,7 +29,8 @@ public class MicroverseInfoBlockProvider implements IBlockComponentProvider, ISe
             }
             if (data.contains("microverseIntegrity")) {
                 int integrity = data.getInt("microverseIntegrity");
-                iTooltip.add(Component.translatable("microverse.monilabs.integrity", integrity));
+                iTooltip.add(Component.translatable("microverse.monilabs.integrity",
+                        (float) integrity / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT));
             }
         }
     }

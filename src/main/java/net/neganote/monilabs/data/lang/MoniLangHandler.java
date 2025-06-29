@@ -65,7 +65,7 @@ public class MoniLangHandler {
         provider.add("microverse.monilabs.type.corrupted", "Corrupted");
 
         provider.add("microverse.monilabs.current_microverse", "Microverse type: %s");
-        provider.add("microverse.monilabs.integrity", "Microverse integrity: %d");
+        provider.add("microverse.monilabs.integrity", "Microverse integrity: %.2f%%");
 
         provider.add("config.jade.plugin_monilabs.color_info", "Prismatic Crucible Color Info");
         provider.add("config.jade.plugin_monilabs.microverse_info", "Microverse Projector Info");
