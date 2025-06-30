@@ -31,6 +31,8 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
     @Getter
     private int timer = 0;
 
+    public static int XP_BUFFER_MAX = FluidType.BUCKET_VOLUME << GTValues.ZPM;
+
     public SculkVatMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.xpHatchSubscription = new ConditionalSubscriptionHandler(this, this::xpHatchTick, this::isFormed);
@@ -56,7 +58,7 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             if (!xpTank.isEmpty()) {
                 stored = ((FluidStack) xpTank.getContents().get(0)).getAmount();
             }
-            xpBuffer = Math.min(FluidType.BUCKET_VOLUME << GTValues.ZPM, xpBuffer + stored);
+            xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
             xpTank.setFluidInTank(0, FluidStack.EMPTY);
 
             xpBuffer -= xpBuffer >> 4;
