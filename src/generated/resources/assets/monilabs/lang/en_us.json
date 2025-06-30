@@ -57,5 +57,12 @@
   "monilabs.tooltip.prismatic.1": "Recipes MUST be input in the correct color state!",
   "monilabs.tooltip.prismatic.2": "They can even change the crucible's color randomly!",
   "monilabs.tooltip.prismatic.rainbow": "the rainbow",
-  "monilabs.tooltip.prismatic_core": "The heart of the Prismatic Crucible!"
+  "monilabs.tooltip.prismatic_core": "The heart of the Prismatic Crucible!",
+  "tooltip.monilabs.microverse_stability_hatch.0": "Outputs microverse stability",
+  "tooltip.monilabs.microverse_stability_hatch.1": "as a redstone signal.",
+  "tooltip.monilabs.xp_draining_hatch.0": "Drains all XP to the Sculk Vat's internal",
+  "tooltip.monilabs.xp_draining_hatch.1": "buffer for its processing.",
+  "tooltip.monilabs.xp_draining_hatch.2": "Buffer continuously decays slightly.",
+  "tooltip.monilabs.xp_sensor_hatch.0": "Outputs xp buffer status of sculk vat",
+  "tooltip.monilabs.xp_sensor_hatch.1": "as a redstone signal."
 }

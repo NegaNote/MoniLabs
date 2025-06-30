@@ -1,6 +1,5 @@
 package net.neganote.monilabs.common.machine;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
@@ -54,21 +53,25 @@ public class MoniMachines {
     public static MachineDefinition SCULK_XP_DRAINING_HATCH = MoniLabs.REGISTRATE
             .machine("sculk_xp_draining_hatch", SculkExperienceDrainingHatchPartMachine::new)
             .langValue("Sculk XP Draining Hatch")
-            .tier(GTValues.ZPM)
+            .tooltips(Component.translatable("tooltip.monilabs.xp_draining_hatch.0"),
+                    Component.translatable("tooltip.monilabs.xp_draining_hatch.1"),
+                    Component.translatable("tooltip.monilabs.xp_draining_hatch.2"))
             .renderer(() -> new SculkExperienceDrainingHatchRenderer("block/overlay/machine/exp_hatch_draining"))
             .register();
 
     public static MachineDefinition SCULK_XP_SENSOR_HATCH = MoniLabs.REGISTRATE
             .machine("sculk_xp_sensor_hatch", SculkExperienceSensorHatchPartMachine::new)
             .langValue("Sculk XP Sensor Hatch")
-            .tier(GTValues.ZPM)
+            .tooltips(Component.translatable("tooltip.monilabs.xp_sensor_hatch.0"),
+                    Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"))
             .renderer(() -> new SculkExperienceSensorHatchRenderer("block/overlay/machine/exp_sensor"))
             .register();
 
     public static MachineDefinition MICROVERSE_INTEGRITY_SENSOR_HATCH = MoniLabs.REGISTRATE
             .machine("microverse_stability_sensor_hatch", MicroverseStabilitySensorHatchPartMachine::new)
             .langValue("Microverse Stability Sensor Hatch")
-            .tier(GTValues.ZPM)
+            .tooltips(Component.translatable("tooltip.monilabs.microverse_stability_hatch.0"),
+                    Component.translatable("tooltip.monilabs.microverse_stability_hatch.1"))
             .renderer(() -> new MicroverseStabilitySensorHatchRenderer("block/overlay/machine/stability_hatch"))
             .register();
 

@@ -58,6 +58,16 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.chroma_sensor_hatch.1", "as a redstone signal. 0 for unformed,");
         provider.add("monilabs.tooltip.chroma_sensor_hatch.2", "1-12 for each color the PrismaC can be in.");
 
+        provider.add("tooltip.monilabs.xp_draining_hatch.0", "Drains all XP to the Sculk Vat's internal");
+        provider.add("tooltip.monilabs.xp_draining_hatch.1", "buffer for its processing.");
+        provider.add("tooltip.monilabs.xp_draining_hatch.2", "Buffer continuously decays slightly.");
+
+        provider.add("tooltip.monilabs.xp_sensor_hatch.0", "Outputs xp buffer status of sculk vat");
+        provider.add("tooltip.monilabs.xp_sensor_hatch.1", "as a redstone signal.");
+
+        provider.add("tooltip.monilabs.microverse_stability_hatch.0", "Outputs microverse stability");
+        provider.add("tooltip.monilabs.microverse_stability_hatch.1", "as a redstone signal.");
+
         provider.add("microverse.monilabs.type.none", "None");
         provider.add("microverse.monilabs.type.normal", "Normal");
         provider.add("microverse.monilabs.type.hostile", "Hostile");
