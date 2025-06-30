@@ -1,10 +1,8 @@
-package net.neganote.monilabs.client.renderer;
+package net.neganote.monilabs.client.renderer.part;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
+import com.gregtechceu.gtceu.client.renderer.machine.MachineRenderer;
 import com.gregtechceu.gtceu.client.util.StaticFaceBakery;
 
 import com.lowdragmc.lowdraglib.client.bakedpipeline.Quad;
@@ -25,12 +23,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ChromaSensorHatchRenderer extends TieredHullMachineRenderer {
+public class ChromaSensorHatchRenderer extends MachineRenderer {
 
     private final String texturePath;
 
     public ChromaSensorHatchRenderer(String texturePath) {
-        super(GTValues.UHV, GTCEu.id("block/machine/hull_machine"));
+        super(MoniLabs.kjsResLoc("block/dimensional_stabilization_netherite_casing"));
         this.texturePath = texturePath;
     }
 
@@ -42,7 +40,6 @@ public class ChromaSensorHatchRenderer extends TieredHullMachineRenderer {
         int color = 0;
         if (side == frontFacing && modelFacing != null) {
             if (machine instanceof ChromaSensorHatchPartMachine chromaSensor) {
-
                 var controllers = chromaSensor.getControllers().stream()
                         .filter(PrismaticCrucibleMachine.class::isInstance)
                         .map(PrismaticCrucibleMachine.class::cast)
@@ -51,10 +48,9 @@ public class ChromaSensorHatchRenderer extends TieredHullMachineRenderer {
                     var controller = controllers.get(0);
                     color = controller.isFormed() ? controller.getColorState().key + 1 : 0;
                 }
-
             }
             quads.add(Quad.from(StaticFaceBakery.bakeFace(modelFacing,
-                    ModelFactory.getBlockSprite(MoniLabs.id(texturePath + color)), modelState), 0.004F).rebake());
+                    ModelFactory.getBlockSprite(MoniLabs.id(texturePath + "_" + color)), modelState), 0.004F).rebake());
         }
     }
 
@@ -62,7 +58,7 @@ public class ChromaSensorHatchRenderer extends TieredHullMachineRenderer {
     public void onPrepareTextureAtlas(ResourceLocation atlasName, Consumer<ResourceLocation> register) {
         if (atlasName.equals(InventoryMenu.BLOCK_ATLAS)) {
             for (int i = 0; i <= 12; i++) {
-                register.accept(MoniLabs.id(texturePath + i));
+                register.accept(MoniLabs.id(texturePath + "_" + i));
             }
         }
     }

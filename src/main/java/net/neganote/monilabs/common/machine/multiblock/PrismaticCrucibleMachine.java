@@ -213,7 +213,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     // Stolen from LargeChemicalBathMachine
     protected void saveOffsets() {
-        Direction up = RelativeDirection.UP.getRelativeFacing(getFrontFacing(), getUpwardsFacing(), isFlipped());
+        Direction up = RelativeDirection.UP.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
         Direction back = getFrontFacing().getOpposite();
         BlockPos pos = getPos();
         BlockPos center = pos.relative(up);

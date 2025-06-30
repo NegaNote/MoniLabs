@@ -3,6 +3,7 @@ package net.neganote.monilabs.integration.kjs;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.client.renderer.MicroverseProjectorRenderer;
 import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.machine.MoniMachines;
@@ -61,11 +62,13 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("AntimatterGeneratorMachine", AntimatterGeneratorMachine.class);
         event.add("CreativeDataMultiMachine", CreativeDataMultiMachine.class);
         event.add("CreativeEnergyMultiMachine", CreativeEnergyMultiMachine.class);
+        event.add("MicroverseProjectorMachine", MicroverseProjectorMachine.class);
         event.add("OmnicSynthesizerMachine", OmnicSynthesizerMachine.class);
         event.add("PrismaticCrucibleMachine", PrismaticCrucibleMachine.class);
         event.add("SculkVatMachine", SculkVatMachine.class);
 
         // Renderers
         event.add("PrismaticCrucibleRenderer", PrismaticCrucibleRenderer.class);
+        event.add("MicroverseProjectorRenderer", MicroverseProjectorRenderer.class);
     }
 }

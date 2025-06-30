@@ -84,6 +84,27 @@ public interface MoniRecipeSchema {
             this.addData("maximumXp", max);
             return this;
         }
+
+        public GTRecipeSchema.GTRecipeJS requiredMicroverse(int i) {
+            this.addData("required_microverse", i);
+            return this;
+        }
+
+        public GTRecipeSchema.GTRecipeJS damageRate(int rate) {
+            this.addData("damage_rate", rate);
+            return this;
+        }
+
+        public GTRecipeSchema.GTRecipeJS updateMicroverse(int i) {
+            return this.updateMicroverse(i, false);
+        }
+
+        public GTRecipeSchema.GTRecipeJS updateMicroverse(int i, boolean keepIntegrity) {
+            int updatedMicroverse = (i >= 0 ? i : -i); // Don't wanna import math :tr:
+            this.addData("updated_microverse", updatedMicroverse);
+            this.addDataBool("keep_integrity", keepIntegrity);
+            return this;
+        }
     }
 
     RecipeSchema SCHEMA = new RecipeSchema(MoniRecipeJS.class, MoniRecipeJS::new, DURATION, DATA, CONDITIONS,

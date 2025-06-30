@@ -4,6 +4,8 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic.*;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -16,6 +18,7 @@ import net.minecraft.util.valueproviders.UniformFloat;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fluids.FluidStack;
 import net.neganote.monilabs.common.machine.multiblock.AntimatterGeneratorMachine;
+import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.config.MoniConfig;
 
@@ -112,5 +115,31 @@ public class MoniRecipeModifiers {
                     .outputModifier(new ContentModifier(shouldBeRandom ? rand.sample(GTValues.RNG) : 1.0, 0.0))
                     .build();
         };
+    }
+
+    public static RecipeModifier MICROVERSE_OC = (machine, recipe) -> {
+        if (!(machine instanceof MicroverseProjectorMachine projector)) {
+            return RecipeModifier.nullWrongType(MicroverseProjectorMachine.class, machine);
+        }
+        int projectorTier = projector.getProjectorTier();
+        int recipeTier;
+        if (recipe.data.contains("projector_tier")) {
+            recipeTier = recipe.data.getByte("projector_tier");
+        } else {
+            recipeTier = 1;
+        }
+        int maxOCs = projector.getTier() - RecipeHelper.getRecipeEUtTier(recipe);
+        OverclockingLogic logic = (p, v) -> microverseTierOC(projectorTier, recipeTier, maxOCs);
+        return logic.getModifier(machine, recipe, projector.getOverclockVoltage());
+    };
+
+    public static OCResult microverseTierOC(int projectorTier, int recipeTier, int maxOCs) {
+        int perfectOCAmount = Math.min(projectorTier - recipeTier, maxOCs);
+        double durationMultiplier = Math.pow(OverclockingLogic.PERFECT_DURATION_FACTOR, perfectOCAmount);
+        if (maxOCs > perfectOCAmount) {
+            int normalOCAmount = maxOCs - perfectOCAmount;
+            durationMultiplier *= Math.pow(OverclockingLogic.STD_DURATION_FACTOR, normalOCAmount);
+        }
+        return new OCResult(Math.pow(4, maxOCs), durationMultiplier, perfectOCAmount, 1);
     }
 }
