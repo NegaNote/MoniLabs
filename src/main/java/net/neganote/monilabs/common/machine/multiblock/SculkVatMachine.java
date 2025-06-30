@@ -14,7 +14,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
-import net.neganote.monilabs.common.machine.part.SculkExperienceSensorHatchPartMachine;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -67,15 +66,6 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             xpTank.setFluidInTank(0, FluidStack.EMPTY);
 
             xpBuffer -= xpBuffer >> 4;
-
-            var array2 = getParts().stream()
-                    .filter(SculkExperienceSensorHatchPartMachine.class::isInstance)
-                    .map(SculkExperienceSensorHatchPartMachine.class::cast)
-                    .toArray(SculkExperienceSensorHatchPartMachine[]::new);
-
-            if (array2.length == 1) {
-                array2[0].updateSignal();
-            }
         }
         timer = timer + 1 % 8;
     }

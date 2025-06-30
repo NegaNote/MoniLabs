@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -22,7 +21,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.neganote.monilabs.common.machine.part.MicroverseStabilitySensorHatchPartMachine;
 import net.neganote.monilabs.config.MoniConfig;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -78,7 +76,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     private List<NotifiableItemStackHandler> inputBuses = null;
     private List<NotifiableItemStackHandler> outputBuses = null;
-    private List<MicroverseStabilitySensorHatchPartMachine> stabilitySensorHatches = null;
 
     // Constant for max health. Takes 500s (8m20s) to decay at a rate of 1/tick
     public static final int MICROVERSE_MAX_INTEGRITY = 100_000;
@@ -106,7 +103,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         microverseHandler.updateSubscription();
         inputBuses = null;
         outputBuses = null;
-        stabilitySensorHatches = null;
     }
 
     @Override
@@ -126,12 +122,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
                     .filter(NotifiableItemStackHandler.class::isInstance)
                     .map(NotifiableItemStackHandler.class::cast)
-                    .toList();
-        }
-        if (stabilitySensorHatches == null) {
-            stabilitySensorHatches = getParts().stream()
-                    .filter(MicroverseStabilitySensorHatchPartMachine.class::isInstance)
-                    .map(MicroverseStabilitySensorHatchPartMachine.class::cast)
                     .toList();
         }
         super.onStructureFormed();
@@ -189,9 +179,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             }
             if (microverseIntegrity >= MICROVERSE_MAX_INTEGRITY) microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
         }
-        if (stabilitySensorHatches != null) {
-            stabilitySensorHatches.forEach(IRedstoneSignalMachine::updateSignal);
-        }
         return true;
     }
 
@@ -203,9 +190,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             updateMicroverse(updatedMicroverse, activeRecipe.data.getBoolean("keep_integrity"));
         }
         activeRecipe = null;
-        if (stabilitySensorHatches != null) {
-            stabilitySensorHatches.forEach(IRedstoneSignalMachine::updateSignal);
-        }
     }
 
     public void microverseTick() {
@@ -276,10 +260,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             if (microverseIntegrity <= 0) {
                 updateMicroverse(0, false);
             }
-        }
-
-        if (isFormed() && stabilitySensorHatches != null) {
-            stabilitySensorHatches.forEach(IRedstoneSignalMachine::updateSignal);
         }
     }
 

@@ -2,7 +2,6 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -16,7 +15,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
-import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 
 import lombok.Getter;
@@ -174,9 +172,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         getCoverContainer().getCovers().forEach((CoverBehavior::onChanged));
-        getParts().stream().filter(ChromaSensorHatchPartMachine.class::isInstance)
-                .map(ChromaSensorHatchPartMachine.class::cast)
-                .forEach(IRedstoneSignalMachine::updateSignal);
     }
 
     @Override
