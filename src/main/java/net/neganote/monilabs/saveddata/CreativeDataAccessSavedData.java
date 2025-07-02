@@ -1,5 +1,6 @@
 package net.neganote.monilabs.saveddata;
 
+import com.gregtechceu.gtceu.common.machine.owner.FTBOwner;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -53,7 +54,8 @@ public class CreativeDataAccessSavedData extends SavedData {
     }
 
     public boolean isEnabledFor(UUID uuid) {
-        return ownersMap.computeIfAbsent(uuid, (u) -> false);
+        FTBOwner owner = new FTBOwner(uuid);
+        return ownersMap.keySet().stream().filter(ownersMap::get).anyMatch(owner::isPlayerInTeam);
     }
 
     public void setEnabled(UUID uuid, boolean enabled) {
