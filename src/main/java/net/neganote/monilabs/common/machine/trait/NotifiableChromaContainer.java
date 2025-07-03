@@ -5,11 +5,13 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.lookup.ingredient.MapIngredientTypeManager;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
+import net.neganote.monilabs.capability.recipe.ChromaRecipeCapability;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
@@ -52,9 +54,9 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     @Override
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left,
                                                     boolean simulate) {
-        Color recipeColor = ((ChromaIngredient) recipe.getInputContents(MoniRecipeCapabilities.CHROMA).get(0)
-                .getContent()).color();
-        List<Color> colors = MoniRecipeCapabilities.CHROMA.convertToMapIngredient(recipeColor).stream()
+        ChromaIngredient recipeColor = (ChromaIngredient) recipe.getInputContents(MoniRecipeCapabilities.CHROMA).get(0)
+                .getContent();
+        List<Color> colors = MapIngredientTypeManager.getFrom(recipeColor, ChromaRecipeCapability.CAP).stream()
                 .map(MapColorIngredient.class::cast).filter(Objects::nonNull).map(ing -> ing.color).toList();
         int key = this.heldColor.key;
         for (Color color : colors) {
@@ -125,17 +127,17 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
 
     @Override
     public @NotNull List<Object> getContents() {
-        return List.of(heldColor);
+        return List.of(new ChromaIngredient(heldColor));
     }
 
     @Override
     public int getSize() {
-        return Color.COLOR_COUNT;
+        return 1;
     }
 
     @Override
     public double getTotalContentAmount() {
-        return 0;
+        return 1;
     }
 
     @Override

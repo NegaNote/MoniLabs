@@ -231,6 +231,11 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         }
     }
 
+    @Override
+    public boolean isBatchEnabled() {
+        return false;
+    }
+
     public Color getColorState() {
         return color;
     }

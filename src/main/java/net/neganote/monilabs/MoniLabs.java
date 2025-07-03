@@ -8,18 +8,20 @@ import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEv
 import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.lookup.ingredient.MapIngredientTypeManager;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neganote.monilabs.capability.recipe.ChromaIngredient;
+import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.client.renderer.MoniShaders;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.item.MoniItems;
@@ -83,8 +85,7 @@ public class MoniLabs {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            LOGGER.info("Hello from common setup! This is *after* registries are done, so we can do this:");
-            LOGGER.info("Look, I found a {}!", Items.DIAMOND);
+            MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from);
         });
     }
 
