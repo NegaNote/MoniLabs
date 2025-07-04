@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "gtceu:block/cube_2_layer/all",
   "textures": {
-    "all": "monilabs:block/prism_glass"
+    "bot_all": "monilabs:block/prismac/prism_frame_active",
+    "top_all": "monilabs:block/prismac/color_prism_active"
   }
 }

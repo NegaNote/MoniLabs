@@ -38,13 +38,13 @@ public class PrismFX extends TextureSheetParticle {
         double par8, double par10, double par12, SpriteSet sprite) {
         super(level, x, y, z, par8, par10, par12);
         this.setSize(0.04F, 0.04F);
-        this.quadSize *= this.random.nextFloat() * 0.6F + 1.9F;
+        this.quadSize *= random.nextFloat() * .6f + 1.2f;
         // this.xd = this.random.nextGaussian() / 256;
         // this.yd = this.random.nextGaussian() / 256;
         // this.zd = this.random.nextGaussian() / 256;
-        this.xd *= (double) 0.1F;
-        this.yd *= (double) 0.1F;
-        this.zd *= (double) 0.1F;
+        this.xd *= (double) 0.05F;
+        this.yd *= (double) 0.05F;
+        this.zd *= (double) 0.05F;
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
@@ -75,11 +75,11 @@ public class PrismFX extends TextureSheetParticle {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-        this.x += xd;
+        x += xd;
         y += yd;
         z += zd;
         // this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        // this.quadSize *= 0.95;
+        this.quadSize *= 0.98;
 
         if (this.age++ >= this.lifetime || this.quadSize < .1) {
             this.remove();
@@ -106,36 +106,22 @@ public class PrismFX extends TextureSheetParticle {
             PrismFX particle = new PrismFX(level, x, y, z, xSpeed, ySpeed,
                 zSpeed,
                 spriteSet);
-            particle.setColor(RGB[0], RGB[1], RGB[2]);
+            float r = 1 + (particle.random.nextFloat() - 1) / 10;
+            particle.setColor(RGB[0] * r, RGB[1] * r, RGB[2] * r);
             particle.setAlpha(alpha);
             return particle;
 
         }
 
-        /**
-         * Pushes a color onto the stack, returning the previous color
-         * 
-         * @param rgb a float array containing 3 float values: red, green, and
-         *            blue
-         * @return previous color, remember to set it back with
-         *         {@link Factory#popColor(float[])} once done
-         */
-        public float[] pushColor(float... rgb) {
-            float[] old = RGB;
-            RGB = rgb;
-            return old;
-        }
+        public static void setColor(float... rgb) { SetColor.RGB = rgb; }
 
-        /**
-         * Pops a color off the stack, returning to the previous value
-         * 
-         * @param rgb the previous color value
-         */
-        public void popColor(float[] rgb) {
-            RGB = rgb;
-        }
+        public static void setAlpha(float alpha) { SetColor.alpha = alpha; }
     }
 
+    /**
+     * Particle that has it's color set depending on Perlin noise of it's
+     * spatial coordinates
+     */
     @OnlyIn(Dist.CLIENT)
     public static class PositionalColor
         implements ParticleProvider<SimpleParticleType> {

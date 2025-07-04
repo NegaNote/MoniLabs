@@ -17,7 +17,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.neganote.monilabs.client.render.effects.ParticleTypes;
+import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.client.render.effects.MoniTrails;
 
 import stone.mae2.api.client.trails.CloudChamberUtil;
 import stone.mae2.api.client.trails.Trail;
@@ -61,7 +62,11 @@ public void animateTick(BlockState pState, Level pLevel, BlockPos pPos,
 
   @Override
   public ParticleOptions getTrailParticle(BlockState state, Trail trail) {
-      return ParticleTypes.CHROMA_BACKGROUND;
+      if (trail == CloudChamberUtil.ALPHA)
+          return MoniTrails.CHROMA_BACKGROUND.getParticle();
+      if (trail == CloudChamberUtil.BETA)
+          return MoniTrails.CHROMA_BETA.getParticle();
+      return MoniTrails.CHROMA_BETA.getParticle();
   }
 
   // this is stupid, but it's what GTm wants because they couldn't be bothered
@@ -72,11 +77,18 @@ public void animateTick(BlockState pState, Level pLevel, BlockPos pPos,
         ActiveBlock block = ctx.getEntry();
         ResourceLocation texturePath2 = texturePath.withPrefix("block/");
 
-        ModelFile inactive = prov.models().cubeAll(name, texturePath2);
+        ModelFile inactive = prov
+            .models()
+            .withExistingParent(name,
+                "gtceu:block/cube_2_layer/all")
+            .texture("bot_all", MoniLabs.id("block/prismac/prism_frame"))
+            .texture("top_all", MoniLabs.id("block/prismac/color_prism"));
         ModelFile active = prov
             .models()
-            .cubeAll(name + "_active",
-                texturePath2.withSuffix("_active"));
+            .withExistingParent(name, "gtceu:block/cube_2_layer/all")
+            .texture("bot_all", MoniLabs.id("block/prismac/prism_frame_active"))
+            .texture("top_all",
+                MoniLabs.id("block/prismac/color_prism_active"));
 
         prov
             .getVariantBuilder(block)

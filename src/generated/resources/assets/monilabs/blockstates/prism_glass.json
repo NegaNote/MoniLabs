@@ -4,7 +4,7 @@
       "model": "monilabs:block/prism_glass"
     },
     "active=true": {
-      "model": "monilabs:block/prism_glass_active"
+      "model": "monilabs:block/prism_glass"
     }
   }
 }

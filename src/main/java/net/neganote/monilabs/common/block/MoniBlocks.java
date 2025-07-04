@@ -67,10 +67,9 @@ public class MoniBlocks {
     public static final BlockEntry<PRISMBlock> PRISM_GLASS = REGISTRATE
         .block("prism_glass", PRISMBlock::new)
         .initialProperties(() -> Blocks.GLASS)
-        .addLayer(() -> RenderType::translucent)
+        .addLayer(() -> RenderType::cutout)
         .blockstate(PRISMBlock
-            .createPRISMModel("block/prism_glass",
-                MoniLabs.id("prism_glass")))
+            .createPRISMModel("block/prism_glass", MoniLabs.id("prism_glass")))
         .tag(RecipeTags.MINEABLE_WITH_WRENCH,
             BlockTags.MINEABLE_WITH_PICKAXE, MAE2Tags.CLOUD_CHAMBERS)
         .item(BlockItem::new)
