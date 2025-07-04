@@ -30,6 +30,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.neganote.monilabs.client.render.effects.FastNoiseLite.NoiseType;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class PrismFX extends TextureSheetParticle {
@@ -127,10 +130,11 @@ public class PrismFX extends TextureSheetParticle {
         implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
         private static final FastNoiseLite noise = new FastNoiseLite();
+        private static List<int[]> pride_flags;
 
         static {
-            noise.SetNoiseType(NoiseType.Perlin);
-            noise.SetFrequency(.1f);
+            noise.SetNoiseType(NoiseType.OpenSimplex2S);
+            noise.SetFrequency(.15f);
         }
 
         public PositionalColor(SpriteSet spriteSet) {
@@ -144,14 +148,61 @@ public class PrismFX extends TextureSheetParticle {
             noise.SetSeed((int) level.getGameTime());
             PrismFX particle = new PrismFX(level, x, y, z, xSpeed, ySpeed,
                 zSpeed, spriteSet);
-            float hue = noise.GetNoise(x, y, z);
-            int rgb = Color.HSBtoRGB(hue, 1, 1);
+            float value = Math
+                .max(0f,
+                    Math
+                        .min(.999f,
+                            ((noise.GetNoise(x, y, z) * 1.10f + 1) / 2)));
+            int rgb;
+            if (pride_flags != null) {
+                Random rand = new Random(level.getGameTime());
+
+                int[] flag = pride_flags.get(rand.nextInt(pride_flags.size()));
+                int index = (int) (value * flag.length);
+                rgb = flag[index];
+            } else {
+                rgb = Color.HSBtoRGB(value, 1, 1);
+        }
+
             particle
                 .setColor((float) ((rgb & 0xFF0000) >> 16) / 255,
                     (float) ((rgb & 0x00FF00) >> 8) / 255,
                     (float) ((rgb & 0x0000FF)) / 255);
             return particle;
 
+        }
+
+        public static void initPride() {
+         // these flags are in no particular order (aside from being grouped
+            // by gender then sexuality/romantic). They were picked by browsing
+            // a list of pride flags and picking the neat looking ones. If
+            // your's isn't here, it's because I never saw it or decided against
+            // it for whatever reason. Feel free to ask for it
+            pride_flags = new ArrayList<>();
+            pride_flags
+                .add(new int[]
+                { 0x5BCEFA, 0xF5A9B8, 0xFFFFFF, 0xF5A9B8, 0x5BCEFA }); // transgender
+            pride_flags
+                .add(new int[]
+                { 0xFF76A4, 0xFFFFFF, 0xC011D7, 0x000000, 0x2F3CBE }); // genderfluid
+            pride_flags
+                .add(new int[]
+                { 0xFFF433, 0xFFF8E7, 0x9B59D0, 0x2D2D2D }); // non-binary
+            pride_flags
+                .add(new int[]
+                { 0x000000, 0xA3A3A3, 0xFFFFFF, 0x800080 }); // asexual
+            pride_flags
+                .add(new int[]
+                { 0x3DA542, 0xA7D379, 0xFFFFFF, 0xA9A9A9, 0x000000 }); // aromantic
+            pride_flags.add(new int[] { 0xD60270, 0x9B4F96, 0x0038A8 }); // bisexual
+            pride_flags
+                .add(new int[]
+                { 0xD52D00, 0xEF7627, 0xFF9A56, 0xFFFFFF, 0xD162A4, 0xB55690,
+                    0xA30262 }); // lesbian
+            pride_flags.add(new int[] { 0xFF218C, 0xFFD800, 0x21B1FF }); // pansexual
+            pride_flags
+                .add(new int[]
+                { 0x0000FF, 0xFF0000, 0xFFFF00, 0x000000 }); // polyamory
         }
     }
 }

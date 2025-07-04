@@ -35,6 +35,7 @@ import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.MoniDataGen;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
+import net.neganote.monilabs.utils.CalendarUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -116,6 +117,7 @@ public class MoniLabs {
         event.enqueueWork(() -> {
             MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from);
         });
+        CalendarUtil.init();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {

@@ -1,14 +1,12 @@
 package net.neganote.monilabs.config;
 
 import com.gregtechceu.gtceu.api.GTValues;
-
-import net.neganote.monilabs.MoniLabs;
-
 import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.ConfigHolder;
 import dev.toma.configuration.config.Configurable;
 import dev.toma.configuration.config.format.ConfigFormats;
+import net.neganote.monilabs.MoniLabs;
 
 @Config(id = MoniLabs.MOD_ID)
 public class MoniConfig {
@@ -54,5 +52,8 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "" })
         public boolean microminerReturnedOnZeroIntegrity = true;
+        @Configurable
+        @Configurable.Comment({"Force pride month easter eggs regardless of time of year"})
+        public boolean forcePrideMonth = false;
     }
 }
