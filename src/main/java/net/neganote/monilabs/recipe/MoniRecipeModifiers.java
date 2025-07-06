@@ -57,7 +57,8 @@ public class MoniRecipeModifiers {
             stored = ((FluidStack) contents.get(0)).getAmount();
         }
         double x = (double) stored / capacity;
-        return Math.pow(1.0 / Math.exp(7.0 * Math.pow((x - 0.5), 2.0)), 2.0) * Math.exp(7.0 / 2.0);
+        double expMod = Math.log(MoniConfig.INSTANCE.values.sculkVatEfficiencyMultiplier) * 2.0;
+        return Math.pow(1.0 / Math.exp(expMod * Math.pow((x - 0.5), 2.0)), 2.0);
     }
 
     public static RecipeModifier omnicSynthRecipeModifier() {

@@ -30,6 +30,7 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "The exponent used each time the Omnic Synthesizer performs an operation." })
         public double omnicSynthesizerExponent = 1.557;
+
         @Configurable
         @Configurable.Comment({ "Minimum multiplier to antimatter generation (inclusive)." })
         public float antimatterRandomMinInclusive = 0.5f;
@@ -39,6 +40,7 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "Base amount of EU to generate per millibucket of antimatter." })
         public long euPerAntimatterMillibucket = GTValues.V[GTValues.UEV];
+
         @Configurable
         @Configurable.Comment({ "Fluid ID for the antimatter fuel." })
         public String antimatterFuelID = "minecraft:water";
@@ -51,8 +53,18 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "Bonus multiplier for the second tier of annihilant." })
         public double antimatterSecondTierBonusMultiplier = 4.0;
+
         @Configurable
-        @Configurable.Comment({ "" })
+        @Configurable.Comment({ "Whether the microminer is returned upon a microverse reaching zero integrity." })
         public boolean microminerReturnedOnZeroIntegrity = true;
+
+        @Configurable
+        @Configurable.Comment({
+                "The efficiency multiplier for the sculk vat. Would make it this many times less efficient at empty/full compared to half." })
+        public double sculkVatEfficiencyMultiplier = 33.0;
+
+        @Configurable
+        @Configurable.Comment({ "Fluid ID for Liquid Experience for the Sculk Vat." })
+        public String sculkVatExperienceFluidID = "enderio:xp_juice";
     }
 }

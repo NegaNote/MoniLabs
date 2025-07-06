@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachin
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.neganote.monilabs.config.MoniConfig;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +25,8 @@ public class SculkExperienceDrainingHatchPartMachine extends FluidHatchPartMachi
     @Override
     protected @NotNull NotifiableFluidTank createTank(int initialCapacity, int slots, Object @NotNull... args) {
         return super.createTank(initialCapacity, slots).setFilter(fluidStack -> fluidStack.getFluid().isSame(
-                Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(new ResourceLocation("enderio", "xp_juice")))));
+                Objects.requireNonNull(ForgeRegistries.FLUIDS
+                        .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.sculkVatExperienceFluidID, ':')))));
     }
 
     @Override
