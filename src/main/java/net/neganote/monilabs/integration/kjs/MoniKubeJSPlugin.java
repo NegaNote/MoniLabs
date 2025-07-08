@@ -3,8 +3,7 @@ package net.neganote.monilabs.integration.kjs;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.neganote.monilabs.MoniLabs;
-import net.neganote.monilabs.client.renderer.MicroverseProjectorRenderer;
-import net.neganote.monilabs.client.renderer.PrismaticCrucibleRenderer;
+import net.neganote.monilabs.client.render.MoniDynamicRenderHelper;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.common.machine.multiblock.*;
@@ -55,7 +54,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("MoniRecipeTypes", MoniRecipeTypes.class);
         event.add("MoniRecipeModifiers", MoniRecipeModifiers.class);
         event.add("MoniConfig", MoniConfig.class);
-        event.add("PrismaticColor", PrismaticCrucibleMachine.Color.class);
+        event.add("PrismaticColor", Color.class);
         event.add("SpecialCase", MoniRecipeSchema.SpecialCase.class);
 
         // Specific Machines
@@ -67,8 +66,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("PrismaticCrucibleMachine", PrismaticCrucibleMachine.class);
         event.add("SculkVatMachine", SculkVatMachine.class);
 
-        // Renderers
-        event.add("PrismaticCrucibleRenderer", PrismaticCrucibleRenderer.class);
-        event.add("MicroverseProjectorRenderer", MicroverseProjectorRenderer.class);
+        // Rendering
+        event.add("MoniDynamicRenderHelper", MoniDynamicRenderHelper.class);
     }
 }

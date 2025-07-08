@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.integration.kjs.recipe.components.ContentJS;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.integration.kjs.recipe.ChromaComponent;
 import net.neganote.monilabs.recipe.MoniRecipes;
 
@@ -49,7 +49,7 @@ public class MoniLabsGTAddon implements IGTAddon {
     }
 
     public static final ChromaComponent CHROMA_COMPONENT = new ChromaComponent();
-    public static final ContentJS<PrismaticCrucibleMachine.Color> CHROMA_IN = new ContentJS<>(CHROMA_COMPONENT,
+    public static final ContentJS<Color> CHROMA_IN = new ContentJS<>(CHROMA_COMPONENT,
             MoniRecipeCapabilities.CHROMA, true);
 
     @Override

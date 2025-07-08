@@ -9,6 +9,8 @@ import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class SculkExperienceSensorHatchPartMachine extends SensorHatchPartMachine {
 
     public SculkExperienceSensorHatchPartMachine(IMachineBlockEntity holder) {
@@ -22,14 +24,29 @@ public class SculkExperienceSensorHatchPartMachine extends SensorHatchPartMachin
                     .map(SculkVatMachine.class::cast)
                     .toList();
             if (controllers.isEmpty()) {
+                setRenderFillLevel(FillLevel.EMPTY_TO_QUARTER);
                 return 0;
             } else {
                 var controller = controllers.get(0);
                 int value = (int) (16 * controller.getXpBuffer() / ((float) (FluidType.BUCKET_VOLUME << GTValues.ZPM)));
-                return value == 16 ? 15 : value;
+                int signal = value == 16 ? 15 : value;
+
+                var fillLevel = FillLevel.values()[signal / 4];
+
+                setRenderFillLevel(fillLevel);
+
+                return signal;
             }
         } else {
             return 0;
+        }
+    }
+
+    private void setRenderFillLevel(FillLevel newFillLevel) {
+        var oldRenderState = getRenderState();
+        var newRenderState = oldRenderState.setValue(FillLevel.FILL_PROPERTY, newFillLevel);
+        if (!Objects.equals(oldRenderState, newRenderState)) {
+            setRenderState(newRenderState);
         }
     }
 }

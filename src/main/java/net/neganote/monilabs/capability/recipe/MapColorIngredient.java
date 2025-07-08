@@ -2,7 +2,7 @@ package net.neganote.monilabs.capability.recipe;
 
 import com.gregtechceu.gtceu.api.recipe.lookup.ingredient.AbstractMapIngredient;
 
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 

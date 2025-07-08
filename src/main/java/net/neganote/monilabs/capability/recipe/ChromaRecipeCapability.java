@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

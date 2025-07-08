@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/overlay/2_layer/front_emissive",
+  "textures": {
+    "overlay": "monilabs:block/overlay/machine/exp_hatch_draining_base",
+    "overlay_emissive": "monilabs:block/overlay/machine/exp_hatch_draining_emissive"
+  }
+}

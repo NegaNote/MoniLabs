@@ -1,7 +1,7 @@
 package net.neganote.monilabs.integration.kjs.recipe;
 
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

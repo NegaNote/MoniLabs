@@ -1,6 +1,7 @@
 package net.neganote.monilabs.common.block;
 
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -9,7 +10,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -44,7 +45,7 @@ public class PrismaticActiveBlock extends ActiveBlock {
             VariantBlockStateBuilder builder = prov
                     .getVariantBuilder(block)
                     .partialState()
-                    .with(ActiveBlock.ACTIVE, false)
+                    .with(GTBlockStateProperties.ACTIVE, false)
                     .modelForState()
                     .modelFile(inactive)
                     .addModel();
@@ -58,7 +59,7 @@ public class PrismaticActiveBlock extends ActiveBlock {
 
                 builder
                         .partialState()
-                        .with(ActiveBlock.ACTIVE, true)
+                        .with(GTBlockStateProperties.ACTIVE, true)
                         .with(COLOR, color.key)
                         .modelForState()
                         .modelFile(file)

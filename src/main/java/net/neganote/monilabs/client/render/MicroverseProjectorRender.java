@@ -1,9 +1,9 @@
-package net.neganote.monilabs.client.renderer;
+package net.neganote.monilabs.client.render;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,23 +13,32 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.model.data.ModelData;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
-import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine.Microverse;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.serialization.Codec;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 // @SuppressWarnings("unused")
-public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
+public class MicroverseProjectorRender extends
+                                       DynamicRender<MicroverseProjectorMachine, MicroverseProjectorRender> {
 
-    public MicroverseProjectorRenderer(ResourceLocation baseCasing, ResourceLocation workableModel) {
-        super(baseCasing, workableModel);
+    // spotless:off
+    public static final Codec<MicroverseProjectorRender> CODEC = Codec.INT.xmap(MicroverseProjectorRender::new, MicroverseProjectorRender::getTier);
+    public static final DynamicRenderType<MicroverseProjectorMachine, MicroverseProjectorRender> TYPE = new DynamicRenderType<>(CODEC);
+    // spotless:on
+
+    @Getter
+    private final int tier;
+
+    public MicroverseProjectorRender(int tier) {
+        this.tier = tier;
     }
 
     public static final ResourceLocation SPHERE = MoniLabs.id("render/sphere");
@@ -37,26 +46,21 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
     public static final ResourceLocation CUBE = MoniLabs.id("render/cube");
 
     @Override
-    public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer,
+    public void render(MicroverseProjectorMachine projector, float partialTicks, @NotNull PoseStack stack,
+                       @NotNull MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof MetaMachineBlockEntity mmbe &&
-                mmbe.getMetaMachine() instanceof MicroverseProjectorMachine projector && projector.isFormed() &&
-                projector.getMicroverse() != Microverse.NONE) {
-            var frontFacing = projector.getFrontFacing();
-            var upwardsFacing = projector.getUpwardsFacing();
+        var frontFacing = projector.getFrontFacing();
+        var upwardsFacing = projector.getUpwardsFacing();
 
-            Direction upwards = RelativeDirection.UP.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
+        Direction upwards = RelativeDirection.UP.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
 
-            Direction left = RelativeDirection.LEFT.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
+        Direction left = RelativeDirection.LEFT.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
 
-            int tier = projector.getProjectorTier();
-
-            renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, combinedOverlay, tier);
-        }
+        renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, combinedOverlay);
     }
 
     private void renderMicroverse(PoseStack stack, MultiBufferSource buffer, Direction upwards, Direction front,
-                                  Direction left, int combinedLight, int combinedOverlay, int tier) {
+                                  Direction left, int combinedLight, int combinedOverlay) {
         switch (tier) {
             case 1:
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -1, 1,
@@ -155,24 +159,12 @@ public class MicroverseProjectorRenderer extends WorkableCasingMachineRenderer {
     }
 
     @Override
-    public boolean hasTESR(BlockEntity blockEntity) {
-        return true;
-    }
-
-    @Override
     public int getViewDistance() {
         return 1024;
     }
 
     @Override
-    public boolean isGlobalRenderer(BlockEntity blockEntity) {
-        return true;
-    }
-
-    @Override
-    public void onAdditionalModel(Consumer<ResourceLocation> registry) {
-        super.onAdditionalModel(registry);
-        registry.accept(SPHERE);
-        registry.accept(CUBE);
+    public @NotNull DynamicRenderType<MicroverseProjectorMachine, MicroverseProjectorRender> getType() {
+        return TYPE;
     }
 }

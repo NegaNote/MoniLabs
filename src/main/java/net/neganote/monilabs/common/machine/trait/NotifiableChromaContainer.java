@@ -14,8 +14,8 @@ import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.ChromaRecipeCapability;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
 
 import org.jetbrains.annotations.NotNull;
 

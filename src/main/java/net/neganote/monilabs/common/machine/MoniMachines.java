@@ -1,20 +1,16 @@
 package net.neganote.monilabs.common.machine;
 
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
 import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
-import net.neganote.monilabs.client.renderer.part.ChromaSensorHatchRenderer;
-import net.neganote.monilabs.client.renderer.part.MicroverseStabilitySensorHatchRenderer;
-import net.neganote.monilabs.client.renderer.part.SculkExperienceDrainingHatchRenderer;
-import net.neganote.monilabs.client.renderer.part.SculkExperienceSensorHatchRenderer;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
-import net.neganote.monilabs.common.machine.part.ChromaSensorHatchPartMachine;
-import net.neganote.monilabs.common.machine.part.MicroverseStabilitySensorHatchPartMachine;
-import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
-import net.neganote.monilabs.common.machine.part.SculkExperienceSensorHatchPartMachine;
+import net.neganote.monilabs.common.machine.part.*;
+import net.neganote.monilabs.data.models.MoniMachineModels;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,35 +40,46 @@ public class MoniMachines {
     public static MachineDefinition CHROMA_SENSOR_HATCH = MoniLabs.REGISTRATE
             .machine("chroma_sensor_hatch", ChromaSensorHatchPartMachine::new)
             .langValue("Chroma Sensor Hatch")
+            .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("monilabs.tooltip.chroma_sensor_hatch.0"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
-            .renderer(() -> new ChromaSensorHatchRenderer("block/overlay/machine/overlay_chroma_sensor"))
+            .modelProperty(RenderColor.COLOR_PROPERTY, RenderColor.NONE)
+            .model(MoniMachineModels.createOverlayChromaMachineModel("chroma_sensor"))
+            .tier(GTValues.UHV)
             .register();
 
     public static MachineDefinition SCULK_XP_DRAINING_HATCH = MoniLabs.REGISTRATE
             .machine("sculk_xp_draining_hatch", SculkExperienceDrainingHatchPartMachine::new)
             .langValue("Sculk XP Draining Hatch")
+            .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("tooltip.monilabs.xp_draining_hatch.0"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.1"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.2"))
-            .renderer(() -> new SculkExperienceDrainingHatchRenderer("block/overlay/machine/exp_hatch_draining"))
+            .overlayTieredHullModel("sculk_experience_draining_hatch")
+            .tier(GTValues.ZPM)
             .register();
 
     public static MachineDefinition SCULK_XP_SENSOR_HATCH = MoniLabs.REGISTRATE
             .machine("sculk_xp_sensor_hatch", SculkExperienceSensorHatchPartMachine::new)
             .langValue("Sculk XP Sensor Hatch")
+            .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("tooltip.monilabs.xp_sensor_hatch.0"),
                     Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"))
-            .renderer(() -> new SculkExperienceSensorHatchRenderer("block/overlay/machine/exp_sensor"))
+            .tier(GTValues.ZPM)
+            .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
+            .model(MoniMachineModels.createOverlayFillLevelMachineModel("exp_sensor"))
             .register();
 
     public static MachineDefinition MICROVERSE_INTEGRITY_SENSOR_HATCH = MoniLabs.REGISTRATE
             .machine("microverse_stability_sensor_hatch", MicroverseStabilitySensorHatchPartMachine::new)
             .langValue("Microverse Stability Sensor Hatch")
+            .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("tooltip.monilabs.microverse_stability_hatch.0"),
                     Component.translatable("tooltip.monilabs.microverse_stability_hatch.1"))
-            .renderer(() -> new MicroverseStabilitySensorHatchRenderer("block/overlay/machine/stability_hatch"))
+            .tier(GTValues.HV)
+            .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
+            .model(MoniMachineModels.createOverlayFillLevelMachineModel("stability_hatch"))
             .register();
 
     public static void init() {}

@@ -1,6 +1,6 @@
 package net.neganote.monilabs.capability.recipe;
 
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 
 import java.util.function.Predicate;
 

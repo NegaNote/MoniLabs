@@ -1,8 +1,8 @@
-package net.neganote.monilabs.client.renderer;
+package net.neganote.monilabs.client.render;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.gregtechceu.gtceu.client.util.RenderUtil;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -11,8 +11,6 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,6 +21,7 @@ import net.neganote.monilabs.utils.LaserUtil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.serialization.Codec;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -30,62 +29,56 @@ import org.joml.Vector3f;
 import java.util.Collection;
 
 import static com.gregtechceu.gtceu.client.util.RenderUtil.getNormal;
-import static com.gregtechceu.gtceu.client.util.RenderUtil.getVertices;
 import static net.minecraft.util.FastColor.ARGB32.*;
 import static net.minecraft.util.FastColor.ARGB32.alpha;
 
 // Parts copied from LargeChemicalBathRenderer
 @SuppressWarnings("unused")
-public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
+public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMachine, PrismaticCrucibleRender> {
 
-    public PrismaticCrucibleRenderer(ResourceLocation baseCasing, ResourceLocation workableModel) {
-        super(baseCasing, workableModel);
-    }
+    // spotless:off
+    public static final Codec<PrismaticCrucibleRender> CODEC = Codec.unit(PrismaticCrucibleRender::new);
+    public static final DynamicRenderType<PrismaticCrucibleMachine, PrismaticCrucibleRender> TYPE = new DynamicRenderType<>(CODEC);
+    // spotless:on
 
-    @Override
-    public boolean hasTESR(BlockEntity blockEntity) {
-        return true;
-    }
+    public PrismaticCrucibleRender() {}
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer,
+    public void render(PrismaticCrucibleMachine pcm, float partialTicks, PoseStack poseStack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity &&
-                machineBlockEntity.getMetaMachine() instanceof PrismaticCrucibleMachine pcm && pcm.isFormed()) {
-            var level = pcm.getLevel();
-            var color = pcm.getColorState();
-            assert level != null;
-            poseStack.pushPose();
-            PoseStack.Pose pose = poseStack.last();
-            var fluidRenderType = ItemBlockRenderTypes.getRenderLayer(GTMaterials.Iron.getFluid().defaultFluidState());
-            var consumer = buffer.getBuffer(RenderTypeHelper.getEntityRenderType(fluidRenderType, false));
-            consumer = consumer.color(color.r, color.g, color.b, 1.0F);
-            var up = RelativeDirection.UP.getRelative(pcm.getFrontFacing(), pcm.getUpwardsFacing(),
-                    pcm.isFlipped());
-            if (up.getAxis() != Direction.Axis.Y) up = up.getOpposite();
+        var level = pcm.getLevel();
+        var color = pcm.getColorState();
+        assert level != null;
+        poseStack.pushPose();
+        PoseStack.Pose pose = poseStack.last();
+        var fluidRenderType = ItemBlockRenderTypes.getRenderLayer(GTMaterials.Iron.getFluid().defaultFluidState());
+        var consumer = buffer.getBuffer(RenderTypeHelper.getEntityRenderType(fluidRenderType, false));
+        consumer = consumer.color(color.r, color.g, color.b, 1.0F);
+        var up = RelativeDirection.UP.getRelative(pcm.getFrontFacing(), pcm.getUpwardsFacing(),
+                pcm.isFlipped());
+        if (up.getAxis() != Direction.Axis.Y) up = up.getOpposite();
 
-            drawPlane(up, pcm.getFluidBlockOffsets(), pose.pose(), consumer, GTMaterials.Iron.getFluid(),
-                    RenderUtil.FluidTextureType.STILL, combinedOverlay, pcm);
-            poseStack.popPose();
+        drawPlane(up, pcm.getFluidBlockOffsets(), pose.pose(), consumer, GTMaterials.Iron.getFluid(),
+                RenderUtil.FluidTextureType.STILL, combinedOverlay, pcm);
+        poseStack.popPose();
 
-            long gameTime = level.getGameTime();
+        long gameTime = level.getGameTime();
 
-            Direction down = up.getOpposite();
+        Direction down = up.getOpposite();
 
-            if (pcm.isActive() && pcm.getFocusPos() != null) {
-                Vector3f ray = new Vector3f(6.0F * (float) down.getNormal().getX(),
-                        6.0F * (float) down.getNormal().getY(),
-                        6.0F * (float) down.getNormal().getZ());
+        if (pcm.isActive() && pcm.getFocusPos() != null) {
+            Vector3f ray = new Vector3f(6.0F * (float) down.getNormal().getX(),
+                    6.0F * (float) down.getNormal().getY(),
+                    6.0F * (float) down.getNormal().getZ());
 
-                float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX()) + 0.5F;
-                float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY()) + 0.5F;
-                float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ()) + 0.5F;
+            float xOffset = (float) (pcm.getFocusPos().getX() - pcm.getPos().getX()) + 0.5F;
+            float yOffset = (float) (pcm.getFocusPos().getY() - pcm.getPos().getY()) + 0.5F;
+            float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ()) + 0.5F;
 
-                LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.g, color.b, 1.0F, xOffset, yOffset,
-                        zOffset,
-                        partialTicks, gameTime);
-            }
+            LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.g, color.b, 1.0F, xOffset, yOffset,
+                    zOffset,
+                    partialTicks, gameTime);
         }
     }
 
@@ -106,12 +99,12 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
         int b = blue(color);
         int a = alpha(color);
         var normal = getNormal(face);
-        var vertices = transformVertices(getVertices(face), face);
+        var vertices = transformVertices(null, face);
         BlockPos prevOffset = null;
         for (var offset : offsets) {
             BlockPos currOffset = prevOffset == null ? offset : offset.subtract(prevOffset);
             pose.translate(currOffset.getX(), currOffset.getY(), currOffset.getZ());
-            drawFace(pose, consumer, vertices, normal, u0, u1, v0, v1, r, g, b, a, combinedOverlay,
+            drawFace(pose, consumer, vertices, (Vector3f) normal, u0, u1, v0, v1, r, g, b, a, combinedOverlay,
                     LightTexture.FULL_BRIGHT);
             prevOffset = offset;
         }
@@ -151,18 +144,8 @@ public class PrismaticCrucibleRenderer extends WorkableCasingMachineRenderer {
         return newVertices;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public float reBakeCustomQuadsOffset() {
-        return 0f;
-    }
-
     @Override
-    public boolean isGlobalRenderer(BlockEntity blockEntity) {
-        return true;
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
+    public @NotNull DynamicRenderType<PrismaticCrucibleMachine, PrismaticCrucibleRender> getType() {
+        return TYPE;
     }
 }

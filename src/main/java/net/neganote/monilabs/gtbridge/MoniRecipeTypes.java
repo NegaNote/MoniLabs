@@ -10,7 +10,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.config.MoniConfig;
 
 @SuppressWarnings("unused")

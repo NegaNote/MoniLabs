@@ -4,12 +4,12 @@ import com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema;
 
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 import lombok.experimental.Accessors;
 
 import static com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema.*;
-import static net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.*;
 
 public interface MoniRecipeSchema {
 

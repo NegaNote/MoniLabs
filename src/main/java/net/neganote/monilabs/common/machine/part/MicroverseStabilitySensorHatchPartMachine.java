@@ -8,6 +8,8 @@ import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachin
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class MicroverseStabilitySensorHatchPartMachine extends SensorHatchPartMachine {
 
     public MicroverseStabilitySensorHatchPartMachine(IMachineBlockEntity holder) {
@@ -21,15 +23,30 @@ public class MicroverseStabilitySensorHatchPartMachine extends SensorHatchPartMa
                     .map(MicroverseProjectorMachine.class::cast)
                     .toList();
             if (controllers.isEmpty()) {
+                setRenderFillLevel(FillLevel.EMPTY_TO_QUARTER);
                 return 0;
             } else {
                 var controller = controllers.get(0);
                 int value = (int) (16 * controller.getMicroverseIntegrity() /
                         ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY));
-                return value == 16 ? 15 : value;
+                int signal = value == 16 ? 15 : value;
+
+                var fillLevel = FillLevel.values()[signal / 4];
+
+                setRenderFillLevel(fillLevel);
+
+                return signal;
             }
         } else {
             return 0;
+        }
+    }
+
+    private void setRenderFillLevel(FillLevel newFillLevel) {
+        var oldRenderState = getRenderState();
+        var newRenderState = oldRenderState.setValue(FillLevel.FILL_PROPERTY, newFillLevel);
+        if (!Objects.equals(oldRenderState, newRenderState)) {
+            setRenderState(newRenderState);
         }
     }
 }

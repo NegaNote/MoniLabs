@@ -1,7 +1,6 @@
 package net.neganote.monilabs.common.block;
 
-import com.gregtechceu.gtceu.api.block.ActiveBlock;
-import com.gregtechceu.gtceu.common.data.GTModels;
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
@@ -29,7 +28,7 @@ public class MoniBlocks {
                 .block(internal, PrismaticActiveBlock::new)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
-                        .lightLevel((b) -> b.getValue(ActiveBlock.ACTIVE) ? 15 : 0))
+                        .lightLevel((b) -> b.getValue(GTBlockStateProperties.ACTIVE) ? 15 : 0))
                 .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/" + internal,
                         MoniLabs.id(internal)))
                 .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -48,8 +47,8 @@ public class MoniBlocks {
                 .block(internal, Block::new)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-                .blockstate(GTModels.cubeAllModel(internal,
-                        MoniLabs.id("block/" + internal)))
+                .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(),
+                        prov.models().cubeAll(ctx.getName(), MoniLabs.id("block/" + internal))))
                 .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
                 .lang(name)
                 .item(func)

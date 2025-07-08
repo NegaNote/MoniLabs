@@ -1,4 +1,4 @@
-package net.neganote.monilabs.client.renderer;
+package net.neganote.monilabs.client.render;
 
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.ShaderStateShard;

@@ -6,8 +6,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
-import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine.Microverse;
 
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;

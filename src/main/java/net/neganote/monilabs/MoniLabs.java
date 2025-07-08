@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.lookup.ingredient.MapIngredientTypeManager;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +23,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
-import net.neganote.monilabs.client.renderer.MoniShaders;
+import net.neganote.monilabs.client.render.MicroverseProjectorRender;
+import net.neganote.monilabs.client.render.MoniShaders;
+import net.neganote.monilabs.client.render.PrismaticCrucibleRender;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
@@ -89,7 +92,14 @@ public class MoniLabs {
         });
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {}
+    private void clientSetup(final FMLClientSetupEvent event) {
+        initializeDynamicRenders();
+    }
+
+    private void initializeDynamicRenders() {
+        DynamicRenderManager.register(MoniLabs.id("prismatic_crucible"), PrismaticCrucibleRender.TYPE);
+        DynamicRenderManager.register(MoniLabs.id("microverse_projector"), MicroverseProjectorRender.TYPE);
+    }
 
     // You MUST have this for custom materials.
     // Remember to register them not to GT's namespace, but your own.
