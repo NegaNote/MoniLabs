@@ -56,6 +56,8 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.antimatter_random_range", "Input and outputs\nvary by %sx-%sx");
 
         provider.add("gtceu.antimatter_manipulator", "Antimatter Manipulation");
+        provider.add("gtceu.chromatic_processing", "Chromatic Processing");
+        provider.add("gtceu.chromatic_transcendence", "Chromatic Transcendence");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
         provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");

@@ -1,7 +1,9 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IFluidRenderMulti;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -13,6 +15,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
@@ -29,7 +32,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
-public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
+public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine implements IFluidRenderMulti {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -178,11 +181,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             for (long pos : activeBlocks) {
                 var blockPos = BlockPos.of(pos);
                 var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
-                if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
-                    var newState = block.changeActive(blockState, active || isFormed());
-                    newState = block.changeColor(newState, color.key);
+                if (blockState.hasProperty(GTBlockStateProperties.ACTIVE) &&
+                        blockState.hasProperty(PrismaticActiveBlock.COLOR)) {
+                    var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, active || isFormed());
+                    newState = blockState.setValue(PrismaticActiveBlock.COLOR, color.key);
                     if (newState != blockState) {
-                        getLevel().setBlockAndUpdate(blockPos, newState);
+                        getLevel().setBlock(blockPos, newState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
                     }
                 }
             }
@@ -192,10 +196,11 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                     for (int z = structMin.getZ(); z <= structMax.getZ(); z++) {
                         var blockPos = new BlockPos(x, y, z);
                         var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
-                        if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
-                            var newState = block.changeActive(blockState, false);
+                        if (blockState.hasProperty(GTBlockStateProperties.ACTIVE)) {
+                            var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, false);
                             if (newState != blockState) {
-                                getLevel().setBlockAndUpdate(blockPos, newState);
+                                getLevel().setBlock(blockPos, newState,
+                                        Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
                             }
                         }
                     }
@@ -205,7 +210,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     // Stolen from LargeChemicalBathMachine
-    protected void saveOffsets() {
+    @Override
+    public void saveOffsets() {
         Direction up = RelativeDirection.UP.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
         Direction back = getFrontFacing().getOpposite();
         BlockPos pos = getPos();
