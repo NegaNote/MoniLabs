@@ -32,8 +32,7 @@ public class PrismaticActiveBlock extends ActiveBlock {
         builder.add(COLOR);
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, PrismaticActiveBlock>, RegistrateBlockstateProvider> createPrismaticActiveModel(String name,
-                                                                                                                                          ResourceLocation texturePath) {
+    public static NonNullBiConsumer<DataGenContext<Block, PrismaticActiveBlock>, RegistrateBlockstateProvider> createPrismaticActiveModel(ResourceLocation texturePath) {
         return (ctx, prov) -> {
             ActiveBlock block = ctx.getEntry();
 

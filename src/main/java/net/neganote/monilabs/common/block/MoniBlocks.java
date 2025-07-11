@@ -30,8 +30,7 @@ public class MoniBlocks {
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
                         .lightLevel((b) -> b.getValue(GTBlockStateProperties.ACTIVE) ? 15 : 0))
-                .blockstate(PrismaticActiveBlock.createPrismaticActiveModel("block/" + id,
-                        MoniLabs.id(texturePath)))
+                .blockstate(PrismaticActiveBlock.createPrismaticActiveModel(MoniLabs.id(texturePath)))
                 .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
                 .lang(name)
                 .item(func)

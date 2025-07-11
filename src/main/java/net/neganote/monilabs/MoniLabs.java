@@ -98,9 +98,7 @@ public class MoniLabs {
     }
 
     @SubscribeEvent
-    public void clientSetup(final FMLClientSetupEvent event) {
-
-    }
+    public void clientSetup(final FMLClientSetupEvent event) {}
 
     private void initializeDynamicRenders() {
         DynamicRenderManager.register(MoniLabs.id("prismatic_crucible"), PrismaticCrucibleRender.TYPE);
