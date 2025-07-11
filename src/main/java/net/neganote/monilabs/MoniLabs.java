@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -36,6 +37,8 @@ import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 @Mod(MoniLabs.MOD_ID)
 public class MoniLabs {
@@ -58,7 +61,7 @@ public class MoniLabs {
 
         modEventBus.addListener(this::commonSetup);
         if (GTCEu.isClientSide()) {
-            modEventBus.addListener(this::clientSetup);
+            initializeDynamicRenders();
             modEventBus.register(MoniShaders.class);
         }
         modEventBus.addListener(this::addMaterialRegistries);
@@ -82,18 +85,21 @@ public class MoniLabs {
         MoniDataGen.init();
     }
 
-    public static ResourceLocation id(String path) {
+    @Contract("_ -> new")
+    public static @NotNull ResourceLocation id(String path) {
         return new ResourceLocation(MOD_ID, path);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    @SubscribeEvent
+    public void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from);
         });
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
-        initializeDynamicRenders();
+    @SubscribeEvent
+    public void clientSetup(final FMLClientSetupEvent event) {
+
     }
 
     private void initializeDynamicRenders() {

@@ -26,7 +26,8 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
 
     // spotless:off
     public static final Codec<PrismaticCrucibleRender> CODEC = Codec.unit(PrismaticCrucibleRender::new);
-    public static final DynamicRenderType<PrismaticCrucibleMachine, PrismaticCrucibleRender> TYPE = new DynamicRenderType<>(CODEC);
+    public static final DynamicRenderType<PrismaticCrucibleMachine, PrismaticCrucibleRender> TYPE = new DynamicRenderType<>(PrismaticCrucibleRender.CODEC);
+    public static final PrismaticCrucibleRender INSTANCE = new PrismaticCrucibleRender();
     // spotless:on
 
     public PrismaticCrucibleRender() {}

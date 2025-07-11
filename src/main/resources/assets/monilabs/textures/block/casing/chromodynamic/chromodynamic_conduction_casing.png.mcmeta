@@ -1,5 +1,5 @@
 {
     "ldlib": {
-        "connection": "monilabs:block/chromodynamic_conduction_casing_ctm"
+        "connection": "monilabs:block/casing/chromodynamic/chromodynamic_conduction_casing_ctm"
     }
 }

@@ -39,7 +39,7 @@ public class PrismaticActiveBlock extends ActiveBlock {
 
             ModelFile inactive = prov
                     .models()
-                    .cubeAll(texturePath.getPath(),
+                    .cubeAll(ctx.getName(),
                             texturePath.withPrefix("block/"));
 
             VariantBlockStateBuilder builder = prov
@@ -55,7 +55,7 @@ public class PrismaticActiveBlock extends ActiveBlock {
                 String colorStr = "_" + color.name().toLowerCase();
                 ModelFile file = prov
                         .models()
-                        .cubeAll(name + colorStr, location.withSuffix(colorStr));
+                        .cubeAll(ctx.getName() + colorStr, location.withSuffix(colorStr));
 
                 builder
                         .partialState()
@@ -66,12 +66,5 @@ public class PrismaticActiveBlock extends ActiveBlock {
                         .addModel();
             }
         };
-    }
-
-    public BlockState changeColor(BlockState state, int colorKey) {
-        if (state.is(this)) {
-            return state.setValue(COLOR, colorKey);
-        }
-        return state;
     }
 }

@@ -10,10 +10,10 @@ public class MoniDynamicRenderHelper {
 
     @Contract(" -> new")
     public static @NotNull DynamicRender<?, ?> createPrismacRender() {
-        return new PrismaticCrucibleRender();
+        return PrismaticCrucibleRender.INSTANCE;
     }
 
-    public static @NotNull DynamicRender<?, ?> createMicroverseProjectorRender(int tier) {
-        return new MicroverseProjectorRender(tier);
+    public static @NotNull DynamicRender<?, ?> createMicroverseProjectorRender() {
+        return MicroverseProjectorRender.INSTANCE;
     }
 }

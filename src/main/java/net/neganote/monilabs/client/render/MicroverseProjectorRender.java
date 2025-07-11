@@ -20,7 +20,6 @@ import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachin
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -29,17 +28,14 @@ import java.util.List;
 public class MicroverseProjectorRender extends
                                        DynamicRender<MicroverseProjectorMachine, MicroverseProjectorRender> {
 
+    public static final MicroverseProjectorRender INSTANCE = new MicroverseProjectorRender();
+
     // spotless:off
-    public static final Codec<MicroverseProjectorRender> CODEC = Codec.INT.xmap(MicroverseProjectorRender::new, MicroverseProjectorRender::getTier);
-    public static final DynamicRenderType<MicroverseProjectorMachine, MicroverseProjectorRender> TYPE = new DynamicRenderType<>(CODEC);
+    public static final Codec<MicroverseProjectorRender> CODEC = Codec.unit(INSTANCE);
+    public static final DynamicRenderType<MicroverseProjectorMachine, MicroverseProjectorRender> TYPE = new DynamicRenderType<>(MicroverseProjectorRender.CODEC);
     // spotless:on
 
-    @Getter
-    private final int tier;
-
-    public MicroverseProjectorRender(int tier) {
-        this.tier = tier;
-    }
+    public MicroverseProjectorRender() {}
 
     public static final ResourceLocation SPHERE = MoniLabs.id("render/sphere");
 
@@ -56,11 +52,13 @@ public class MicroverseProjectorRender extends
 
         Direction left = RelativeDirection.LEFT.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
 
-        renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, combinedOverlay);
+        int tier = projector.getProjectorTier();
+
+        renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, combinedOverlay, tier);
     }
 
     private void renderMicroverse(PoseStack stack, MultiBufferSource buffer, Direction upwards, Direction front,
-                                  Direction left, int combinedLight, int combinedOverlay) {
+                                  Direction left, int combinedLight, int combinedOverlay, int tier) {
         switch (tier) {
             case 1:
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -1, 1,

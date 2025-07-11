@@ -1,6 +1,6 @@
 {
     "ldlib": {
-        "connection": "monilabs:block/chromodynamic_conduction_casing_azure_ctm"
+        "connection": "monilabs:block/casing/chromodynamic/chromodynamic_conduction_casing_azure_ctm"
     },
     "animation": {
         "interpolate": true,

@@ -132,7 +132,7 @@ public class MoniMachines {
                     .aisle("LLL#######LLL", "#############", "#############", "#############", "#############",
                             "#############", "#############", "#############", "#############", "#############")
                     .where("L",
-                            Predicates.blocks(MoniBlocks.CHROMODYNAMIC_CONDUCTION_CASING.get())
+                            Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
                                     .setMinGlobalLimited(197)
                                     .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)
                                             .setPreviewCount(1))
@@ -179,7 +179,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> () -> MoniDynamicRenderHelper.createMicroverseProjectorRender(1))))
+                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 
@@ -209,7 +209,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> () -> MoniDynamicRenderHelper.createMicroverseProjectorRender(2))))
+                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 
@@ -252,7 +252,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> () -> MoniDynamicRenderHelper.createMicroverseProjectorRender(3))))
+                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 
@@ -304,7 +304,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> () -> MoniDynamicRenderHelper.createMicroverseProjectorRender(4))))
+                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 

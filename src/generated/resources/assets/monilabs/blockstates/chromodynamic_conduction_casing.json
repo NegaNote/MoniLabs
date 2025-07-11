@@ -1,7 +1,7 @@
 {
   "variants": {
     "active=false": {
-      "model": "monilabs:block/chromodynamic_conduction_casing"
+      "model": "monilabs:casing/chromodynamic/chromodynamic_conduction_casing"
     },
     "active=true,prismatic_color=0": {
       "model": "monilabs:block/chromodynamic_conduction_casing_red"
