@@ -38,8 +38,7 @@ public class PrismaticActiveBlock extends ActiveBlock {
 
             ModelFile inactive = prov
                     .models()
-                    .cubeAll(ctx.getName(),
-                            texturePath.withPrefix("block/"));
+                    .cubeAll(ctx.getName(), texturePath.withPrefix("block/"));
 
             VariantBlockStateBuilder builder = prov
                     .getVariantBuilder(block)

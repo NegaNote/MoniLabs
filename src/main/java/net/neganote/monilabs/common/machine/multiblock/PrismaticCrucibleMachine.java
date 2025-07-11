@@ -15,7 +15,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.Block;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
@@ -173,6 +172,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
         getCoverContainer().getCovers().forEach((CoverBehavior::onChanged));
+        updateActiveBlocks(true);
     }
 
     @Override
@@ -183,10 +183,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                 var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
                 if (blockState.hasProperty(GTBlockStateProperties.ACTIVE) &&
                         blockState.hasProperty(PrismaticActiveBlock.COLOR)) {
-                    var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, active || isFormed());
+                    var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, isFormed());
                     newState = blockState.setValue(PrismaticActiveBlock.COLOR, color.key);
                     if (newState != blockState) {
-                        getLevel().setBlock(blockPos, newState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                        getLevel().setBlockAndUpdate(blockPos, newState);
                     }
                 }
             }
@@ -199,8 +199,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                         if (blockState.hasProperty(GTBlockStateProperties.ACTIVE)) {
                             var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, false);
                             if (newState != blockState) {
-                                getLevel().setBlock(blockPos, newState,
-                                        Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                                getLevel().setBlockAndUpdate(blockPos, newState);
                             }
                         }
                     }

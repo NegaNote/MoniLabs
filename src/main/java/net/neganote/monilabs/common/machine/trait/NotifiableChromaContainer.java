@@ -58,71 +58,11 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
                 .getContent();
         List<Color> colors = MapIngredientTypeManager.getFrom(recipeColor, ChromaRecipeCapability.CAP).stream()
                 .map(MapColorIngredient.class::cast).filter(Objects::nonNull).map(ing -> ing.color).toList();
-        int key = this.heldColor.key;
-        for (Color color : colors) {
-            if (color.key > Color.ACTUAL_COLOR_COUNT) {
-                if (key % 4 == 0) {
-                    if (color == Color.PRIMARY)
-                        return null;
-                    if (color == Color.BASIC)
-                        return null;
-                } else if ((key + 2) % 4 == 0) {
-                    if (color == Color.SECONDARY)
-                        return null;
-                    if (color == Color.BASIC)
-                        return null;
-                } else {
-                    if (color == Color.TERTIARY)
-                        return null;
-                }
-                if (color == Color.ANY)
-                    return null;
-                if (color.isTypeNotColor()) {
-                    switch (color) {
-                        case NOT_RED -> {
-                            return this.heldColor == Color.RED ? left : null;
-                        }
-                        case NOT_ORANGE -> {
-                            return this.heldColor == Color.ORANGE ? left : null;
-                        }
-                        case NOT_YELLOW -> {
-                            return this.heldColor == Color.YELLOW ? left : null;
-                        }
-                        case NOT_LIME -> {
-                            return this.heldColor == Color.LIME ? left : null;
-                        }
-                        case NOT_GREEN -> {
-                            return this.heldColor == Color.GREEN ? left : null;
-                        }
-                        case NOT_TEAL -> {
-                            return this.heldColor == Color.TEAL ? left : null;
-                        }
-                        case NOT_CYAN -> {
-                            return this.heldColor == Color.CYAN ? left : null;
-                        }
-                        case NOT_AZURE -> {
-                            return this.heldColor == Color.AZURE ? left : null;
-                        }
-                        case NOT_BLUE -> {
-                            return this.heldColor == Color.BLUE ? left : null;
-                        }
-                        case NOT_INDIGO -> {
-                            return this.heldColor == Color.INDIGO ? left : null;
-                        }
-                        case NOT_MAGENTA -> {
-                            return this.heldColor == Color.MAGENTA ? left : null;
-                        }
-                        case NOT_PINK -> {
-                            return this.heldColor == Color.PINK ? left : null;
-                        }
-                    }
-                }
-            }
-            if (this.heldColor == color) {
-                return null;
-            }
+        if (colors.stream().anyMatch(heldColor::equals)) {
+            return null;
+        } else {
+            return left;
         }
-        return left;
     }
 
     @Override
