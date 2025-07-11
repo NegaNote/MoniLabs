@@ -54,8 +54,7 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     @Override
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left,
                                                     boolean simulate) {
-        ChromaIngredient recipeColor = (ChromaIngredient) recipe.getInputContents(MoniRecipeCapabilities.CHROMA).get(0)
-                .getContent();
+        ChromaIngredient recipeColor = left.get(0);
         List<Color> colors = MapIngredientTypeManager.getFrom(recipeColor, ChromaRecipeCapability.CAP).stream()
                 .map(MapColorIngredient.class::cast).filter(Objects::nonNull).map(ing -> ing.color).toList();
         if (colors.stream().anyMatch(heldColor::equals)) {
