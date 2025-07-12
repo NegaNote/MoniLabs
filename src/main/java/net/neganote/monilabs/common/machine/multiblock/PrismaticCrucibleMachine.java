@@ -40,6 +40,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Persisted
     private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
+    @Getter
     @Persisted
     @DescSynced
     private Color color;
@@ -62,7 +63,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         this.notifiableChromaContainer = new NotifiableChromaContainer(this);
         structMin = getPos();
         structMax = getPos();
-        saveOffsets();
         focusPos = null;
     }
 
@@ -94,8 +94,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public void onStructureInvalid() {
         changeColorState(Color.RED);
-        fluidBlockOffsets.clear();
         super.onStructureInvalid();
+        IFluidRenderMulti.super.onStructureInvalid();
     }
 
     @Override
@@ -117,9 +117,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         }
 
         saveStructBoundingBox();
-
-        saveOffsets();
         updateActiveBlocks(true);
+        IFluidRenderMulti.super.onStructureFormed();
     }
 
     // Not currently used now, but would reset the machine's color

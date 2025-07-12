@@ -5,11 +5,10 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
 public class MoniDynamicRenderHelper {
 
     @Contract(" -> new")
-    public static @NotNull DynamicRender<?, ?> createPrismacRender() {
+    public static @NotNull DynamicRender<?, ?> createPrismacLaserRender() {
         return PrismaticCrucibleRender.INSTANCE;
     }
 

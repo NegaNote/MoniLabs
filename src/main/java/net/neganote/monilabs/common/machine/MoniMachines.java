@@ -152,7 +152,7 @@ public class MoniMachines {
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/netherite"),
                             GTCEu.id("block/multiblock/processing_array"))
-                    .andThen(b -> b.addDynamicRenderer(() -> MoniDynamicRenderHelper::createPrismacRender)))
+                    .andThen(b -> b.addDynamicRenderer(() -> MoniDynamicRenderHelper::createPrismacLaserRender)))
             .hasBER(true)
             .register();
 
