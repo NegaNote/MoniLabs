@@ -127,9 +127,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super.setActiveRecipeType(activeRecipeType);
         // Make this check because this method is also used to set the recipe
         // mode on world load
-//        if (isFormed()) {
-//            changeColorState(Color.RED);
-//        }
+        if (isFormed()) {
+            changeColorState(Color.RED);
+        }
     }
 
     @Override
