@@ -3,7 +3,6 @@ package net.neganote.monilabs.common.machine.multiblock;
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IFluidRenderMulti;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -31,14 +30,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("unused")
-public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine implements IFluidRenderMulti {
+public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             PrismaticCrucibleMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Persisted
-    private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
+    @DescSynced
+    private Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
     @Getter
     @Persisted
@@ -63,6 +63,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         this.notifiableChromaContainer = new NotifiableChromaContainer(this);
         structMin = getPos();
         structMax = getPos();
+        saveOffsets();
         focusPos = null;
     }
 
@@ -95,7 +96,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     public void onStructureInvalid() {
         changeColorState(Color.RED);
         super.onStructureInvalid();
-        IFluidRenderMulti.super.onStructureInvalid();
     }
 
     @Override
@@ -118,7 +118,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         saveStructBoundingBox();
         updateActiveBlocks(true);
-        IFluidRenderMulti.super.onStructureFormed();
     }
 
     // Not currently used now, but would reset the machine's color
@@ -128,9 +127,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         super.setActiveRecipeType(activeRecipeType);
         // Make this check because this method is also used to set the recipe
         // mode on world load
-        if (isFormed()) {
-            changeColorState(Color.RED);
-        }
+//        if (isFormed()) {
+//            changeColorState(Color.RED);
+//        }
     }
 
     @Override
@@ -207,7 +206,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     // Stolen from LargeChemicalBathMachine
-    @Override
     public void saveOffsets() {
         Direction up = RelativeDirection.UP.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
         Direction back = getFrontFacing().getOpposite();

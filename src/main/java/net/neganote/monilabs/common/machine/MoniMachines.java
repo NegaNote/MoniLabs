@@ -152,7 +152,7 @@ public class MoniMachines {
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/netherite"),
                             GTCEu.id("block/multiblock/processing_array"))
-                    .andThen(b -> b.addDynamicRenderer(() -> MoniDynamicRenderHelper::createPrismacLaserRender)))
+                    .andThen(b -> b.addDynamicRenderer(MoniDynamicRenderHelper::createPrismacLaserRender)))
             .hasBER(true)
             .register();
 
@@ -179,7 +179,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+                            MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 
@@ -209,7 +209,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+                            MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 
@@ -252,7 +252,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+                            MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 
@@ -304,7 +304,7 @@ public class MoniMachines {
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
-                            () -> MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+                            MoniDynamicRenderHelper::createMicroverseProjectorRender)))
             .hasBER(true)
             .register();
 
