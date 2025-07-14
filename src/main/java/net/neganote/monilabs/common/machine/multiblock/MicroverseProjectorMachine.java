@@ -86,7 +86,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         this.projectorTier = tier;
         this.microverseHandler = new ConditionalSubscriptionHandler(this, this::microverseTick, this::isFormed);
         updateMicroverse(0, false);
-        this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.of("kubejs:quantum_flux", ':'));
+        this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.bySeparator("kubejs:quantum_flux", ':'));
         assert this.quantumFluxItem != null;
     }
 

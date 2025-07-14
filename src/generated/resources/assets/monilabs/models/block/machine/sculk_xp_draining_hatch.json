@@ -10,11 +10,13 @@
   "variants": {
     "": {
       "model": {
-        "parent": "monilabs:block/machine/part/sculk_experience_draining_hatch",
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/zpm/bottom",
-          "side": "gtceu:block/casings/voltage/zpm/side",
-          "top": "gtceu:block/casings/voltage/zpm/top"
+          "bottom": "monilabs:block/casing/cryolobus",
+          "overlay": "monilabs:block/overlay/machine/exp_hatch_draining_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/exp_hatch_draining_emissive",
+          "side": "monilabs:block/casing/cryolobus",
+          "top": "monilabs:block/casing/cryolobus"
         }
       }
     }

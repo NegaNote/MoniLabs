@@ -13,10 +13,8 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,7 +22,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.MissingMappingsEvent;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.client.render.MicroverseProjectorRender;
@@ -60,9 +57,9 @@ public class MoniLabs {
                     .build())
             .register();
 
-    public MoniLabs() {
+    public MoniLabs(FMLJavaModLoadingContext context) {
         MoniLabs.init();
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = context.getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
         if (GTCEu.isClientSide()) {
@@ -92,14 +89,13 @@ public class MoniLabs {
 
     @Contract("_ -> new")
     public static @NotNull ResourceLocation id(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     @SubscribeEvent
     public void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from);
-        });
+        event.enqueueWork(
+                () -> MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from));
     }
 
     @SubscribeEvent
@@ -137,58 +133,8 @@ public class MoniLabs {
     @Contract("_ -> new")
     @SuppressWarnings("unused")
     public static @NotNull ResourceLocation kjsResLoc(String path) {
-        return new ResourceLocation("kubejs", path);
+        return ResourceLocation.fromNamespaceAndPath("kubejs", path);
     }
 
     private void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {}
-
-    @SubscribeEvent
-    public void remapIds(MissingMappingsEvent event) {
-        remapGTNamespaceMachine(event, "basic_microverse_projector", MoniMachines.BASIC_MICROVERSE_PROJECTOR);
-        remapGTNamespaceMachine(event, "advanced_microverse_projector", MoniMachines.ADVANCED_MICROVERSE_PROJECTOR);
-        remapGTNamespaceMachine(event, "advanced_microverse_projector_ii", MoniMachines.ELITE_MICROVERSE_PROJECTOR);
-        remapGTNamespaceMachine(event, "hyperbolic_microverse_projector", MoniMachines.HYPERBOLIC_MICROVERSE_PROJECTOR);
-
-        remapKJSBlock(event, "dimensional_stabilization_netherite_casing",
-                MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get());
-        remapKJSBlock(event, "microverse_casing", MoniBlocks.MICROVERSE_CASING.get());
-    }
-
-    private static void remapKJSBlock(MissingMappingsEvent event, String id, Block block) {
-        ResourceLocation resourceId = MoniLabs.kjsResLoc(id);
-
-        event.getMappings(Registries.ITEM, GTCEu.MOD_ID).forEach(mapping -> {
-            if (mapping.getKey().equals(resourceId)) {
-                mapping.remap(block.asItem());
-            }
-        });
-
-        event.getMappings(Registries.BLOCK, GTCEu.MOD_ID).forEach(mapping -> {
-            if (mapping.getKey().equals(resourceId)) {
-                mapping.remap(block);
-            }
-        });
-    }
-
-    private static void remapGTNamespaceMachine(MissingMappingsEvent event, String id, MachineDefinition machine) {
-        ResourceLocation resourceId = GTCEu.id(id);
-
-        event.getMappings(Registries.ITEM, GTCEu.MOD_ID).forEach(mapping -> {
-            if (mapping.getKey().equals(resourceId)) {
-                mapping.remap(machine.getItem());
-            }
-        });
-
-        event.getMappings(Registries.BLOCK, GTCEu.MOD_ID).forEach(mapping -> {
-            if (mapping.getKey().equals(resourceId)) {
-                mapping.remap(machine.getBlock());
-            }
-        });
-
-        event.getMappings(Registries.BLOCK_ENTITY_TYPE, GTCEu.MOD_ID).forEach(mapping -> {
-            if (mapping.getKey().equals(resourceId)) {
-                mapping.remap(machine.getBlockEntityType());
-            }
-        });
-    }
 }

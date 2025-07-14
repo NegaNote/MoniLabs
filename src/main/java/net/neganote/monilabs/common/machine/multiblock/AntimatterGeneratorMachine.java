@@ -30,13 +30,13 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
         this.generationSubscription = new ConditionalSubscriptionHandler(this, this::generateEnergyTick,
                 this::isFormed);
         this.antimatterFuelFluid = ForgeRegistries.FLUIDS
-                .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.antimatterFuelID, ':'));
+                .getValue(ResourceLocation.bySeparator(MoniConfig.INSTANCE.values.antimatterFuelID, ':'));
         assert this.antimatterFuelFluid != null : "antimatterFuelID is not a valid fluid ID";
         this.annihilatableMatterFluid = ForgeRegistries.FLUIDS
-                .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.annihilatableMatterID, ':'));
+                .getValue(ResourceLocation.bySeparator(MoniConfig.INSTANCE.values.annihilatableMatterID, ':'));
         assert this.annihilatableMatterFluid != null : "annihilatableMatterID is not a valid fluid ID";
         this.annihilatableMatterBonusFluid = ForgeRegistries.FLUIDS
-                .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.annihilatableMatterBonusID, ':'));
+                .getValue(ResourceLocation.bySeparator(MoniConfig.INSTANCE.values.annihilatableMatterBonusID, ':'));
         assert this.annihilatableMatterBonusFluid != null : "annihilatableMatterBonusID is not a valid fluid ID";
     }
 

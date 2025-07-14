@@ -70,4 +70,7 @@ public class MoniBlocks {
 
     public static BlockEntry<Block> MICROVERSE_CASING = registerSimpleBlock("Microverse Casing", "microverse_casing",
             "casing/microverse", BlockItem::new);
+
+    public static BlockEntry<Block> CRYOLOBUS_CASING = registerSimpleBlock("Cryolobus Casing", "cryolobus_casing",
+            "casing/cryolobus", BlockItem::new);
 }

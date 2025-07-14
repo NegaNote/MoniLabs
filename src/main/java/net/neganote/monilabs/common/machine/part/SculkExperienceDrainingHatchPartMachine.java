@@ -26,7 +26,8 @@ public class SculkExperienceDrainingHatchPartMachine extends FluidHatchPartMachi
     protected @NotNull NotifiableFluidTank createTank(int initialCapacity, int slots, Object @NotNull... args) {
         return super.createTank(initialCapacity, slots).setFilter(fluidStack -> fluidStack.getFluid().isSame(
                 Objects.requireNonNull(ForgeRegistries.FLUIDS
-                        .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.sculkVatExperienceFluidID, ':')))));
+                        .getValue(ResourceLocation.bySeparator(MoniConfig.INSTANCE.values.sculkVatExperienceFluidID,
+                                ':')))));
     }
 
     @Override

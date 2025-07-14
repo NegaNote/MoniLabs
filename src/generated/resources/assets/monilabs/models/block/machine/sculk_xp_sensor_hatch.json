@@ -12,11 +12,11 @@
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/zpm/bottom",
+          "bottom": "monilabs:block/casing/cryolobus",
           "overlay": "monilabs:block/overlay/machine/exp_sensor_base",
           "overlay_emissive": "monilabs:block/overlay/machine/exp_sensor_overlay_0",
-          "side": "gtceu:block/casings/voltage/zpm/side",
-          "top": "gtceu:block/casings/voltage/zpm/top"
+          "side": "monilabs:block/casing/cryolobus",
+          "top": "monilabs:block/casing/cryolobus"
         }
       }
     },
@@ -24,11 +24,11 @@
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/zpm/bottom",
+          "bottom": "monilabs:block/casing/cryolobus",
           "overlay": "monilabs:block/overlay/machine/exp_sensor_base",
           "overlay_emissive": "monilabs:block/overlay/machine/exp_sensor_overlay_2",
-          "side": "gtceu:block/casings/voltage/zpm/side",
-          "top": "gtceu:block/casings/voltage/zpm/top"
+          "side": "monilabs:block/casing/cryolobus",
+          "top": "monilabs:block/casing/cryolobus"
         }
       }
     },
@@ -36,11 +36,11 @@
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/zpm/bottom",
+          "bottom": "monilabs:block/casing/cryolobus",
           "overlay": "monilabs:block/overlay/machine/exp_sensor_base",
           "overlay_emissive": "monilabs:block/overlay/machine/exp_sensor_overlay_1",
-          "side": "gtceu:block/casings/voltage/zpm/side",
-          "top": "gtceu:block/casings/voltage/zpm/top"
+          "side": "monilabs:block/casing/cryolobus",
+          "top": "monilabs:block/casing/cryolobus"
         }
       }
     },
@@ -48,11 +48,11 @@
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/zpm/bottom",
+          "bottom": "monilabs:block/casing/cryolobus",
           "overlay": "monilabs:block/overlay/machine/exp_sensor_base",
           "overlay_emissive": "monilabs:block/overlay/machine/exp_sensor_overlay_3",
-          "side": "gtceu:block/casings/voltage/zpm/side",
-          "top": "gtceu:block/casings/voltage/zpm/top"
+          "side": "monilabs:block/casing/cryolobus",
+          "top": "monilabs:block/casing/cryolobus"
         }
       }
     }

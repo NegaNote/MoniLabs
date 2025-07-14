@@ -61,7 +61,7 @@ public class MoniMachines {
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
             .modelProperty(RenderColor.COLOR_PROPERTY, RenderColor.NONE)
-            .model(MoniMachineModels.createOverlayChromaMachineModel("chroma_sensor"))
+            .model(MoniMachineModels.createOverlayChromaCasingMachineModel("chroma_sensor", "casing/netherite"))
             .tier(GTValues.UHV)
             .register();
 
@@ -72,7 +72,7 @@ public class MoniMachines {
             .tooltips(Component.translatable("tooltip.monilabs.xp_draining_hatch.0"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.1"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.2"))
-            .overlayTieredHullModel("sculk_experience_draining_hatch")
+            .model(MoniMachineModels.createOverlayCasingMachineModel("exp_hatch_draining", "casing/cryolobus"))
             .tier(GTValues.ZPM)
             .register();
 
@@ -84,7 +84,7 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"))
             .tier(GTValues.ZPM)
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
-            .model(MoniMachineModels.createOverlayFillLevelMachineModel("exp_sensor"))
+            .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("exp_sensor", "casing/cryolobus"))
             .register();
 
     public static MachineDefinition MICROVERSE_INTEGRITY_SENSOR_HATCH = MoniLabs.REGISTRATE
@@ -95,7 +95,7 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.microverse_stability_hatch.1"))
             .tier(GTValues.HV)
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
-            .model(MoniMachineModels.createOverlayFillLevelMachineModel("stability_hatch"))
+            .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("stability_hatch", "casing/microverse"))
             .register();
 
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = MoniLabs.REGISTRATE
