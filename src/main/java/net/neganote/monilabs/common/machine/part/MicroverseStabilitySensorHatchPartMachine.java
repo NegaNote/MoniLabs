@@ -2,10 +2,12 @@ package net.neganote.monilabs.common.machine.part;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
 import net.minecraft.core.Direction;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -48,5 +50,22 @@ public class MicroverseStabilitySensorHatchPartMachine extends SensorHatchPartMa
         if (!Objects.equals(oldRenderState, newRenderState)) {
             setRenderState(newRenderState);
         }
+    }
+
+    @Override
+    public void addedToController(@NotNull IMultiController controller) {
+        super.addedToController(controller);
+        if (controller instanceof MicroverseProjectorMachine projector) {
+            int value = (int) (16 * projector.getMicroverseIntegrity() /
+                    ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY));
+            int signal = value == 16 ? 15 : value;
+            setRenderFillLevel(FillLevel.values()[signal / 4]);
+        }
+    }
+
+    @Override
+    public void removedFromController(@NotNull IMultiController controller) {
+        super.removedFromController(controller);
+        setRenderFillLevel(FillLevel.EMPTY_TO_QUARTER);
     }
 }
