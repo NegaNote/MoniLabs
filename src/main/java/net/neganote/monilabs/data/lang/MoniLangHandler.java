@@ -58,12 +58,24 @@ public class MoniLangHandler {
         provider.add("gtceu.antimatter_manipulator", "Antimatter Manipulation");
         provider.add("gtceu.chromatic_processing", "Chromatic Processing");
         provider.add("gtceu.chromatic_transcendence", "Chromatic Transcendence");
+        provider.add("gtceu.microverse", "Microverse Mission");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
         provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
         provider.add("monilabs.tooltip.prismatic.1", "Recipes MUST be input in the correct color state!");
         provider.add("monilabs.tooltip.prismatic.2", "They can even change the crucible's color randomly!");
         provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
+
+        provider.add("tooltip.monilabs.basic_microverse_projector.description",
+                "§7A machine capable of stabilizing projection into microverses for basic miner missions.");
+        provider.add("tooltip.monilabs.advanced_microverse_projector.description",
+                "§7An advanced machine capable of stabilizing projection into microverses for complex missions into the deepest parts of space.");
+        provider.add("tooltip.monilabs.elite_microverse_projector.description",
+                "§7An elite machine capable of stabilizing projection into microverses for exotic missions, including collapsing the microverse whole.");
+        provider.add("tooltip.monilabs.hyperbolic_microverse_projector.description.0",
+                "§7An epic machine capable of stabilizing projection into hundreds of microverses at once.");
+        provider.add("tooltip.monilabs.hyperbolic_microverse_projector.description.1",
+                "Can perform all Microverse Missions.");
 
         provider.add("monilabs.tooltip.chroma_sensor_hatch.0", "Outputs color state of Prismatic Crucible");
         provider.add("monilabs.tooltip.chroma_sensor_hatch.1", "as a redstone signal. 0 for unformed,");

@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
@@ -148,6 +149,9 @@ public class MoniMachines {
                     .where("F", Predicates.frames(GTMaterials.Neutronium))
                     .where("#", Predicates.any())
                     .build())
+            .tooltips(Component.translatable("monilabs.tooltip.prismatic.0").withStyle(TooltipHelper.RAINBOW_HSL_FAST),
+                    Component.translatable("monilabs.tooltip.prismatic.1"),
+                    Component.translatable("monilabs.tooltip.prismatic.2"))
             .additionalDisplay(MoniMachines.currentColorDisplayInfo())
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/netherite"),
@@ -180,6 +184,7 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+            .tooltips(Component.translatable("tooltip.monilabs.basic_microverse_projector.description"))
             .hasBER(true)
             .register();
 
@@ -210,6 +215,7 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+            .tooltips(Component.translatable("tooltip.monilabs.advanced_microverse_projector.description"))
             .hasBER(true)
             .register();
 
@@ -253,6 +259,7 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+            .tooltips(Component.translatable("tooltip.monilabs.elite_microverse_projector.description"))
             .hasBER(true)
             .register();
 
@@ -305,6 +312,8 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
+            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
+                    Component.translatable("tooltip.monilabs.basic_microverse_projector.description"))
             .hasBER(true)
             .register();
 

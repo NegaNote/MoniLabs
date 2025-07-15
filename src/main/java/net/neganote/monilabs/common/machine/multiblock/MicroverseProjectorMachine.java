@@ -136,6 +136,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 recipe.data.getInt("required_microverse") != microverse.ordinal()) {
             return false;
         }
+        if (recipe.data.contains("projector_tier") && recipe.data.getLong("projector_tier") < projectorTier) {
+            return false;
+        }
         if (super.beforeWorking(recipe)) {
             activeRecipe = recipe;
             return true;
