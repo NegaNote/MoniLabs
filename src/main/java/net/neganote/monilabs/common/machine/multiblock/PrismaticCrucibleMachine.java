@@ -1,7 +1,6 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
-import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -169,7 +168,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private void changeColorState(Color newColor) {
         color = newColor;
         this.notifiableChromaContainer.setColor(newColor);
-        getCoverContainer().getCovers().forEach((CoverBehavior::onChanged));
         updateActiveBlocks(true);
     }
 
