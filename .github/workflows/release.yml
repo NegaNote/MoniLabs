@@ -7,7 +7,11 @@ on:
         description: 'The type of version to release (alpha | beta | release)'
         default: 'beta'
         required: true
-        type: string
+        type: choice
+        options:
+          - "alpha"
+          - "beta"
+          - "release"
 
 permissions:
   contents: write
