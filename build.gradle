@@ -86,6 +86,18 @@ repositories {
             includeGroup 'appeng'
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        forRepositories(fg.repository) // Only add this if you're using ForgeGradle, otherwise remove this line
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 version = mod_version
@@ -148,6 +160,9 @@ dependencies {
     implementation fg.deobf("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
     implementation fg.deobf("appeng:appliedenergistics2-forge:${appeng_version}")
+
+    implementation fg.deobf("maven.modrinth:oculus:${oculus_version}")
+    implementation fg.deobf("maven.modrinth:embeddium:${embeddium_version}")
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.36'

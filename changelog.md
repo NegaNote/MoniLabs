@@ -1,3 +1,4 @@
-MoniLabs 0.8.0
+MoniLabs 0.8.1
 
-initial upload to CF
+Fix projector renderers being shown at the wrong time
+Fix renderer not showing up w/ shaders

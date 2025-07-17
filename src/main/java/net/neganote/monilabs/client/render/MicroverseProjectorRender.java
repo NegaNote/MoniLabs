@@ -1,20 +1,25 @@
 package net.neganote.monilabs.client.render;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 
+import net.irisshaders.iris.Iris;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.model.data.ModelData;
 import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -148,7 +153,12 @@ public class MicroverseProjectorRender extends
         PoseStack.Pose pose = stack.last();
 
         // Send buffer data, clean up
-        VertexConsumer consumer = buffer.getBuffer(RenderType.endPortal());
+        VertexConsumer consumer;
+        if (GTCEu.isModLoaded(GTValues.MODID_OCULUS) && Iris.getCurrentPack().isPresent()) {
+            consumer = buffer.getBuffer(RenderType.entitySolid(TheEndPortalRenderer.END_PORTAL_LOCATION));
+        } else {
+            consumer = buffer.getBuffer(RenderType.endPortal());
+        }
         List<BakedQuad> quads = cube.getQuads(null, null, GTValues.RNG, ModelData.EMPTY, null);
         for (BakedQuad quad : quads) {
             consumer.putBulkData(pose, quad, 1.0f, 1.0f, 1.0f, combinedLight, combinedOverlay);
@@ -164,5 +174,10 @@ public class MicroverseProjectorRender extends
     @Override
     public @NotNull DynamicRenderType<MicroverseProjectorMachine, MicroverseProjectorRender> getType() {
         return TYPE;
+    }
+
+    @Override
+    public boolean shouldRender(MicroverseProjectorMachine machine, @NotNull Vec3 cameraPos) {
+        return machine.getMicroverse() != Microverse.NONE && machine.isFormed();
     }
 }
