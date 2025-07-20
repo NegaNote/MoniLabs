@@ -5,20 +5,16 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
+import com.gregtechceu.gtceu.client.util.RenderBufferHelper;
 
 import net.irisshaders.iris.Iris;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.model.data.ModelData;
-import net.neganote.monilabs.MoniLabs;
+import net.minecraftforge.client.textures.UnitTextureAtlasSprite;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 
@@ -26,8 +22,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 // @SuppressWarnings("unused")
 public class MicroverseProjectorRender extends
@@ -42,10 +36,6 @@ public class MicroverseProjectorRender extends
 
     public MicroverseProjectorRender() {}
 
-    public static final ResourceLocation SPHERE = MoniLabs.id("render/sphere");
-
-    public static final ResourceLocation CUBE = MoniLabs.id("render/cube");
-
     @Override
     public void render(MicroverseProjectorMachine projector, float partialTicks, @NotNull PoseStack stack,
                        @NotNull MultiBufferSource buffer,
@@ -59,56 +49,52 @@ public class MicroverseProjectorRender extends
 
         int tier = projector.getProjectorTier();
 
-        renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, combinedOverlay, tier);
+        renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, tier);
     }
 
     private void renderMicroverse(PoseStack stack, MultiBufferSource buffer, Direction upwards, Direction front,
-                                  Direction left, int combinedLight, int combinedOverlay, int tier) {
+                                  Direction left, int combinedLight, int tier) {
         switch (tier) {
             case 1:
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -1, 1,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -1, 1,
                         1.008f, 1.008f, 1.008f);
                 break;
             case 2:
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -2, 2,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -2, 2,
                         3.008f, 3.008f, 3.008f);
                 break;
             case 3:
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -4, 2,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -4, 2,
                         5f, 7.008f, 5f);
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -4, 2,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -4, 2,
                         7.008f, 5f, 5f);
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -4, 2,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -4, 2,
                         5f, 5f, 7.008f);
                 break;
             case 4:
                 // Lower square
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 1,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 1,
                         3f, 1f, 5.008f);
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 1,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 1,
                         5.008f, 1f, 3f);
 
                 // Middle tube
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 5,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 5,
                         1.008f, 7f, 1.008f);
 
                 // Upper square
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 9,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 9,
                         3f, 1f, 5.008f);
-                renderCuboid(stack, buffer, upwards, front, left, combinedLight, combinedOverlay, -5, 9,
+                renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 9,
                         5.008f, 1f, 3f);
                 break;
         }
     }
 
     private void renderCuboid(PoseStack stack, MultiBufferSource buffer, Direction upwards, Direction front,
-                              Direction left, int combinedLight, int combinedOverlay, int offsetFront, int offsetUp,
+                              Direction left, int combinedLight, int offsetFront, int offsetUp,
                               float scaleFactorFB, float scaleFactorUD, float scaleFactorLR) {
-        // Setup
         stack.pushPose();
-        var modelManager = Minecraft.getInstance().getModelManager();
-        BakedModel cube = modelManager.getModel(CUBE);
-
         var upwardsNormal = upwards.getNormal();
         var frontNormal = front.getNormal();
         var leftNormal = left.getNormal();
@@ -147,9 +133,14 @@ public class MicroverseProjectorRender extends
             scaleFactorZ = scaleFactorUD;
         }
 
-        // Actually do the transformations
-        stack.translate(movement.getX() + 0.5f, movement.getY() + 0.5f, movement.getZ() + 0.5f);
-        stack.scale(scaleFactorX, scaleFactorY, scaleFactorZ);
+        float minX = movement.getX() + 0.5f - (scaleFactorX / 2.0f);
+        float minY = movement.getY() + 0.5f - (scaleFactorY / 2.0f);
+        float minZ = movement.getZ() + 0.5f - (scaleFactorZ / 2.0f);
+
+        float maxX = movement.getX() + 0.5f + (scaleFactorX / 2.0f);
+        float maxY = movement.getY() + 0.5f + (scaleFactorY / 2.0f);
+        float maxZ = movement.getZ() + 0.5f + (scaleFactorZ / 2.0f);
+
         PoseStack.Pose pose = stack.last();
 
         // Send buffer data, clean up
@@ -159,10 +150,8 @@ public class MicroverseProjectorRender extends
         } else {
             consumer = buffer.getBuffer(RenderType.endPortal());
         }
-        List<BakedQuad> quads = cube.getQuads(null, null, GTValues.RNG, ModelData.EMPTY, null);
-        for (BakedQuad quad : quads) {
-            consumer.putBulkData(pose, quad, 1.0f, 1.0f, 1.0f, combinedLight, combinedOverlay);
-        }
+        RenderBufferHelper.renderCube(consumer, pose, 0xFFFFFF00, combinedLight, UnitTextureAtlasSprite.INSTANCE,
+                minX, minY, minZ, maxX, maxY, maxZ);
         stack.popPose();
     }
 
@@ -179,5 +168,10 @@ public class MicroverseProjectorRender extends
     @Override
     public boolean shouldRender(MicroverseProjectorMachine machine, @NotNull Vec3 cameraPos) {
         return machine.getMicroverse() != Microverse.NONE && machine.isFormed();
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen(@NotNull MicroverseProjectorMachine machine) {
+        return true;
     }
 }

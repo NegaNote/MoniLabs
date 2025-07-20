@@ -117,7 +117,7 @@ public class MoniRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
-            .addDataInfo((data) -> I18n.get("gtceu.multiblock.microverse_projector.emi_info.0",
+            .addDataInfo((data) -> I18n.get("emi_info.monilabs.projector_info",
                     data.getByte("projector_tier")));
 
     public static void init() {}

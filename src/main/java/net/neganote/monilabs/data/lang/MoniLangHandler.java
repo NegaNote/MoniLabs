@@ -77,6 +77,8 @@ public class MoniLangHandler {
         provider.add("tooltip.monilabs.hyperbolic_microverse_projector.description.1",
                 "Can perform all Microverse Missions.");
 
+        provider.add("emi_info.monilabs.projector_info", "Projector tier: %d");
+
         provider.add("monilabs.tooltip.chroma_sensor_hatch.0", "Outputs color state of Prismatic Crucible");
         provider.add("monilabs.tooltip.chroma_sensor_hatch.1", "as a redstone signal. 0 for unformed,");
         provider.add("monilabs.tooltip.chroma_sensor_hatch.2", "1-12 for each color the PrismaC can be in.");

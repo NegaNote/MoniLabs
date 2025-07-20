@@ -1,8 +1,16 @@
-ServerEvents.recipes(event =>{
-    event.recipes.gtceu.chromatic_processing("antimatter_manip_test")
+ServerEvents.recipes(event => {
+    event.recipes.gtceu.chromatic_processing("prismac_test")
         .itemInputs("8x minecraft:iron_ingot")
         .itemOutputs("8x minecraft:gold_ingot")
         .inputColor(PrismaticColor.RED)
+        .outputStatesNormal(PrismaticColor.GREEN)
+        .EUt(GTValues.VA[GTValues.ZPM])
+        .duration(40)
+
+    event.recipes.gtceu.chromatic_processing("prismac_test2")
+        .itemInputs("8x minecraft:iron_ingot")
+        .itemOutputs("8x minecraft:diamond")
+        .inputColor(PrismaticColor.NOT_RED)
         .outputStatesNormal(PrismaticColor.GREEN)
         .EUt(GTValues.VA[GTValues.ZPM])
         .duration(40)
