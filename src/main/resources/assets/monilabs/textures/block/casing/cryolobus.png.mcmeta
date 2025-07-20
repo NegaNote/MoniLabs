@@ -1,5 +1,5 @@
 {
     "ldlib": {
-        "connection": "kubejs:block/cryolobus/cryolobus_ctm"
+        "connection": "kubejs:block/casing/cryolobus_ctm"
     }
 }
