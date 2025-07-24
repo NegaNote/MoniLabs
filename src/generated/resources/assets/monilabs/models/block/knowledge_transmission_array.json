@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "monilabs:block/beacon",
+  "render_type": "minecraft:cutout",
   "textures": {
-    "all": "monilabs:block/knowledge_transmission_array"
+    "core": "monilabs:block/beacon/knowledge_transmission_array/core",
+    "frame": "monilabs:block/beacon/knowledge_transmission_array/frame",
+    "particle": "monilabs:block/beacon/knowledge_transmission_array/frame"
   }
 }

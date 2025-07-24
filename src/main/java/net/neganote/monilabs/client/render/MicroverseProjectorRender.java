@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.textures.UnitTextureAtlasSprite;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
@@ -158,6 +159,11 @@ public class MicroverseProjectorRender extends
     @Override
     public int getViewDistance() {
         return 1024;
+    }
+
+    @Override
+    public @NotNull AABB getRenderBoundingBox(@NotNull MicroverseProjectorMachine machine) {
+        return new AABB(machine.getPos()).inflate(getViewDistance(), 16, getViewDistance());
     }
 
     @Override

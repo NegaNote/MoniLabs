@@ -2,7 +2,7 @@
   "parent": "monilabs:block/beacon",
   "render_type": "minecraft:cutout",
   "textures": {
-    "core": "monilabs:block/beacon/prismatic_focus/core",
+    "core": "monilabs:block/beacon/prismatic_focus/core_red",
     "frame": "monilabs:block/beacon/prismatic_focus/frame",
     "particle": "monilabs:block/beacon/prismatic_focus/frame"
   },

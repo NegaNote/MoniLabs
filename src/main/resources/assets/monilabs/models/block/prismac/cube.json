@@ -1,9 +1,0 @@
-{
-  "loader": "forge:obj",
-  "model": "monilabs:models/block/prismac/cube.obj",
-  "textures": {
-    "texture0": "monilabs:block/prismac/cube",
-    "particle":"monilabs:block/prismac/cube"
-  },
-  "automatic_culling": false
-}

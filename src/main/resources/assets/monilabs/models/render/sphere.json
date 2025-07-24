@@ -1,5 +1,0 @@
-{
-  "loader": "forge:obj",
-  "model": "monilabs:models/render/sphere.obj",
-  "automatic_culling": false
-}
