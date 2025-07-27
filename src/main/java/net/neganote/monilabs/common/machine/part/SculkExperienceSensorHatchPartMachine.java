@@ -21,7 +21,7 @@ public class SculkExperienceSensorHatchPartMachine extends SensorHatchPartMachin
 
     @Override
     public int getOutputSignal(@Nullable Direction direction) {
-        if (direction == getFrontFacing() || direction == getFrontFacing().getOpposite()) {
+        if (direction == getFrontFacing().getOpposite()) {
             var controllers = getControllers().stream().filter(SculkVatMachine.class::isInstance)
                     .map(SculkVatMachine.class::cast)
                     .toList();

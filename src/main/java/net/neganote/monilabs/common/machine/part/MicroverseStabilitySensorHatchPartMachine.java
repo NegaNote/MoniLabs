@@ -20,7 +20,7 @@ public class MicroverseStabilitySensorHatchPartMachine extends SensorHatchPartMa
 
     @Override
     public int getOutputSignal(@Nullable Direction direction) {
-        if (direction == getFrontFacing() || direction == getFrontFacing().getOpposite()) {
+        if (direction == getFrontFacing().getOpposite()) {
             var controllers = getControllers().stream().filter(MicroverseProjectorMachine.class::isInstance)
                     .map(MicroverseProjectorMachine.class::cast)
                     .toList();

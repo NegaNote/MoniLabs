@@ -27,7 +27,7 @@ public class ChromaSensorHatchPartMachine extends SensorHatchPartMachine {
 
     @Override
     public int getOutputSignal(Direction direction) {
-        if (direction == getFrontFacing() || direction == getFrontFacing().getOpposite()) {
+        if (direction == getFrontFacing().getOpposite()) {
             var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
                     .map(PrismaticCrucibleMachine.class::cast)
                     .toList();
