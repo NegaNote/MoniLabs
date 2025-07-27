@@ -58,36 +58,36 @@ public class MicroverseProjectorRender extends
         switch (tier) {
             case 1:
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -1, 1,
-                        1.008f, 1.008f, 1.008f);
+                        1.002f, 1.002f, 1.002f);
                 break;
             case 2:
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -2, 2,
-                        3.008f, 3.008f, 3.008f);
+                        3.002f, 3.002f, 3.002f);
                 break;
             case 3:
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -4, 2,
-                        5f, 7.008f, 5f);
+                        5.002f, 7.002f, 5.002f);
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -4, 2,
-                        7.008f, 5f, 5f);
+                        7.002f, 5.002f, 5.002f);
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -4, 2,
-                        5f, 5f, 7.008f);
+                        5.002f, 5.002f, 7.002f);
                 break;
             case 4:
                 // Lower square
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 1,
-                        3f, 1f, 5.008f);
+                        3.002f, 1.002f, 5.002f);
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 1,
-                        5.008f, 1f, 3f);
+                        5.002f, 1.002f, 3.002f);
 
                 // Middle tube
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 5,
-                        1.008f, 7f, 1.008f);
+                        1.002f, 7.002f, 1.002f);
 
                 // Upper square
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 9,
-                        3f, 1f, 5.008f);
+                        3.002f, 1.002f, 5.002f);
                 renderCuboid(stack, buffer, upwards, front, left, combinedLight, -5, 9,
-                        5.008f, 1f, 3f);
+                        5.002f, 1.002f, 3.002f);
                 break;
         }
     }

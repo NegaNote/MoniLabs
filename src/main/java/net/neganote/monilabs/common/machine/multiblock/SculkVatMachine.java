@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
@@ -18,6 +19,8 @@ import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPar
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class SculkVatMachine extends WorkableElectricMultiblockMachine {
@@ -65,9 +68,11 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
             xpTank.setFluidInTank(0, FluidStack.EMPTY);
 
-            xpBuffer -= xpBuffer >> 4;
+            if (xpBuffer != 0) {
+                xpBuffer -= Math.max(xpBuffer >> 4, 1);
+            }
         }
-        timer = timer + 1 % 8;
+        timer = (timer + 1) % 8;
     }
 
     @Override
@@ -80,6 +85,7 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
     public void onStructureInvalid() {
         super.onStructureInvalid();
         xpHatchSubscription.updateSubscription();
+        timer = 0;
     }
 
     @Override
@@ -115,6 +121,14 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             }
         }
         return true;
+    }
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        super.addDisplayText(textList);
+        if (isFormed()) {
+            textList.add(Component.translatable("sculk_vat.monilabs.current_xp_buffer", xpBuffer, XP_BUFFER_MAX));
+        }
     }
 
     @Override

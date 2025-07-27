@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neganote.monilabs.MoniLabs;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
 
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
@@ -15,32 +15,33 @@ import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
-public class PrismaticColorBlockProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
+import static net.neganote.monilabs.common.machine.multiblock.SculkVatMachine.XP_BUFFER_MAX;
+
+public class SculkVatXPProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     @Override
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
         BlockEntity be = blockAccessor.getBlockEntity();
         if (be instanceof MetaMachineBlockEntity meta_machine_be &&
-                meta_machine_be.getMetaMachine() instanceof PrismaticCrucibleMachine) {
+                meta_machine_be.getMetaMachine() instanceof SculkVatMachine) {
             CompoundTag data = blockAccessor.getServerData();
-            if (data.contains("currentColor")) {
-                var colorKey = data.getString("currentColor");
-                iTooltip.add(Component.translatable("monilabs.prismatic.current_color",
-                        Component.translatable(colorKey)));
+            if (data.contains("currentXPAmount")) {
+                var xpBuffer = data.getInt("currentXPAmount");
+                iTooltip.add(Component.translatable("sculk_vat.monilabs.current_xp_buffer", xpBuffer, XP_BUFFER_MAX));
             }
         }
     }
 
     @Override
-    public ResourceLocation getUid() {
-        return MoniLabs.id("color_info");
+    public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
+        if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity meta_machine_be &&
+                meta_machine_be.getMetaMachine() instanceof SculkVatMachine vat) {
+            compoundTag.putInt("currentXPAmount", vat.getXpBuffer());
+        }
     }
 
     @Override
-    public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
-        if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity meta_machine_be &&
-                meta_machine_be.getMetaMachine() instanceof PrismaticCrucibleMachine machine) {
-            compoundTag.putString("currentColor", machine.getColorState().nameKey);
-        }
+    public ResourceLocation getUid() {
+        return MoniLabs.id("sculk_vat_xp_info");
     }
 }

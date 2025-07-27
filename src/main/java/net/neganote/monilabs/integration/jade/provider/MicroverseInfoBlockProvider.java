@@ -21,7 +21,7 @@ public class MicroverseInfoBlockProvider implements IBlockComponentProvider, ISe
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
         if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity meta_machine_be &&
                 meta_machine_be.getMetaMachine() instanceof MicroverseProjectorMachine) {
-            CompoundTag data = blockAccessor.getServerData().getCompound(getUid().toString());
+            CompoundTag data = blockAccessor.getServerData();
             if (data.contains("currentMicroverse")) {
                 int currentMicroverse = data.getInt("currentMicroverse");
                 iTooltip.add(Component.translatable("microverse.monilabs.current_microverse",
@@ -37,15 +37,13 @@ public class MicroverseInfoBlockProvider implements IBlockComponentProvider, ISe
 
     @Override
     public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
-        CompoundTag data = compoundTag.getCompound(getUid().toString());
         if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity meta_machine_be &&
                 meta_machine_be.getMetaMachine() instanceof MicroverseProjectorMachine machine && machine.isFormed()) {
-            data.putInt("currentMicroverse", machine.getMicroverse().key);
+            compoundTag.putInt("currentMicroverse", machine.getMicroverse().key);
             if (machine.getMicroverse() != Microverse.NONE) {
-                data.putInt("microverseIntegrity", machine.getMicroverseIntegrity());
+                compoundTag.putInt("microverseIntegrity", machine.getMicroverseIntegrity());
             }
         }
-        compoundTag.put(getUid().toString(), data);
     }
 
     @Override

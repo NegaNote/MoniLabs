@@ -1,3 +1,3 @@
-# Moni Labs 0.8.3
+# Moni Labs 0.8.4
 
-* Fix CTM for cryolobus casing
+* Fix Sculk Vat not draining xp properly, and give it jade integration
