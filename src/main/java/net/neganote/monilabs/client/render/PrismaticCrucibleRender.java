@@ -156,11 +156,6 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
     }
 
     @Override
-    public int getViewDistance() {
-        return 1024;
-    }
-
-    @Override
     public boolean shouldRenderOffScreen(@NotNull PrismaticCrucibleMachine machine) {
         return true;
     }

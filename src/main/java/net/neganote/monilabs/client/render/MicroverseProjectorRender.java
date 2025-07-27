@@ -157,11 +157,6 @@ public class MicroverseProjectorRender extends
     }
 
     @Override
-    public int getViewDistance() {
-        return 1024;
-    }
-
-    @Override
     public @NotNull AABB getRenderBoundingBox(@NotNull MicroverseProjectorMachine machine) {
         return new AABB(machine.getPos()).inflate(getViewDistance(), 16, getViewDistance());
     }
