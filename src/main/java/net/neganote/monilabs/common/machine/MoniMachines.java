@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
@@ -153,6 +154,7 @@ public class MoniMachines {
                     Component.translatable("monilabs.tooltip.prismatic.1"),
                     Component.translatable("monilabs.tooltip.prismatic.2"))
             .additionalDisplay(MoniMachines.currentColorDisplayInfo())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/netherite"),
                             GTCEu.id("block/multiblock/processing_array"))
@@ -179,6 +181,7 @@ public class MoniMachines {
                     .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
@@ -210,6 +213,7 @@ public class MoniMachines {
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .where("#", Predicates.any())
                     .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
@@ -254,6 +258,7 @@ public class MoniMachines {
                     .where("V", Predicates.blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
                     .where("#", Predicates.any())
                     .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
@@ -307,6 +312,7 @@ public class MoniMachines {
                     .where("Y", Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
                     .where("#", Predicates.any())
                     .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
                             MoniLabs.id("block/machines/projectors"))
