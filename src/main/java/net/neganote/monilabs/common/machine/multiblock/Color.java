@@ -2,9 +2,13 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import net.minecraft.util.StringRepresentable;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public enum Color implements StringRepresentable {
@@ -41,17 +45,21 @@ public enum Color implements StringRepresentable {
 
     public static final Color[] COLORS = Color.values();
 
-    public static final Color[] ACTUAL_COLORS = Arrays.copyOfRange(COLORS, 0, 12);
+    public static final Color[] ACTUAL_COLORS = Arrays.copyOfRange(COLORS, Color.RED.key, Color.RED.key + 12);
 
-    public static final Color[] NOT_COLORS = Arrays.copyOfRange(COLORS, 17, 29);
+    public static final Color[] NOT_COLORS = Arrays.copyOfRange(COLORS, Color.NOT_RED.key, Color.NOT_RED.key + 12);
 
-    public static final Color[] PRIMARY_COLORS = new Color[] { RED, GREEN, BLUE };
+    public static final Color[] PRIMARY_COLORS = Arrays.stream(ACTUAL_COLORS).filter(Color::isPrimary)
+            .toArray(Color[]::new);
 
-    public static final Color[] SECONDARY_COLORS = new Color[] { YELLOW, CYAN, MAGENTA };
+    public static final Color[] SECONDARY_COLORS = Arrays.stream(ACTUAL_COLORS).filter(Color::isSecondary)
+            .toArray(Color[]::new);
 
-    public static final Color[] BASIC_COLORS = new Color[] { RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA };
+    public static final Color[] BASIC_COLORS = Arrays.stream(ACTUAL_COLORS).filter(Color::isSecondary)
+            .toArray(Color[]::new);
 
-    public static final Color[] TERTIARY_COLORS = new Color[] { ORANGE, LIME, TEAL, AZURE, INDIGO, PINK };
+    public static final Color[] TERTIARY_COLORS = Arrays.stream(ACTUAL_COLORS).filter(Color::isTertiary)
+            .toArray(Color[]::new);
 
     public final String nameKey;
     public final int key;
@@ -74,6 +82,16 @@ public enum Color implements StringRepresentable {
         this.integerColor = integerColor;
     }
 
+    public static final Map<Color, Color> TO_NOT_COLOR = new Object2ObjectArrayMap<>();
+    public static final Map<Color, Color> FROM_NOT_COLOR = new Object2ObjectArrayMap<>();
+
+    static {
+        for (int i = 0; i < 12; i++) {
+            TO_NOT_COLOR.put(COLORS[i], NOT_COLORS[i]);
+            FROM_NOT_COLOR.put(NOT_COLORS[i], COLORS[i]);
+        }
+    }
+
     public boolean isPrimary() {
         return this == RED || this == GREEN || this == BLUE;
     }
@@ -90,15 +108,51 @@ public enum Color implements StringRepresentable {
         return !isBasic() && isRealColor();
     }
 
+    public static List<Color> getColorsWithCategories(Color color) {
+        List<Color> colors = new ObjectArrayList<>();
+        colors.add(color);
+        int key = color.key;
+
+        if (color.isRealColor()) {
+            if (key % 4 == 0) {
+                colors.add(Color.PRIMARY);
+                colors.add(Color.BASIC);
+            } else if ((key + 2) % 4 == 0) {
+                colors.add(Color.SECONDARY);
+                colors.add(Color.BASIC);
+            } else {
+                colors.add(Color.TERTIARY);
+            }
+            colors.add(Color.ANY);
+            colors.addAll(Arrays.stream(NOT_COLORS).filter(c -> c != TO_NOT_COLOR.get(color)).toList());
+        } else {
+            if (color.isTypeNotColor()) {
+                colors.addAll(Arrays.stream(ACTUAL_COLORS).filter(c -> c != FROM_NOT_COLOR.get(color)).toList());
+            } else {
+                switch (color) {
+                    case ANY -> colors
+                            .addAll(Arrays.asList(Color.ACTUAL_COLORS));
+                    case PRIMARY -> colors
+                            .addAll(Arrays.asList(Color.PRIMARY_COLORS));
+                    case SECONDARY -> colors
+                            .addAll(Arrays.asList(Color.SECONDARY_COLORS));
+                    case BASIC -> colors
+                            .addAll(Arrays.asList(Color.BASIC_COLORS));
+                    case TERTIARY -> colors
+                            .addAll(Arrays.asList(Color.TERTIARY_COLORS));
+                }
+            }
+        }
+        return colors;
+    }
+
     public static Color getColorFromKey(int pKey) {
         return COLORS[pKey];
     }
 
     @Override
     public String toString() {
-        return "Color{" +
-                "nameKey='" + nameKey + '\'' +
-                '}';
+        return "Color{" + this.name() + '}';
     }
 
     public static int getRandomColor() {
@@ -110,7 +164,7 @@ public enum Color implements StringRepresentable {
     }
 
     public boolean isRealColor() {
-        return Stream.of(ACTUAL_COLORS).anyMatch(c -> c == this);
+        return Arrays.asList(ACTUAL_COLORS).contains(this);
     }
 
     public boolean isTypeNotColor() {

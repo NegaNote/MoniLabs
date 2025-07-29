@@ -5,14 +5,11 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.lookup.ingredient.MapIngredientTypeManager;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
-import net.neganote.monilabs.capability.recipe.ChromaRecipeCapability;
-import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
@@ -20,7 +17,6 @@ import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
 public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<ChromaIngredient> {
 
@@ -55,8 +51,7 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left,
                                                     boolean simulate) {
         ChromaIngredient recipeColor = left.get(0);
-        List<Color> colors = MapIngredientTypeManager.getFrom(recipeColor, ChromaRecipeCapability.CAP).stream()
-                .map(MapColorIngredient.class::cast).filter(Objects::nonNull).map(ing -> ing.color).toList();
+        List<Color> colors = Color.getColorsWithCategories(recipeColor.color());
         if (colors.stream().anyMatch(heldColor::equals)) {
             return null;
         } else {

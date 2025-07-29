@@ -6,8 +6,7 @@ import dev.emi.emi.api.EmiRegistry;
 
 @EmiEntrypoint
 public class MoniEMIPlugin implements EmiPlugin {
+
     @Override
-    public void register(EmiRegistry registry) {
-        
-    }
+    public void register(EmiRegistry registry) {}
 }

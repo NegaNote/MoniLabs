@@ -1,4 +1,3 @@
-# Moni Labs 0.8.5
+# Moni Labs 0.9.0
 
-* Make sensor hatches only output signal to front face
-* Make sculk vat lose xp buffer upon being unformed
+* Massive refactor to make the prismac recipes finally actually register and run properly
