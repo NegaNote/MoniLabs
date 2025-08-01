@@ -32,16 +32,28 @@ public class ChromaSensorHatchPartMachine extends SensorHatchPartMachine {
                     .map(PrismaticCrucibleMachine.class::cast)
                     .toList();
             if (controllers.isEmpty()) {
-                setRenderColor(RenderColor.NONE);
                 return 0;
             } else {
                 var controller = controllers.get(0);
-                int signal = controller.isFormed() ? controller.getColorState().key + 1 : 0;
-                setRenderColor(RenderColor.values()[signal]);
-                return signal;
+                return controller.isFormed() ? controller.getColorState().key + 1 : 0;
             }
         } else {
             return 0;
+        }
+    }
+
+    @Override
+    public void updateSignal() {
+        super.updateSignal();
+        var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
+                .map(PrismaticCrucibleMachine.class::cast)
+                .toList();
+        if (controllers.isEmpty()) {
+            setRenderColor(RenderColor.NONE);
+        } else {
+            var controller = controllers.get(0);
+            int signal = controller.isFormed() ? controller.getColorState().key + 1 : 0;
+            setRenderColor(RenderColor.values()[signal]);
         }
     }
 

@@ -25,22 +25,36 @@ public class MicroverseStabilitySensorHatchPartMachine extends SensorHatchPartMa
                     .map(MicroverseProjectorMachine.class::cast)
                     .toList();
             if (controllers.isEmpty()) {
-                setRenderFillLevel(FillLevel.EMPTY_TO_QUARTER);
                 return 0;
             } else {
                 var controller = controllers.get(0);
                 int value = (int) (16 * controller.getMicroverseIntegrity() /
                         ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY));
-                int signal = value == 16 ? 15 : value;
 
-                var fillLevel = FillLevel.values()[signal / 4];
-
-                setRenderFillLevel(fillLevel);
-
-                return signal;
+                return value == 16 ? 15 : value;
             }
         } else {
             return 0;
+        }
+    }
+
+    @Override
+    public void updateSignal() {
+        super.updateSignal();
+        var controllers = getControllers().stream().filter(MicroverseProjectorMachine.class::isInstance)
+                .map(MicroverseProjectorMachine.class::cast)
+                .toList();
+        if (controllers.isEmpty()) {
+            setRenderFillLevel(FillLevel.EMPTY_TO_QUARTER);
+        } else {
+            var controller = controllers.get(0);
+            int value = (int) (16 * controller.getMicroverseIntegrity() /
+                    ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY));
+            int signal = value == 16 ? 15 : value;
+
+            var fillLevel = FillLevel.values()[signal / 4];
+
+            setRenderFillLevel(fillLevel);
         }
     }
 
