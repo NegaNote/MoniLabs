@@ -31,12 +31,8 @@ public enum Microverse {
         return MICROVERSES[pKey];
     }
 
-    /*
-     * @Override
-     * public String toString() {
-     * return "Color{" +
-     * "nameKey='" + nameKey + '\'' +
-     * '}';
-     * }
-     */
+    @Override
+    public String toString() {
+        return "Microverse{" + name() + "}";
+    }
 }

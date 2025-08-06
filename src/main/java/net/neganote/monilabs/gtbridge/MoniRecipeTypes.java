@@ -118,7 +118,8 @@ public class MoniRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
             .addDataInfo((data) -> I18n.get("emi_info.monilabs.projector_info",
-                    data.getByte("projector_tier")));
+                    data.getByte("projector_tier")))
+            .addDataInfo(data -> "");
 
     public static void init() {}
 }

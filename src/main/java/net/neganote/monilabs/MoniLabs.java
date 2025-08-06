@@ -28,6 +28,7 @@ import net.neganote.monilabs.client.render.MicroverseProjectorRender;
 import net.neganote.monilabs.client.render.MoniShaders;
 import net.neganote.monilabs.client.render.PrismaticCrucibleRender;
 import net.neganote.monilabs.common.block.MoniBlocks;
+import net.neganote.monilabs.common.data.MoniPlaceholders;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.config.MoniConfig;
@@ -85,6 +86,7 @@ public class MoniLabs {
         MoniBlocks.init();
         MoniItems.init();
         MoniDataGen.init();
+        MoniPlaceholders.init();
     }
 
     @Contract("_ -> new")

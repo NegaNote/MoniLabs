@@ -41,7 +41,7 @@ repositories {
         url "https://maven.firstdarkdev.xyz/snapshots/"
     }
     maven {
-        // saps.dev Maven (KubeJS and Rhino)
+        // latvian.dev Maven (KubeJS and Rhino)
         url = "https://maven.latvian.dev/releases"
     }
     maven { // Registrate
@@ -152,8 +152,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     implementation fg.deobf("dev.emi:emi-forge:${emi_version}+${minecraft_version}")
-    runtimeOnly fg.deobf("curse.maven:jade-324717:5390389")
-    compileOnly fg.deobf("curse.maven:jade-324717:5390389")
+    implementation fg.deobf("maven.modrinth:jade:${jade_version}")
 
     implementation fg.deobf("dev.ftb.mods:ftb-library-forge:${ftblibrary_version}")
     implementation fg.deobf("dev.ftb.mods:ftb-teams-forge:${ftbteams_version}")

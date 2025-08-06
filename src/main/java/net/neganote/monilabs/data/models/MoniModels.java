@@ -61,7 +61,7 @@ public class MoniModels {
             ResourceLocation framePath = path.withSuffix("/frame");
             ResourceLocation corePath = path.withSuffix("/core");
 
-            ResourceLocation beaconPath = MoniLabs.id("block/beacon");
+            ResourceLocation beaconPath = MoniLabs.id("block/beacon_upsidedown");
 
             ModelFile inactive = prov
                     .models()
@@ -69,8 +69,7 @@ public class MoniModels {
                     .texture("frame", framePath)
                     .texture("core", corePath)
                     .texture("particle", framePath)
-                    .renderType("cutout")
-                    .rootTransforms().rotation(0.0f, 0.0f, 180.0f, true).translation(-1.0f, -1.0f, 0.0f).end();
+                    .renderType("cutout");
 
             VariantBlockStateBuilder builder = prov
                     .getVariantBuilder(block)
@@ -88,8 +87,7 @@ public class MoniModels {
                         .texture("frame", framePath)
                         .texture("core", corePath.withSuffix(colorStr))
                         .texture("particle", framePath)
-                        .renderType("cutout")
-                        .rootTransforms().rotation(0.0f, 0.0f, 180.0f, true).translation(-1.0f, -1.0f, 0.0f).end();
+                        .renderType("cutout");
 
                 builder
                         .partialState()

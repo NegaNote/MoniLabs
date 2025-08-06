@@ -1,22 +1,9 @@
 {
-  "parent": "monilabs:block/beacon",
+  "parent": "monilabs:block/beacon_upsidedown",
   "render_type": "minecraft:cutout",
   "textures": {
     "core": "monilabs:block/beacon/prismatic_focus/core_blue",
     "frame": "monilabs:block/beacon/prismatic_focus/frame",
     "particle": "monilabs:block/beacon/prismatic_focus/frame"
-  },
-  "transform": {
-    "rotation": [
-      0.0,
-      -0.0,
-      1.0,
-      -0.0
-    ],
-    "translation": [
-      -1.0,
-      -1.0,
-      0.0
-    ]
   }
 }
