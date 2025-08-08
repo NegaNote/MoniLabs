@@ -67,13 +67,13 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             }
 
             if (xpBuffer != 0) {
-                xpBuffer -= Math.max(xpBuffer >> 4, 1);
+                xpBuffer -= Math.max(xpBuffer >> 5, 1);
             }
 
             xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
             xpTank.setFluidInTank(0, FluidStack.EMPTY);
         }
-        timer = (timer + 1) % 8;
+        timer = (timer + 1) % 20;
     }
 
     @Override

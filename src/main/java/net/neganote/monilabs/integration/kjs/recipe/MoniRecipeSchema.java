@@ -100,7 +100,7 @@ public interface MoniRecipeSchema {
         }
 
         public GTRecipeSchema.GTRecipeJS updateMicroverse(int i, boolean keepIntegrity) {
-            int updatedMicroverse = (i >= 0 ? i : -i); // Don't wanna import math :tr:
+            int updatedMicroverse = Math.abs(i);
             this.addData("updated_microverse", updatedMicroverse);
             this.addDataBool("keep_integrity", keepIntegrity);
             return this;

@@ -13,6 +13,7 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import net.minecraft.client.resources.language.I18n;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.Color;
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.config.MoniConfig;
 
 @SuppressWarnings("unused")
@@ -119,7 +120,29 @@ public class MoniRecipeTypes {
             .setSound(GTSoundEntries.COOLING)
             .addDataInfo((data) -> I18n.get("emi_info.monilabs.projector_info",
                     data.getByte("projector_tier")))
+            .addDataInfo(data -> {
+                String info = "";
+                if (data.contains("required_microverse")) {
+                    info += I18n.get("emi_info.monilabs.required_microverse",
+                            I18n.get(Microverse.values()[data.getInt("required_microverse")].langKey)) + "\n";
+                }
+                if (data.contains("updated_microverse")) {
+                    info += I18n.get("emi_info.monilabs.new_microverse",
+                            I18n.get(Microverse.values()[data.getInt("updated_microverse")].langKey)) + "\n";
+                }
+                if (data.contains("damage_rate")) {
+                    info += I18n.get("emi_info.monilabs.integrity_drained", data.getInt("damage_rate")) + "\n";
+                }
+                return info;
+            })
+            .addDataInfo(data -> "")
             .addDataInfo(data -> "");
+
+    public static GTRecipeType ANTIMATTER_COLLIDER_RECIPES = GTRecipeTypes
+            .register("anti_collider", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.OUT)
+            .setMaxIOSize(0, 0, 2, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL);
 
     public static void init() {}
 }

@@ -1,7 +1,5 @@
 package net.neganote.monilabs.config;
 
-import com.gregtechceu.gtceu.api.GTValues;
-
 import net.neganote.monilabs.MoniLabs;
 
 import dev.toma.configuration.Configuration;
@@ -37,22 +35,6 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "Maximum multiplier to antimatter generation (exclusive)." })
         public float antimatterRandomMaxExclusive = 2.0f;
-        @Configurable
-        @Configurable.Comment({ "Base amount of EU to generate per millibucket of antimatter." })
-        public long euPerAntimatterMillibucket = GTValues.V[GTValues.UEV];
-
-        @Configurable
-        @Configurable.Comment({ "Fluid ID for the antimatter fuel." })
-        public String antimatterFuelID = "minecraft:water";
-        @Configurable
-        @Configurable.Comment({ "Fluid ID for the matter to annihilate with the antimatter fuel." })
-        public String annihilatableMatterID = "minecraft:lava";
-        @Configurable
-        @Configurable.Comment({ "Fluid ID for another matter to annihilate, but with bonuses to generation." })
-        public String annihilatableMatterBonusID = "gtceu:nitrogen";
-        @Configurable
-        @Configurable.Comment({ "Bonus multiplier for the second tier of annihilant." })
-        public double antimatterSecondTierBonusMultiplier = 4.0;
 
         @Configurable
         @Configurable.Comment({ "Whether the microminer is returned upon a microverse reaching zero integrity." })

@@ -48,10 +48,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Persisted
     private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
-    // Currently running recipe. Needs to be cached separately for a specific behavior
-    @Persisted
-    @DescSynced
-    private GTRecipe activeRecipe;
     // Used for microverse projector tier
     @Getter
     private final int projectorTier;
@@ -139,24 +135,25 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         if (recipe.data.contains("projector_tier") && recipe.data.getLong("projector_tier") > projectorTier) {
             return false;
         }
-        if (super.beforeWorking(recipe)) {
-            activeRecipe = recipe;
-            return true;
-        } else {
-            return false;
-        }
+        return super.beforeWorking(recipe);
     }
 
     @Override
     public boolean onWorking() {
         if (!super.onWorking()) {
-            activeRecipe = null;
             return false;
-        } // Wondering when to calculate super.onWorking
+        }
+
+        var activeRecipe = recipeLogic.getLastRecipe();
 
         if (activeRecipe != null && activeRecipe.data.contains("damage_rate")) {
             int decayRate = activeRecipe.data.getInt("damage_rate");
-            microverseIntegrity = Math.max(microverseIntegrity - decayRate * activeRecipe.parallels, 0);
+            decayRate *= activeRecipe.parallels;
+            var originalRecipe = recipeLogic.getLastOriginRecipe();
+            assert originalRecipe != null;
+            var durationDifference = originalRecipe.duration / activeRecipe.duration;
+            decayRate *= durationDifference;
+            microverseIntegrity = Math.max(microverseIntegrity - decayRate, 0);
             if (microverseIntegrity == 0 && microverse != Microverse.NONE) {
                 if (MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
                     var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
@@ -177,7 +174,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     microverseIntegrity = 0;
                     microverse = Microverse.NONE;
                 }
-                activeRecipe = null;
+                recipeLogic.resetRecipeLogic();
                 return false;
             }
             if (microverseIntegrity >= MICROVERSE_MAX_INTEGRITY) microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
@@ -188,11 +185,12 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Override
     public void afterWorking() {
         super.afterWorking();
+        var activeRecipe = recipeLogic.getLastRecipe();
+        assert activeRecipe != null;
         if (activeRecipe.data.contains("updated_microverse")) {
             int updatedMicroverse = activeRecipe.data.getInt("updated_microverse");
             updateMicroverse(updatedMicroverse, activeRecipe.data.getBoolean("keep_integrity"));
         }
-        activeRecipe = null;
     }
 
     public void microverseTick() {
@@ -205,8 +203,16 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                         var stack = itemHandler.getStackInSlot(i);
                         if (stack.getItem() == quantumFluxItem) {
                             fluxCount += stack.getCount();
-                            itemHandler.setStackInSlot(i, ItemStack.EMPTY);
                         }
+                    }
+                }
+
+                List<Ingredient> fluxList = ObjectArrayList
+                        .of(Ingredient.of(new ItemStack(quantumFluxItem, fluxCount)));
+                for (var itemHandler : inputBuses) {
+                    fluxList = itemHandler.handleRecipe(IO.IN, null, fluxList, false);
+                    if (fluxList == null) {
+                        break;
                     }
                 }
 
@@ -215,7 +221,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
                     int rollbackCount = (fluxCount * 100 - missingHealth) / 100; // number of excess flux --
                                                                                  // a half-useful flux is not excess
-                    if (activeRecipe != null && recipeLogic.getProgress() > 1) {
+                    if (recipeLogic.getLastRecipe() != null && recipeLogic.getProgress() > 1) {
                         recipeLogic.setProgress(Math.max(1, recipeLogic.getProgress() - (20 * rollbackCount)));
                     }
                 } else {
@@ -224,15 +230,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             } else {
                 int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
                 int missingFlux = missingHealth / 100;
-                int acc = missingFlux;
-                List<Ingredient> fluxList = new ObjectArrayList<>();
-                while (acc >= 64) {
-                    fluxList.add(Ingredient.of(new ItemStack(quantumFluxItem, 64)));
-                    acc -= 64;
-                }
-                if (acc != 0) {
-                    fluxList.add(Ingredient.of(new ItemStack(quantumFluxItem, acc)));
-                }
+                List<Ingredient> fluxList = ObjectArrayList
+                        .of(Ingredient.of(new ItemStack(quantumFluxItem, missingFlux)));
                 for (var itemHandler : inputBuses) {
                     fluxList = itemHandler.handleRecipe(IO.IN, null, fluxList, false);
                     if (fluxList == null) {
@@ -256,9 +255,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         timer = (timer + 1) % 20;
         if (microverse.decayRate != 0) {
             int decayRate = microverse.decayRate;
-            if (activeRecipe != null) {
-                decayRate *= activeRecipe.parallels;
-            }
             microverseIntegrity -= decayRate;
             if (microverseIntegrity <= 0) {
                 updateMicroverse(0, false);
