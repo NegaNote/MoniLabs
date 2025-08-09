@@ -7,6 +7,10 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -21,6 +25,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.config.MoniConfig;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -77,6 +82,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public static final int MICROVERSE_MAX_INTEGRITY = 100_000;
     public static final int FLUX_REPAIR_AMOUNT = 1000;
 
+    private final GTRecipe quantumFluxRecipe;
+
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
         this.projectorTier = tier;
@@ -84,6 +91,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         updateMicroverse(0, false);
         this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.bySeparator("kubejs:quantum_flux", ':'));
         assert this.quantumFluxItem != null;
+        this.quantumFluxRecipe = GTRecipeTypes.DUMMY_RECIPES.recipeBuilder(MoniLabs.id("quantum_flux_internal"))
+                .inputItems(this.quantumFluxItem)
+                .buildRawRecipe();
     }
 
     @Override
@@ -108,18 +118,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     @Override
     public void onStructureFormed() {
-        if (inputBuses == null) {
-            inputBuses = getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP).stream()
-                    .filter(NotifiableItemStackHandler.class::isInstance)
-                    .map(NotifiableItemStackHandler.class::cast)
-                    .toList();
-        }
-        if (outputBuses == null && MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
-            outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
-                    .filter(NotifiableItemStackHandler.class::isInstance)
-                    .map(NotifiableItemStackHandler.class::cast)
-                    .toList();
-        }
         super.onStructureFormed();
         microverseHandler.updateSubscription();
     }
@@ -146,8 +144,12 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         var activeRecipe = recipeLogic.getLastRecipe();
 
-        if (activeRecipe != null && activeRecipe.data.contains("damage_rate")) {
-            int decayRate = activeRecipe.data.getInt("damage_rate");
+        if (activeRecipe != null) {
+            int decayRate = 1;
+            if (activeRecipe.data.contains("damage_rate")) {
+                decayRate = activeRecipe.data.getInt("damage_rate");
+            }
+
             decayRate *= activeRecipe.parallels;
             var originalRecipe = recipeLogic.getLastOriginRecipe();
             assert originalRecipe != null;
@@ -177,7 +179,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 recipeLogic.resetRecipeLogic();
                 return false;
             }
-            if (microverseIntegrity >= MICROVERSE_MAX_INTEGRITY) microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
         }
         return true;
     }
@@ -186,70 +187,55 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public void afterWorking() {
         super.afterWorking();
         var activeRecipe = recipeLogic.getLastRecipe();
-        assert activeRecipe != null;
-        if (activeRecipe.data.contains("updated_microverse")) {
+        if (activeRecipe != null && activeRecipe.data.contains("updated_microverse")) {
             int updatedMicroverse = activeRecipe.data.getInt("updated_microverse");
             updateMicroverse(updatedMicroverse, activeRecipe.data.getBoolean("keep_integrity"));
         }
     }
 
     public void microverseTick() {
+        if (inputBuses == null || inputBuses.isEmpty()) {
+            inputBuses = getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
+        }
+        if ((outputBuses == null || outputBuses.isEmpty()) &&
+                MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
+            outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
+        }
+
         if (timer == 0 && microverse.isRepairable) {
-            if (microverse.isHungry) {
-                int fluxCount = 0;
+            var missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
+            var fluxToFullHeal = missingHealth / 100;
+            var fluxAvailable = ParallelLogic.getMaxByInput(this, quantumFluxRecipe, Integer.MAX_VALUE,
+                    Collections.emptyList());
 
-                for (var itemHandler : inputBuses) {
-                    for (int i = 0; i < itemHandler.getSlots(); i++) {
-                        var stack = itemHandler.getStackInSlot(i);
-                        if (stack.getItem() == quantumFluxItem) {
-                            fluxCount += stack.getCount();
-                        }
-                    }
-                }
+            var fluxToConsume = microverse.isHungry ? fluxAvailable : Math.min(fluxToFullHeal, fluxAvailable);
 
+            if (fluxToConsume > 0) {
                 List<Ingredient> fluxList = ObjectArrayList
-                        .of(Ingredient.of(new ItemStack(quantumFluxItem, fluxCount)));
-                for (var itemHandler : inputBuses) {
-                    fluxList = itemHandler.handleRecipe(IO.IN, null, fluxList, false);
-                    if (fluxList == null) {
-                        break;
-                    }
+                        .of(SizedIngredient.create(new ItemStack(quantumFluxItem, fluxToConsume)));
+
+                var scaledRecipe = quantumFluxRecipe.copy(new ContentModifier(fluxToConsume, 0.0));
+
+                for (var bus : inputBuses) {
+                    fluxList = bus.handleRecipe(IO.IN, scaledRecipe, fluxList, false);
+                    if (fluxList == null) break;
                 }
 
-                int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
-                if (fluxCount * 100 > missingHealth) {
-                    microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
-                    int rollbackCount = (fluxCount * 100 - missingHealth) / 100; // number of excess flux --
-                                                                                 // a half-useful flux is not excess
+                var usedToHeal = Math.min(fluxToFullHeal, fluxToConsume);
+                microverseIntegrity += usedToHeal * 100;
+
+                if (microverse.isHungry && fluxToConsume > usedToHeal) {
+                    int rollbackCount = fluxToConsume - usedToHeal;
                     if (recipeLogic.getLastRecipe() != null && recipeLogic.getProgress() > 1) {
                         recipeLogic.setProgress(Math.max(1, recipeLogic.getProgress() - (20 * rollbackCount)));
                     }
-                } else {
-                    microverseIntegrity += fluxCount * 100;
                 }
-            } else {
-                int missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
-                int missingFlux = missingHealth / 100;
-                List<Ingredient> fluxList = ObjectArrayList
-                        .of(Ingredient.of(new ItemStack(quantumFluxItem, missingFlux)));
-                for (var itemHandler : inputBuses) {
-                    fluxList = itemHandler.handleRecipe(IO.IN, null, fluxList, false);
-                    if (fluxList == null) {
-                        break;
-                    }
-                }
-
-                int fluxCount = missingFlux;
-                if (fluxList != null) {
-                    for (Ingredient ingredient : fluxList) {
-                        var items = ingredient.getItems();
-                        for (ItemStack item : items) {
-                            fluxCount -= item.getCount();
-                        }
-                    }
-                }
-
-                microverseIntegrity += fluxCount * 100;
             }
         }
         timer = (timer + 1) % 20;

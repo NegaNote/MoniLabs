@@ -17,6 +17,7 @@ import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -50,7 +51,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
                 return;
             }
 
-            var maxParallels = ParallelLogic.getParallelAmount(this, recipe, Integer.MAX_VALUE);
+            var maxParallels = ParallelLogic.getMaxByInput(this, recipe, Integer.MAX_VALUE, Collections.emptyList());
 
             double batchBonus = Math.log10(maxParallels) + 1.0;
 

@@ -150,7 +150,10 @@ public class MoniMachines {
                     .where("F", Predicates.frames(GTMaterials.Neutronium))
                     .where("#", Predicates.any())
                     .build())
-            .tooltips(Component.translatable("monilabs.tooltip.prismatic.0").withStyle(TooltipHelper.RAINBOW_HSL_FAST),
+            .tooltips(
+                    Component.translatable("monilabs.tooltip.prismatic.0",
+                            Component.translatable("monilabs.tooltip.prismatic.rainbow")
+                                    .withStyle(TooltipHelper.RAINBOW_HSL_FAST)),
                     Component.translatable("monilabs.tooltip.prismatic.1"),
                     Component.translatable("monilabs.tooltip.prismatic.2"))
             .additionalDisplay(MoniMachines.currentColorDisplayInfo())
