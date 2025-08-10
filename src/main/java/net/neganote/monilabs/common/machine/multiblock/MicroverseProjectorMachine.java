@@ -206,7 +206,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         if (timer == 0 && microverse.isRepairable) {
             var missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
-            var fluxToFullHeal = missingHealth / 100;
+            var fluxToFullHeal = missingHealth / FLUX_REPAIR_AMOUNT;
             var fluxAvailable = ParallelLogic.getMaxByInput(this, quantumFluxRecipe, Integer.MAX_VALUE,
                     Collections.emptyList());
 
@@ -224,7 +224,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 }
 
                 var usedToHeal = Math.min(fluxToFullHeal, fluxToConsume);
-                microverseIntegrity += usedToHeal * 100;
+                microverseIntegrity += usedToHeal * FLUX_REPAIR_AMOUNT;
 
                 if (microverse.isHungry && fluxToConsume > usedToHeal) {
                     int rollbackCount = fluxToConsume - usedToHeal;
