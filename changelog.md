@@ -1,5 +1,7 @@
-# Moni Labs 0.10.3
+# Moni Labs 0.10.4
 
-Balance changes:
-* Change quantum flux to heal 1% per instead of 0.1% per (HOTFIX b/c 0.10.2 didn't actually do this)
-* Make projector not drain stability by default
+* Fix more crashes
+* Fix healing projector while it's off
+* Fix hyperbolic projector not having parallel hatch modifier
+* Fix hyperbolic projector not performing parallels properly
+* Clarified decay per microverse mission in EMI

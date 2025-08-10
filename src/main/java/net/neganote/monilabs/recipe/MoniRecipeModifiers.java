@@ -2,8 +2,10 @@ package net.neganote.monilabs.recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic.*;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
@@ -118,7 +120,9 @@ public class MoniRecipeModifiers {
         };
     }
 
-    public static RecipeModifier MICROVERSE_OC = (machine, recipe) -> {
+    public static RecipeModifier MICROVERSE_OC = MoniRecipeModifiers::microverseOC;
+
+    public static ModifierFunction microverseOC(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MicroverseProjectorMachine projector)) {
             return RecipeModifier.nullWrongType(MicroverseProjectorMachine.class, machine);
         }
@@ -130,17 +134,40 @@ public class MoniRecipeModifiers {
             recipeTier = 1;
         }
         int maxOCs = projector.getTier() - RecipeHelper.getRecipeEUtTier(recipe);
-        OverclockingLogic logic = (p, v) -> microverseTierOC(projectorTier, recipeTier, maxOCs);
+        OverclockingLogic logic = (p, v) -> microverseProjectorTierOC(p, v, projectorTier, recipeTier);
         return logic.getModifier(machine, recipe, projector.getOverclockVoltage());
-    };
+    }
 
-    public static OCResult microverseTierOC(int projectorTier, int recipeTier, int maxOCs) {
-        int perfectOCAmount = Math.min(projectorTier - recipeTier, maxOCs);
-        double durationMultiplier = Math.pow(OverclockingLogic.PERFECT_DURATION_FACTOR, perfectOCAmount);
-        if (maxOCs > perfectOCAmount) {
-            int normalOCAmount = maxOCs - perfectOCAmount;
-            durationMultiplier *= Math.pow(OverclockingLogic.STD_DURATION_FACTOR, normalOCAmount);
+    // Heavily modeled after/copied from EBF OC logic but without subtick
+    public static OCResult microverseProjectorTierOC(OCParams params, long maxVoltage, int projectorTier,
+                                                     int recipeTier) {
+        double duration = params.duration();
+        double eut = params.eut();
+        int ocAmount = params.ocAmount();
+
+        double durationMultiplier = 1;
+
+        int perfectOCAmount = projectorTier - recipeTier;
+
+        int ocLevel = 0;
+        while (ocAmount-- > 0) {
+            boolean perfect = perfectOCAmount-- > 0;
+            double potentialEUt = eut * OverclockingLogic.STD_VOLTAGE_FACTOR;
+            if (potentialEUt > maxVoltage) break;
+            double dFactor = perfect ? OverclockingLogic.PERFECT_DURATION_FACTOR :
+                    OverclockingLogic.STD_DURATION_FACTOR;
+
+            double potentialDuration = duration * dFactor;
+            if (potentialDuration < 1) break;
+
+            duration = potentialDuration;
+            durationMultiplier *= dFactor;
+
+            // Only set EUt after checking duration - no need to OC if duration would be too low
+            eut = potentialEUt;
+            ocLevel++;
         }
-        return new OCResult(Math.pow(4, maxOCs), durationMultiplier, perfectOCAmount, 1);
+
+        return new OCResult(Math.pow(OverclockingLogic.STD_VOLTAGE_FACTOR, ocLevel), durationMultiplier, ocLevel, 1);
     }
 }

@@ -276,7 +276,7 @@ public class MoniMachines {
             .langValue("Hyperbolic Microverse Projector")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.MICROVERSE_RECIPES)
-            .recipeModifiers(MoniRecipeModifiers.MICROVERSE_OC)
+            .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, MoniRecipeModifiers.MICROVERSE_OC)
             .appearanceBlock(MoniBlocks.MICROVERSE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("###CCCCC###", "###N###N###", "###N###N###", "###N###N###", "###N###N###", "###N###N###",

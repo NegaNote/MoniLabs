@@ -14,6 +14,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
+import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.config.MoniConfig;
 
 @SuppressWarnings("unused")
@@ -130,8 +131,10 @@ public class MoniRecipeTypes {
                     info += I18n.get("emi_info.monilabs.new_microverse",
                             I18n.get(Microverse.values()[data.getInt("updated_microverse")].langKey)) + "\n";
                 }
-                if (data.contains("damage_rate")) {
-                    info += I18n.get("emi_info.monilabs.integrity_drained", data.getInt("damage_rate")) + "\n";
+                if (data.contains("damage_rate") && data.getInt("damage_rate") != 0) {
+                    info += I18n.get("emi_info.monilabs.integrity_drained", (float) (data.getInt("damage_rate") *
+                            data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%";
+                    // The extra percent is because EMI treats anything with a percent in it as a format string
                 }
                 return info;
             })

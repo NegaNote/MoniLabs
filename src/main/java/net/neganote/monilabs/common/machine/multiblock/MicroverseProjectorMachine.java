@@ -142,6 +142,14 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             return false;
         }
 
+        if ((outputBuses == null || outputBuses.isEmpty()) &&
+                MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
+            outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
+        }
+
         var activeRecipe = recipeLogic.getLastRecipe();
 
         if (activeRecipe != null && activeRecipe.data.contains("damage_rate")) {
@@ -158,7 +166,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                             .getContent();
                     List<Ingredient> left = List.of(contents);
                     for (var outputBus : outputBuses) {
-                        left = outputBus.handleRecipe(IO.OUT, null, left, false);
+                        left = outputBus.handleRecipe(IO.OUT, activeRecipe, left, false);
                         if (left == null) {
                             break;
                         }
@@ -196,15 +204,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     .map(NotifiableItemStackHandler.class::cast)
                     .toList();
         }
-        if ((outputBuses == null || outputBuses.isEmpty()) &&
-                MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
-            outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
-                    .filter(NotifiableItemStackHandler.class::isInstance)
-                    .map(NotifiableItemStackHandler.class::cast)
-                    .toList();
-        }
 
-        if (timer == 0 && microverse.isRepairable) {
+        if (timer == 0 && microverse.isRepairable && isWorkingEnabled()) {
             var missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
             var fluxToFullHeal = missingHealth / FLUX_REPAIR_AMOUNT;
             var fluxAvailable = ParallelLogic.getMaxByInput(this, quantumFluxRecipe, Integer.MAX_VALUE,
