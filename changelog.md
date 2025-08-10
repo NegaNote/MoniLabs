@@ -1,6 +1,5 @@
-# Moni Labs 0.10.1
+# Moni Labs 0.10.2
 
-* Fix the microverse projector crashing on zero integrity
-* Fix failing to consume quantum flux to heal microverse integrity
-* Fix antimatter generator logic, now produces expected amounts of EU
-* Fix Prismac tooltip
+Balance changes:
+* Change quantum flux to heal 1% per instead of 0.1% per
+* Make projector not drain stability by default

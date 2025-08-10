@@ -144,12 +144,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         var activeRecipe = recipeLogic.getLastRecipe();
 
-        if (activeRecipe != null) {
-            int decayRate = 1;
-            if (activeRecipe.data.contains("damage_rate")) {
-                decayRate = activeRecipe.data.getInt("damage_rate");
-            }
-
+        if (activeRecipe != null && activeRecipe.data.contains("damage_rate")) {
+            int decayRate = activeRecipe.data.getInt("damage_rate");
             decayRate *= activeRecipe.parallels;
             var originalRecipe = recipeLogic.getLastOriginRecipe();
             assert originalRecipe != null;
