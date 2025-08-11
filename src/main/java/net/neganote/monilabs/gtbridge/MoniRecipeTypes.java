@@ -143,8 +143,12 @@ public class MoniRecipeTypes {
 
                     // The extra percent is because EMI treats anything with a percent in it as a format string
                 }
+                if (data.contains("blacklistParallel") && data.getBoolean("blacklistParallel")) {
+                    info += I18n.get("emi_info.monilabs.cannot_parallel");
+                }
                 return info;
             })
+            .addDataInfo(data -> "")
             .addDataInfo(data -> "")
             .addDataInfo(data -> "");
 
