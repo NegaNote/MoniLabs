@@ -58,6 +58,11 @@ public class MoniLabs {
                     .build())
             .register();
 
+    @SuppressWarnings({ "unused", "removal" })
+    private MoniLabs() {
+        this(FMLJavaModLoadingContext.get());
+    }
+
     public MoniLabs(FMLJavaModLoadingContext context) {
         MoniLabs.init();
         IEventBus modEventBus = context.getModEventBus();

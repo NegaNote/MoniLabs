@@ -105,6 +105,11 @@ public interface MoniRecipeSchema {
             this.addDataBool("keep_integrity", keepIntegrity);
             return this;
         }
+
+        public GTRecipeSchema.GTRecipeJS blacklistMicroverseParallels() {
+            this.addDataBool("blacklistParallel", true);
+            return this;
+        }
     }
 
     RecipeSchema SCHEMA = new RecipeSchema(MoniRecipeJS.class, MoniRecipeJS::new, DURATION, DATA, CONDITIONS,

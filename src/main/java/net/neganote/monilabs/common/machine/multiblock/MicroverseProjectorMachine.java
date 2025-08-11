@@ -159,7 +159,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             assert originalRecipe != null;
             var durationDifference = originalRecipe.duration / activeRecipe.duration;
             decayRate *= durationDifference;
-            microverseIntegrity = Math.max(microverseIntegrity - decayRate, 0);
+            microverseIntegrity = Math.min(Math.max(microverseIntegrity - decayRate, 0), MICROVERSE_MAX_INTEGRITY);
             if (microverseIntegrity == 0 && microverse != Microverse.NONE) {
                 if (MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
                     var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)

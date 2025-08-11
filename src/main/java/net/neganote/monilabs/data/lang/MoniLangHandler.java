@@ -81,6 +81,7 @@ public class MoniLangHandler {
         provider.add("emi_info.monilabs.required_microverse", "Required type: %s");
         provider.add("emi_info.monilabs.new_microverse", "New type: %s");
         provider.add("emi_info.monilabs.integrity_drained", "Integrity drained: %.2f");
+        provider.add("emi_info.monilabs.integrity_healed", "Integrity healed: %.2f");
 
         provider.add("monilabs.tooltip.chroma_sensor_hatch.0", "Outputs color state of Prismatic Crucible");
         provider.add("monilabs.tooltip.chroma_sensor_hatch.1", "as a redstone signal. 0 for unformed,");

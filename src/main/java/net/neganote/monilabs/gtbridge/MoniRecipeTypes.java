@@ -132,8 +132,15 @@ public class MoniRecipeTypes {
                             I18n.get(Microverse.values()[data.getInt("updated_microverse")].langKey)) + "\n";
                 }
                 if (data.contains("damage_rate") && data.getInt("damage_rate") != 0) {
-                    info += I18n.get("emi_info.monilabs.integrity_drained", (float) (data.getInt("damage_rate") *
-                            data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%";
+                    var damageRate = data.getInt("damage_rate");
+                    if (damageRate > 0) {
+                        info += I18n.get("emi_info.monilabs.integrity_drained", (float) (data.getInt("damage_rate") *
+                                data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%";
+                    } else {
+                        info += I18n.get("emi_info.monilabs.integrity_healed", (float) (-data.getInt("damage_rate") *
+                                data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%";
+                    }
+
                     // The extra percent is because EMI treats anything with a percent in it as a format string
                 }
                 return info;

@@ -1,7 +1,6 @@
-# Moni Labs 0.10.4
+# Moni Labs 0.11.0
 
-* Fix more crashes
-* Fix healing projector while it's off
-* Fix hyperbolic projector not having parallel hatch modifier
-* Fix hyperbolic projector not performing parallels properly
-* Clarified decay per microverse mission in EMI
+* Fix microverse-healing recipes healing above 100% integrity
+* Allow blacklisting parallels for microverse missions
+* Give different EMI message for microverses that heal integrity
+* (Hopefully) fix a bug causing crashes on servers

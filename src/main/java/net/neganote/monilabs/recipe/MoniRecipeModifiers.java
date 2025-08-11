@@ -3,6 +3,7 @@ package net.neganote.monilabs.recipe;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -23,6 +24,8 @@ import net.neganote.monilabs.common.machine.multiblock.AntimatterGeneratorMachin
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.config.MoniConfig;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -169,5 +172,29 @@ public class MoniRecipeModifiers {
         }
 
         return new OCResult(Math.pow(OverclockingLogic.STD_VOLTAGE_FACTOR, ocLevel), durationMultiplier, ocLevel, 1);
+    }
+
+    public static RecipeModifier MICROVERSE_PARALLEL_HATCH = MoniRecipeModifiers::hatchParallelMicroverse;
+
+    // Identical to GTRecipeModifiers.hatchParallel, with the addition of the ability to blacklist parallels
+    // on a per-recipe basis.
+    public static @NotNull ModifierFunction hatchParallelMicroverse(@NotNull MetaMachine machine,
+                                                                    @NotNull GTRecipe recipe) {
+        if (recipe.data.contains("blacklistParallel") && recipe.data.getBoolean("blacklistParallel")) {
+            return ModifierFunction.IDENTITY;
+        }
+        if (machine instanceof IMultiController controller && controller.isFormed()) {
+            int parallels = controller.getParallelHatch()
+                    .map(hatch -> ParallelLogic.getParallelAmount(machine, recipe, hatch.getCurrentParallel()))
+                    .orElse(1);
+
+            if (parallels == 1) return ModifierFunction.IDENTITY;
+            return ModifierFunction.builder()
+                    .modifyAllContents(ContentModifier.multiplier(parallels))
+                    .eutMultiplier(parallels)
+                    .parallels(parallels)
+                    .build();
+        }
+        return ModifierFunction.IDENTITY;
     }
 }

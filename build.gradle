@@ -123,7 +123,7 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
         client { property 'forge.enabledGameTestNamespaces', mod_id; args '--refresh-dependencies' }
-        server { property 'forge.enabledGameTestNamespaces', mod_id; args '--nogui', '--refresh-dependencies' }
+        server { property 'forge.enabledGameTestNamespaces', mod_id; args '--nogui' }
         data {
             // example of overriding the workingDirectory set in configureEach above
             workingDirectory project.file('run-data')
