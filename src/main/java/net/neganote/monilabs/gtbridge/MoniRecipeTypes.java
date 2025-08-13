@@ -135,12 +135,11 @@ public class MoniRecipeTypes {
                     var damageRate = data.getInt("damage_rate");
                     if (damageRate > 0) {
                         info += I18n.get("emi_info.monilabs.integrity_drained", (float) (data.getInt("damage_rate") *
-                                data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%";
+                                data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%\n";
                     } else {
                         info += I18n.get("emi_info.monilabs.integrity_healed", (float) (-data.getInt("damage_rate") *
-                                data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%";
+                                data.getInt("duration")) / MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT) + "%%\n";
                     }
-
                     // The extra percent is because EMI treats anything with a percent in it as a format string
                 }
                 if (data.contains("blacklistParallel") && data.getBoolean("blacklistParallel")) {

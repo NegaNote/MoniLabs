@@ -1,3 +1,3 @@
-# Moni Labs 0.11.1
+# Moni Labs 0.11.2
 
-* Show when a microverse mission cannot parallel in EMI
+* Fix a lack of newline before "Cannot parallel" in EMI
