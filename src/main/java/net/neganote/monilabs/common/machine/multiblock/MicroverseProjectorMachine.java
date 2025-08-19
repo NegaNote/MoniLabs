@@ -156,7 +156,11 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             int decayRate = activeRecipe.data.getInt("damage_rate");
             decayRate *= activeRecipe.parallels;
             var originalRecipe = recipeLogic.getLastOriginRecipe();
-            assert originalRecipe != null;
+            if (originalRecipe == null) {
+                // this REALLY should never happen, but if it does...
+                // do the stupid thing and make originalRecipe the same as activeRecipe
+                originalRecipe = activeRecipe;
+            }
             var durationDifference = originalRecipe.duration / activeRecipe.duration;
             decayRate *= durationDifference;
             microverseIntegrity = Math.min(Math.max(microverseIntegrity - decayRate, 0), MICROVERSE_MAX_INTEGRITY);

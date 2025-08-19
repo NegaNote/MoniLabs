@@ -68,9 +68,9 @@ public class UniqueWorkableElectricMultiblockMachine extends WorkableElectricMul
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         if (this.isDuplicate) {
-            textList.add(Component.translatable("monilabs.multiblock.duplicate.1")
+            textList.add(Component.translatable("monilabs.multiblock.duplicate.0")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
-            textList.add(Component.translatable("monilabs.multiblock.duplicate.2")
+            textList.add(Component.translatable("monilabs.multiblock.duplicate.1")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
         } else super.addDisplayText(textList);
     }

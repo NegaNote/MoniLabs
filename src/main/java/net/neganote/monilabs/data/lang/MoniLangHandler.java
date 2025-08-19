@@ -46,8 +46,9 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.any_input_color", "ANY");
         provider.add("monilabs.recipe.input_color_not", "NOT %s");
 
-        provider.add("monilabs.multiblock.duplicate.1", "This multiblock is a duplicate");
-        provider.add("monilabs.multiblock.duplicate.2", "Only one can exist");
+        multiLang(provider, "monilabs.multiblock.duplicate",
+                "This multiblock is a duplicate",
+                "Only one can exist");
 
         provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
         provider.add("monilabs.recipe.mistake_output_colors",
@@ -59,11 +60,16 @@ public class MoniLangHandler {
         provider.add("gtceu.chromatic_processing", "Chromatic Processing");
         provider.add("gtceu.chromatic_transcendence", "Chromatic Transcendence");
         provider.add("gtceu.microverse", "Microverse Mission");
+        provider.add("gtceu.creative_data_multi", "Omniscience Research Beacon");
+        provider.add("gtceu.creative_energy_multi", "Transdimensional Energy Singularity");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
-        provider.add("monilabs.tooltip.prismatic.0", "Use the power of %s to transform items!");
-        provider.add("monilabs.tooltip.prismatic.1", "Recipes MUST be input in the correct color state!");
-        provider.add("monilabs.tooltip.prismatic.2", "They can even change the crucible's color randomly!");
+
+        multiLang(provider, "monilabs.tooltip.prismatic",
+                "Use the power of %s to transform items!",
+                "Recipes MUST be input in the correct color state!",
+                "They can even change the crucible's color randomly!");
+
         provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
 
         provider.add("tooltip.monilabs.basic_microverse_projector.description",
@@ -72,9 +78,9 @@ public class MoniLangHandler {
                 "§7An advanced machine capable of stabilizing projection into microverses for complex missions into the deepest parts of space.");
         provider.add("tooltip.monilabs.elite_microverse_projector.description",
                 "§7An elite machine capable of stabilizing projection into microverses for exotic missions, including collapsing the microverse whole.");
-        provider.add("tooltip.monilabs.hyperbolic_microverse_projector.description.0",
-                "§7An epic machine capable of stabilizing projection into hundreds of microverses at once.");
-        provider.add("tooltip.monilabs.hyperbolic_microverse_projector.description.1",
+
+        multiLang(provider, "tooltip.monilabs.hyperbolic_microverse_projector.description",
+                "§7An epic machine capable of stabilizing projection into hundreds of microverses at once.",
                 "Can perform all Microverse Missions.");
 
         provider.add("emi_info.monilabs.projector_info", "Projector tier: %d");
@@ -84,19 +90,31 @@ public class MoniLangHandler {
         provider.add("emi_info.monilabs.integrity_healed", "Integrity healed: %.2f");
         provider.add("emi_info.monilabs.cannot_parallel", "Cannot parallel");
 
-        provider.add("monilabs.tooltip.chroma_sensor_hatch.0", "Outputs color state of Prismatic Crucible");
-        provider.add("monilabs.tooltip.chroma_sensor_hatch.1", "as a redstone signal. 0 for unformed,");
-        provider.add("monilabs.tooltip.chroma_sensor_hatch.2", "1-12 for each color the PrismaC can be in.");
+        multiLang(provider, "emi_info.creative_energy_multi",
+                "Imbues your factory with",
+                "Infinite Power");
+        multiLang(provider, "emi_info.creative_data_multi",
+                "Imbues your factory with",
+                "the Wisdom of the Universe",
+                "(All GT Research)");
 
-        provider.add("tooltip.monilabs.xp_draining_hatch.0", "Drains all XP to the Sculk Vat's internal");
-        provider.add("tooltip.monilabs.xp_draining_hatch.1", "buffer for its processing.");
-        provider.add("tooltip.monilabs.xp_draining_hatch.2", "Buffer continuously decays slightly.");
+        multiLang(provider, "monilabs.tooltip.chroma_sensor_hatch",
+                "Outputs color state of Prismatic Crucible",
+                "as a redstone signal. 0 for unformed,",
+                "1-12 for each color the PrismaC can be in.");
 
-        provider.add("tooltip.monilabs.xp_sensor_hatch.0", "Outputs xp buffer status of sculk vat");
-        provider.add("tooltip.monilabs.xp_sensor_hatch.1", "as a redstone signal.");
+        multiLang(provider, "tooltip.monilabs.xp_draining_hatch",
+                "Drains all XP to the Sculk Vat's internal",
+                "buffer for its processing.",
+                "Buffer continuously decays slightly.");
 
-        provider.add("tooltip.monilabs.microverse_stability_hatch.0", "Outputs microverse stability");
-        provider.add("tooltip.monilabs.microverse_stability_hatch.1", "as a redstone signal.");
+        multiLang(provider, "tooltip.monilabs.xp_sensor_hatch",
+                "Outputs xp buffer status of sculk vat",
+                "as a redstone signal.");
+
+        multiLang(provider, "tooltip.monilabs.microverse_stability_hatch",
+                "Outputs microverse stability",
+                "as a redstone signal.");
 
         provider.add("microverse.monilabs.type.none", "None");
         provider.add("microverse.monilabs.type.normal", "Normal");
@@ -113,6 +131,27 @@ public class MoniLangHandler {
         provider.add("config.jade.plugin_monilabs.microverse_info", "Microverse Projector Info");
         provider.add("config.jade.plugin_monilabs.sculk_vat_xp_info", "Sculk Vat XP Buffer Info");
 
+        multiLang(provider, "gtceu.placeholder_info.prismacColor",
+                "Returns the current color of the Prismatic Crucible.",
+                "Usage:",
+                "  {prismacColor} -> Current color: (insert color here)");
+
+        multiLang(provider, "gtceu.placeholder_info.microverseType",
+                "Returns the type of microverse.",
+                "Usage:",
+                "  {microverseType} -> Microverse type: (insert type here)");
+
+        multiLang(provider, "gtceu.placeholder_info.microverseStability",
+                "Returns the stability of the microverse.",
+                "Note that not having a microverse projected may result in nonsense values of integrity.",
+                "Usage:",
+                "  {microverseStability} -> Microverse integrity: (integrity, in percent)");
+
+        multiLang(provider, "gtceu.placeholder_info.sculkVatXPBuffer",
+                "Returns the current xp buffer of the sculk vat.",
+                "Usage:",
+                "  {sculkVatXPBuffer} -> XP Stored: (value in millibuckets)");
+
         dfs(provider, new HashSet<>(), MoniConfig.CONFIG_HOLDER.getValueMap());
     }
 
@@ -126,5 +165,15 @@ public class MoniLangHandler {
                 dfs(provider, added, objectValue.get());
             }
         }
+    }
+
+    protected static void multiLang(RegistrateLangProvider provider, String key, String... values) {
+        for (var i = 0; i < values.length; i++) {
+            provider.add(getSubKey(key, i), values[i]);
+        }
+    }
+
+    protected static String getSubKey(String key, int index) {
+        return key + "." + index;
     }
 }

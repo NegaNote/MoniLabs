@@ -4,7 +4,7 @@ public enum Microverse {
 
     NONE(0, 0, false, false, "microverse.monilabs.type.none"),
     NORMAL(1, 0, true, false, "microverse.monilabs.type.normal"),
-    HOSTILE(2, 20, false, false, "microverse.monilabs.type.hostile"),
+    HOSTILE(2, 10, false, false, "microverse.monilabs.type.hostile"),
     SHATTERED(3, 0, false, false, "microverse.monilabs.type.shattered"),
     CORRUPTED(4, 10, true, true, "microverse.monilabs.type.corrupted");
 

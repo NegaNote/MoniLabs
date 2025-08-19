@@ -1,5 +1,6 @@
 package net.neganote.monilabs.common.block;
 
+import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 
 import net.minecraft.tags.BlockTags;
@@ -7,6 +8,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.item.PrismaticFocusItem;
 import net.neganote.monilabs.data.models.MoniModels;
@@ -111,4 +113,46 @@ public class MoniBlocks {
 
     public static BlockEntry<Block> CRYOLOBUS_CASING = registerSimpleBlock("Cryolobus Casing", "cryolobus_casing",
             "casing/cryolobus", BlockItem::new);
+
+    public static BlockEntry<Block> BIOALLOY_CASING = registerSimpleBlock("Bioalloy Casing", "bioalloy_casing",
+            "casing/bioalloy", BlockItem::new);
+
+    public static BlockEntry<Block> BIOALLOY_FUSION_CASING = registerSimpleBlock("Bioalloy Fusion Casing",
+            "bioalloy_fusion_casing",
+            "casing/bioalloy_fusion", BlockItem::new);
+
+    public static BlockEntry<ActiveBlock> PRISM_GLASS = REGISTRATE
+            .block("prism_glass", ActiveBlock::new)
+            .initialProperties(() -> Blocks.BEACON)
+            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
+                    .lightLevel(b -> 15)
+                    .strength(5, 6))
+            .blockstate((ctx, prov) -> {
+                ActiveBlock block = ctx.getEntry();
+
+                ModelFile inactive = prov
+                        .models()
+                        .cubeAll(ctx.getName(), MoniLabs.id("block/prismac/prism_frame"));
+                ModelFile active = prov
+                        .models()
+                        .cubeAll(ctx.getName() + "_active", MoniLabs.id("block/prismac/prism_frame_active"));
+
+                prov
+                        .getVariantBuilder(block)
+                        .partialState()
+                        .with(GTBlockStateProperties.ACTIVE, false)
+                        .modelForState()
+                        .modelFile(inactive)
+                        .addModel()
+                        .partialState()
+                        .with(GTBlockStateProperties.ACTIVE, true)
+                        .modelForState()
+                        .modelFile(active)
+                        .addModel();
+            })
+            .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+            .lang("P.R.I.S.M. Glass")
+            .item(BlockItem::new)
+            .build()
+            .register();
 }

@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.integration.kjs.recipe.components.ContentJS;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
+import net.neganote.monilabs.common.data.materials.MoniElements;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.integration.kjs.recipe.ChromaComponent;
 import net.neganote.monilabs.recipe.MoniRecipes;
@@ -55,5 +56,10 @@ public class MoniLabsGTAddon implements IGTAddon {
     @Override
     public void registerRecipeKeys(KJSRecipeKeyEvent event) {
         event.registerKey(MoniRecipeCapabilities.CHROMA, Pair.of(CHROMA_IN, null));
+    }
+
+    @Override
+    public void registerElements() {
+        MoniElements.init();
     }
 }

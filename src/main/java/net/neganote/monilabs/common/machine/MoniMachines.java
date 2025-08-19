@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
@@ -21,9 +22,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.render.MoniDynamicRenderHelper;
 import net.neganote.monilabs.common.block.MoniBlocks;
-import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
-import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
+import net.neganote.monilabs.common.data.materials.MoniMaterials;
+import net.neganote.monilabs.common.machine.multiblock.*;
 import net.neganote.monilabs.common.machine.part.*;
 import net.neganote.monilabs.data.models.MoniMachineModels;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
@@ -324,6 +324,97 @@ public class MoniMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
                     Component.translatable("tooltip.monilabs.basic_microverse_projector.description"))
             .hasBER(true)
+            .register();
+
+    public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = MoniLabs.REGISTRATE
+            .multiblock("creative_energy_multi", CreativeEnergyMultiMachine::new)
+            .langValue("Transdimensional Energy Singularity")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(MoniRecipeTypes.CREATIVE_ENERGY_MULTI_RECIPES)
+            .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
+                    .aisle("###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "###############")
+                    .aisle("#####NNNNN#####", "#####NNNNN#####", "#######F#######", "#######F#######", "#######F#######", "###############", "###############", "###############", "###############", "#######H#######", "#######H#######", "#######H#######", "#####AAHAA#####", "#######H#######", "#####AAHAA#####", "#######H#######", "#######H#######", "#######H#######", "#######R#######")
+                    .aisle("###NNNNNNNNN###", "###NNNNNNNNN###", "######AAA######", "######AAA######", "######AAA######", "#######F#######", "#######F#######", "###############", "#######H#######", "#######H#######", "#######H#######", "###############", "####A##P##A####", "###############", "####A##P##A####", "###############", "###############", "###############", "###############")
+                    .aisle("##NNNNNNNNNNN##", "##NNNNNNNNNNN##", "#######F#######", "#######F#######", "######AAA######", "######AAA######", "######AAA######", "#####CCCCC#####", "#######H#######", "#####CCCCC#####", "###############", "###############", "###A#######A###", "###############", "###A#######A###", "###############", "###############", "###############", "###############")
+                    .aisle("##NNNNNNNNNNN##", "##NNNNAAANNNN##", "###############", "###############", "###############", "###############", "###############", "####CC###CC####", "#######H#######", "####CC###CC####", "###############", "###############", "##A#########A##", "###############", "##A#########A##", "###############", "###############", "###############", "###############")
+                    .aisle("#NNNNNNNNNNNNN#", "#NNNNAAAAANNNN#", "#####VAAAV#####", "#####V###V#####", "###############", "###############", "###############", "###CC#####CC###", "###############", "###CC#####CC###", "###############", "###############", "#A###########A#", "###############", "#A###########A#", "###############", "###############", "###############", "###############")
+                    .aisle("#NNNNNNNNNNNNN#", "#NNNAAAAAAANNN#", "##A##AAAAA##A##", "##A###AAA###A##", "##AA##VAV##AA##", "###A##V#V##A###", "###A#######A###", "###C#######C###", "###############", "###C#######C###", "###############", "###############", "#A###########A#", "###############", "#A###########A#", "###############", "###############", "###############", "###############")
+                    .aisle("#NNNNNNNNNNNNN#", "#NNNAAAAAAANNN#", "#FAF#AAAAA#FAF#", "#FAF##AAA##FAF#", "#FAA##AAA##AAF#", "##FA###A###AF##", "##FA###A###AF##", "###C###A###C###", "##HHH##P##HHH##", "#HHC#######CHH#", "#HH#########HH#", "HH###########HH", "HHP#########PHH", "HH###########HH", "HHP#########PHH", "HH###########HH", "HH###########HH", "HH###########HH", "#R###########R#")
+                    .aisle("#NNNNNNNNNNNNN#", "#NNNAAAAAAANNN#", "##A##AAAAA##A##", "##A###AAA###A##", "##AA##VAV##AA##", "###A##V#V##A###", "###A#######A###", "###C#######C###", "###############", "###C#######C###", "###############", "###############", "#A###########A#", "###############", "#A###########A#", "###############", "###############", "###############", "###############")
+                    .aisle("#NNNNNNNNNNNNN#", "#NNNNAAAAANNNN#", "#####VAAAV#####", "#####V###V#####", "###############", "###############", "###############", "###CC#####CC###", "###############", "###CC#####CC###", "###############", "###############", "#A###########A#", "###############", "#A###########A#", "###############", "###############", "###############", "###############")
+                    .aisle("##NNNNNNNNNNN##", "##NNNNAAANNNN##", "###############", "###############", "###############", "###############", "###############", "####CC###CC####", "#######H#######", "####CC###CC####", "###############", "###############", "##A#########A##", "###############", "##A#########A##", "###############", "###############", "###############", "###############")
+                    .aisle("##NNNNNNNNNNN##", "##NNNNNNNNNNN##", "#######F#######", "#######F#######", "######AAA######", "######AAA######", "######AAA######", "#####CCCCC#####", "#######H#######", "#####CCCCC#####", "###############", "###############", "###A#######A###", "###############", "###A#######A###", "###############", "###############", "###############", "###############")
+                    .aisle("###NNNNNNNNN###", "###NNNNNNNNN###", "######AAA######", "######AAA######", "######AAA######", "#######F#######", "#######F#######", "###############", "#######H#######", "#######H#######", "#######H#######", "###############", "####A##P##A####", "###############", "####A##P##A####", "###############", "###############", "###############", "###############")
+                    .aisle("#####NN@NN#####", "#####NNNNN#####", "#######F#######", "#######F#######", "#######F#######", "###############", "###############", "###############", "###############", "#######H#######", "#######H#######", "#######H#######", "#####AAHAA#####", "#######H#######", "#####AAHAA#####", "#######H#######", "#######H#######", "#######H#######", "#######R#######")
+                    .aisle("###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "#######H#######", "###############")
+                    // spotless:on
+                    .where("N",
+                            Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
+                                    .setMinGlobalLimited(226)
+                                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                    .where("A", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
+                    .where("F", Predicates.frames(MoniMaterials.Eltz))
+                    .where("V", Predicates.blocks(GCYMBlocks.HEAT_VENT.get()))
+                    .where("P", Predicates.blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                    .where("C", Predicates.blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
+                    .where("H", Predicates.blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where("R", Predicates.blocks(GTBlocks.MACHINE_CASING_UEV.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("#", Predicates.any())
+                    .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
+            .model(GTMachineModels.createWorkableCasingMachineModel(MoniLabs.id("block/casing/netherite"),
+                    GTCEu.id("block/multiblock/processing_array")))
+            .register();
+
+    public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = MoniLabs.REGISTRATE
+            .multiblock("creative_data_multi", CreativeDataMultiMachine::new)
+            .langValue("Omniscience Research Beacon")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(MoniRecipeTypes.CREATIVE_DATA_MULTI_RECIPES)
+            .appearanceBlock(MoniBlocks.BIOALLOY_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
+                    .aisle("###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#####CbbbC#####", "###############", "###############", "###############")
+                    .aisle("####BBBBBBB####", "####BRBBBRB####", "####BRB#BRB####", "####BRB#BRB####", "####BBB#BBB####", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#####CbbbC#####", "###bb#####bb###", "###############", "###############", "###############")
+                    .aisle("###HBBBBBBBH###", "###BBABBBABB###", "###FBAB#BABF###", "####BAB#BAB####", "####BBB#BBB####", "######F#F######", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#####CbbbC#####", "###bb#####bb###", "##b#########b##", "###############", "###############", "###############")
+                    .aisle("##HHBBBBBBBHH##", "##BBBABBBABBB##", "##F#########F##", "###F#######F###", "###############", "###############", "######F#F######", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "######CbC######", "####bb###bb####", "##bb#######bb##", "#b###########b#", "###############", "###############", "###############")
+                    .aisle("##HHBBBBBBBHH##", "##BBBAAAAABBB##", "###############", "###############", "####F#####F####", "####F#####F####", "####F#####F####", "######F#F######", "######F#F######", "###############", "###############", "###############", "###############", "###############", "###############", "####bbCbCbb####", "###b#######b###", "##b#########b##", "#b###########b#", "###############", "###############", "###############")
+                    .aisle("BBBHBBBBBBBHBBB", "#BBBBBBABBBBBB#", "#F####BBB####F#", "##F#########F##", "###############", "###############", "###############", "#####F###F#####", "#####F###F#####", "#####FFFFF#####", "#####FF#FF#####", "######F#F######", "######F#F######", "######F#F######", "######CCC######", "####bb###bb####", "##Cb#######bC##", "#C###########C#", "C#############C", "###############", "###############", "###############")
+                    .aisle("BBBHBBBBBBBHBBB", "#BBBBBBABBBBBB#", "#####HDGDH#####", "######DGD######", "###F##DGD##F###", "###F##DGD##F###", "####F#DGD#F####", "####F#DGD#F####", "####F#DGD#F####", "#####FDGDF#####", "#####FDGDF#####", "#####FDGDF#####", "#####FDGDF#####", "#####FDGDF#####", "#####CbbbC#####", "###CC#####CC###", "##b#########b##", "#b###########b#", "b#############b", "###############", "###############", "###############")
+                    .aisle("BBBHHHHBHHHHBBB", "#BBBBBHAHBBBBB#", "#####HHAHH#####", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "######GAG######", "#####CbAbC#####", "###bb##A##bb###", "##b####A####b##", "#b#####A#####b#", "b######A######b", "#######A#######", "#######A#######", "#######I#######")
+                    .aisle("BBBHBBBBBBBHBBB", "#BBBBBBBBBBBBB#", "#####HDGDH#####", "######DGD######", "###F##DGD##F###", "###F##DGD##F###", "####F#DGD#F####", "####F#DGD#F####", "####F#DGD#F####", "#####FDGDF#####", "#####FDGDF#####", "#####FDGDF#####", "#####FDGDF#####", "#####FDGDF#####", "#####CbbbC#####", "###CC#####CC###", "##b#########b##", "#b###########b#", "b#############b", "###############", "###############", "###############")
+                    .aisle("BBBHBBBBBBBHBBB", "#BBBBBBBBBBBBB#", "#F####B@B####F#", "##F#########F##", "###############", "###############", "###############", "#####F###F#####", "#####F###F#####", "#####FF#FF#####", "#####FF#FF#####", "######F#F######", "######F#F######", "######F#F######", "######CCC######", "####bb###bb####", "##Cb#######bC##", "#C###########C#", "C#############C", "###############", "###############", "###############")
+                    .aisle("##HHBBBBBBBHH##", "##BBBBBBBBBBB##", "###############", "###############", "####F#####F####", "####F#####F####", "####F#F#F#F####", "######F#F######", "######F#F######", "###############", "###############", "###############", "###############", "###############", "###############", "####bbCbCbb####", "###b#######b###", "##b#########b##", "#b###########b#", "###############", "###############", "###############")
+                    .aisle("##HHBBBBBBBHH##", "##BBBBBBBBBBB##", "##F#########F##", "###F#######F###", "######F#F######", "######F#F######", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "######CbC######", "####bb###bb####", "##bb#######bb##", "#b###########b#", "###############", "###############", "###############")
+                    .aisle("###HHBBBBBHH###", "###BBBBBBBBB###", "###F#######F###", "#####F###F#####", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#####CbbbC#####", "###bb#####bb###", "##b#########b##", "###############", "###############", "###############")
+                    .aisle("#####BBBBB#####", "#####BBBBB#####", "#####F###F#####", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#####CbbbC#####", "###bb#####bb###", "###############", "###############", "###############")
+                    .aisle("#####BBBBB#####", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "###############", "#####CbbbC#####", "###############", "###############", "###############")
+                    // spotless:on
+                    .where("#", Predicates.any())
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("G", Predicates.blocks(MoniBlocks.PRISM_GLASS.get()))
+                    .where("A", Predicates.blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
+                    .where("C", Predicates.blocks(GTBlocks.COMPUTER_CASING.get()))
+                    .where("H", Predicates.blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
+                    .where("D", Predicates.blocks(MoniBlocks.BIOALLOY_FUSION_CASING.get()))
+                    .where("F", Predicates.frames(MoniMaterials.CrystalMatrix))
+                    .where("I", Predicates.blocks(MoniBlocks.KNOWLEDGE_TRANSMISSION_ARRAY.get()))
+                    .where("R", Predicates.abilities(PartAbility.COMPUTATION_DATA_RECEPTION))
+                    .where("b", Predicates.blocks(MoniBlocks.BIOALLOY_CASING.get()))
+                    .where("B",
+                            Predicates.blocks(MoniBlocks.BIOALLOY_CASING.get()).setMinGlobalLimited(268)
+                                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1))
+                                    .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)
+                                            .setPreviewCount(1)))
+                    .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
+            .model(GTMachineModels.createWorkableCasingMachineModel(MoniLabs.id("block/casing/bioalloy"),
+                    GTCEu.id("block/multiblock/processing_array")))
             .register();
 
     public static void init() {}

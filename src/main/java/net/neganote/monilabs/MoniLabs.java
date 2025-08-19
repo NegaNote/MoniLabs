@@ -29,6 +29,7 @@ import net.neganote.monilabs.client.render.MoniShaders;
 import net.neganote.monilabs.client.render.PrismaticCrucibleRender;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.data.MoniPlaceholders;
+import net.neganote.monilabs.common.data.materials.MoniMaterials;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.config.MoniConfig;
@@ -121,7 +122,7 @@ public class MoniLabs {
 
     // As well as this.
     private void addMaterials(MaterialEvent event) {
-        // CustomMaterials.init();
+        MoniMaterials.register();
     }
 
     // This is optional, though.

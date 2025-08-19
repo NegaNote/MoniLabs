@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "monilabs:block/bioalloy_fusion_casing"
+    }
+  }
+}

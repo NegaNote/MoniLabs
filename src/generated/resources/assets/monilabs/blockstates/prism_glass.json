@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "monilabs:block/prism_glass"
+    },
+    "active=true": {
+      "model": "monilabs:block/prism_glass_active"
+    }
+  }
+}
