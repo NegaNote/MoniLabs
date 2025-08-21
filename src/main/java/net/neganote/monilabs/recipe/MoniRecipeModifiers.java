@@ -129,6 +129,9 @@ public class MoniRecipeModifiers {
         if (!(machine instanceof MicroverseProjectorMachine projector)) {
             return RecipeModifier.nullWrongType(MicroverseProjectorMachine.class, machine);
         }
+        if (RecipeHelper.getRecipeEUtTier(recipe) > projector.getTier()) {
+            return ModifierFunction.NULL;
+        }
         int projectorTier = projector.getProjectorTier();
         int recipeTier;
         if (recipe.data.contains("projector_tier")) {
