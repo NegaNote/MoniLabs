@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "monilabs:block/cube_3_layer/all_translucent",
   "textures": {
-    "all": "monilabs:block/prismac/prism_frame"
+    "bot_all": "monilabs:block/prismac/prism_frame",
+    "mid_all": "monilabs:block/prismac/prism_frame",
+    "top_all": "monilabs:block/prismac/color_prism"
   }
 }

@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.common.MinecraftForge;
@@ -107,7 +109,10 @@ public class MoniLabs {
     }
 
     @SubscribeEvent
-    public void clientSetup(final FMLClientSetupEvent event) {}
+    @SuppressWarnings("removal")
+    public void clientSetup(final FMLClientSetupEvent event) {
+        ItemBlockRenderTypes.setRenderLayer(MoniBlocks.PRISM_GLASS.get(), RenderType.cutout());
+    }
 
     private void initializeDynamicRenders() {
         DynamicRenderManager.register(MoniLabs.id("prismatic_crucible"), PrismaticCrucibleRender.TYPE);

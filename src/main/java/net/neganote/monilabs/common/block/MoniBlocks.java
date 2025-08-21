@@ -123,7 +123,7 @@ public class MoniBlocks {
 
     public static BlockEntry<ActiveBlock> PRISM_GLASS = REGISTRATE
             .block("prism_glass", ActiveBlock::new)
-            .initialProperties(() -> Blocks.BEACON)
+            .initialProperties(() -> Blocks.GLASS)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
                     .lightLevel(b -> 15)
                     .strength(5, 6))
@@ -132,10 +132,17 @@ public class MoniBlocks {
 
                 ModelFile inactive = prov
                         .models()
-                        .cubeAll(ctx.getName(), MoniLabs.id("block/prismac/prism_frame"));
+                        .withExistingParent(ctx.getName(), MoniLabs.id("block/cube_3_layer/all_translucent"))
+                        .texture("bot_all", MoniLabs.id("block/prismac/prism_frame"))
+                        .texture("mid_all", MoniLabs.id("block/prismac/prism_frame"))
+                        .texture("top_all", MoniLabs.id("block/prismac/color_prism"));
                 ModelFile active = prov
                         .models()
-                        .cubeAll(ctx.getName() + "_active", MoniLabs.id("block/prismac/prism_frame_active"));
+                        .withExistingParent(ctx.getName() + "_active",
+                                MoniLabs.id("block/cube_3_layer/all_translucent"))
+                        .texture("bot_all", MoniLabs.id("block/prismac/prism_frame_active"))
+                        .texture("mid_all", MoniLabs.id("block/prismac/prism_frame_active"))
+                        .texture("top_all", MoniLabs.id("block/prismac/color_prism_active"));
 
                 prov
                         .getVariantBuilder(block)
