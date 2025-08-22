@@ -33,6 +33,7 @@ public class MoniMaterials {
         SculkBioalloy = new Material.Builder(MoniLabs.id("sculk_bioalloy"))
                 .ingot()
                 .liquid(new FluidBuilder().state(FluidState.LIQUID).customStill())
+                .element(MoniElements.SculkBioalloy)
                 .color(0xffffff)
                 .iconSet(MoniMaterialIconSets.SculkAlloy)
                 .flags(MaterialFlags.EXCLUDE_BLOCK_CRAFTING_BY_HAND_RECIPES,
@@ -50,10 +51,8 @@ public class MoniMaterials {
                 .element(MoniElements.Eltz)
                 .color(0xffffff)
                 .iconSet(MoniMaterialIconSets.Eltz)
-                .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD,
-                        MaterialFlags.GENERATE_RING, MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_GEAR,
-                        MaterialFlags.GENERATE_SMALL_GEAR, MaterialFlags.GENERATE_SPRING,
-                        MaterialFlags.GENERATE_BOLT_SCREW, MaterialFlags.GENERATE_FRAME, MaterialFlags.PHOSPHORESCENT)
+                .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_SPRING, MaterialFlags.GENERATE_FRAME,
+                        MaterialFlags.PHOSPHORESCENT)
                 .register();
     }
 }
