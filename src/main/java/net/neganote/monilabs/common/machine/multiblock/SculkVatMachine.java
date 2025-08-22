@@ -46,7 +46,7 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
     }
 
     private void xpHatchTick() {
-        if (timer == 0 && isWorkingEnabled()) {
+        if (timer == 0) {
             var array = getParts().stream()
                     .filter(SculkExperienceDrainingHatchPartMachine.class::isInstance)
                     .map(SculkExperienceDrainingHatchPartMachine.class::cast)
