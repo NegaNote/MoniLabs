@@ -396,7 +396,7 @@ public class MoniMachines {
                     // spotless:on
                     .where("#", Predicates.any())
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .where("G", Predicates.blocks(MoniBlocks.PRISM_GLASS.get()))
+                    .where("G", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(MoniLabs.kjsResLoc("prism_glass"))))
                     .where("A", Predicates.blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
                     .where("C", Predicates.blocks(GTBlocks.COMPUTER_CASING.get()))
                     .where("H", Predicates.blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))

@@ -1,6 +1,5 @@
 package net.neganote.monilabs.common.block;
 
-import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 
 import net.minecraft.tags.BlockTags;
@@ -8,7 +7,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.item.PrismaticFocusItem;
 import net.neganote.monilabs.data.models.MoniModels;
@@ -120,46 +118,4 @@ public class MoniBlocks {
     public static BlockEntry<Block> BIOALLOY_FUSION_CASING = registerSimpleBlock("Bioalloy Fusion Casing",
             "bioalloy_fusion_casing",
             "casing/bioalloy_fusion", BlockItem::new);
-
-    public static BlockEntry<ActiveBlock> PRISM_GLASS = REGISTRATE
-            .block("prism_glass", ActiveBlock::new)
-            .initialProperties(() -> Blocks.GLASS)
-            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
-                    .lightLevel(b -> 15)
-                    .strength(5, 6))
-            .blockstate((ctx, prov) -> {
-                ActiveBlock block = ctx.getEntry();
-
-                ModelFile inactive = prov
-                        .models()
-                        .withExistingParent(ctx.getName(), MoniLabs.id("block/cube_3_layer/all_translucent"))
-                        .texture("bot_all", MoniLabs.id("block/prismac/prism_frame"))
-                        .texture("mid_all", MoniLabs.id("block/prismac/prism_frame"))
-                        .texture("top_all", MoniLabs.id("block/prismac/color_prism"));
-                ModelFile active = prov
-                        .models()
-                        .withExistingParent(ctx.getName() + "_active",
-                                MoniLabs.id("block/cube_3_layer/all_translucent"))
-                        .texture("bot_all", MoniLabs.id("block/prismac/prism_frame_active"))
-                        .texture("mid_all", MoniLabs.id("block/prismac/prism_frame_active"))
-                        .texture("top_all", MoniLabs.id("block/prismac/color_prism_active"));
-
-                prov
-                        .getVariantBuilder(block)
-                        .partialState()
-                        .with(GTBlockStateProperties.ACTIVE, false)
-                        .modelForState()
-                        .modelFile(inactive)
-                        .addModel()
-                        .partialState()
-                        .with(GTBlockStateProperties.ACTIVE, true)
-                        .modelForState()
-                        .modelFile(active)
-                        .addModel();
-            })
-            .tag(RecipeTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
-            .lang("P.R.I.S.M. Glass")
-            .item(BlockItem::new)
-            .build()
-            .register();
 }

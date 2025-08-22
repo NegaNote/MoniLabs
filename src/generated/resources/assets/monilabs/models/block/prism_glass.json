@@ -1,8 +1,0 @@
-{
-  "parent": "monilabs:block/cube_3_layer/all_translucent",
-  "textures": {
-    "bot_all": "monilabs:block/prismac/prism_frame",
-    "mid_all": "monilabs:block/prismac/prism_frame",
-    "top_all": "monilabs:block/prismac/color_prism"
-  }
-}
