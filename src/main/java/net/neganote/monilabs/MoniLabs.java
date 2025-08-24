@@ -67,7 +67,6 @@ public class MoniLabs {
     }
 
     public MoniLabs(FMLJavaModLoadingContext context) {
-        LOGGER.info(System.getProperty("user.dir") + " is the current working directory");
         MoniLabs.init();
         IEventBus modEventBus = context.getModEventBus();
 

@@ -33,11 +33,9 @@ public class PackSwitcherAction extends Action {
             for (File file : files) {
                 Path path = Path.of(target.toString(), file.getName());
                 if (!file.isDirectory()) {
-                    MoniLabs.LOGGER.info("Copying File " + file.getName());
                     path.toFile().delete();
                     Files.copy(Path.of(source.toString(), file.getName()), path);
                 } else {
-                    MoniLabs.LOGGER.info("Copying Directory " + file.getName());
                     File directory = new File(Path.of(target.toString(), file.getName()).toUri());
                     directory.delete();
                     directory.mkdir();
