@@ -31,5 +31,7 @@ bin/
 **run/*
 !run/kubejs/server_scripts/*
 !run/kubejs/client_scripts/
+!run/config-overrides/
+!run/config/fancymenu/
 run-data/
 /src/generated/resources/.cache/*

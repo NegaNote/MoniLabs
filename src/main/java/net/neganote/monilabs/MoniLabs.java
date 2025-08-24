@@ -35,8 +35,10 @@ import net.neganote.monilabs.common.machine.MoniMachines;
 import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.MoniDataGen;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
+import net.neganote.monilabs.integration.fancymenu.PackSwitcherAction;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import de.keksuccino.fancymenu.customization.action.ActionRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Contract;
@@ -65,6 +67,7 @@ public class MoniLabs {
     }
 
     public MoniLabs(FMLJavaModLoadingContext context) {
+        LOGGER.info(System.getProperty("user.dir") + " is the current working directory");
         MoniLabs.init();
         IEventBus modEventBus = context.getModEventBus();
 
@@ -73,6 +76,10 @@ public class MoniLabs {
             initializeDynamicRenders();
             modEventBus.register(MoniShaders.class);
         }
+
+        // Registers FancyMenu actions
+        ActionRegistry.register(new PackSwitcherAction());
+
         modEventBus.addListener(this::addMaterialRegistries);
         modEventBus.addListener(this::addMaterials);
         modEventBus.addListener(this::modifyMaterials);

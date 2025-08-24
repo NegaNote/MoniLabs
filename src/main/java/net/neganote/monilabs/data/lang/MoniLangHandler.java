@@ -90,6 +90,11 @@ public class MoniLangHandler {
         provider.add("emi_info.monilabs.integrity_healed", "Integrity healed: %.2f");
         provider.add("emi_info.monilabs.cannot_parallel", "Cannot parallel");
 
+        provider.add("monilabs.menu.packmodeswitcher.displayname", "Switch Pack Mode");
+        provider.add("monilabs.menu.packmodeswitcher.description",
+                "Copies the required files for the pack mode needed");
+        provider.add("monilabs.menu.packmodeswitcher.valuename", "(N/H/E) Letter");
+
         multiLang(provider, "emi_info.creative_energy_multi",
                 "Imbues your factory with",
                 "Infinite Power");
