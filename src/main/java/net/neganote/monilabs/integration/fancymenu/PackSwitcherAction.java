@@ -2,17 +2,17 @@ package net.neganote.monilabs.integration.fancymenu;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.neganote.monilabs.MoniLabs;
 
 import de.keksuccino.fancymenu.customization.action.Action;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.Objects;
+import java.util.Scanner;
 
 public class PackSwitcherAction extends Action {
 
@@ -66,15 +66,27 @@ public class PackSwitcherAction extends Action {
         return true;
     }
 
+    public String readTmpModeFile() {
+        try {
+            File tmpModeFile = new File(".tmpmode");
+            Scanner reader = new Scanner(tmpModeFile);
+
+            return reader.toString();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public boolean hasValue() {
-        return true;
+        return false;
     }
 
     @Override
     public void execute(@Nullable String s) {
         assert s != null;
-        switch (s.toLowerCase()) {
+        String mode = readTmpModeFile();
+        switch (mode) {
             case "n" -> {
                 copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "normal"),
                         Path.of(cwd, File.separator, "config"));

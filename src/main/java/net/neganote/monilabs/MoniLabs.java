@@ -36,6 +36,7 @@ import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.MoniDataGen;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.integration.fancymenu.PackSwitcherAction;
+import net.neganote.monilabs.integration.fancymenu.SaveTmpModeFileAction;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import de.keksuccino.fancymenu.customization.action.ActionRegistry;
@@ -78,6 +79,7 @@ public class MoniLabs {
 
         // Registers FancyMenu actions
         ActionRegistry.register(new PackSwitcherAction());
+        ActionRegistry.register(new SaveTmpModeFileAction());
 
         modEventBus.addListener(this::addMaterialRegistries);
         modEventBus.addListener(this::addMaterials);
