@@ -1,6 +1,7 @@
 package net.neganote.monilabs.integration.fancymenu;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import de.keksuccino.fancymenu.customization.action.Action;
 import org.jetbrains.annotations.NotNull;
@@ -44,21 +45,21 @@ public class SaveTmpModeFileAction extends Action {
 
     @Override
     public @NotNull Component getActionDisplayName() {
-        return null;
+        return Component.translatable("monilabs.menu.SaveTmpModeFileAction.displayname");
     }
 
     @Override
     public @NotNull Component[] getActionDescription() {
-        return new Component[0];
+        return new MutableComponent[] { Component.translatable("monilabs.menu.SaveTmpModeFileAction.displayname") };
     }
 
     @Override
     public @Nullable Component getValueDisplayName() {
-        return null;
+        return Component.translatable("monilabs.menu.SaveTmpModeFileAction.valuename");
     }
 
     @Override
     public @Nullable String getValueExample() {
-        return "";
+        return "N";
     }
 }

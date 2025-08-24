@@ -93,7 +93,10 @@ public class MoniLangHandler {
         provider.add("monilabs.menu.packmodeswitcher.displayname", "Switch Pack Mode");
         provider.add("monilabs.menu.packmodeswitcher.description",
                 "Copies the required files for the pack mode needed");
-        provider.add("monilabs.menu.packmodeswitcher.valuename", "(N/H/E) Letter");
+        provider.add("monilabs.menu.SaveTmpModeFileAction.displayname", "Save pack mode something something");
+        provider.add("monilabs.menu.SaveTmpModeFileAction.description",
+                "Saves the letter that packmodeswitcher reads");
+        provider.add("monilabs.menu.SaveTmpModeFileAction.valuename", "(N/H/E) Letter");
 
         multiLang(provider, "emi_info.creative_energy_multi",
                 "Imbues your factory with",

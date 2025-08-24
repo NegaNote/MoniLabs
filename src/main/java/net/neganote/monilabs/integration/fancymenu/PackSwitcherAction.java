@@ -71,7 +71,7 @@ public class PackSwitcherAction extends Action {
             File tmpModeFile = new File(".tmpmode");
             Scanner reader = new Scanner(tmpModeFile);
 
-            return reader.toString();
+            return reader.nextLine();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
