@@ -1,23 +1,19 @@
 plugins {
     id "idea"
     id "maven-publish"
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id "eclipse"
     id 'com.diffplug.spotless' version '7.0.2'
+    id 'net.neoforged.moddev.legacyforge' version '2.0.91'
+    id 'java-library'
 }
 
-def generatedResources = file("src/generated")
-
 sourceSets {
-    main {
-        resources.srcDir generatedResources
+    main.resources {
+        srcDir 'src/generated/resources'
     }
 }
 
 mixin {
-    // MixinGradle Settings
     add sourceSets.main, 'mixins.monilabs.refmap.json'
     config 'monilabs.mixins.json'
 }
@@ -93,7 +89,6 @@ repositories {
                 url = "https://api.modrinth.com/maven"
             }
         }
-        forRepositories(fg.repository) // Only add this if you're using ForgeGradle, otherwise remove this line
         filter {
             includeGroup "maven.modrinth"
         }
@@ -110,65 +105,99 @@ base { archivesName = archives_base_name }
 java { sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17 }
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-minecraft {
-    mappings channel: mapping_channel, version: mapping_version
-    copyIdeResources = true
+legacyForge {
+    version = project.minecraft_version + '-' + project.forge_version
+
+    parchment {
+        mappingsVersion = project.mapping_version
+        minecraftVersion = project.minecraft_version
+    }
+
     runs {
+        // applies to all the run configs above
         configureEach {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods { "${mod_id}" { source sourceSets.main } }
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            logLevel = org.slf4j.event.Level.INFO
         }
-        client { property 'forge.enabledGameTestNamespaces', mod_id; args '--refresh-dependencies' }
-        server { property 'forge.enabledGameTestNamespaces', mod_id; args '--nogui' }
+        client {
+            client()
+            sourceSet = sourceSets.main
+            programArguments.addAll('--refresh-dependencies')
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
+        }
+        server {
+            server()
+            sourceSet = sourceSets.main
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
+            programArguments.addAll('--nogui', '--world', 'world-extra')
+        }
         data {
-            // example of overriding the workingDirectory set in configureEach above
-            workingDirectory project.file('run-data')
+            data()
+            sourceSet = sourceSets.main
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-            args '--existing-mod', 'gtceu'
+            programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath())
+            programArguments.addAll('--existing-mod', 'gtceu')
+        }
+    }
+
+    mods {
+        // define mod <-> source bindings
+        // these are used to tell the game which sources are for which mod
+        // mostly optional in a single mod project
+        // but multi mod projects should define one per mod
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
         }
     }
 }
-spotless {
-    java {
-        toggleOffOn()
-    }
+
+jar {
+    manifest.attributes([
+            "MixinConfigs": "monilabs.mixins.json"
+    ])
 }
+
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compileOnly("org.jetbrains:annotations:26.0.1")
 
     // Apply Mixin AP
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor('org.spongepowered:mixin:0.8.5:processor')
 
     // JEI, EMI, Jade
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-    implementation fg.deobf("dev.emi:emi-forge:${emi_version}+${minecraft_version}")
-    implementation fg.deobf("maven.modrinth:jade:${jade_version}")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    modImplementation("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    modImplementation("dev.emi:emi-forge:${emi_version}+${minecraft_version}")
+    modImplementation("maven.modrinth:jade:${jade_version}")
 
-    implementation fg.deobf("dev.ftb.mods:ftb-library-forge:${ftblibrary_version}")
-    implementation fg.deobf("dev.ftb.mods:ftb-teams-forge:${ftbteams_version}")
+    modImplementation("dev.ftb.mods:ftb-library-forge:${ftblibrary_version}")
+    modImplementation("dev.ftb.mods:ftb-teams-forge:${ftbteams_version}")
 
     // GregTech and dependencies
-    implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtceu_version}:slim") { transitive = false }
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") { transitive = false }
-    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
-    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
-    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
-    implementation fg.deobf("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
-    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
-    implementation fg.deobf("appeng:appliedenergistics2-forge:${appeng_version}")
+    modImplementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtceu_version}:slim") { transitive = false }
+    modImplementation("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") { transitive = false }
+    modImplementation("com.tterrag.registrate:Registrate:${registrate_version}")
+    modImplementation("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    modImplementation("dev.latvian.mods:rhino-forge:${rhino_version}")
+    modImplementation("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
+    modImplementation("dev.architectury:architectury-forge:${architectury_version}")
+    modImplementation("appeng:appliedenergistics2-forge:${appeng_version}")
+    modImplementation("org.appliedenergistics:guideme:${guideme_version}")
 
-    implementation fg.deobf("maven.modrinth:oculus:${oculus_version}")
-    implementation fg.deobf("maven.modrinth:embeddium:${embeddium_version}")
+    modImplementation("maven.modrinth:oculus:${oculus_version}")
+    modImplementation("maven.modrinth:embeddium:${embeddium_version}")
 
     // FancyMenu
     // Uses curse maven for now idk if there is another way
@@ -177,8 +206,8 @@ dependencies {
     implementation fg.deobf("curse.maven:melody-938643:5109692")
 
     // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly('org.projectlombok:lombok:1.18.36')
+    annotationProcessor('org.projectlombok:lombok:1.18.36')
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -198,6 +227,7 @@ tasks.named('processResources', ProcessResources).configure {
     filesMatching("META-INF/mods.toml") {
         expand properties + [project: project]
     }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.named('jar', Jar).configure { finalizedBy 'reobfJar' }
