@@ -163,7 +163,8 @@ legacyForge {
 
 jar {
     manifest.attributes([
-            "MixinConfigs": "monilabs.mixins.json"
+            "MixinConfigs": "monilabs.mixins.json",
+            "Main-Class": "net.neganote.monilabs.packmode.Main"
     ])
 }
 
