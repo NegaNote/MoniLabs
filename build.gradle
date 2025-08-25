@@ -163,7 +163,7 @@ legacyForge {
 
 jar {
     manifest.attributes([
-            "MixinConfigs": "mixins.monilabs.json"
+            "MixinConfigs": "monilabs.mixins.json"
     ])
 }
 
@@ -173,7 +173,7 @@ dependencies {
     compileOnly("org.jetbrains:annotations:26.0.1")
 
     // Apply Mixin AP
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor('org.spongepowered:mixin:0.8.5:processor')
 
     // JEI, EMI, Jade
     modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
@@ -200,8 +200,8 @@ dependencies {
     modImplementation("maven.modrinth:embeddium:${embeddium_version}")
 
     // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly('org.projectlombok:lombok:1.18.36')
+    annotationProcessor('org.projectlombok:lombok:1.18.36')
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -221,7 +221,7 @@ tasks.named('processResources', ProcessResources).configure {
     filesMatching("META-INF/mods.toml") {
         expand properties + [project: project]
     }
-    duplicatesStrategy DuplicatesStrategy.INCLUDE
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.named('jar', Jar).configure { finalizedBy 'reobfJar' }
