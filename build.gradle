@@ -201,9 +201,9 @@ dependencies {
 
     // FancyMenu
     // Uses curse maven for now idk if there is another way
-    implementation fg.deobf("curse.maven:fancymenu-367706:6918987")
-    implementation fg.deobf("curse.maven:konkrete-410295:5028413")
-    implementation fg.deobf("curse.maven:melody-938643:5109692")
+    modImplementation("curse.maven:fancymenu-367706:6918987")
+    modImplementation("curse.maven:konkrete-410295:5028413")
+    modImplementation("curse.maven:melody-938643:5109692")
 
     // lombok
     compileOnly('org.projectlombok:lombok:1.18.36')
