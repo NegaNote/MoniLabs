@@ -1,5 +1,7 @@
 package net.neganote.monilabs.commands;
 
+import com.gregtechceu.gtceu.GTCEu;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -7,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.neganote.monilabs.MoniLabs;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -20,38 +21,47 @@ public class PackSwitcherCommands {
 
     static String cwd = System.getProperty("user.dir");
 
-    static SimpleCommandExceptionType invalidLetter = new SimpleCommandExceptionType(
-            Component.translatable("monilabs.commands.packswitcherinvalidletter"));
-    static SimpleCommandExceptionType moreThanOneLetter = new SimpleCommandExceptionType(
-            Component.translatable("monilabs.commands.packswitcheraword"));
-
-    public static int switchToNormal() {
+    public static int switchToNormal(boolean inMinecraftInstance) {
         copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "normal"),
                 Path.of(cwd, File.separator, "config"));
 
         createModeFile("normal");
-        Minecraft.getInstance().stop();
+        if (inMinecraftInstance) {
+            stopMinecraft();
+        }
         return 0;
     }
 
-    public static int switchToHard() {
+    public static int switchToHard(boolean inMinecraftInstance) {
         copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "hard"),
                 Path.of(cwd, File.separator, "config"));
 
         createModeFile("hard");
-        Minecraft.getInstance().stop();
+        if (inMinecraftInstance) {
+            stopMinecraft();
+        }
         return 0;
     }
 
-    public static int switchToExpert() {
+    public static int switchToExpert(boolean inMinecraftInstance) {
         copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "hardmode"),
                 Path.of(cwd, File.separator, "config"));
         copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "expert"),
                 Path.of(cwd, File.separator, "config"));
 
         createModeFile("expert");
-        Minecraft.getInstance().stop();
+        if (inMinecraftInstance) {
+            stopMinecraft();
+        }
         return 0;
+    }
+
+    public static void stopMinecraft() {
+        if (GTCEu.isClientSide()) {
+            Minecraft.getInstance().stop();
+        } else {
+            GTCEu.getMinecraftServer().stopServer();
+        }
     }
 
     public static int help(CommandSourceStack sourceStack) {
@@ -62,15 +72,17 @@ public class PackSwitcherCommands {
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
-        MoniLabs.LOGGER.warn("Pack Switcher Registered");
+        MoniLabs.LOGGER.debug("Pack Switcher Command Registered");
+
         dispatcher.register(literal("packmode")
                 .then(literal("normal")
-                        .executes(commandContext -> switchToNormal()))
+                        .executes(commandContext -> switchToNormal(true)))
                 .then(literal("hard")
-                        .executes(commandContext -> switchToHard()))
+                        .executes(commandContext -> switchToHard(true)))
                 .then(literal("expert")
-                        .executes(commandContext -> switchToExpert()))
+                        .executes(commandContext -> switchToExpert(true)))
                 .then(literal("help")
-                        .executes(commandContext -> help(commandContext.getSource()))));
+                        .executes(commandContext -> help(commandContext.getSource())))
+                .requires(stack -> stack.hasPermission(4)));
     }
 }

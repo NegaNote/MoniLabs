@@ -10,7 +10,7 @@ public class MoniEvents {
 
     @SubscribeEvent
     public static void RegisterCommandsEvent(RegisterCommandsEvent event) {
-        MoniLabs.LOGGER.info("Commands Registered hopefully lol");
+        MoniLabs.LOGGER.debug("Registering commands...");
         PackSwitcherCommands.register(event.getDispatcher(), event.getBuildContext());
     }
 }
