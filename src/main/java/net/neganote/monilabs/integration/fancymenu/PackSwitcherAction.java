@@ -9,10 +9,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.*;
 import java.util.Scanner;
+
+import static net.neganote.monilabs.utils.PackSwitchUtil.copyFiles;
+import static net.neganote.monilabs.utils.PackSwitchUtil.createModeFile;
 
 public class PackSwitcherAction extends Action {
 
@@ -20,50 +21,6 @@ public class PackSwitcherAction extends Action {
 
     public PackSwitcherAction() {
         super("packModeSwitcherAction");
-    }
-
-    public static boolean copyFiles(Path source, Path target) {
-        if (source == null || target == null) {
-            return false;
-        }
-        try {
-            File directoryWithFiles = new File(source.toString());
-            File[] files = directoryWithFiles.listFiles();
-
-            for (File file : files) {
-                Path path = Path.of(target.toString(), file.getName());
-                if (!file.isDirectory()) {
-                    path.toFile().delete();
-                    Files.copy(Path.of(source.toString(), file.getName()), path);
-                } else {
-                    File directory = new File(Path.of(target.toString(), file.getName()).toUri());
-                    directory.delete();
-                    directory.mkdir();
-
-                    copyFiles(Path.of(source.toString(), file.getName()), path);
-                }
-
-            }
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static boolean createModeFile(String contents) {
-        try {
-            File modeFile = new File(".mode");
-            modeFile.delete();
-
-            modeFile.createNewFile();
-
-            FileWriter modeFileWriter = new FileWriter(".mode");
-            modeFileWriter.write(contents);
-            modeFileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-        return true;
     }
 
     public String readTmpModeFile() {
