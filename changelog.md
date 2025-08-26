@@ -1,4 +1,4 @@
-# Moni Labs 0.13.1
+# Moni Labs 0.13.2
 
-* Add command for another way to switch packmodes in-game
-* Add a way to switch packmodes by running the monilabs jar as a script instead of as a mod
+* Fix running the mod as a script in servers and certain launchers
+* Add script mode to run relative to the monilabs jar itself with -r/--relative flag

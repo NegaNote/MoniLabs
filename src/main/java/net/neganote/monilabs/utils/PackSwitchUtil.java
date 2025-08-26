@@ -34,7 +34,7 @@ public class PackSwitchUtil {
             return false;
         }
         try {
-            System.out.println(source);
+            System.out.println("Copying files from " + source);
             File directoryWithFiles = new File(source.toString());
             File[] files = directoryWithFiles.listFiles();
 
