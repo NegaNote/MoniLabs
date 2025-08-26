@@ -22,7 +22,7 @@ public class PackSwitcherAction extends Action {
         super("packModeSwitcherAction");
     }
 
-    public boolean copyFiles(Path source, Path target) {
+    public static boolean copyFiles(Path source, Path target) {
         if (source == null || target == null) {
             return false;
         }
@@ -50,7 +50,7 @@ public class PackSwitcherAction extends Action {
         }
     }
 
-    public boolean createModeFile(String contents) {
+    public static boolean createModeFile(String contents) {
         try {
             File modeFile = new File(".mode");
             modeFile.delete();

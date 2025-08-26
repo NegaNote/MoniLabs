@@ -92,6 +92,8 @@ public class MoniLabs {
         // If we want to use annotations to register event listeners,
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
+        LOGGER.info("MoniEvents go brrrrr");
+        MinecraftForge.EVENT_BUS.register(MoniEvents.class);
     }
 
     public static void init() {

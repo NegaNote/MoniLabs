@@ -98,6 +98,12 @@ public class MoniLangHandler {
                 "Saves the letter that packmodeswitcher reads");
         provider.add("monilabs.menu.SaveTmpModeFileAction.valuename", "(N/H/E) Letter");
 
+        provider.add("monilabs.commands.helpnormal", "Normal Mode - The Default mode");
+        provider.add("monilabs.commands.helphard",
+                "Hard Mode - Adds more lines and progression, removes HNN and Monicoin spending");
+        provider.add("monilabs.commands.helpexpert",
+                "Expert Mode - A modifier for hard, enables some of the more extreme GTm settings among other things");
+
         multiLang(provider, "emi_info.creative_energy_multi",
                 "Imbues your factory with",
                 "Infinite Power");
