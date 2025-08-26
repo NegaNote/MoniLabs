@@ -1,4 +1,4 @@
-# Moni Labs 0.13.0
+# Moni Labs 0.13.1
 
-* Add FancyMenu integration to allow easy pack mode switching for Monifactory
-* (Internal) Switched from ForgeGradle to ModDevGradle
+* Add command for another way to switch packmodes in-game
+* Add a way to switch packmodes by running the monilabs jar as a script instead of as a mod
