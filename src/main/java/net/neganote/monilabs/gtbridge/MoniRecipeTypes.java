@@ -171,6 +171,7 @@ public class MoniRecipeTypes {
             .setMaxIOSize(0, 0, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL)
             .setSound(GTSoundEntries.COMPUTATION)
+            .addDataInfo(data -> "")
             .addDataInfo(data -> LocalizationUtils.format("emi_info.creative_data_multi.0"))
             .addDataInfo(data -> LocalizationUtils.format("emi_info.creative_data_multi.1"))
             .addDataInfo(data -> LocalizationUtils.format("emi_info.creative_data_multi.2"));
