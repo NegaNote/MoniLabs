@@ -11,6 +11,25 @@ sourceSets {
     main.resources {
         srcDir 'src/generated/resources'
     }
+
+    client {
+        compileClasspath += main.output
+        runtimeClasspath += main.output + main.runtimeClasspath + client.runtimeClasspath
+    }
+
+    extra {
+        compileClasspath += main.output
+        runtimeClasspath += main.output + main.runtimeClasspath
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom(localRuntime)
+    clientRuntimeClasspath.extendsFrom(clientLocalRuntime)
+}
+obfuscation {
+    createRemappingConfiguration(configurations.localRuntime)
+    createRemappingConfiguration(configurations.clientLocalRuntime)
 }
 
 mixin {
@@ -130,13 +149,13 @@ legacyForge {
         }
         client {
             client()
-            sourceSet = sourceSets.main
+            sourceSet = sourceSets.client
             programArguments.addAll('--refresh-dependencies')
             systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
         server {
             server()
-            sourceSet = sourceSets.main
+            sourceSet = sourceSets.extra
             systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
             programArguments.addAll('--nogui', '--world', 'world-extra')
         }
@@ -197,8 +216,10 @@ dependencies {
     modImplementation("appeng:appliedenergistics2-forge:${appeng_version}")
     modImplementation("org.appliedenergistics:guideme:${guideme_version}")
 
-    modImplementation("maven.modrinth:oculus:${oculus_version}")
-    modImplementation("maven.modrinth:embeddium:${embeddium_version}")
+    modClientLocalRuntime("maven.modrinth:oculus:${oculus_version}")
+    modClientLocalRuntime("maven.modrinth:embeddium:${embeddium_version}")
+    modCompileOnly("maven.modrinth:oculus:${oculus_version}")
+    modCompileOnly("maven.modrinth:embeddium:${embeddium_version}")
 
     // FancyMenu
     // Uses curse maven for now idk if there is another way

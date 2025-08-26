@@ -78,8 +78,10 @@ public class MoniLabs {
         }
 
         // Registers FancyMenu actions
-        ActionRegistry.register(new PackSwitcherAction());
-        ActionRegistry.register(new SaveTmpModeFileAction());
+        if (GTCEu.isClientSide()) {
+            ActionRegistry.register(new PackSwitcherAction());
+            ActionRegistry.register(new SaveTmpModeFileAction());
+        }
 
         modEventBus.addListener(this::addMaterialRegistries);
         modEventBus.addListener(this::addMaterials);
