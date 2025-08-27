@@ -308,7 +308,7 @@ public class MoniMachines {
                             .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(Predicates.blocks(MICROVERSE_INTEGRITY_SENSOR_HATCH.get()).setMaxGlobalLimited(1)))
                     .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
-                    .where("N", Predicates.frames(GTMaterials.get("sculk_bioalloy")))
+                    .where("N", Predicates.frames(MoniMaterials.SculkBioalloy))
                     .where("V", Predicates.blocks(AEBlocks.QUARTZ_VIBRANT_GLASS.block()))
                     .where("W", Predicates.blocks(ForgeRegistries.BLOCKS
                             .getValue(MoniLabs.kjsResLoc("universal_warp_core"))))

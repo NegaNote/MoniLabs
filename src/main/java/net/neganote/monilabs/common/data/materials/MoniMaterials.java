@@ -51,7 +51,7 @@ public class MoniMaterials {
                 .element(MoniElements.Eltz)
                 .color(0xffffff)
                 .iconSet(MoniMaterialIconSets.Eltz)
-                .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_SPRING, MaterialFlags.GENERATE_FRAME,
+                .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_FRAME,
                         MaterialFlags.PHOSPHORESCENT)
                 .register();
     }
