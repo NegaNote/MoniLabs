@@ -73,14 +73,14 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
 
         provider.add("tooltip.monilabs.basic_microverse_projector.description",
-                "§7A machine capable of stabilizing projection into microverses for basic miner missions.");
+                "§7A machine capable of projecting microverses for basic miner missions.");
         provider.add("tooltip.monilabs.advanced_microverse_projector.description",
-                "§7An advanced machine capable of stabilizing projection into microverses for complex missions into the deepest parts of space.");
+                "§7An advanced machine capable of projecting microverses for complex missions into the deepest parts of space.");
         provider.add("tooltip.monilabs.elite_microverse_projector.description",
-                "§7An elite machine capable of stabilizing projection into microverses for exotic missions, including collapsing the microverse whole.");
+                "§7An elite machine capable of projecting special microverses for exotic missions on a microversal scale.");
 
         multiLang(provider, "tooltip.monilabs.hyperbolic_microverse_projector.description",
-                "§7An epic machine capable of stabilizing projection into hundreds of microverses at once.",
+                "§7An epic machine capable of projecting microverses for hundreds of missions at once.",
                 "Can perform all Microverse Missions.");
 
         provider.add("emi_info.monilabs.projector_info", "Projector tier: %d");
