@@ -1,3 +1,3 @@
-# Moni Labs 0.13.3
+# Moni Labs 0.13.4
 
-* Fix the prismac resetting its color on world load (hopefully for the last time)
+* Small misc fixes from PlasmaticVoid
