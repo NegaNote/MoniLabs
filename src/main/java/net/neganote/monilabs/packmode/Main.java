@@ -12,10 +12,12 @@ public class Main {
 
     @SneakyThrows
     public static void main(String[] args) {
-        Path cwdPath = Path.of(System.getProperty("user.dir"));
-        String mcRoot = cwdPath.getParent().toString();
+        var loc = new File(Main.class.getProtectionDomain().getCodeSource().getLocation()
+                .toURI()).getParent();
+        Path pathLoc = Path.of(loc);
+        String mcRoot = pathLoc.getParent().toString();
         if (args.length == 0) {
-            if (!cwdPath.endsWith("mods")) {
+            if (!pathLoc.endsWith("mods")) {
                 System.out.println("Please run this script in the mods folder.");
                 return;
             }
@@ -26,9 +28,6 @@ public class Main {
         } else if (args.length == 1) {
             String mode = args[0];
             if (args[0].equalsIgnoreCase("-r") || args[0].equalsIgnoreCase("--relative")) {
-                var loc = new File(Main.class.getProtectionDomain().getCodeSource().getLocation()
-                        .toURI()).getParent();
-                mcRoot = Path.of(loc).getParent().toString();
                 System.out.print("Hello! Please provide a mode to switch Monifactory to (N/H/E): ");
                 Scanner inputScanner = new Scanner(System.in);
                 mode = inputScanner.nextLine().strip();
@@ -44,9 +43,8 @@ public class Main {
                 usage();
                 return;
             }
-            var loc = new File(Main.class.getProtectionDomain().getCodeSource().getLocation()
-                    .toURI()).getParent();
-            mcRoot = Path.of(loc).getParent().toString();
+            Path cwdPath = Path.of(System.getProperty("user.dir"));
+            mcRoot = cwdPath.getParent().toString();
             switchOnMode(mode, mcRoot);
         } else {
             usage();

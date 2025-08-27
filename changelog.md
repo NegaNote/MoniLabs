@@ -1,3 +1,3 @@
-# Moni Labs 0.13.4
+# Moni Labs 0.13.5
 
-* Small misc fixes from PlasmaticVoid
+* Flip behavior of --relative flag when using the jar as a script to better match expectations
