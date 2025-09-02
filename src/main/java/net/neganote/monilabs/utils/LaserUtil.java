@@ -27,19 +27,22 @@ public class LaserUtil {
 
     public static void renderLaser(Vector3f ray, PoseStack poseStack, MultiBufferSource bufferSource,
                                    float red, float green, float blue, float alpha, float xOffset, float yOffset,
-                                   float zOffset, float partialTick, long gameTime) {
+                                   float zOffset, float partialTick, long gameTime, boolean flipDirection) {
         renderLaser(ray, poseStack, bufferSource, red, green, blue, alpha, xOffset, yOffset, zOffset, partialTick,
-                gameTime,
+                gameTime, flipDirection,
                 BeaconRenderer.BEAM_LOCATION);
     }
 
     public static void renderLaser(Vector3f ray, PoseStack poseStack, MultiBufferSource bufferSource,
                                    float red, float green, float blue, float alpha, float xOffset, float yOffset,
-                                   float zOffset, float partialTick, long gameTime,
+                                   float zOffset, float partialTick, long gameTime, boolean flipDirection,
                                    ResourceLocation texture) {
         poseStack.pushPose();
         poseStack.translate(xOffset, yOffset, zOffset);
-        poseStack.translate(ray.x, ray.y, ray.z);
+        if (flipDirection) {
+            poseStack.translate(ray.x, ray.y, ray.z);
+        }
+
         // calculate rotation to point in ray direction
         var beamDirection = new Vector3f(0, 1, 0);
         var wantedNorm = ray.normalize(new Vector3f());

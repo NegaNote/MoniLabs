@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.gregtechceu.gtceu.client.util.RenderUtil;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -30,6 +31,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import static com.gregtechceu.gtceu.client.util.RenderUtil.getNormal;
 import static com.gregtechceu.gtceu.client.util.RenderUtil.getVertices;
@@ -66,7 +68,7 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
                 RenderUtil.FluidTextureType.STILL, combinedOverlay, pcm);
         poseStack.popPose();
 
-        long gameTime = level.getGameTime();
+        long gameTime = Objects.requireNonNull(Minecraft.getInstance().player).tickCount;
 
         Direction down = up.getOpposite();
 
@@ -80,8 +82,7 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
             float zOffset = (float) (pcm.getFocusPos().getZ() - pcm.getPos().getZ()) + 0.5F;
 
             LaserUtil.renderLaser(ray, poseStack, buffer, color.r, color.g, color.b, 1.0F, xOffset, yOffset,
-                    zOffset,
-                    partialTicks, gameTime);
+                    zOffset, partialTicks, gameTime, true);
         }
     }
 

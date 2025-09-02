@@ -416,7 +416,9 @@ public class MoniMachines {
                     .build())
             .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels.createWorkableCasingMachineModel(MoniLabs.id("block/casing/bioalloy"),
-                    GTCEu.id("block/multiblock/processing_array")))
+                    GTCEu.id("block/multiblock/processing_array"))
+                    .andThen(b -> b.addDynamicRenderer(
+                            MoniDynamicRenderHelper::createCreativeDataRender)))
             .register();
 
     public static void init() {}

@@ -25,10 +25,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
-import net.neganote.monilabs.client.render.CreativeEnergyRender;
-import net.neganote.monilabs.client.render.MicroverseProjectorRender;
-import net.neganote.monilabs.client.render.MoniShaders;
-import net.neganote.monilabs.client.render.PrismaticCrucibleRender;
+import net.neganote.monilabs.client.render.*;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.data.MoniPlaceholders;
 import net.neganote.monilabs.common.data.materials.MoniMaterials;
@@ -128,6 +125,7 @@ public class MoniLabs {
         DynamicRenderManager.register(MoniLabs.id("prismatic_crucible"), PrismaticCrucibleRender.TYPE);
         DynamicRenderManager.register(MoniLabs.id("microverse_projector"), MicroverseProjectorRender.TYPE);
         DynamicRenderManager.register(MoniLabs.id("creative_energy"), CreativeEnergyRender.TYPE);
+        DynamicRenderManager.register(MoniLabs.id("creative_data"), CreativeDataRender.TYPE);
     }
 
     // You MUST have this for custom materials.

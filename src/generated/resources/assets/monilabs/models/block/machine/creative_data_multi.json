@@ -1,5 +1,10 @@
 {
   "parent": "minecraft:block/block",
+  "dynamic_renders": [
+    {
+      "type": "monilabs:creative_data"
+    }
+  ],
   "loader": "gtceu:machine",
   "machine": "monilabs:creative_data_multi",
   "texture_overrides": {
