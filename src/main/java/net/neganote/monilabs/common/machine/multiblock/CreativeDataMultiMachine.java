@@ -1,11 +1,14 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.server.level.ServerLevel;
+import net.neganote.monilabs.common.data.materials.MoniMaterials;
 import net.neganote.monilabs.saveddata.CreativeDataAccessSavedData;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,10 +21,14 @@ public class CreativeDataMultiMachine extends UniqueWorkableElectricMultiblockMa
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(CreativeDataMultiMachine.class,
             UniqueWorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
+    private int timer;
+
     private final ConditionalSubscriptionHandler creativeDataSubscription;
 
     public CreativeDataMultiMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+
+        timer = 0;
 
         this.creativeDataSubscription = new ConditionalSubscriptionHandler(this, this::tickEnableCreativeData,
                 this::isSubscriptionActive);
@@ -53,6 +60,10 @@ public class CreativeDataMultiMachine extends UniqueWorkableElectricMultiblockMa
 
     private void tickEnableCreativeData() {
         enableCreativeData(isActive() && getRecipeLogic().isWorkingEnabled());
+
+        if (timer == 0) {
+            var crystalMatrixIngot = ChemicalHelper.get(TagPrefix.ingot, MoniMaterials.CrystalMatrix);
+        }
     }
 
     private Boolean isSubscriptionActive() {

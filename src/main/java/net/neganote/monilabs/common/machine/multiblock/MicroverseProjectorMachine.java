@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -25,7 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.config.MoniConfig;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -91,9 +90,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         updateMicroverse(0, false);
         this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.bySeparator("kubejs:quantum_flux", ':'));
         assert this.quantumFluxItem != null;
-        this.quantumFluxRecipe = GTRecipeTypes.DUMMY_RECIPES.recipeBuilder(MoniLabs.id("quantum_flux_internal"))
-                .inputItems(this.quantumFluxItem)
-                .buildRawRecipe();
+        this.quantumFluxRecipe = GTRecipeBuilder.ofRaw().inputItems(this.quantumFluxItem).buildRawRecipe();
     }
 
     @Override
