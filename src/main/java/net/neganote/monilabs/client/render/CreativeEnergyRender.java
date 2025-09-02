@@ -76,14 +76,15 @@ public class CreativeEnergyRender extends DynamicRender<CreativeEnergyMultiMachi
 
         Direction back = front.getOpposite();
         Vec3i backVec = back.getNormal().multiply(6);
-        Vec3i upVec = upwards.getNormal().multiply(14);
+        Vec3i upVec = upwards.getNormal().multiply(13);
 
         translateX += backVec.getX() + upVec.getX();
         translateY += backVec.getY() + upVec.getY();
         translateZ += backVec.getZ() + upVec.getZ();
 
         poseStack.translate(translateX, translateY, translateZ);
-        poseStack.scale(4.0f, 4.0f, 4.0f);
+        float radius = 3.0f;
+        poseStack.scale(radius, radius, radius);
 
         PoseStack.Pose pose = poseStack.last();
 
