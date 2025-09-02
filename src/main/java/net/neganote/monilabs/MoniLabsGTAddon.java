@@ -62,4 +62,9 @@ public class MoniLabsGTAddon implements IGTAddon {
     public void registerElements() {
         MoniElements.init();
     }
+
+    @Override
+    public boolean requiresHighTier() {
+        return true;
+    }
 }

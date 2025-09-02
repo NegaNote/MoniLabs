@@ -2,6 +2,7 @@ package net.neganote.monilabs.common.machine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -10,12 +11,16 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -34,6 +39,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+
+import static com.gregtechceu.gtceu.api.GTValues.V;
+import static com.gregtechceu.gtceu.api.GTValues.VNF;
+import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
+import static com.gregtechceu.gtceu.api.capability.recipe.IO.OUT;
+import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
+import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerTieredMachines;
 
 @SuppressWarnings("unused")
 public class MoniMachines {
@@ -420,6 +432,45 @@ public class MoniMachines {
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createCreativeDataRender)))
             .register();
+
+    // MAX stuff
+    public static MachineDefinition registerMaxLaserHatch(GTRegistrate registrate, IO io, int amperage,
+                                                          PartAbility ability) {
+        String name = io == IN ? "target" : "source";
+        return registerTieredMachines(registrate, amperage + "a_laser_" + name + "_hatch",
+                (holder, tier) -> new LaserHatchPartMachine(holder, io, tier, amperage), (tier, builder) -> builder
+                        .langValue(VNF[tier] + "§r " + FormattingUtil.formatNumbers(amperage) + "§eA§r Laser " +
+                                FormattingUtil.toEnglishName(name) + " Hatch")
+                        .rotationState(RotationState.ALL)
+                        .tooltips(Component.translatable("gtceu.machine.laser_hatch." + name + ".tooltip"),
+                                Component.translatable("gtceu.machine.laser_hatch.both.tooltip"),
+                                Component.translatable("gtceu.universal.tooltip.voltage_" + (io == IN ? "in" : "out"),
+                                        FormattingUtil.formatNumbers(V[tier]), VNF[tier]),
+                                Component.translatable("gtceu.universal.tooltip.amperage_in", amperage),
+                                Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
+                                        FormattingUtil
+                                                .formatNumbers(
+                                                        EnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))),
+                                Component.translatable("gtceu.part_sharing.disabled"))
+                        .abilities(ability)
+                        .modelProperty(IS_FORMED, false)
+                        .overlayTieredHullModel(GTCEu.id("block/machine/part/laser_" + name + "_hatch"))
+                        .register(),
+                GTValues.MAX)[0];
+    }
+
+    public static final MachineDefinition MAX_LASER_INPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
+            256, PartAbility.INPUT_LASER);
+    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
+            256, PartAbility.INPUT_LASER);
+    public static final MachineDefinition MAX_LASER_INPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
+            1024, PartAbility.INPUT_LASER);
+    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
+            1024, PartAbility.INPUT_LASER);
+    public static final MachineDefinition MAX_LASER_INPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
+            4096, PartAbility.INPUT_LASER);
+    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
+            4096, PartAbility.INPUT_LASER);
 
     public static void init() {}
 }
