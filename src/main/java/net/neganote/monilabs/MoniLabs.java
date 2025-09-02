@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
+import net.neganote.monilabs.client.render.CreativeEnergyRender;
 import net.neganote.monilabs.client.render.MicroverseProjectorRender;
 import net.neganote.monilabs.client.render.MoniShaders;
 import net.neganote.monilabs.client.render.PrismaticCrucibleRender;
@@ -75,6 +77,7 @@ public class MoniLabs {
         if (GTCEu.isClientSide()) {
             initializeDynamicRenders();
             modEventBus.register(MoniShaders.class);
+            modEventBus.addListener(this::registerAdditionalModels);
         }
 
         // Registers FancyMenu actions
@@ -124,6 +127,7 @@ public class MoniLabs {
     private void initializeDynamicRenders() {
         DynamicRenderManager.register(MoniLabs.id("prismatic_crucible"), PrismaticCrucibleRender.TYPE);
         DynamicRenderManager.register(MoniLabs.id("microverse_projector"), MicroverseProjectorRender.TYPE);
+        DynamicRenderManager.register(MoniLabs.id("creative_energy"), CreativeEnergyRender.TYPE);
     }
 
     // You MUST have this for custom materials.
@@ -157,4 +161,8 @@ public class MoniLabs {
     }
 
     private void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {}
+
+    public void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
+        event.register(CreativeEnergyRender.SPHERE);
+    }
 }

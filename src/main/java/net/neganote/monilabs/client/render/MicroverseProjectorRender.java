@@ -44,13 +44,15 @@ public class MicroverseProjectorRender extends
         var frontFacing = projector.getFrontFacing();
         var upwardsFacing = projector.getUpwardsFacing();
 
+        Direction front = RelativeDirection.FRONT.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
+
         Direction upwards = RelativeDirection.UP.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
 
         Direction left = RelativeDirection.LEFT.getRelative(frontFacing, upwardsFacing, projector.isFlipped());
 
         int tier = projector.getProjectorTier();
 
-        renderMicroverse(stack, buffer, upwards, frontFacing, left, combinedLight, tier);
+        renderMicroverse(stack, buffer, upwards, front, left, combinedLight, tier);
     }
 
     private void renderMicroverse(PoseStack stack, MultiBufferSource buffer, Direction upwards, Direction front,

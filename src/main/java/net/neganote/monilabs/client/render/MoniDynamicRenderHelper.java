@@ -15,4 +15,8 @@ public class MoniDynamicRenderHelper {
     public static @NotNull DynamicRender<?, ?> createMicroverseProjectorRender() {
         return MicroverseProjectorRender.INSTANCE;
     }
+
+    public static @NotNull DynamicRender<?, ?> createCreativeEnergyRender() {
+        return CreativeEnergyRender.INSTANCE;
+    }
 }
