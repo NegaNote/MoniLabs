@@ -83,7 +83,7 @@ public class CreativeEnergyRender extends DynamicRender<CreativeEnergyMultiMachi
         translateZ += backVec.getZ() + upVec.getZ();
 
         poseStack.translate(translateX, translateY, translateZ);
-        float radius = 3.0f;
+        float radius = 3.25f;
         poseStack.scale(radius, radius, radius);
 
         PoseStack.Pose pose = poseStack.last();
