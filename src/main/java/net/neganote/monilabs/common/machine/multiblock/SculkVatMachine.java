@@ -140,23 +140,23 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
         ObjectOpenHashSet<BlockPos> offsets = new ObjectOpenHashSet<>();
 
         BlockPos loopPosFront = pos.relative(up).relative(back);
-        for (int i = 0; i < 30; i++) {
-            offsets.add(loopPosFront.relative(up, i));
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosFront.relative(up, i).subtract(pos));
         }
 
         BlockPos loopPosBack = loopPosFront.relative(back, 2);
-        for (int i = 0; i < 30; i++) {
-            offsets.add(loopPosBack.relative(up, i));
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosBack.relative(up, i).subtract(pos));
         }
 
         BlockPos loopPosLeft = loopPosFront.relative(back).relative(left);
-        for (int i = 0; i < 30; i++) {
-            offsets.add(loopPosLeft.relative(up, i));
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosLeft.relative(up, i).subtract(pos));
         }
 
         BlockPos loopPosRight = loopPosFront.relative(back).relative(right);
-        for (int i = 0; i < 30; i++) {
-            offsets.add(loopPosRight.relative(up, i));
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosRight.relative(up, i).subtract(pos));
         }
 
         return offsets;
