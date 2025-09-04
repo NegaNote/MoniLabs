@@ -1,10 +1,15 @@
 package net.neganote.monilabs.client.render;
 
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.client.renderer.block.FluidBlockRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.renderer.LightTexture;
 
 import org.jetbrains.annotations.Contract;
+
+import java.util.List;
 
 @MethodsReturnNonnullByDefault
 public class MoniDynamicRenderHelper {
@@ -24,5 +29,12 @@ public class MoniDynamicRenderHelper {
 
     public static DynamicRender<?, ?> createCreativeDataRender() {
         return CreativeDataRender.INSTANCE;
+    }
+
+    public static DynamicRender<?, ?> createSculkVatRender(float faceOffset, List<RelativeDirection> drawFaces) {
+        return new SculkVatRender(FluidBlockRenderer.Builder.create()
+                .setFaceOffset(faceOffset)
+                .setForcedLight(LightTexture.FULL_BRIGHT)
+                .getRenderer(), drawFaces);
     }
 }

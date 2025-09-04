@@ -8,7 +8,19 @@
     "side"
   ],
   "variants": {
-    "": {
+    "is_formed=false": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/cryolobus",
+          "overlay": "monilabs:block/overlay/machine/exp_hatch_draining_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/exp_hatch_draining_emissive",
+          "side": "monilabs:block/casing/cryolobus",
+          "top": "monilabs:block/casing/cryolobus"
+        }
+      }
+    },
+    "is_formed=true": {
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {

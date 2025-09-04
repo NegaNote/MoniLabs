@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
@@ -75,6 +76,7 @@ public class MoniMachines {
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
             .modelProperty(RenderColor.COLOR_PROPERTY, RenderColor.NONE)
+            .modelProperty(IS_FORMED, false)
             .model(MoniMachineModels.createOverlayChromaCasingMachineModel("chroma_sensor", "casing/netherite"))
             .tier(GTValues.UHV)
             .register();
@@ -86,6 +88,7 @@ public class MoniMachines {
             .tooltips(Component.translatable("tooltip.monilabs.xp_draining_hatch.0"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.1"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.2"))
+            .modelProperty(IS_FORMED, false)
             .model(MoniMachineModels.createOverlayCasingMachineModel("exp_hatch_draining", "casing/cryolobus"))
             .tier(GTValues.ZPM)
             .register();
@@ -98,6 +101,7 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"))
             .tier(GTValues.ZPM)
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
+            .modelProperty(IS_FORMED, false)
             .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("exp_sensor", "casing/cryolobus"))
             .register();
 
@@ -109,6 +113,7 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.microverse_stability_hatch.1"))
             .tier(GTValues.HV)
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
+            .modelProperty(IS_FORMED, false)
             .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("stability_hatch", "casing/microverse"))
             .register();
 
@@ -431,6 +436,44 @@ public class MoniMachines {
                     GTCEu.id("block/multiblock/processing_array"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createCreativeDataRender)))
+            .register();
+
+    public static MultiblockMachineDefinition SCULK_VAT = MoniLabs.REGISTRATE
+            .multiblock("sculk_vat", SculkVatMachine::new)
+            .recipeTypes(MoniRecipeTypes.SCULK_VAT_RECIPES)
+            .recipeModifier(MoniRecipeModifiers::sculkVatRecipeModifier)
+            .appearanceBlock(MoniBlocks.CRYOLOBUS_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("#CCC#", "#CLC#", "#CLC#", "#CLC#", "#CCC#", "#F#F#", "#ccc#")
+                    .aisle("CCCCC", "C   C", "C   C", "C   C", "C   C", "FSSSF", "ccccc")
+                    .aisle("CCCCC", "L P L", "L P L", "L P L", "C P C", "#SSS#", "ccccc")
+                    .aisle("CCCCC", "C   C", "C   C", "C   C", "C   C", "FSSSF", "ccccc")
+                    .aisle("#C@C#", "#CLC#", "#CLC#", "#CLC#", "#CCC#", "#F#F#", "#ccc#")
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("C", Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get()).setMinGlobalLimited(40)
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS_1X).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(Predicates.machines(MoniMachines.SCULK_XP_DRAINING_HATCH,
+                                    MoniMachines.SCULK_XP_SENSOR_HATCH).setMaxGlobalLimited(1)))
+                    .where("c", Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get()))
+                    .where("L", Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get())
+                            .or(Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get())))
+                    .where("F", Predicates.frames(GTMaterials.BlackSteel))
+                    .where("S", Predicates.blocks(GTBlocks.FILTER_CASING_STERILE.get()))
+                    .where("P", Predicates.blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
+                    .where(" ", Predicates.air())
+                    .where("#", Predicates.any())
+                    .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
+            .model(GTMachineModels.createWorkableCasingMachineModel(MoniLabs.id("block/casing/cryolobus"),
+                    GTCEu.id("block/machines/fermenter"))
+                    .andThen(b -> b.addDynamicRenderer(
+                            () -> MoniDynamicRenderHelper.createSculkVatRender(0.125f,
+                                    List.of(RelativeDirection.BACK, RelativeDirection.FRONT, RelativeDirection.LEFT,
+                                            RelativeDirection.RIGHT)))))
             .register();
 
     // MAX stuff

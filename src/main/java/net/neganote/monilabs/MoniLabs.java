@@ -126,6 +126,7 @@ public class MoniLabs {
         DynamicRenderManager.register(MoniLabs.id("microverse_projector"), MicroverseProjectorRender.TYPE);
         DynamicRenderManager.register(MoniLabs.id("creative_energy"), CreativeEnergyRender.TYPE);
         DynamicRenderManager.register(MoniLabs.id("creative_data"), CreativeDataRender.TYPE);
+        DynamicRenderManager.register(MoniLabs.id("sculk_vat"), SculkVatRender.TYPE);
     }
 
     // You MUST have this for custom materials.

@@ -2,28 +2,39 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IFluidRenderMulti;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@SuppressWarnings("unused")
-public class SculkVatMachine extends WorkableElectricMultiblockMachine {
+public class SculkVatMachine extends WorkableElectricMultiblockMachine implements IFluidRenderMulti {
 
     private final ConditionalSubscriptionHandler xpHatchSubscription;
 
@@ -37,6 +48,22 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
     @Persisted
     @Getter
     private int timer = 0;
+
+    @Getter
+    @Setter
+    @DescSynced
+    @RequireRerender
+    private @NotNull Set<BlockPos> fluidBlockOffsets = new HashSet<>();
+
+    @Getter
+    @DescSynced
+    @RequireRerender
+    private FluidStack outputTankFluid = FluidStack.EMPTY;
+
+    private NotifiableFluidTank outputTank;
+
+    @Getter
+    private int outputTankCapacity = 0;
 
     public static int XP_BUFFER_MAX = FluidType.BUCKET_VOLUME << GTValues.ZPM;
 
@@ -74,12 +101,21 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             xpTank.setFluidInTank(0, FluidStack.EMPTY);
         }
         timer = (timer + 1) % 20;
+        outputTankFluid = outputTank.getFluidInTank(0);
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         xpHatchSubscription.updateSubscription();
+        IFluidRenderMulti.super.onStructureFormed();
+        var tanks = getCapabilitiesFlat(IO.OUT, GTRecipeCapabilities.FLUID)
+                .stream()
+                .filter(NotifiableFluidTank.class::isInstance)
+                .map(NotifiableFluidTank.class::cast)
+                .toList();
+        outputTank = tanks.get(0);
+        outputTankCapacity = outputTank.getTankCapacity(0);
     }
 
     @Override
@@ -88,6 +124,42 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
         xpHatchSubscription.updateSubscription();
         timer = 0;
         xpBuffer = 0;
+        IFluidRenderMulti.super.onStructureInvalid();
+    }
+
+    @Override
+    public @NotNull Set<BlockPos> saveOffsets() {
+        Direction up = RelativeDirection.UP.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
+        Direction back = getFrontFacing().getOpposite();
+        Direction right = RelativeDirection.RIGHT.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
+        Direction left = RelativeDirection.LEFT.getRelative(getFrontFacing(), getUpwardsFacing(),
+                isFlipped());
+
+        BlockPos pos = getPos();
+
+        ObjectOpenHashSet<BlockPos> offsets = new ObjectOpenHashSet<>();
+
+        BlockPos loopPosFront = pos.relative(up).relative(back);
+        for (int i = 0; i < 30; i++) {
+            offsets.add(loopPosFront.relative(up, i));
+        }
+
+        BlockPos loopPosBack = loopPosFront.relative(back, 2);
+        for (int i = 0; i < 30; i++) {
+            offsets.add(loopPosBack.relative(up, i));
+        }
+
+        BlockPos loopPosLeft = loopPosFront.relative(back).relative(left);
+        for (int i = 0; i < 30; i++) {
+            offsets.add(loopPosLeft.relative(up, i));
+        }
+
+        BlockPos loopPosRight = loopPosFront.relative(back).relative(right);
+        for (int i = 0; i < 30; i++) {
+            offsets.add(loopPosRight.relative(up, i));
+        }
+
+        return offsets;
     }
 
     @Override

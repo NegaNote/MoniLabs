@@ -176,5 +176,25 @@ public class MoniRecipeTypes {
             .addDataInfo(data -> LocalizationUtils.format("emi_info.creative_data_multi.1"))
             .addDataInfo(data -> LocalizationUtils.format("emi_info.creative_data_multi.2"));
 
+    public static GTRecipeType SCULK_VAT_RECIPES = GTRecipeTypes
+            .register("sculk_vat", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 0, 3, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL)
+            .addDataInfo((data) -> LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.0"))
+            .addDataInfo((data) -> LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.1"))
+            .addDataInfo((data) -> LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.2"))
+            .addDataInfo((data) -> {
+                if (data.contains("minimumXp") && data.contains("maximumXp")) {
+                    int minimumXp = data.getInt("minimumXp");
+                    int maximumXp = data.getInt("maximumXp");
+                    return LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.3", minimumXp, maximumXp);
+                } else {
+                    return "";
+                }
+            })
+            .addDataInfo((data) -> "");
+
     public static void init() {}
 }

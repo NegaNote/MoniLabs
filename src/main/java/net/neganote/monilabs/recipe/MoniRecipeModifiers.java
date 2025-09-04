@@ -1,11 +1,8 @@
 package net.neganote.monilabs.recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic.*;
@@ -14,56 +11,34 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
 import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.util.valueproviders.UniformFloat;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fluids.FluidStack;
 import net.neganote.monilabs.common.machine.multiblock.AntimatterGeneratorMachine;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
+import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
 import net.neganote.monilabs.config.MoniConfig;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 @SuppressWarnings("unused")
 public class MoniRecipeModifiers {
 
-    public static RecipeModifier sculkVatRecipeModifier() {
-        return (metaMachine, gtRecipe) -> {
-            if (metaMachine instanceof WorkableElectricMultiblockMachine sculkVat) {
-                var tanks = sculkVat.getCapabilitiesFlat(IO.OUT, GTRecipeCapabilities.FLUID)
-                        .stream()
-                        .filter(NotifiableFluidTank.class::isInstance)
-                        .map(NotifiableFluidTank.class::cast)
-                        .toList();
-                double modifier = getSculkVatMultiplier(tanks);
-                return ModifierFunction.builder()
-                        .outputModifier(new ContentModifier(modifier, 0.0))
-                        .build();
-            } else {
-                return ModifierFunction.IDENTITY;
-            }
-        };
-    }
-
-    private static double getSculkVatMultiplier(List<NotifiableFluidTank> tanks) {
-        if (tanks.size() != 1) {
-            throw new IllegalStateException("Sculk Vat must have exactly 1x fluid output hatch");
+    public static ModifierFunction sculkVatRecipeModifier(MetaMachine machine, GTRecipe recipe) {
+        if (machine instanceof SculkVatMachine sculkVat) {
+            var stored = sculkVat.getOutputTankFluid().getAmount();
+            var capacity = sculkVat.getOutputTankCapacity();
+            double x = (double) stored / capacity;
+            double expMod = Math.log(MoniConfig.INSTANCE.values.sculkVatEfficiencyMultiplier) * 2.0;
+            double modifier = Math.pow(1.0 / Math.exp(expMod * Math.pow((x - 0.5), 2.0)), 2.0);
+            return ModifierFunction.builder()
+                    .outputModifier(new ContentModifier(modifier, 0.0))
+                    .build();
+        } else {
+            return RecipeModifier.nullWrongType(SculkVatMachine.class, machine);
         }
-        var fluidExportHatchTank = tanks.get(0);
-        int capacity = fluidExportHatchTank.getTankCapacity(0);
-        var contents = fluidExportHatchTank.getContents();
-        int stored = 0;
-        if (!contents.isEmpty()) {
-            stored = ((FluidStack) contents.get(0)).getAmount();
-        }
-        double x = (double) stored / capacity;
-        double expMod = Math.log(MoniConfig.INSTANCE.values.sculkVatEfficiencyMultiplier) * 2.0;
-        return Math.pow(1.0 / Math.exp(expMod * Math.pow((x - 0.5), 2.0)), 2.0);
     }
 
     public static RecipeModifier omnicSynthRecipeModifier() {
