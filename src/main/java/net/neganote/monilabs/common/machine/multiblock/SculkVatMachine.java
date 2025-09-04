@@ -56,14 +56,17 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
     private @NotNull Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
     @Getter
-    @DescSynced
-    @RequireRerender
     private FluidStack outputTankFluid = FluidStack.EMPTY;
 
     private NotifiableFluidTank outputTank;
 
     @Getter
     private int outputTankCapacity = 0;
+
+    @Getter
+    @Persisted
+    @DescSynced
+    private GTRecipe lastSavedRecipe = null;
 
     public static int XP_BUFFER_MAX = FluidType.BUCKET_VOLUME << GTValues.ZPM;
 
@@ -125,6 +128,7 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
         timer = 0;
         xpBuffer = 0;
         IFluidRenderMulti.super.onStructureInvalid();
+        lastSavedRecipe = null;
     }
 
     @Override
@@ -173,13 +177,19 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
 
         var data = recipe.data;
         if (!data.contains("minimumXp") || !data.contains("maximumXp")) {
+            lastSavedRecipe = recipe;
             return true;
         }
 
         int minimumXp = data.getInt("minimumXp");
         int maximumXp = data.getInt("maximumXp");
 
-        return xpBuffer >= minimumXp && xpBuffer <= maximumXp;
+        if (xpBuffer >= minimumXp && xpBuffer <= maximumXp) {
+            lastSavedRecipe = recipe;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -195,6 +205,11 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
             }
         }
         return true;
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
     }
 
     @Override

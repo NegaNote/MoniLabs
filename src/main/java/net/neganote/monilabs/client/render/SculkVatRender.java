@@ -1,33 +1,31 @@
 package net.neganote.monilabs.client.render;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.block.FluidBlockRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.gregtechceu.gtceu.client.util.RenderUtil;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.RenderTypeHelper;
 import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
+import net.neganote.monilabs.utils.MoniRenderUtil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -50,6 +48,9 @@ public class SculkVatRender extends DynamicRender<SculkVatMachine, SculkVatRende
     @Getter
     private final List<RelativeDirection> drawFaces;
 
+    private @Nullable Fluid cachedFluid;
+    private @Nullable ResourceLocation cachedRecipe;
+
     public SculkVatRender(FluidBlockRenderer fluidBlockRenderer, List<RelativeDirection> drawFaces) {
         this.fluidBlockRenderer = fluidBlockRenderer;
         this.drawFaces = drawFaces.isEmpty() ? DEFAULT_FACES : drawFaces;
@@ -69,24 +70,17 @@ public class SculkVatRender extends DynamicRender<SculkVatMachine, SculkVatRende
     public void render(SculkVatMachine sculkVat, float partialTick,
                        PoseStack poseStack, MultiBufferSource buffer,
                        int packedLight, int packedOverlay) {
-        BlockPos outputTankPos = Arrays.stream(sculkVat.getPartPositions())
-                .filter(pos -> {
-                    MetaMachine machine = MetaMachine.getMachine(Objects.requireNonNull(sculkVat.getLevel()), pos);
-                    return machine instanceof FluidHatchPartMachine fluidHatch && fluidHatch.tank.handlerIO == IO.OUT;
-                }).toList().get(0);
-
-        FluidHatchPartMachine outputHatch = (FluidHatchPartMachine) MetaMachine.getMachine(sculkVat.getLevel(),
-                outputTankPos);
-
-        assert outputHatch != null;
-
-        var fluidStack = outputHatch.tank.getFluidInTank(0);
-
-        if (fluidStack.isEmpty()) {
+        var lastRecipe = sculkVat.getLastSavedRecipe();
+        if (lastRecipe == null) {
+            cachedRecipe = null;
+            cachedFluid = null;
+        } else if (sculkVat.self().getOffsetTimer() % 20 == 0 || lastRecipe.id != cachedRecipe) {
+            cachedRecipe = lastRecipe.id;
+            cachedFluid = MoniRenderUtil.getRecipeOutputFluidToRender(lastRecipe);
+        }
+        if (cachedFluid == null) {
             return;
         }
-
-        var cachedFluid = fluidStack.getFluid();
 
         var fluidRenderType = ItemBlockRenderTypes.getRenderLayer(cachedFluid.defaultFluidState());
         var consumer = buffer.getBuffer(RenderTypeHelper.getEntityRenderType(fluidRenderType, false));

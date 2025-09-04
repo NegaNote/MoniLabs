@@ -348,6 +348,7 @@ public class MoniMachines {
             .langValue("Transdimensional Energy Singularity")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.CREATIVE_ENERGY_MULTI_RECIPES)
+            .noRecipeModifier()
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     // spotless:off
@@ -394,6 +395,7 @@ public class MoniMachines {
             .langValue("Omniscience Research Beacon")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.CREATIVE_DATA_MULTI_RECIPES)
+            .noRecipeModifier()
             .appearanceBlock(MoniBlocks.BIOALLOY_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     // spotless:off
@@ -441,7 +443,7 @@ public class MoniMachines {
     public static MultiblockMachineDefinition SCULK_VAT = MoniLabs.REGISTRATE
             .multiblock("sculk_vat", SculkVatMachine::new)
             .recipeTypes(MoniRecipeTypes.SCULK_VAT_RECIPES)
-            .recipeModifier(MoniRecipeModifiers::sculkVatRecipeModifier)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, MoniRecipeModifiers::sculkVatRecipeModifier)
             .appearanceBlock(MoniBlocks.CRYOLOBUS_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#CCC#", "#CLC#", "#CLC#", "#CLC#", "#CCC#", "#F#F#", "#ccc#")

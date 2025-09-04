@@ -14,4 +14,9 @@ ServerEvents.recipes(event => {
         .outputStatesNormal(PrismaticColor.GREEN)
         .EUt(GTValues.VA[GTValues.ZPM])
         .duration(40)
+
+    event.recipes.gtceu.sculk_vat("sculk_vat_test")
+        .itemInputs("minecraft:apple")
+        .outputFluids("minecraft:lava 3000")
+        .duration(10)
 })
