@@ -1,4 +1,4 @@
-package net.neganote.monilabs.api.gui;
+package net.neganote.monilabs.client.gui;
 
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
