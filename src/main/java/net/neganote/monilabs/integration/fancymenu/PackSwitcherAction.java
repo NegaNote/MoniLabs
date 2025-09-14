@@ -1,5 +1,7 @@
 package net.neganote.monilabs.integration.fancymenu;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -13,9 +15,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.*;
 import java.util.Scanner;
 
-import static net.neganote.monilabs.utils.PackSwitchUtil.copyFiles;
-import static net.neganote.monilabs.utils.PackSwitchUtil.createModeFile;
-
+@SideOnly(Side.CLIENT)
 public class PackSwitcherAction extends Action {
 
     String cwd = System.getProperty("user.dir");

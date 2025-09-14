@@ -1,5 +1,7 @@
 package net.neganote.monilabs.integration.fancymenu;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -11,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+@SideOnly(Side.CLIENT)
 public class SaveTmpModeFileAction extends Action {
 
     public SaveTmpModeFileAction() {
