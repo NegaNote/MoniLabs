@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 import de.keksuccino.fancymenu.customization.action.Action;
+import net.neganote.monilabs.utils.PackSwitchUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,24 +46,13 @@ public class PackSwitcherAction extends Action {
         String mode = readTmpModeFile();
         switch (mode) {
             case "n" -> {
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "normal"),
-                        Path.of(cwd, File.separator, "config"));
-
-                createModeFile("normal");
+                PackSwitchUtil.switchToNormal(cwd);
             }
             case "h" -> {
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "hardmode"),
-                        Path.of(cwd, File.separator, "config"));
-
-                createModeFile("hard");
+                PackSwitchUtil.switchToHard(cwd);
             }
             case "e" -> {
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "hardmode"),
-                        Path.of(cwd, File.separator, "config"));
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "expert"),
-                        Path.of(cwd, File.separator, "config"));
-
-                createModeFile("expert");
+                PackSwitchUtil.switchToExpert(cwd);
             }
         }
     }
