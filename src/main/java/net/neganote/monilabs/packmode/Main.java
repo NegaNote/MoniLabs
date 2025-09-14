@@ -16,39 +16,26 @@ public class Main {
                 .toURI()).getParent();
         Path pathLoc = Path.of(loc);
         String mcRoot = pathLoc.getParent().toString();
-        if (args.length == 0) {
-            if (!pathLoc.endsWith("mods")) {
-                System.out.println("Please run this script in the mods folder.");
-                return;
-            }
-            System.out.print("Hello! Please provide a mode to switch Monifactory to (N/H/E): ");
-            Scanner inputScanner = new Scanner(System.in);
-            String mode = inputScanner.nextLine().strip();
-            switchOnMode(mode, mcRoot);
-        } else if (args.length == 1) {
-            String mode = args[0];
-            if (args[0].equalsIgnoreCase("-r") || args[0].equalsIgnoreCase("--relative")) {
-                System.out.print("Hello! Please provide a mode to switch Monifactory to (N/H/E): ");
-                Scanner inputScanner = new Scanner(System.in);
-                mode = inputScanner.nextLine().strip();
-            }
-            switchOnMode(mode, mcRoot);
-        } else if (args.length == 2) {
-            String mode;
-            if (args[0].equalsIgnoreCase("-r") || args[0].equalsIgnoreCase("--relative")) {
-                mode = args[1];
-            } else if (args[1].equalsIgnoreCase("-r") || args[1].equalsIgnoreCase("--relative")) {
-                mode = args[0];
-            } else {
+
+        String mode = null;
+        for (String arg : args) {
+            if (arg.equalsIgnoreCase("-h") || arg.equalsIgnoreCase("--help")) {
                 usage();
                 return;
+            } else if (arg.equalsIgnoreCase("-r") || arg.equalsIgnoreCase("--relative")) {
+                Path cwdPath = Path.of(System.getProperty("user.dir"));
+                mcRoot = cwdPath.toString();
+            } else {
+                mode = arg;
             }
-            Path cwdPath = Path.of(System.getProperty("user.dir"));
-            mcRoot = cwdPath.getParent().toString();
-            switchOnMode(mode, mcRoot);
-        } else {
-            usage();
         }
+
+        if (mode == null) {
+            System.out.print("Hello! Please provide a mode to switch Monifactory to (N/H/E): ");
+            Scanner inputScanner = new Scanner(System.in);
+            mode = inputScanner.nextLine().strip();
+        }
+        switchOnMode(mode, mcRoot);
     }
 
     public static void usage() {
@@ -69,6 +56,7 @@ public class Main {
             System.out.println("Switched Monifactory to expert mode!");
         } else {
             System.out.println("Invalid mode! Please run the script again.");
+            usage();
         }
     }
 }
