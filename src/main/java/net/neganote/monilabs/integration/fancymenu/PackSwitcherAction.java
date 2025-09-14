@@ -1,12 +1,12 @@
 package net.neganote.monilabs.integration.fancymenu;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-
-import de.keksuccino.fancymenu.customization.action.Action;
 import net.neganote.monilabs.utils.PackSwitchUtil;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import de.keksuccino.fancymenu.customization.action.Action;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
