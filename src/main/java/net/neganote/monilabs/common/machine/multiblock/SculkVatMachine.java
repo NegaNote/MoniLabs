@@ -97,7 +97,7 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
             }
 
             if (xpBuffer != 0) {
-                xpBuffer -= Math.max(xpBuffer >> 5, 1);
+                xpBuffer -= Math.max(xpBuffer >> 6, 1);
             }
 
             xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
