@@ -166,6 +166,12 @@ public class MoniLangHandler {
                 "Usage:",
                 "  {sculkVatXPBuffer} -> XP Stored: (value in millibuckets)");
 
+        multiLang(provider, "emi_info.monilabs.multiblock.sculk_vat",
+                "Outputs may be up to 8x less",
+                "when the output hatch is not",
+                "half full (this is the maximum)",
+                "Min XP: %d, Max: %d");
+
         dfs(provider, new HashSet<>(), MoniConfig.CONFIG_HOLDER.getValueMap());
     }
 

@@ -183,14 +183,14 @@ public class MoniRecipeTypes {
             .setMaxIOSize(2, 0, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
-            .addDataInfo((data) -> LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.0"))
-            .addDataInfo((data) -> LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.1"))
-            .addDataInfo((data) -> LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.2"))
+            .addDataInfo((data) -> LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.0"))
+            .addDataInfo((data) -> LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.1"))
+            .addDataInfo((data) -> LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.2"))
             .addDataInfo((data) -> {
                 if (data.contains("minimumXp") && data.contains("maximumXp")) {
                     int minimumXp = data.getInt("minimumXp");
                     int maximumXp = data.getInt("maximumXp");
-                    return LocalizationUtils.format("gtceu.multiblock.sculk_vat.emi_info.3", minimumXp, maximumXp);
+                    return LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.3", minimumXp, maximumXp);
                 } else {
                     return "";
                 }

@@ -2,7 +2,6 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IFluidRenderMulti;
@@ -10,7 +9,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -56,14 +54,6 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
     private @NotNull Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
     @Getter
-    private FluidStack outputTankFluid = FluidStack.EMPTY;
-
-    private NotifiableFluidTank outputTank;
-
-    @Getter
-    private int outputTankCapacity = 0;
-
-    @Getter
     @Persisted
     @DescSynced
     private GTRecipe lastSavedRecipe = null;
@@ -104,7 +94,6 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
             xpTank.setFluidInTank(0, FluidStack.EMPTY);
         }
         timer = (timer + 1) % 20;
-        outputTankFluid = outputTank.getFluidInTank(0);
     }
 
     @Override
@@ -112,13 +101,6 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
         super.onStructureFormed();
         xpHatchSubscription.updateSubscription();
         IFluidRenderMulti.super.onStructureFormed();
-        var tanks = getCapabilitiesFlat(IO.OUT, GTRecipeCapabilities.FLUID)
-                .stream()
-                .filter(NotifiableFluidTank.class::isInstance)
-                .map(NotifiableFluidTank.class::cast)
-                .toList();
-        outputTank = tanks.get(0);
-        outputTankCapacity = outputTank.getTankCapacity(0);
     }
 
     @Override

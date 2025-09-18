@@ -1,8 +1,10 @@
 package net.neganote.monilabs.recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic.*;
@@ -11,6 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
 import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.util.valueproviders.UniformFloat;
@@ -28,8 +31,13 @@ public class MoniRecipeModifiers {
 
     public static ModifierFunction sculkVatRecipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof SculkVatMachine sculkVat) {
-            var stored = sculkVat.getOutputTankFluid().getAmount();
-            var capacity = sculkVat.getOutputTankCapacity();
+            var tanks = sculkVat.getCapabilitiesFlat(IO.OUT, GTRecipeCapabilities.FLUID)
+                    .stream()
+                    .filter(NotifiableFluidTank.class::isInstance)
+                    .map(NotifiableFluidTank.class::cast)
+                    .toList();
+            var stored = tanks.get(0).getFluidInTank(0).getAmount();
+            var capacity = tanks.get(0).getTankCapacity(0);
             double x = (double) stored / capacity;
             double expMod = Math.log(MoniConfig.INSTANCE.values.sculkVatEfficiencyMultiplier) * 2.0;
             double modifier = Math.pow(1.0 / Math.exp(expMod * Math.pow((x - 0.5), 2.0)), 2.0);
