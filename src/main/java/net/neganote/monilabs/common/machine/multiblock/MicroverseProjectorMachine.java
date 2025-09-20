@@ -204,7 +204,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     .toList();
         }
 
-        if (timer == 0 && microverse.isRepairable && isWorkingEnabled()) {
+        if (timer == 0 && microverse.isRepairable) {
             var missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
             var fluxToFullHeal = missingHealth / FLUX_REPAIR_AMOUNT;
             var fluxAvailable = ParallelLogic.getMaxByInput(this, quantumFluxRecipe, Integer.MAX_VALUE,

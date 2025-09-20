@@ -62,36 +62,34 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
 
     public SculkVatMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        this.xpHatchSubscription = new ConditionalSubscriptionHandler(this, this::xpHatchTick, this::isFormed);
+        this.xpHatchSubscription = new ConditionalSubscriptionHandler(this, this::xpHatchTick, () -> true);
     }
 
     private void xpHatchTick() {
         if (timer == 0) {
-            var array = getParts().stream()
-                    .filter(SculkExperienceDrainingHatchPartMachine.class::isInstance)
-                    .map(SculkExperienceDrainingHatchPartMachine.class::cast)
-                    .toArray(SculkExperienceDrainingHatchPartMachine[]::new);
-
-            if (array.length != 1) {
-                // Don't do this work if there isn't an xp hatch
-                return;
-            }
-
-            var xpHatch = array[0];
-
-            var xpTank = (NotifiableFluidTank) xpHatch.getRecipeHandlers().get(0)
-                    .getCapability(FluidRecipeCapability.CAP).get(0);
-            int stored = 0;
-            if (!xpTank.isEmpty()) {
-                stored = ((FluidStack) xpTank.getContents().get(0)).getAmount();
-            }
-
             if (xpBuffer != 0) {
                 xpBuffer -= Math.max(xpBuffer >> 6, 1);
             }
+            int stored = 0;
+            if (isFormed()) {
+                var array = getParts().stream()
+                        .filter(SculkExperienceDrainingHatchPartMachine.class::isInstance)
+                        .map(SculkExperienceDrainingHatchPartMachine.class::cast)
+                        .toArray(SculkExperienceDrainingHatchPartMachine[]::new);
 
-            xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
-            xpTank.setFluidInTank(0, FluidStack.EMPTY);
+                if (array.length == 1) {
+                    var xpHatch = array[0];
+
+                    var xpTank = (NotifiableFluidTank) xpHatch.getRecipeHandlers().get(0)
+                            .getCapability(FluidRecipeCapability.CAP).get(0);
+                    if (!xpTank.isEmpty()) {
+                        stored = ((FluidStack) xpTank.getContents().get(0)).getAmount();
+                    }
+
+                    xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
+                    xpTank.setFluidInTank(0, FluidStack.EMPTY);
+                }
+            }
         }
         timer = (timer + 1) % 20;
     }
@@ -108,7 +106,6 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
         super.onStructureInvalid();
         xpHatchSubscription.updateSubscription();
         timer = 0;
-        xpBuffer = 0;
         IFluidRenderMulti.super.onStructureInvalid();
         lastSavedRecipe = null;
     }

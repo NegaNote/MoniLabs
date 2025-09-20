@@ -1,4 +1,4 @@
-# Moni Labs 0.14.1
+# Moni Labs 0.14.2
 
-* Fix Sculk Vat not using its recipe modifier correctly
-* Adjust Sculk Vat EMI info to make it clearer
+* Allow Sculk Vat to keep its xp buffer on being unformed (still decays)
+* Microverse Projector now always attempts to heal its integrity even when disabled
