@@ -1,12 +1,14 @@
 package net.neganote.monilabs.integration.kjs.recipe;
 
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import dev.latvian.mods.kubejs.recipe.RecipeJS;
 import dev.latvian.mods.kubejs.recipe.component.RecipeComponent;
-import net.neganote.monilabs.common.machine.multiblock.Microverse;
 
 public class MicroverseComponent implements RecipeComponent<Microverse> {
+
     @Override
     public Class<?> componentClass() {
         return Microverse.class;
