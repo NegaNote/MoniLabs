@@ -175,7 +175,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     private void changeColorState(Color newColor) {
         color = newColor;
-        this.notifiableChromaContainer.setColor(newColor);
         updateActiveBlocks(true);
     }
 
@@ -194,7 +193,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                         // Yes this is janky, but it ensures that the prismac doesn't randomly decide it wants to
                         // reset its color on world load for no reason
                         color = Color.getColorFromKey(blockState.getValue(PrismaticActiveBlock.COLOR));
-                        notifiableChromaContainer.setColor(color);
                     }
                     if (!Objects.equals(blockState, newState)) {
                         getLevel().setBlockAndUpdate(blockPos, newState);

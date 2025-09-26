@@ -6,9 +6,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.Color;
@@ -20,21 +17,15 @@ import java.util.List;
 
 public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<ChromaIngredient> {
 
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            NotifiableChromaContainer.class,
-            NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
-
-    @Persisted
-    private Color heldColor;
-
     public NotifiableChromaContainer(MetaMachine machine) {
         super(machine);
-        if (machine instanceof PrismaticCrucibleMachine prismaticCrucibleMachine) {
-            this.heldColor = prismaticCrucibleMachine.getColorState();
-        } else {
-            // should never be called outside a PrismaC, but oh well
-            this.heldColor = Color.RED;
+    }
+
+    public Color getHeldColor() {
+        if (!(getMachine() instanceof PrismaticCrucibleMachine prismac)) {
+            throw new IllegalStateException();
         }
+        return prismac.getColor();
     }
 
     @Override
@@ -42,17 +33,12 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
         return IO.IN;
     }
 
-    public void setColor(Color newColor) {
-        this.heldColor = newColor;
-        notifyListeners();
-    }
-
     @Override
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left,
                                                     boolean simulate) {
         ChromaIngredient recipeColor = left.get(0);
         List<Color> colors = Color.getColorsWithCategories(recipeColor.color());
-        if (colors.stream().anyMatch(heldColor::equals)) {
+        if (colors.stream().anyMatch(getHeldColor()::equals)) {
             return null;
         } else {
             return left;
@@ -61,7 +47,7 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
 
     @Override
     public @NotNull List<Object> getContents() {
-        return List.of(new ChromaIngredient(heldColor));
+        return List.of(new ChromaIngredient(getHeldColor()));
     }
 
     @Override
@@ -77,10 +63,5 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     @Override
     public RecipeCapability<ChromaIngredient> getCapability() {
         return MoniRecipeCapabilities.CHROMA;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 }

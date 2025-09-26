@@ -154,6 +154,7 @@ public class MoniMachines {
                             Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
                                     .setMinGlobalLimited(197)
                                     .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)
+                                            .setMinGlobalLimited(1)
                                             .setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
