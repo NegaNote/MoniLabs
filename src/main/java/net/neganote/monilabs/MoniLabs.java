@@ -25,12 +25,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
+import net.neganote.monilabs.capability.recipe.MapMicroverseIngredient;
 import net.neganote.monilabs.client.render.*;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.data.MoniPlaceholders;
 import net.neganote.monilabs.common.data.materials.MoniMaterials;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.MoniDataGen;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
@@ -115,7 +117,10 @@ public class MoniLabs {
     @SubscribeEvent
     public void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(
-                () -> MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from));
+                () -> {
+                    MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from);
+                    MapIngredientTypeManager.registerMapIngredient(Microverse.class, MapMicroverseIngredient::from);
+                });
     }
 
     @SubscribeEvent

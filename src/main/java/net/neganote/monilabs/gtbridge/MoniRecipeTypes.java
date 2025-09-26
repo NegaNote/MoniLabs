@@ -116,18 +116,16 @@ public class MoniRecipeTypes {
     public static GTRecipeType MICROVERSE_RECIPES = GTRecipeTypes
             .register("microverse", GTRecipeTypes.MULTIBLOCK)
             .setEUIO(IO.IN)
+            .setMaxSize(IO.IN, MoniRecipeCapabilities.MICROVERSE, 1)
             .setMaxIOSize(9, 9, 3, 0)
             .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
             .setProgressBar(MoniGuiTextures.PROGRESS_BAR_ROCKET, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
+            .addDataInfo(data -> "")
             .addDataInfo((data) -> I18n.get("emi_info.monilabs.projector_info",
                     data.getByte("projector_tier")))
             .addDataInfo(data -> {
                 String info = "";
-                if (data.contains("required_microverse")) {
-                    info += I18n.get("emi_info.monilabs.required_microverse",
-                            I18n.get(Microverse.values()[data.getInt("required_microverse")].langKey)) + "\n";
-                }
                 if (data.contains("updated_microverse")) {
                     info += I18n.get("emi_info.monilabs.new_microverse",
                             I18n.get(Microverse.values()[data.getInt("updated_microverse")].langKey)) + "\n";
@@ -148,7 +146,6 @@ public class MoniRecipeTypes {
                 }
                 return info;
             })
-            .addDataInfo(data -> "")
             .addDataInfo(data -> "")
             .addDataInfo(data -> "");
 

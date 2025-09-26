@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.common.machine.multiblock.Color;
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
 
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 import lombok.experimental.Accessors;
@@ -86,7 +87,7 @@ public interface MoniRecipeSchema {
         }
 
         public GTRecipeSchema.GTRecipeJS requiredMicroverse(int i) {
-            this.addData("required_microverse", i);
+            this.input(MoniRecipeCapabilities.MICROVERSE, Microverse.getMicroverseFromKey(i));
             return this;
         }
 

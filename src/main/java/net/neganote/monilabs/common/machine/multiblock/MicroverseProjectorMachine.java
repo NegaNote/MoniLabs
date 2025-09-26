@@ -25,6 +25,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.neganote.monilabs.common.machine.trait.NotifiableMicroverseContainer;
 import net.neganote.monilabs.config.MoniConfig;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -83,6 +84,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     private final GTRecipe quantumFluxRecipe;
 
+    @Persisted
+    private final NotifiableMicroverseContainer microverseContainer;
+
     public MicroverseProjectorMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, args);
         this.projectorTier = tier;
@@ -91,6 +95,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.bySeparator("kubejs:quantum_flux", ':'));
         assert this.quantumFluxItem != null;
         this.quantumFluxRecipe = GTRecipeBuilder.ofRaw().inputItems(this.quantumFluxItem).buildRawRecipe();
+        this.microverseContainer = new NotifiableMicroverseContainer(this);
     }
 
     @Override
@@ -123,10 +128,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
         if (microverseIntegrity == 0 && microverse != Microverse.NONE) return false;
-        if (recipe.data.contains("required_microverse") &&
-                recipe.data.getInt("required_microverse") != microverse.ordinal()) {
-            return false;
-        }
         if (recipe.data.contains("projector_tier") && recipe.data.getLong("projector_tier") > projectorTier) {
             return false;
         }

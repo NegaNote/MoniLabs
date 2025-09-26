@@ -56,6 +56,7 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
         event.add("MoniConfig", MoniConfig.class);
         event.add("PrismaticColor", Color.class);
         event.add("SpecialCase", MoniRecipeSchema.SpecialCase.class);
+        event.add("Microverse", Microverse.class);
 
         // Specific Machines
         event.add("AntimatterGeneratorMachine", AntimatterGeneratorMachine.class);
