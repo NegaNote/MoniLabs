@@ -11,9 +11,7 @@ public class ActionRegister {
 
     // Registers FancyMenu action
     public static void init() {
-        if (GTCEu.isClientSide()) {
-            ActionRegistry.register(new PackSwitcherAction());
-            ActionRegistry.register(new SaveTmpModeFileAction());
-        }
+        ActionRegistry.register(new PackSwitcherAction());
+        ActionRegistry.register(new SaveTmpModeFileAction());
     }
 }
