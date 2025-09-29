@@ -3,6 +3,8 @@ package net.neganote.monilabs.integration.fancymenu;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import de.keksuccino.fancymenu.customization.action.Action;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +17,7 @@ import java.util.Scanner;
 import static net.neganote.monilabs.utils.PackSwitchUtil.copyFiles;
 import static net.neganote.monilabs.utils.PackSwitchUtil.createModeFile;
 
+@SideOnly(Side.CLIENT)
 public class PackSwitcherAction extends Action {
 
     String cwd = System.getProperty("user.dir");
