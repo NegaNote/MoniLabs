@@ -2,6 +2,7 @@ package net.neganote.monilabs.integration.fancymenu;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.neganote.monilabs.utils.PackSwitchUtil;
 
 import de.keksuccino.fancymenu.customization.action.Action;
 import org.jetbrains.annotations.NotNull;
@@ -11,9 +12,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.*;
 import java.util.Scanner;
-
-import static net.neganote.monilabs.utils.PackSwitchUtil.copyFiles;
-import static net.neganote.monilabs.utils.PackSwitchUtil.createModeFile;
 
 public class PackSwitcherAction extends Action {
 
@@ -45,24 +43,13 @@ public class PackSwitcherAction extends Action {
         String mode = readTmpModeFile();
         switch (mode) {
             case "n" -> {
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "normal"),
-                        Path.of(cwd, File.separator, "config"));
-
-                createModeFile("normal");
+                PackSwitchUtil.switchToNormal(cwd);
             }
             case "h" -> {
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "hardmode"),
-                        Path.of(cwd, File.separator, "config"));
-
-                createModeFile("hard");
+                PackSwitchUtil.switchToHard(cwd);
             }
             case "e" -> {
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "hardmode"),
-                        Path.of(cwd, File.separator, "config"));
-                copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "expert"),
-                        Path.of(cwd, File.separator, "config"));
-
-                createModeFile("expert");
+                PackSwitchUtil.switchToExpert(cwd);
             }
         }
     }
