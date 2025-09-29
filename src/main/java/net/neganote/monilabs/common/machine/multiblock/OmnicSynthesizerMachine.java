@@ -27,6 +27,12 @@ public class OmnicSynthesizerMachine extends WorkableElectricMultiblockMachine {
     @DescSynced
     public int diversityPoints = 0;
 
+    @Persisted
+    public boolean recipeModifierCalculated = false;
+
+    @Persisted
+    public double recipeModifierAmount = 0.0;
+
     public OmnicSynthesizerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
@@ -34,6 +40,13 @@ public class OmnicSynthesizerMachine extends WorkableElectricMultiblockMachine {
     @Override
     public GTRecipe fullModifyRecipe(GTRecipe recipe) {
         return super.fullModifyRecipe(recipe);
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+        recipeModifierCalculated = false;
+        recipeModifierAmount = 0.0;
     }
 
     @Override

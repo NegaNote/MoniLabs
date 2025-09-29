@@ -54,17 +54,24 @@ public class MoniRecipeModifiers {
             if (metaMachine instanceof OmnicSynthesizerMachine omnic) {
                 Item item = RecipeHelper.getInputItems(gtRecipe).get(0).getItem();
                 double multiplier = 0.0;
-                if (omnic.diversityList.contains(item)) {
-                    int index = omnic.diversityList.indexOf(item);
-                    omnic.diversityPoints += (int) Math
-                            .floor(Math.pow(index, MoniConfig.INSTANCE.values.omnicSynthesizerExponent));
-                    multiplier = (double) omnic.diversityPoints / 100;
-                    omnic.diversityPoints = omnic.diversityPoints % 100;
-                    Item temp = omnic.diversityList.remove(index);
-                    omnic.diversityList.add(0, temp);
+                if (!omnic.recipeModifierCalculated) {
+                    if (omnic.diversityList.contains(item)) {
+                        int index = omnic.diversityList.indexOf(item);
+                        omnic.diversityPoints += (int) Math
+                                .floor(Math.pow(index, MoniConfig.INSTANCE.values.omnicSynthesizerExponent));
+                        multiplier = (double) omnic.diversityPoints / 100;
+                        omnic.recipeModifierAmount = multiplier;
+                        omnic.recipeModifierCalculated = true;
+                        omnic.diversityPoints = omnic.diversityPoints % 100;
+                        Item temp = omnic.diversityList.remove(index);
+                        omnic.diversityList.add(0, temp);
+                    } else {
+                        omnic.diversityList.add(0, item);
+                    }
                 } else {
-                    omnic.diversityList.add(0, item);
+                    multiplier = omnic.recipeModifierAmount;
                 }
+
                 return ModifierFunction.builder()
                         .outputModifier(ContentModifier.multiplier(multiplier))
                         .build();
