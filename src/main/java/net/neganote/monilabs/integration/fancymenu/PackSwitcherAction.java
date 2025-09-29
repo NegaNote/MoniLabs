@@ -15,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.nio.file.*;
 import java.util.Scanner;
 
-
 @SideOnly(Side.CLIENT)
 public class PackSwitcherAction extends Action {
 
