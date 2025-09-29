@@ -23,6 +23,7 @@ public class PackSwitchUtil {
     }
 
     public static void switchToExpert(String cwd) {
+        switchToHard(cwd);
         copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "expert"),
                 Path.of(cwd, File.separator, "config"));
 
