@@ -9,9 +9,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SideOnly(Side.CLIENT)
 public class PrismaticActiveBlockColor implements BlockColor {
 
     @Override
