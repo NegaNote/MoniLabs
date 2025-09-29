@@ -25,6 +25,8 @@ import net.neganote.monilabs.utils.LaserUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -38,6 +40,7 @@ import static com.gregtechceu.gtceu.client.util.RenderUtil.getVertices;
 import static net.minecraft.util.FastColor.ARGB32.*;
 
 @SuppressWarnings("unused")
+@SideOnly(Side.CLIENT)
 public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMachine, PrismaticCrucibleRender> {
 
     // spotless:off

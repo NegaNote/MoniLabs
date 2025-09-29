@@ -26,6 +26,8 @@ import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachin
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@SideOnly(Side.CLIENT)
 public class CreativeEnergyRender extends DynamicRender<CreativeEnergyMultiMachine, CreativeEnergyRender> {
 
     public static final CreativeEnergyRender INSTANCE = new CreativeEnergyRender();

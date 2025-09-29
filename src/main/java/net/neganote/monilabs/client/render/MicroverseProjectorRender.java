@@ -22,9 +22,12 @@ import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachin
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 // @SuppressWarnings("unused")
+@SideOnly(Side.CLIENT)
 public class MicroverseProjectorRender extends
                                        DynamicRender<MicroverseProjectorMachine, MicroverseProjectorRender> {
 

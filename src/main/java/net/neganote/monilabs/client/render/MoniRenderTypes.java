@@ -7,7 +7,10 @@ import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class MoniRenderTypes {
 
     public static final ShaderStateShard WORMHOLE_SHADER_SHARD = new ShaderStateShard(
