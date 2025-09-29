@@ -1,7 +1,5 @@
 package net.neganote.monilabs.integration.fancymenu;
 
-import com.gregtechceu.gtceu.GTCEu;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.keksuccino.fancymenu.customization.action.ActionRegistry;
