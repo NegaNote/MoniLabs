@@ -21,6 +21,8 @@ import net.neganote.monilabs.utils.MoniRenderUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,6 +33,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@SideOnly(Side.CLIENT)
 public class SculkVatRender extends DynamicRender<SculkVatMachine, SculkVatRender> {
 
     public static final List<RelativeDirection> DEFAULT_FACES = Collections.singletonList(RelativeDirection.UP);

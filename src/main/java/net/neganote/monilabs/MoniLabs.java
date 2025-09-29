@@ -36,11 +36,9 @@ import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.MoniDataGen;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
-import net.neganote.monilabs.integration.fancymenu.PackSwitcherAction;
-import net.neganote.monilabs.integration.fancymenu.SaveTmpModeFileAction;
+import net.neganote.monilabs.integration.fancymenu.ActionRegister;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import de.keksuccino.fancymenu.customization.action.ActionRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Contract;
@@ -77,12 +75,7 @@ public class MoniLabs {
             initializeDynamicRenders();
             modEventBus.register(MoniShaders.class);
             modEventBus.addListener(this::registerAdditionalModels);
-        }
-
-        // Registers FancyMenu actions
-        if (GTCEu.isClientSide()) {
-            ActionRegistry.register(new PackSwitcherAction());
-            ActionRegistry.register(new SaveTmpModeFileAction());
+            ActionRegister.init();
         }
 
         modEventBus.addListener(this::addMaterialRegistries);

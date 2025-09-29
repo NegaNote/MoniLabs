@@ -6,9 +6,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.neganote.monilabs.MoniLabs;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 
+@SideOnly(Side.CLIENT)
 public class MoniShaders {
 
     public static ShaderInstance WORMHOLE_SHADER;

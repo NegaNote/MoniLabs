@@ -7,11 +7,14 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.renderer.LightTexture;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.Contract;
 
 import java.util.List;
 
 @MethodsReturnNonnullByDefault
+@SideOnly(Side.CLIENT)
 public class MoniDynamicRenderHelper {
 
     @Contract(" -> new")

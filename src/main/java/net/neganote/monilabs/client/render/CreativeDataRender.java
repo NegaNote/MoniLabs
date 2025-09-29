@@ -15,6 +15,8 @@ import net.neganote.monilabs.utils.LaserUtil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import org.joml.Vector3f;
 
 import java.util.Objects;
@@ -23,6 +25,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
+@SideOnly(Side.CLIENT)
 public class CreativeDataRender extends DynamicRender<CreativeDataMultiMachine, CreativeDataRender> {
 
     public static final CreativeDataRender INSTANCE = new CreativeDataRender();

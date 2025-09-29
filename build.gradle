@@ -223,9 +223,10 @@ dependencies {
 
     // FancyMenu
     // Uses curse maven for now idk if there is another way
-    modImplementation("curse.maven:fancymenu-367706:6918987")
-    modImplementation("curse.maven:konkrete-410295:5028413")
-    modImplementation("curse.maven:melody-938643:5109692")
+    modClientLocalRuntime("curse.maven:fancymenu-367706:6918987")
+    modClientLocalRuntime("curse.maven:konkrete-410295:5028413")
+    modClientLocalRuntime("curse.maven:melody-938643:5109692")
+    modCompileOnly("curse.maven:fancymenu-367706:6918987")
 
     // lombok
     compileOnly('org.projectlombok:lombok:1.18.36')

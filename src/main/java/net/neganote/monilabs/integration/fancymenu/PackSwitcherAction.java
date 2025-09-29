@@ -4,6 +4,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.neganote.monilabs.utils.PackSwitchUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import de.keksuccino.fancymenu.customization.action.Action;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.nio.file.*;
 import java.util.Scanner;
 
+
+@SideOnly(Side.CLIENT)
 public class PackSwitcherAction extends Action {
 
     String cwd = System.getProperty("user.dir");
