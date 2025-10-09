@@ -1,4 +1,7 @@
-# Moni Labs 0.14.2
+# Moni Labs 0.15.0
 
-* Allow Sculk Vat to keep its xp buffer on being unformed (still decays)
-* Microverse Projector now always attempts to heal its integrity even when disabled
+* Move Eltz Casing and Transcendental Matrix to monilabs
+* Make fancymenu no longer required on server
+* Fixes with pack switching
+* Refactor Microverse Projectors to use a recipe capability instead of a beforeWorking() check for the correct microverse type
+* Add mixin to disable power substation working when TES is active

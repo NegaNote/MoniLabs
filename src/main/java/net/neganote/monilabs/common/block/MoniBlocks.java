@@ -135,4 +135,6 @@ public class MoniBlocks {
             // MoniLabs.id("block/prism")))
             .build()
             .register();
+    public static BlockEntry<Block> ELTZ_CASING = registerSimpleBlock("Eltz Casing", "eltz_casing",
+            "casing/eltz", BlockItem::new);
 }
