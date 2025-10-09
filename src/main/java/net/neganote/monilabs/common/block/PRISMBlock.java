@@ -3,10 +3,10 @@ package net.neganote.monilabs.common.block;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -26,6 +26,11 @@ import stone.mae2.api.client.trails.CloudChamberUtil;
 import stone.mae2.api.client.trails.Trail;
 import stone.mae2.api.client.trails.TrailForming;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@SuppressWarnings("deprecation")
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class PRISMBlock extends ActiveBlock implements TrailForming {
 
     public PRISMBlock(Properties properties) {
@@ -54,7 +59,7 @@ public class PRISMBlock extends ActiveBlock implements TrailForming {
     @Override
     public boolean skipRendering(BlockState pState,
                                  BlockState pAdjacentBlockState, Direction pSide) {
-        return pAdjacentBlockState.is(this) ? true : super.skipRendering(pState, pAdjacentBlockState, pSide);
+        return pAdjacentBlockState.is(this) || super.skipRendering(pState, pAdjacentBlockState, pSide);
     }
 
     @Override
@@ -74,23 +79,16 @@ public class PRISMBlock extends ActiveBlock implements TrailForming {
 
     // this is stupid, but it's what GTm wants because they couldn't be bothered
     // with wildcards I guess
-    public static NonNullBiConsumer<DataGenContext<Block, PRISMBlock>, RegistrateBlockstateProvider> createPRISMModel(
-                                                                                                                      String name,
-                                                                                                                      ResourceLocation texturePath) {
+    public static NonNullBiConsumer<DataGenContext<Block, PRISMBlock>, RegistrateBlockstateProvider> createPRISMModel() {
         return (ctx, prov) -> {
             ActiveBlock block = ctx.getEntry();
-            ResourceLocation texturePath2 = texturePath.withPrefix("block/");
 
             ModelFile inactive = prov
                     .models()
-                    .withExistingParent(name, "gtceu:block/cube_2_layer/all")
-                    .texture("bot_all", MoniLabs.id("block/prismac/prism_frame"))
-                    .texture("top_all", MoniLabs.id("block/prismac/color_prism"));
+                    .cubeAll(ctx.getName(), MoniLabs.id("block/prismac/prism_frame"));
             ModelFile active = prov
                     .models()
-                    .withExistingParent(name, "gtceu:block/cube_2_layer/all")
-                    .texture("bot_all", MoniLabs.id("block/prismac/prism_frame_active"))
-                    .texture("top_all", MoniLabs.id("block/prismac/color_prism_active"));
+                    .cubeAll(ctx.getName() + "_active", MoniLabs.id("block/prismac/prism_frame_active"));
 
             prov
                     .getVariantBuilder(block)

@@ -20,7 +20,7 @@ import stone.mae2.bootstrap.MAE2Tags;
 
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "SameParameterValue" })
 public class MoniBlocks {
 
     public static void init() {}
@@ -124,9 +124,9 @@ public class MoniBlocks {
     public static final BlockEntry<PRISMBlock> PRISM_GLASS = REGISTRATE
             .block("prism_glass", PRISMBlock::new)
             .initialProperties(() -> Blocks.GLASS)
-            .addLayer(() -> RenderType::cutout)
-            .blockstate(PRISMBlock
-                    .createPRISMModel("block/prism_glass", MoniLabs.id("prism_glass")))
+            .properties(p -> p.lightLevel((b) -> b.getValue(GTBlockStateProperties.ACTIVE) ? 15 : 0))
+            .addLayer(() -> RenderType::translucent)
+            .blockstate(PRISMBlock.createPRISMModel())
             .tag(RecipeTags.MINEABLE_WITH_WRENCH,
                     BlockTags.MINEABLE_WITH_PICKAXE, MAE2Tags.CLOUD_CHAMBERS)
             .item(BlockItem::new)
