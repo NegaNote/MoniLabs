@@ -7,7 +7,8 @@
     "DataAccessHatchMixin",
     "KubeJSPluginsMixin",
     "NotifiableEnergyContainerMixin",
-    "OpticalDataHatchMixin"
+    "OpticalDataHatchMixin",
+    "PowerSubstationMachineMixin"
   ],
   "client": [
   ],
