@@ -15,7 +15,7 @@ public class MoniMaterials {
     public static Material CrystalMatrix;
     public static Material SculkBioalloy;
     public static Material Eltz;
-
+    public static Material TranscendentalMatrix;
     public static void register() {
         CrystalMatrix = new Material.Builder(MoniLabs.id("crystal_matrix"))
                 .ingot()
@@ -52,6 +52,15 @@ public class MoniMaterials {
                 .color(0xffffff)
                 .iconSet(MoniMaterialIconSets.Eltz)
                 .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_FRAME, MaterialFlags.PHOSPHORESCENT)
+                .register();
+
+        TranscendentalMatrix = new Material.Builder(MoniLabs.id("transcendental_matrix"))
+                .ingot()
+                .liquid(new FluidBuilder().state(FluidState.LIQUID).customStill())
+                .element(MoniElements.TranscendentalMatrix)
+                .color(0xffffff).secondaryColor(0x000000)
+                .iconSet(MoniMaterialIconSets.TranscendentalMatrix)
+                .flags(MaterialFlags.GENERATE_FOIL, MaterialFlags.GENERATE_FRAME)
                 .register();
     }
 }
