@@ -94,6 +94,7 @@ public class MoniLabs {
             if (!GTCEu.isDataGen()) {
                 ActionRegister.init();
             }
+            MoniTrails.init();
         }
 
         modEventBus.addListener(this::addMaterialRegistries);
@@ -158,11 +159,6 @@ public class MoniLabs {
                     .registerMapIngredient(Microverse.class, MapMicroverseIngredient::from);
         });
         CalendarUtil.init();
-    }
-
-    @SubscribeEvent
-    public void clientSetup(final FMLClientSetupEvent event) {
-        MoniTrails.init();
     }
 
     private void initializeDynamicRenders() {

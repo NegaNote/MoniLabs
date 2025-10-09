@@ -9,12 +9,16 @@ import stone.mae2.api.client.trails.Trail;
 
 public abstract class MoniTrails {
 
-    public static BackgroundTrail CHROMA_BACKGROUND = CloudChamberUtil
+    public static BackgroundTrail CHROMA_BACKGROUND;
+
+    public static Trail CHROMA_BETA;
+
+    public static void init() {
+        CHROMA_BACKGROUND = CloudChamberUtil
             .registerBackgroundTrail(MoniLabs.id("chroma"),
                     new SimpleTrail(20, 0, .1, .1, ParticleTypes.CHROMA_BACKGROUND));
 
-    public static Trail CHROMA_BETA = new SimpleTrail(20, 0, 0, 0,
+        CHROMA_BETA = new SimpleTrail(20, 0, 0, 0,
             ParticleTypes.CHROMA_BETA);
-
-    public static void init() {}
+    }
 }
