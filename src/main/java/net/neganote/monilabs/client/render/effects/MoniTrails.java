@@ -15,10 +15,10 @@ public abstract class MoniTrails {
 
     public static void init() {
         CHROMA_BACKGROUND = CloudChamberUtil
-            .registerBackgroundTrail(MoniLabs.id("chroma"),
-                    new SimpleTrail(20, 0, .1, .1, ParticleTypes.CHROMA_BACKGROUND));
+                .registerBackgroundTrail(MoniLabs.id("chroma"),
+                        new SimpleTrail(20, 0, .1, .1, ParticleTypes.CHROMA_BACKGROUND));
 
         CHROMA_BETA = new SimpleTrail(20, 0, 0, 0,
-            ParticleTypes.CHROMA_BETA);
+                ParticleTypes.CHROMA_BETA);
     }
 }
