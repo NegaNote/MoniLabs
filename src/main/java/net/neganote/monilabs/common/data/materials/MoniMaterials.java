@@ -16,6 +16,7 @@ public class MoniMaterials {
     public static Material SculkBioalloy;
     public static Material Eltz;
     public static Material TranscendentalMatrix;
+
     public static void register() {
         CrystalMatrix = new Material.Builder(MoniLabs.id("crystal_matrix"))
                 .ingot()
