@@ -118,4 +118,6 @@ public class MoniBlocks {
     public static BlockEntry<Block> BIOALLOY_FUSION_CASING = registerSimpleBlock("Bioalloy Fusion Casing",
             "bioalloy_fusion_casing",
             "casing/bioalloy_fusion", BlockItem::new);
+    public static BlockEntry<Block> ELTZ_CASING = registerSimpleBlock("Eltz Casing", "eltz_casing",
+            "casing/eltz", BlockItem::new);
 }

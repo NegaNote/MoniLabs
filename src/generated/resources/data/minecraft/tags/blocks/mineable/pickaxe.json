@@ -7,6 +7,7 @@
     "monilabs:microverse_casing",
     "monilabs:cryolobus_casing",
     "monilabs:bioalloy_casing",
-    "monilabs:bioalloy_fusion_casing"
+    "monilabs:bioalloy_fusion_casing",
+    "monilabs:eltz_casing"
   ]
 }

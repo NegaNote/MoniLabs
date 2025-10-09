@@ -1,0 +1,9 @@
+{
+    "ldlib": {
+        "connection": "monilabs:block/casing/eltz_ctm"
+    },
+    "animation": {
+        "interpolate": true,
+        "frametime": 2
+    }
+}

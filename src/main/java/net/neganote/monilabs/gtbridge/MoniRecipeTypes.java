@@ -157,7 +157,7 @@ public class MoniRecipeTypes {
 
     public static GTRecipeType CREATIVE_ENERGY_MULTI_RECIPES = GTRecipeTypes
             .register("creative_energy_multi", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0, 0, 1, 0)
+            .setMaxIOSize(0, 0, 2, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.ALWAYS_FULL)
             .setSound(GTSoundEntries.COMBUSTION)
             .addDataInfo(data -> LocalizationUtils.format("emi_info.creative_energy_multi.0"))

@@ -75,7 +75,9 @@ public class MoniLabs {
             initializeDynamicRenders();
             modEventBus.register(MoniShaders.class);
             modEventBus.addListener(this::registerAdditionalModels);
-            ActionRegister.init();
+            if (!GTCEu.isDataGen()) {
+                ActionRegister.init();
+            }
         }
 
         modEventBus.addListener(this::addMaterialRegistries);
