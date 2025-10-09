@@ -1,6 +1,8 @@
 package net.neganote.monilabs.capability.recipe;
 
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -16,7 +18,7 @@ public record ChromaIngredient(Color color) implements Predicate<Color> {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "ChromaIngredient{" +
                 "color=" + color + "}";
     }

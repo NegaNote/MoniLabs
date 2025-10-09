@@ -4,23 +4,35 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IFluidRenderMulti;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.neganote.monilabs.common.machine.part.SculkExperienceDrainingHatchPartMachine;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("unused")
-public class SculkVatMachine extends WorkableElectricMultiblockMachine {
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class SculkVatMachine extends WorkableElectricMultiblockMachine implements IFluidRenderMulti {
 
     private final ConditionalSubscriptionHandler xpHatchSubscription;
 
@@ -35,51 +47,102 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
     @Getter
     private int timer = 0;
 
+    @Getter
+    @Setter
+    @DescSynced
+    @RequireRerender
+    private @NotNull Set<BlockPos> fluidBlockOffsets = new HashSet<>();
+
+    @Getter
+    @Persisted
+    @DescSynced
+    private GTRecipe lastSavedRecipe = null;
+
     public static int XP_BUFFER_MAX = FluidType.BUCKET_VOLUME << GTValues.ZPM;
 
     public SculkVatMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        this.xpHatchSubscription = new ConditionalSubscriptionHandler(this, this::xpHatchTick, this::isFormed);
+        this.xpHatchSubscription = new ConditionalSubscriptionHandler(this, this::xpHatchTick, () -> true);
     }
 
     private void xpHatchTick() {
-        if (timer == 0 && isWorkingEnabled()) {
-            var array = getParts().stream()
-                    .filter(SculkExperienceDrainingHatchPartMachine.class::isInstance)
-                    .map(SculkExperienceDrainingHatchPartMachine.class::cast)
-                    .toArray(SculkExperienceDrainingHatchPartMachine[]::new);
-
-            if (array.length != 1) {
-                // Don't do this work if there isn't an xp hatch
-                return;
+        if (timer == 0) {
+            if (xpBuffer != 0) {
+                xpBuffer -= Math.max(xpBuffer >> 6, 1);
             }
-
-            var xpHatch = array[0];
-
-            var xpTank = (NotifiableFluidTank) xpHatch.getRecipeHandlers().get(0)
-                    .getCapability(FluidRecipeCapability.CAP).get(0);
             int stored = 0;
-            if (!xpTank.isEmpty()) {
-                stored = ((FluidStack) xpTank.getContents().get(0)).getAmount();
-            }
-            xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
-            xpTank.setFluidInTank(0, FluidStack.EMPTY);
+            if (isFormed()) {
+                var array = getParts().stream()
+                        .filter(SculkExperienceDrainingHatchPartMachine.class::isInstance)
+                        .map(SculkExperienceDrainingHatchPartMachine.class::cast)
+                        .toArray(SculkExperienceDrainingHatchPartMachine[]::new);
 
-            xpBuffer -= xpBuffer >> 4;
+                if (array.length == 1) {
+                    var xpHatch = array[0];
+
+                    var xpTank = (NotifiableFluidTank) xpHatch.getRecipeHandlers().get(0)
+                            .getCapability(FluidRecipeCapability.CAP).get(0);
+                    if (!xpTank.isEmpty()) {
+                        stored = ((FluidStack) xpTank.getContents().get(0)).getAmount();
+                    }
+
+                    xpBuffer = Math.min(XP_BUFFER_MAX, xpBuffer + stored);
+                    xpTank.setFluidInTank(0, FluidStack.EMPTY);
+                }
+            }
         }
-        timer = timer + 1 % 8;
+        timer = (timer + 1) % 20;
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         xpHatchSubscription.updateSubscription();
+        IFluidRenderMulti.super.onStructureFormed();
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         xpHatchSubscription.updateSubscription();
+        timer = 0;
+        IFluidRenderMulti.super.onStructureInvalid();
+        lastSavedRecipe = null;
+    }
+
+    @Override
+    public @NotNull Set<BlockPos> saveOffsets() {
+        Direction up = RelativeDirection.UP.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
+        Direction back = getFrontFacing().getOpposite();
+        Direction right = RelativeDirection.RIGHT.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
+        Direction left = RelativeDirection.LEFT.getRelative(getFrontFacing(), getUpwardsFacing(),
+                isFlipped());
+
+        BlockPos pos = getPos();
+
+        ObjectOpenHashSet<BlockPos> offsets = new ObjectOpenHashSet<>();
+
+        BlockPos loopPosFront = pos.relative(up).relative(back);
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosFront.relative(up, i).subtract(pos));
+        }
+
+        BlockPos loopPosBack = loopPosFront.relative(back, 2);
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosBack.relative(up, i).subtract(pos));
+        }
+
+        BlockPos loopPosLeft = loopPosFront.relative(back).relative(left);
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosLeft.relative(up, i).subtract(pos));
+        }
+
+        BlockPos loopPosRight = loopPosFront.relative(back).relative(right);
+        for (int i = 0; i < 3; i++) {
+            offsets.add(loopPosRight.relative(up, i).subtract(pos));
+        }
+
+        return offsets;
     }
 
     @Override
@@ -93,13 +156,19 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
 
         var data = recipe.data;
         if (!data.contains("minimumXp") || !data.contains("maximumXp")) {
+            lastSavedRecipe = recipe;
             return true;
         }
 
         int minimumXp = data.getInt("minimumXp");
         int maximumXp = data.getInt("maximumXp");
 
-        return xpBuffer >= minimumXp && xpBuffer <= maximumXp;
+        if (xpBuffer >= minimumXp && xpBuffer <= maximumXp) {
+            lastSavedRecipe = recipe;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -115,6 +184,19 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine {
             }
         }
         return true;
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+    }
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        super.addDisplayText(textList);
+        if (isFormed()) {
+            textList.add(Component.translatable("sculk_vat.monilabs.current_xp_buffer", xpBuffer, XP_BUFFER_MAX));
+        }
     }
 
     @Override

@@ -1,17 +1,20 @@
 package net.neganote.monilabs.client;
 
-import com.gregtechceu.gtceu.api.block.ActiveBlock;
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neganote.monilabs.common.block.PrismaticActiveBlock;
-import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.Color;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SideOnly(Side.CLIENT)
 public class PrismaticActiveBlockColor implements BlockColor {
 
     @Override
@@ -19,7 +22,7 @@ public class PrismaticActiveBlockColor implements BlockColor {
                         int pTintIndex) {
         int colorKey = pState.getValue(PrismaticActiveBlock.COLOR);
         Color color = Color.getColorFromKey(colorKey);
-        if (color.isRealColor() && pState.getValue(ActiveBlock.ACTIVE) && pTintIndex == 1) {
+        if (color.isRealColor() && pState.getValue(GTBlockStateProperties.ACTIVE) && pTintIndex == 1) {
             return color.integerColor;
         } else {
             return 0xFFFFFFFF;

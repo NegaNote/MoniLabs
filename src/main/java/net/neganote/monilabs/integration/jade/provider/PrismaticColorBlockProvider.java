@@ -22,7 +22,7 @@ public class PrismaticColorBlockProvider implements IBlockComponentProvider, ISe
         BlockEntity be = blockAccessor.getBlockEntity();
         if (be instanceof MetaMachineBlockEntity meta_machine_be &&
                 meta_machine_be.getMetaMachine() instanceof PrismaticCrucibleMachine) {
-            CompoundTag data = blockAccessor.getServerData().getCompound(getUid().toString());
+            CompoundTag data = blockAccessor.getServerData();
             if (data.contains("currentColor")) {
                 var colorKey = data.getString("currentColor");
                 iTooltip.add(Component.translatable("monilabs.prismatic.current_color",
@@ -38,11 +38,9 @@ public class PrismaticColorBlockProvider implements IBlockComponentProvider, ISe
 
     @Override
     public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
-        CompoundTag data = compoundTag.getCompound(getUid().toString());
         if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity meta_machine_be &&
                 meta_machine_be.getMetaMachine() instanceof PrismaticCrucibleMachine machine) {
-            data.putString("currentColor", machine.getColorState().nameKey);
+            compoundTag.putString("currentColor", machine.getColorState().nameKey);
         }
-        compoundTag.put(getUid().toString(), data);
     }
 }

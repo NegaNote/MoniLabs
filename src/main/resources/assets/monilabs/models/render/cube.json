@@ -1,5 +1,0 @@
-{
-  "loader": "forge:obj",
-  "model": "monilabs:models/render/cube.obj",
-  "automatic_culling": false
-}

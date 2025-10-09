@@ -1,6 +1,6 @@
 {
     "ldlib": {
-        "connection": "monilabs:block/prismac/prism_frame_ctm"
+        "connection": "monilabs:block/prismac/prism_frame_active_ctm"
     },
     "animation": {
         "interpolate": true,

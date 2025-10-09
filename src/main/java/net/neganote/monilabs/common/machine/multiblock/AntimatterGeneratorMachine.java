@@ -7,37 +7,33 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.neganote.monilabs.config.MoniConfig;
+import net.neganote.monilabs.common.machine.trait.DummyRecipeLogic;
+import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
 public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachine {
 
     protected ConditionalSubscriptionHandler generationSubscription;
-    protected Fluid antimatterFuelFluid;
-    protected Fluid annihilatableMatterFluid;
-    protected Fluid annihilatableMatterBonusFluid;
 
     public AntimatterGeneratorMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.generationSubscription = new ConditionalSubscriptionHandler(this, this::generateEnergyTick,
                 this::isFormed);
-        this.antimatterFuelFluid = ForgeRegistries.FLUIDS
-                .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.antimatterFuelID, ':'));
-        assert this.antimatterFuelFluid != null : "antimatterFuelID is not a valid fluid ID";
-        this.annihilatableMatterFluid = ForgeRegistries.FLUIDS
-                .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.annihilatableMatterID, ':'));
-        assert this.annihilatableMatterFluid != null : "annihilatableMatterID is not a valid fluid ID";
-        this.annihilatableMatterBonusFluid = ForgeRegistries.FLUIDS
-                .getValue(ResourceLocation.of(MoniConfig.INSTANCE.values.annihilatableMatterBonusID, ':'));
-        assert this.annihilatableMatterBonusFluid != null : "annihilatableMatterBonusID is not a valid fluid ID";
+    }
+
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
+        return new DummyRecipeLogic(this);
     }
 
     private void generateEnergyTick() {
@@ -48,38 +44,16 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
                     .map(IFluidHandlerModifiable.class::cast)
                     .toList();
 
-            assert hatches.size() == 2 : "There must be exactly 2 1x input hatches in the Antimatter Generator";
-            assert hatches.get(0).getTanks() == 1 &&
-                    hatches.get(1).getTanks() == 1 : "The hatches in the Antimatter Generator must be 1x";
+            var recipe = MoniRecipeTypes.ANTIMATTER_COLLIDER_RECIPES.getLookup().findRecipe(this);
 
-            int tankWithFuel = -1;
-            if (hatches.get(0).getFluidInTank(0).getFluid() == antimatterFuelFluid) {
-                tankWithFuel = 0;
-            } else if (hatches.get(1).getFluidInTank(0).getFluid() == antimatterFuelFluid) {
-                tankWithFuel = 1;
-            }
-            if (tankWithFuel == -1) {
+            if (recipe == null) {
                 voidFluids(hatches);
                 return;
             }
 
-            int tankWithMatter = tankWithFuel == 0 ? 1 : 0;
-            Fluid matterFluid = hatches.get(tankWithMatter).getFluidInTank(0).getFluid();
+            var maxParallels = ParallelLogic.getMaxByInput(this, recipe, Integer.MAX_VALUE, Collections.emptyList());
 
-            double tierBonus;
-            if (matterFluid == annihilatableMatterBonusFluid) {
-                tierBonus = MoniConfig.INSTANCE.values.antimatterSecondTierBonusMultiplier;
-            } else if (matterFluid == annihilatableMatterFluid) {
-                tierBonus = 1.0;
-            } else {
-                voidFluids(hatches);
-                return;
-            }
-
-            int reactive = Math.min(hatches.get(0).getFluidInTank(0).getAmount(),
-                    hatches.get(1).getFluidInTank(0).getAmount());
-
-            double batchBonus = Math.log10(reactive) + 1.0;
+            double batchBonus = Math.log10(maxParallels) + 1.0;
 
             assert getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP).size() ==
                     1 : "There must be exactly 1 dynamo or laser source hatch on the Antimatter Generator";
@@ -88,8 +62,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
                     .filter(IEnergyContainer.class::isInstance)
                     .map(IEnergyContainer.class::cast)
                     .forEach(container -> container.addEnergy(
-                            (long) (reactive * MoniConfig.INSTANCE.values.euPerAntimatterMillibucket * batchBonus *
-                                    tierBonus)));
+                            (long) (maxParallels * batchBonus * recipe.getOutputEUt().getTotalEU())));
             voidFluids(hatches);
         }
     }
@@ -104,11 +77,14 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
     public void onStructureFormed() {
         super.onStructureFormed();
         generationSubscription.updateSubscription();
+        setRenderState(getRenderState().setValue(RecipeLogic.STATUS_PROPERTY,
+                isWorkingEnabled() ? RecipeLogic.Status.WORKING : RecipeLogic.Status.IDLE));
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         generationSubscription.updateSubscription();
+        setRenderState(getRenderState().setValue(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE));
     }
 }

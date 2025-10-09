@@ -1,0 +1,298 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "monilabs:chroma_sensor_hatch",
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
+  "variants": {
+    "is_formed=false,prismac_color=azure": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_8",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=blue": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_9",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=cyan": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_7",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=green": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_5",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=indigo": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_10",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=lime": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_4",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=magenta": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_11",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=none": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_0",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=orange": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_2",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=pink": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_12",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=red": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_1",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=teal": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_6",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=false,prismac_color=yellow": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_3",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=azure": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_8",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=blue": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_9",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=cyan": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_7",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=green": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_5",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=indigo": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_10",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=lime": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_4",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=magenta": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_11",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=none": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_0",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=orange": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_2",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=pink": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_12",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=red": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_1",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=teal": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_6",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    },
+    "is_formed=true,prismac_color=yellow": {
+      "model": {
+        "parent": "gtceu:block/overlay/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/netherite",
+          "overlay_emissive": "monilabs:block/overlay/machine/overlay_chroma_sensor_3",
+          "side": "monilabs:block/casing/netherite",
+          "top": "monilabs:block/casing/netherite"
+        }
+      }
+    }
+  }
+}

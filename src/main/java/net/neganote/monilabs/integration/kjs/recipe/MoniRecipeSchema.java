@@ -4,12 +4,13 @@ import com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema;
 
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
+import net.neganote.monilabs.common.machine.multiblock.Color;
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
 
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 import lombok.experimental.Accessors;
 
 import static com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema.*;
-import static net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine.*;
 
 public interface MoniRecipeSchema {
 
@@ -86,7 +87,7 @@ public interface MoniRecipeSchema {
         }
 
         public GTRecipeSchema.GTRecipeJS requiredMicroverse(int i) {
-            this.addData("required_microverse", i);
+            this.input(MoniRecipeCapabilities.MICROVERSE, Microverse.getMicroverseFromKey(i));
             return this;
         }
 
@@ -100,9 +101,14 @@ public interface MoniRecipeSchema {
         }
 
         public GTRecipeSchema.GTRecipeJS updateMicroverse(int i, boolean keepIntegrity) {
-            int updatedMicroverse = (i >= 0 ? i : -i); // Don't wanna import math :tr:
+            int updatedMicroverse = Math.abs(i);
             this.addData("updated_microverse", updatedMicroverse);
             this.addDataBool("keep_integrity", keepIntegrity);
+            return this;
+        }
+
+        public GTRecipeSchema.GTRecipeJS blacklistMicroverseParallels() {
+            this.addDataBool("blacklistParallel", true);
             return this;
         }
     }

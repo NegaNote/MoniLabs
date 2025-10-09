@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "monilabs:block/beacon_upsidedown",
+  "render_type": "minecraft:cutout",
   "textures": {
-    "all": "monilabs:block/prismatic_focus"
+    "core": "monilabs:block/beacon/prismatic_focus/core",
+    "frame": "monilabs:block/beacon/prismatic_focus/frame",
+    "particle": "monilabs:block/beacon/prismatic_focus/frame"
   }
 }

@@ -1,6 +1,6 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
-import com.gregtechceu.gtceu.api.cover.CoverBehavior;
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -20,12 +20,10 @@ import net.neganote.monilabs.common.machine.trait.NotifiableChromaContainer;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -38,8 +36,10 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     @Getter
     @Persisted
-    private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
+    @DescSynced
+    private Set<BlockPos> fluidBlockOffsets = new HashSet<>();
 
+    @Getter
     @Persisted
     @DescSynced
     private Color color;
@@ -52,6 +52,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private BlockPos structMin;
 
     private BlockPos structMax;
+
+    private boolean updatingBlocksFromOnFormed = false;
 
     @Persisted
     private final NotifiableChromaContainer notifiableChromaContainer;
@@ -94,7 +96,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Override
     public void onStructureInvalid() {
         changeColorState(Color.RED);
-        fluidBlockOffsets.clear();
         super.onStructureInvalid();
     }
 
@@ -118,8 +119,12 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
         saveStructBoundingBox();
 
-        saveOffsets();
+        // The prismac can occasionally decide to run this method before it has synced its color,
+        // so this boolean is a way around that
+        //
+        updatingBlocksFromOnFormed = true;
         updateActiveBlocks(true);
+        updatingBlocksFromOnFormed = false;
     }
 
     // Not currently used now, but would reset the machine's color
@@ -170,8 +175,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     private void changeColorState(Color newColor) {
         color = newColor;
-        this.notifiableChromaContainer.setColor(newColor);
-        getCoverContainer().getCovers().forEach((CoverBehavior::onChanged));
+        updateActiveBlocks(true);
     }
 
     @Override
@@ -180,10 +184,17 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
             for (long pos : activeBlocks) {
                 var blockPos = BlockPos.of(pos);
                 var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
-                if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
-                    var newState = block.changeActive(blockState, active || isFormed());
-                    newState = block.changeColor(newState, color.key);
-                    if (newState != blockState) {
+                if (blockState.hasProperty(GTBlockStateProperties.ACTIVE)) {
+                    var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, isFormed());
+                    // Prevents color from desyncing
+                    if (!updatingBlocksFromOnFormed) {
+                        newState = newState.setValue(PrismaticActiveBlock.COLOR, color.key);
+                    } else {
+                        // Yes this is janky, but it ensures that the prismac doesn't randomly decide it wants to
+                        // reset its color on world load for no reason
+                        color = Color.getColorFromKey(blockState.getValue(PrismaticActiveBlock.COLOR));
+                    }
+                    if (!Objects.equals(blockState, newState)) {
                         getLevel().setBlockAndUpdate(blockPos, newState);
                     }
                 }
@@ -195,8 +206,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                         var blockPos = new BlockPos(x, y, z);
                         var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
                         if (blockState.getBlock() instanceof PrismaticActiveBlock block) {
-                            var newState = block.changeActive(blockState, false);
-                            if (newState != blockState) {
+                            var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, false);
+                            if (!Objects.equals(blockState, newState)) {
                                 getLevel().setBlockAndUpdate(blockPos, newState);
                             }
                         }
@@ -207,7 +218,7 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     }
 
     // Stolen from LargeChemicalBathMachine
-    protected void saveOffsets() {
+    public void saveOffsets() {
         Direction up = RelativeDirection.UP.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
         Direction back = getFrontFacing().getOpposite();
         BlockPos pos = getPos();
@@ -238,116 +249,5 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     public Color getColorState() {
         return color;
-    }
-
-    public enum Color {
-
-        RED(0, "monilabs.prismatic.color_name.red", 1.0f, 0f, 0f, 0xFFFF0000),
-        ORANGE(1, "monilabs.prismatic.color_name.orange", 1.0f, 0.5f, 0f, 0xFFFF8000),
-        YELLOW(2, "monilabs.prismatic.color_name.yellow", 1.0f, 1.0f, 0f, 0xFFFFFF00),
-        LIME(3, "monilabs.prismatic.color_name.lime", 0.5f, 1.0f, 0f, 0xFF80FF00),
-        GREEN(4, "monilabs.prismatic.color_name.green", 0f, 1.0f, 0f, 0xFF00FF00),
-        TEAL(5, "monilabs.prismatic.color_name.teal", 0f, 1.0f, 0.5f, 0xFF00FF80),
-        CYAN(6, "monilabs.prismatic.color_name.cyan", 0f, 1.0f, 1.0f, 0xFF00FFFF),
-        AZURE(7, "monilabs.prismatic.color_name.azure", 0f, 0.5f, 1.0f, 0xFF0080FF),
-        BLUE(8, "monilabs.prismatic.color_name.blue", 0f, 0f, 1.0f, 0xFF0000FF),
-        INDIGO(9, "monilabs.prismatic.color_name.indigo", 0.5f, 0f, 1.0f, 0xFF8000FF),
-        MAGENTA(10, "monilabs.prismatic.color_name.magenta", 1.0f, 0f, 1.0f, 0xFFFF00FF),
-        PINK(11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f, 0xFFFF0080),
-        PRIMARY(12, "", 0f, 0f, 0f, 0),
-        SECONDARY(13, "", 0f, 0f, 0f, 0),
-        BASIC(14, "", 0f, 0f, 0f, 0),
-        TERTIARY(15, "", 0f, 0f, 0f, 0),
-        ANY(16, "", 0f, 0f, 0f, 0),
-        NOT_RED(17, "", 0f, 0f, 0f, 0),
-        NOT_ORANGE(18, "", 0f, 0f, 0f, 0),
-        NOT_YELLOW(19, "", 0f, 0f, 0f, 0),
-        NOT_LIME(20, "", 0f, 0f, 0f, 0),
-        NOT_GREEN(21, "", 0f, 0f, 0f, 0),
-        NOT_TEAL(22, "", 0f, 0f, 0f, 0),
-        NOT_CYAN(23, "", 0f, 0f, 0f, 0),
-        NOT_AZURE(24, "", 0f, 0f, 0f, 0),
-        NOT_BLUE(25, "", 0f, 0f, 0f, 0),
-        NOT_INDIGO(26, "", 0f, 0f, 0f, 0),
-        NOT_MAGENTA(27, "", 0f, 0f, 0f, 0),
-        NOT_PINK(28, "", 0f, 0f, 0f, 0);
-
-        public static final Color[] COLORS = Color.values();
-
-        public static final Color[] ACTUAL_COLORS = Arrays.copyOfRange(COLORS, 0, 12);
-
-        public static final Color[] NOT_COLORS = Arrays.copyOfRange(COLORS, 17, 29);
-
-        public static final Color[] PRIMARY_COLORS = new Color[] { RED, GREEN, BLUE };
-
-        public static final Color[] SECONDARY_COLORS = new Color[] { YELLOW, CYAN, MAGENTA };
-
-        public static final Color[] BASIC_COLORS = new Color[] { RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA };
-
-        public static final Color[] TERTIARY_COLORS = new Color[] { ORANGE, LIME, TEAL, AZURE, INDIGO, PINK };
-
-        public final String nameKey;
-        public final int key;
-        public final float r;
-        public final float g;
-        public final float b;
-
-        public final int integerColor;
-
-        public static final int COLOR_COUNT = COLORS.length;
-
-        public static final int ACTUAL_COLOR_COUNT = ACTUAL_COLORS.length;
-
-        Color(int key, String nameKey, float r, float g, float b, int integerColor) {
-            this.key = key;
-            this.nameKey = nameKey;
-            this.r = r;
-            this.g = g;
-            this.b = b;
-            this.integerColor = integerColor;
-        }
-
-        public boolean isPrimary() {
-            return this == RED || this == GREEN || this == BLUE;
-        }
-
-        public boolean isSecondary() {
-            return this == YELLOW || this == CYAN || this == MAGENTA;
-        }
-
-        public boolean isBasic() {
-            return isPrimary() || isSecondary();
-        }
-
-        public boolean isTertiary() {
-            return !isBasic() && isRealColor();
-        }
-
-        public static Color getColorFromKey(int pKey) {
-            return COLORS[pKey];
-        }
-
-        @Override
-        public String toString() {
-            return "Color{" +
-                    "nameKey='" + nameKey + '\'' +
-                    '}';
-        }
-
-        public static int getRandomColor() {
-            return (int) Math.floor(Math.random() * Color.ACTUAL_COLOR_COUNT);
-        }
-
-        public static int getRandomColorFromKeys(int[] keys) {
-            return keys[(int) Math.floor(Math.random() * (double) keys.length)];
-        }
-
-        public boolean isRealColor() {
-            return Stream.of(ACTUAL_COLORS).anyMatch(c -> c == this);
-        }
-
-        public boolean isTypeNotColor() {
-            return Stream.of(NOT_COLORS).anyMatch(c -> c == this);
-        }
     }
 }
