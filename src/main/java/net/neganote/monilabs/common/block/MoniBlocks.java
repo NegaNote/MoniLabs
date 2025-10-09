@@ -1,12 +1,6 @@
 package net.neganote.monilabs.common.block;
 
-import static net.neganote.monilabs.MoniLabs.REGISTRATE;
-
-import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
-
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.BlockTags;
@@ -14,15 +8,17 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.item.PrismaticFocusItem;
 import net.neganote.monilabs.data.models.MoniModels;
 import net.neganote.monilabs.data.recipe.RecipeTags;
 
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import org.jetbrains.annotations.NotNull;
-
 import stone.mae2.bootstrap.MAE2Tags;
+
+import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
 @SuppressWarnings("unused")
 public class MoniBlocks {
@@ -100,7 +96,7 @@ public class MoniBlocks {
                 .build()
                 .register();
     }
-    
+
     public static BlockEntry<PrismaticActiveBlock> PRISMATIC_FOCUS = registerPrismaticActiveUpsideDownBeacon(
             "Prismatic Focus",
             "prismatic_focus", "beacon/prismatic_focus", PrismaticFocusItem::new);
@@ -126,17 +122,17 @@ public class MoniBlocks {
             "casing/bioalloy_fusion", BlockItem::new);
 
     public static final BlockEntry<PRISMBlock> PRISM_GLASS = REGISTRATE
-        .block("prism_glass", PRISMBlock::new)
-        .initialProperties(() -> Blocks.GLASS)
-        .addLayer(() -> RenderType::cutout)
-        .blockstate(PRISMBlock
-            .createPRISMModel("block/prism_glass", MoniLabs.id("prism_glass")))
-        .tag(RecipeTags.MINEABLE_WITH_WRENCH,
-            BlockTags.MINEABLE_WITH_PICKAXE, MAE2Tags.CLOUD_CHAMBERS)
-        .item(BlockItem::new)
-        // .model((ctx, prov) -> prov
-        // .withExistingParent(prov.name(ctx),
-        // MoniLabs.id("block/prism")))
-        .build()
-        .register();
+            .block("prism_glass", PRISMBlock::new)
+            .initialProperties(() -> Blocks.GLASS)
+            .addLayer(() -> RenderType::cutout)
+            .blockstate(PRISMBlock
+                    .createPRISMModel("block/prism_glass", MoniLabs.id("prism_glass")))
+            .tag(RecipeTags.MINEABLE_WITH_WRENCH,
+                    BlockTags.MINEABLE_WITH_PICKAXE, MAE2Tags.CLOUD_CHAMBERS)
+            .item(BlockItem::new)
+            // .model((ctx, prov) -> prov
+            // .withExistingParent(prov.name(ctx),
+            // MoniLabs.id("block/prism")))
+            .build()
+            .register();
 }
