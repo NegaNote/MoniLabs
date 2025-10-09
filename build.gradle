@@ -233,7 +233,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
     // MAE2 for cloud chamber effects
-    modImplementation("curse.maven:mae2-1028068:6689575")
+    modImplementation("curse.maven:mae2-1028068:7084998")
 }
 
 tasks.named('processResources', ProcessResources).configure {
