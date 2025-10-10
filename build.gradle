@@ -229,8 +229,11 @@ dependencies {
     modCompileOnly("curse.maven:fancymenu-367706:6918987")
 
     // lombok
-    compileOnly('org.projectlombok:lombok:1.18.36')
-    annotationProcessor('org.projectlombok:lombok:1.18.36')
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    // MAE2 for cloud chamber effects
+    modImplementation("curse.maven:mae2-1028068:7084998")
 }
 
 tasks.named('processResources', ProcessResources).configure {

@@ -2,6 +2,7 @@ package net.neganote.monilabs.common.block;
 
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -15,10 +16,11 @@ import net.neganote.monilabs.data.recipe.RecipeTags;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import org.jetbrains.annotations.NotNull;
+import stone.mae2.bootstrap.MAE2Tags;
 
 import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "SameParameterValue" })
 public class MoniBlocks {
 
     public static void init() {}
@@ -118,6 +120,21 @@ public class MoniBlocks {
     public static BlockEntry<Block> BIOALLOY_FUSION_CASING = registerSimpleBlock("Bioalloy Fusion Casing",
             "bioalloy_fusion_casing",
             "casing/bioalloy_fusion", BlockItem::new);
+
+    public static final BlockEntry<PRISMBlock> PRISM_GLASS = REGISTRATE
+            .block("prism_glass", PRISMBlock::new)
+            .initialProperties(() -> Blocks.GLASS)
+            .properties(p -> p.lightLevel((b) -> b.getValue(GTBlockStateProperties.ACTIVE) ? 15 : 0))
+            .addLayer(() -> RenderType::translucent)
+            .blockstate(PRISMBlock.createPRISMModel())
+            .tag(RecipeTags.MINEABLE_WITH_WRENCH,
+                    BlockTags.MINEABLE_WITH_PICKAXE, MAE2Tags.CLOUD_CHAMBERS)
+            .item(BlockItem::new)
+            // .model((ctx, prov) -> prov
+            // .withExistingParent(prov.name(ctx),
+            // MoniLabs.id("block/prism")))
+            .build()
+            .register();
     public static BlockEntry<Block> ELTZ_CASING = registerSimpleBlock("Eltz Casing", "eltz_casing",
             "casing/eltz", BlockItem::new);
 }

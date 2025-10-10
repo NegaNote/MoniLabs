@@ -16,17 +16,27 @@ import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.capability.recipe.MapMicroverseIngredient;
-import net.neganote.monilabs.client.render.*;
+import net.neganote.monilabs.client.render.CreativeDataRender;
+import net.neganote.monilabs.client.render.CreativeEnergyRender;
+import net.neganote.monilabs.client.render.MicroverseProjectorRender;
+import net.neganote.monilabs.client.render.MoniShaders;
+import net.neganote.monilabs.client.render.PrismaticCrucibleRender;
+import net.neganote.monilabs.client.render.SculkVatRender;
+import net.neganote.monilabs.client.render.effects.MoniTrails;
+import net.neganote.monilabs.client.render.effects.ParticleTypes;
+import net.neganote.monilabs.client.render.effects.PrismFX;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.data.MoniPlaceholders;
 import net.neganote.monilabs.common.data.materials.MoniMaterials;
@@ -37,6 +47,7 @@ import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.MoniDataGen;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.integration.fancymenu.ActionRegister;
+import net.neganote.monilabs.utils.CalendarUtil;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import org.apache.logging.log4j.LogManager;
@@ -53,12 +64,16 @@ public class MoniLabs {
     public static final Logger LOGGER = LogManager.getLogger();
     public static GTRegistrate REGISTRATE = GTRegistrate.create(MoniLabs.MOD_ID);
 
-    public static RegistryEntry<CreativeModeTab> MONI_CREATIVE_TAB = REGISTRATE.defaultCreativeTab(MoniLabs.MOD_ID,
-            builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(MoniLabs.MOD_ID, REGISTRATE))
-                    .title(REGISTRATE.addLang("itemGroup", MoniLabs.id("creative_tab"), "Moni Labs (Coremod)"))
-                    .icon(MoniMachines.CHROMA_SENSOR_HATCH::asStack)
-                    .build())
+    public static RegistryEntry<CreativeModeTab> MONI_CREATIVE_TAB = REGISTRATE
+            .defaultCreativeTab(MoniLabs.MOD_ID,
+                    builder -> builder
+                            .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(
+                                    MoniLabs.MOD_ID, REGISTRATE))
+                            .title(REGISTRATE
+                                    .addLang("itemGroup", MoniLabs.id("creative_tab"),
+                                            "Moni Labs (Coremod)"))
+                            .icon(MoniMachines.CHROMA_SENSOR_HATCH::asStack)
+                            .build())
             .register();
 
     @SuppressWarnings({ "unused", "removal" })
@@ -78,13 +93,37 @@ public class MoniLabs {
             if (!GTCEu.isDataGen()) {
                 ActionRegister.init();
             }
+            MoniTrails.init();
         }
 
         modEventBus.addListener(this::addMaterialRegistries);
         modEventBus.addListener(this::addMaterials);
         modEventBus.addListener(this::modifyMaterials);
-        modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
-        modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        modEventBus.addListener((RegisterEvent event) -> {
+            event
+                    .register(ForgeRegistries.PARTICLE_TYPES.getRegistryKey(),
+                            MoniLabs.id("chroma_background"),
+                            () -> ParticleTypes.CHROMA_BACKGROUND);
+            event
+                    .register(ForgeRegistries.PARTICLE_TYPES.getRegistryKey(),
+                            MoniLabs.id("chroma_beta"), () -> ParticleTypes.CHROMA_BETA);
+            event
+                    .register(ForgeRegistries.PARTICLE_TYPES.getRegistryKey(),
+                            MoniLabs.id("chroma_set"), () -> ParticleTypes.CHROMA_SET);
+        });
+        modEventBus.addListener((RegisterParticleProvidersEvent event) -> {
+            event
+                    .registerSpriteSet(ParticleTypes.CHROMA_BACKGROUND,
+                            PrismFX.PositionalColor::new);
+            event
+                    .registerSpriteSet(ParticleTypes.CHROMA_BETA,
+                            PrismFX.PositionalColor::new);
+            event.registerSpriteSet(ParticleTypes.CHROMA_SET, PrismFX.SetColor::new);
+        });
+        modEventBus
+                .addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
+        modEventBus
+                .addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(CoverDefinition.class, this::registerCovers);
 
         // Most other events are fired on Forge's bus.
@@ -111,22 +150,29 @@ public class MoniLabs {
 
     @SubscribeEvent
     public void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(
-                () -> {
-                    MapIngredientTypeManager.registerMapIngredient(ChromaIngredient.class, MapColorIngredient::from);
-                    MapIngredientTypeManager.registerMapIngredient(Microverse.class, MapMicroverseIngredient::from);
-                });
+        event.enqueueWork(() -> {
+            MapIngredientTypeManager
+                    .registerMapIngredient(ChromaIngredient.class,
+                            MapColorIngredient::from);
+            MapIngredientTypeManager
+                    .registerMapIngredient(Microverse.class, MapMicroverseIngredient::from);
+        });
+        CalendarUtil.init();
     }
 
-    @SubscribeEvent
-    public void clientSetup(final FMLClientSetupEvent event) {}
-
     private void initializeDynamicRenders() {
-        DynamicRenderManager.register(MoniLabs.id("prismatic_crucible"), PrismaticCrucibleRender.TYPE);
-        DynamicRenderManager.register(MoniLabs.id("microverse_projector"), MicroverseProjectorRender.TYPE);
-        DynamicRenderManager.register(MoniLabs.id("creative_energy"), CreativeEnergyRender.TYPE);
-        DynamicRenderManager.register(MoniLabs.id("creative_data"), CreativeDataRender.TYPE);
-        DynamicRenderManager.register(MoniLabs.id("sculk_vat"), SculkVatRender.TYPE);
+        DynamicRenderManager
+                .register(MoniLabs.id("prismatic_crucible"),
+                        PrismaticCrucibleRender.TYPE);
+        DynamicRenderManager
+                .register(MoniLabs.id("microverse_projector"),
+                        MicroverseProjectorRender.TYPE);
+        DynamicRenderManager
+                .register(MoniLabs.id("creative_energy"), CreativeEnergyRender.TYPE);
+        DynamicRenderManager
+                .register(MoniLabs.id("creative_data"), CreativeDataRender.TYPE);
+        DynamicRenderManager
+                .register(MoniLabs.id("sculk_vat"), SculkVatRender.TYPE);
     }
 
     // You MUST have this for custom materials.
@@ -145,11 +191,13 @@ public class MoniLabs {
         // CustomMaterials.modify();
     }
 
-    private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+    private void registerRecipeTypes(
+                                     GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         MoniRecipeTypes.init();
     }
 
-    private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
+    private void registerMachines(
+                                  GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         MoniMachines.init();
     }
 
@@ -159,7 +207,8 @@ public class MoniLabs {
         return ResourceLocation.fromNamespaceAndPath("kubejs", path);
     }
 
-    private void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {}
+    private void registerCovers(
+                                GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {}
 
     public void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
         event.register(CreativeEnergyRender.SPHERE);

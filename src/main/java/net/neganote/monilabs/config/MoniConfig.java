@@ -41,6 +41,10 @@ public class MoniConfig {
         public boolean microminerReturnedOnZeroIntegrity = true;
 
         @Configurable
+        @Configurable.Comment({ "Force pride month easter eggs regardless of time of year" })
+        public boolean forcePrideMonth = false;
+
+        @Configurable
         @Configurable.Comment({
                 "The efficiency multiplier for the sculk vat. Would make it this many times less efficient at empty/full compared to half." })
         public double sculkVatEfficiencyMultiplier = 33.0;
