@@ -1,3 +1,3 @@
-# Moni Labs 0.16.0
+# Moni Labs 0.16.1
 
-* Move PRISM glass to coremod, giving it a new cloud chamber effect courtesy of Raine and MAE2
+* Hotfix: solve crash from loading PRISM particle effects on server
