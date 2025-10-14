@@ -461,8 +461,8 @@ public class MoniMachines {
                             .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS_1X).setExactLimit(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
-                            .or(Predicates.machines(MoniMachines.SCULK_XP_DRAINING_HATCH,
-                                    MoniMachines.SCULK_XP_SENSOR_HATCH).setMaxGlobalLimited(1)))
+                            .or(Predicates.machines(MoniMachines.SCULK_XP_DRAINING_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.machines(MoniMachines.SCULK_XP_SENSOR_HATCH).setMaxGlobalLimited(1)))
                     .where("c", Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get()))
                     .where("L", Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get())
                             .or(Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get())))

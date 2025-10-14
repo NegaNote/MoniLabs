@@ -1,3 +1,3 @@
-# Moni Labs 0.16.1
+# Moni Labs 0.16.2
 
-* Hotfix: solve crash from loading PRISM particle effects on server
+* Hotfix to allow both xp draining hatch and xp sensor hatch on the Sculk Vat
