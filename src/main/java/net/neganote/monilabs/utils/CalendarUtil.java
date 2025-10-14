@@ -3,7 +3,7 @@ package net.neganote.monilabs.utils;
 import net.neganote.monilabs.client.render.effects.PrismFX;
 import net.neganote.monilabs.config.MoniConfig;
 
-import com.ibm.icu.util.Calendar;
+import java.util.Calendar;
 
 public abstract class CalendarUtil {
 
