@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,6 +24,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
@@ -111,15 +113,17 @@ public class MoniLabs {
                     .register(ForgeRegistries.PARTICLE_TYPES.getRegistryKey(),
                             MoniLabs.id("chroma_set"), () -> ParticleTypes.CHROMA_SET);
         });
-        modEventBus.addListener((RegisterParticleProvidersEvent event) -> {
-            event
-                    .registerSpriteSet(ParticleTypes.CHROMA_BACKGROUND,
-                            PrismFX.PositionalColor::new);
-            event
-                    .registerSpriteSet(ParticleTypes.CHROMA_BETA,
-                            PrismFX.PositionalColor::new);
-            event.registerSpriteSet(ParticleTypes.CHROMA_SET, PrismFX.SetColor::new);
-        });
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            modEventBus.addListener((RegisterParticleProvidersEvent event) -> {
+                event
+                        .registerSpriteSet(ParticleTypes.CHROMA_BACKGROUND,
+                                PrismFX.PositionalColor::new);
+                event
+                        .registerSpriteSet(ParticleTypes.CHROMA_BETA,
+                                PrismFX.PositionalColor::new);
+                event.registerSpriteSet(ParticleTypes.CHROMA_SET, PrismFX.SetColor::new);
+            });
+        }
         modEventBus
                 .addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         modEventBus
