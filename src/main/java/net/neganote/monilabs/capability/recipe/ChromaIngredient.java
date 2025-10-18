@@ -22,4 +22,12 @@ public record ChromaIngredient(Color color) implements Predicate<Color> {
         return "ChromaIngredient{" +
                 "color=" + color + "}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ChromaIngredient other)) {
+            return false;
+        }
+        return color == other.color;
+    }
 }

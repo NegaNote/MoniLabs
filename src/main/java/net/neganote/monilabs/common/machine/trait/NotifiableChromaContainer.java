@@ -37,8 +37,8 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
     public List<ChromaIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ChromaIngredient> left,
                                                     boolean simulate) {
         ChromaIngredient recipeColor = left.get(0);
-        List<Color> colors = Color.getColorsWithCategories(recipeColor.color());
-        if (colors.stream().anyMatch(getHeldColor()::equals)) {
+        List<Object> contents = getContents();
+        if (contents.stream().anyMatch(recipeColor::equals)) {
             return null;
         } else {
             return left;
@@ -47,17 +47,21 @@ public class NotifiableChromaContainer extends NotifiableRecipeHandlerTrait<Chro
 
     @Override
     public @NotNull List<Object> getContents() {
-        return List.of(new ChromaIngredient(getHeldColor()));
+        return Color.getColorsWithCategories(getHeldColor())
+                .stream()
+                .map(ChromaIngredient::new)
+                .map(Object.class::cast)
+                .toList();
     }
 
     @Override
     public int getSize() {
-        return 1;
+        return 15;
     }
 
     @Override
     public double getTotalContentAmount() {
-        return 1;
+        return getContents().size();
     }
 
     @Override

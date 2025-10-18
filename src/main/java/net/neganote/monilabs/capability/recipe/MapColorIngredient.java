@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.recipe.lookup.ingredient.AbstractMapIngredient;
 
 import net.neganote.monilabs.common.machine.multiblock.Color;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MapColorIngredient extends AbstractMapIngredient {
@@ -30,12 +29,7 @@ public class MapColorIngredient extends AbstractMapIngredient {
 
     public static List<AbstractMapIngredient> from(ChromaIngredient ingredient) {
         Color color = ingredient.color();
-        if (Arrays.asList(Color.ACTUAL_COLORS).contains(color)) {
-            return List.of(new MapColorIngredient(color));
-        } else {
-            return Color.getColorsWithCategories(color).stream().map(MapColorIngredient::new)
-                    .map(AbstractMapIngredient.class::cast).toList();
-        }
+        return List.of(new MapColorIngredient(color));
     }
 
     @Override
