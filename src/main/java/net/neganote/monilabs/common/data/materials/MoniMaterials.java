@@ -61,7 +61,7 @@ public class MoniMaterials {
                 .element(MoniElements.TranscendentalMatrix)
                 .color(0xffffff).secondaryColor(0x000000)
                 .iconSet(MoniMaterialIconSets.TranscendentalMatrix)
-                .flags(MaterialFlags.GENERATE_FOIL, MaterialFlags.GENERATE_FRAME)
+                .flags(MaterialFlags.GENERATE_FOIL, MaterialFlags.GENERATE_FRAME, MaterialFlags.GENERATE_GEAR)
                 .register();
     }
 }
