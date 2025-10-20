@@ -1,6 +1,5 @@
 package net.neganote.monilabs.recipe;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -15,10 +14,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
-import net.minecraft.util.valueproviders.FloatProvider;
-import net.minecraft.util.valueproviders.UniformFloat;
 import net.minecraft.world.item.Item;
-import net.neganote.monilabs.common.machine.multiblock.AntimatterGeneratorMachine;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
@@ -77,39 +73,6 @@ public class MoniRecipeModifiers {
                         .build();
             }
             return ModifierFunction.NULL;
-        };
-    }
-
-    public static RecipeModifier antiMatterGeneratorRecipeModifier() {
-        return (machine, recipe) -> {
-            if (machine instanceof AntimatterGeneratorMachine antiGenerator) {
-                var parallels = ParallelLogic.getParallelAmount(machine, recipe, 1000000000);
-                if (parallels == 1) {
-                    return ModifierFunction.IDENTITY;
-                } else {
-                    return ModifierFunction.builder()
-                            .modifyAllContents(ContentModifier.multiplier(parallels))
-                            .eutMultiplier(parallels)
-                            .parallels(parallels)
-                            .build();
-                }
-            } else {
-                return ModifierFunction.IDENTITY;
-            }
-        };
-    }
-
-    public static RecipeModifier antiMatterManipulatorRecipeModifier() {
-        return (machine, recipe) -> {
-            float minInclusive = MoniConfig.INSTANCE.values.antimatterRandomMinInclusive;
-            float maxExclusive = MoniConfig.INSTANCE.values.antimatterRandomMaxExclusive;
-            FloatProvider rand = UniformFloat.of(minInclusive, maxExclusive);
-            boolean shouldBeRandom = recipe.data.contains("antimatterRandom") &&
-                    recipe.data.getBoolean("antimatterRandom");
-            return ModifierFunction.builder()
-                    .inputModifier(new ContentModifier(shouldBeRandom ? rand.sample(GTValues.RNG) : 1.0, 0.0))
-                    .outputModifier(new ContentModifier(shouldBeRandom ? rand.sample(GTValues.RNG) : 1.0, 0.0))
-                    .build();
         };
     }
 
