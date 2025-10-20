@@ -52,5 +52,10 @@ public class MoniConfig {
         @Configurable
         @Configurable.Comment({ "Fluid ID for Liquid Experience for the Sculk Vat." })
         public String sculkVatExperienceFluidID = "enderio:xp_juice";
+
+        @Configurable
+        @Configurable.Comment({
+                "Whether to include the hostile microverse tooltip for the microverse type sensor hatch." })
+        public boolean hostileMicroverseTooltip = false;
     }
 }

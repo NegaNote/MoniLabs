@@ -31,6 +31,7 @@ import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.data.materials.MoniMaterials;
 import net.neganote.monilabs.common.machine.multiblock.*;
 import net.neganote.monilabs.common.machine.part.*;
+import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.models.MoniMachineModels;
 import net.neganote.monilabs.gtbridge.MoniRecipeTypes;
 import net.neganote.monilabs.recipe.MoniRecipeModifiers;
@@ -105,7 +106,7 @@ public class MoniMachines {
             .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("exp_sensor", "casing/cryolobus"))
             .register();
 
-    public static MachineDefinition MICROVERSE_INTEGRITY_SENSOR_HATCH = MoniLabs.REGISTRATE
+    public static MachineDefinition MICROVERSE_STABILITY_SENSOR_HATCH = MoniLabs.REGISTRATE
             .machine("microverse_stability_sensor_hatch", MicroverseStabilitySensorHatchPartMachine::new)
             .langValue("Microverse Stability Sensor Hatch")
             .rotationState(RotationState.ALL)
@@ -115,6 +116,23 @@ public class MoniMachines {
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
             .modelProperty(IS_FORMED, false)
             .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("stability_hatch", "casing/microverse"))
+            .register();
+
+    public static MachineDefinition MICROVERSE_TYPE_SENSOR_HATCH = MoniLabs.REGISTRATE
+            .machine("microverse_type_sensor_hatch", MicroverseTypeSensorHatchPartMachine::new)
+            .langValue("Microverse Type Sensor Hatch")
+            .rotationState(RotationState.ALL)
+            .tooltips(Component.translatable("tooltip.monilabs.microverse_type_hatch.0"),
+                    Component.translatable("tooltip.monilabs.microverse_type_hatch.1"),
+                    Component.translatable("tooltip.monilabs.microverse_type_hatch.2"),
+                    Component.translatable("tooltip.monilabs.microverse_type_hatch.3"),
+                    Component.translatable("tooltip.monilabs.microverse_type_hatch.4"),
+                    Component.translatable("tooltip.monilabs.microverse_type_hatch.5"))
+            .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.hostile"),
+                    MoniConfig.INSTANCE.values.hostileMicroverseTooltip)
+            .tier(GTValues.HV)
+            .modelProperty(IS_FORMED, false)
+            .model(MoniMachineModels.createOverlayCasingMachineModel("exp_hatch_draining", "casing/microverse"))
             .register();
 
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = MoniLabs.REGISTRATE
@@ -198,7 +216,8 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(10)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.blocks(MICROVERSE_INTEGRITY_SENSOR_HATCH.getBlock()).setMaxGlobalLimited(1)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
                     .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .build())
@@ -229,7 +248,8 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(45)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.blocks(MICROVERSE_INTEGRITY_SENSOR_HATCH.getBlock()).setMaxGlobalLimited(1)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
                     .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .where("#", Predicates.any())
@@ -274,7 +294,8 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(125)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.blocks(MICROVERSE_INTEGRITY_SENSOR_HATCH.getBlock()).setMaxGlobalLimited(1)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
                     .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
                     .where("#", Predicates.any())
@@ -324,7 +345,8 @@ public class MoniMachines {
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(195)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.blocks(MICROVERSE_INTEGRITY_SENSOR_HATCH.get()).setMaxGlobalLimited(1)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
                     .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
                     .where("N", Predicates.frames(MoniMaterials.SculkBioalloy))
                     .where("V", Predicates.blocks(AEBlocks.QUARTZ_VIBRANT_GLASS.block()))

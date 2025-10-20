@@ -130,6 +130,16 @@ public class MoniLangHandler {
                 "Outputs microverse stability",
                 "as a redstone signal.");
 
+        multiLang(provider, "tooltip.monilabs.microverse_type_hatch",
+                "Outputs microverse type",
+                "as a redstone signal.",
+                "0: None",
+                "1: Normal",
+                "2: Shattered",
+                "3: Corrupted");
+
+        provider.add("tooltip.monilabs.microverse_type_hatch.hostile", "4: Hostile");
+
         provider.add("microverse.monilabs.type.none", "None");
         provider.add("microverse.monilabs.type.normal", "Normal");
         provider.add("microverse.monilabs.type.hostile", "Hostile");
