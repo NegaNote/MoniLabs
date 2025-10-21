@@ -1,3 +1,3 @@
-# Moni Labs 0.17.1
+# Moni Labs 0.18.0
 
-* Add gear form to transcendental matrix
+* Add new Microverse Type Sensor Hatch
