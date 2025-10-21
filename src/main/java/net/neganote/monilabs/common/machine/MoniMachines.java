@@ -131,8 +131,9 @@ public class MoniMachines {
             .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.hostile"),
                     MoniConfig.INSTANCE.values.hostileMicroverseTooltip)
             .tier(GTValues.HV)
+            .modelProperty(Microverse.MICROVERSE_TYPE, Microverse.NONE)
             .modelProperty(IS_FORMED, false)
-            .model(MoniMachineModels.createOverlayCasingMachineModel("exp_hatch_draining", "casing/microverse"))
+            .model(MoniMachineModels.createOverlayMicroverseCasingMachineModel("type_hatch", "casing/microverse"))
             .register();
 
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = MoniLabs.REGISTRATE

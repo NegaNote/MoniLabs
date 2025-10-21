@@ -2,6 +2,7 @@ package net.neganote.monilabs.common.machine.part;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
 import net.minecraft.core.Direction;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
@@ -9,7 +10,10 @@ import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachin
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class MicroverseTypeSensorHatchPartMachine extends SensorHatchPartMachine {
 
@@ -42,5 +46,42 @@ public class MicroverseTypeSensorHatchPartMachine extends SensorHatchPartMachine
             }
         }
         return 0;
+    }
+
+    @Override
+    public void updateSignal() {
+        super.updateSignal();
+        var controllers = getControllers().stream().filter(MicroverseProjectorMachine.class::isInstance)
+                .map(MicroverseProjectorMachine.class::cast)
+                .toList();
+        if (controllers.isEmpty()) {
+            setRenderMicroverse(Microverse.NONE);
+        } else {
+            var controller = controllers.get(0);
+
+            setRenderMicroverse(controller.getMicroverse());
+        }
+    }
+
+    private void setRenderMicroverse(Microverse newMicroverse) {
+        var oldRenderState = getRenderState();
+        var newRenderState = oldRenderState.setValue(Microverse.MICROVERSE_TYPE, newMicroverse);
+        if (!Objects.equals(oldRenderState, newRenderState)) {
+            setRenderState(newRenderState);
+        }
+    }
+
+    @Override
+    public void addedToController(@NotNull IMultiController controller) {
+        super.addedToController(controller);
+        if (controller instanceof MicroverseProjectorMachine projector) {
+            setRenderMicroverse(projector.getMicroverse());
+        }
+    }
+
+    @Override
+    public void removedFromController(@NotNull IMultiController controller) {
+        super.removedFromController(controller);
+        setRenderMicroverse(Microverse.NONE);
     }
 }

@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.neganote.monilabs.MoniLabs;
+import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.part.FillLevel;
 import net.neganote.monilabs.common.machine.part.RenderColor;
 
@@ -61,6 +62,26 @@ public class MoniMachineModels {
                 model.texture("overlay", MoniLabs.id("block/overlay/machine/" + overlayName + "_base"));
                 model.texture("overlay_emissive",
                         MoniLabs.id("block/overlay/machine/" + overlayName + "_emissive"));
+                return model;
+            });
+
+            builder.addReplaceableTextures("bottom", "top", "side");
+        };
+    }
+
+    public static MachineBuilder.ModelInitializer createOverlayMicroverseCasingMachineModel(String overlayName,
+                                                                                            String casingTexturePath) {
+        return (ctx, prov, builder) -> {
+            builder.forAllStatesModels(state -> {
+                BlockModelBuilder model = prov.models().nested()
+                        .parent(prov.models().getExistingFile(GTCEu.id("block/overlay/2_layer/front_emissive")));
+                casingTextures(model, casingTexturePath);
+
+                var prop = state.getValue(Microverse.MICROVERSE_TYPE);
+                var name = prop.getSerializedName();
+                model.texture("overlay", MoniLabs.id("block/overlay/machine/" + overlayName + "_base"));
+                model.texture("overlay_emissive",
+                        MoniLabs.id("block/overlay/machine/" + overlayName + "_overlay_" + name));
                 return model;
             });
 

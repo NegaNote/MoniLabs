@@ -1,6 +1,11 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
-public enum Microverse {
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+
+@MethodsReturnNonnullByDefault
+public enum Microverse implements StringRepresentable {
 
     NONE(0, 0, false, false, "microverse.monilabs.type.none"),
     NORMAL(1, 0, true, false, "microverse.monilabs.type.normal"),
@@ -9,6 +14,9 @@ public enum Microverse {
     CORRUPTED(4, 10, true, true, "microverse.monilabs.type.corrupted");
 
     public static final Microverse[] MICROVERSES = Microverse.values();
+
+    public static final EnumProperty<Microverse> MICROVERSE_TYPE = EnumProperty.create("microverse_type",
+            Microverse.class);
 
     public final int decayRate;
     public final boolean isRepairable;
@@ -34,5 +42,10 @@ public enum Microverse {
     @Override
     public String toString() {
         return "Microverse{" + name() + "}";
+    }
+
+    @Override
+    public String getSerializedName() {
+        return name().toLowerCase();
     }
 }
