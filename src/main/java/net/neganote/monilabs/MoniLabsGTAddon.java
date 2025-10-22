@@ -3,6 +3,7 @@ package net.neganote.monilabs;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.integration.kjs.recipe.components.ContentJS;
 
@@ -18,6 +19,8 @@ import net.neganote.monilabs.recipe.MoniRecipes;
 import com.mojang.datafixers.util.Pair;
 
 import java.util.function.Consumer;
+
+import static net.neganote.monilabs.common.cover.MoniCovers.*;
 
 @SuppressWarnings("unused")
 @GTAddon
@@ -39,6 +42,14 @@ public class MoniLabsGTAddon implements IGTAddon {
     @Override
     public void registerTagPrefixes() {
         // CustomTagPrefixes.init();
+    }
+
+    @Override
+    public void registerCovers() {
+        GTRegistries.COVERS.register(MAX_CONVEYOR_MODULE.getId(), MAX_CONVEYOR_MODULE);
+        GTRegistries.COVERS.register(MAX_ROBOT_ARM.getId(), MAX_ROBOT_ARM);
+        GTRegistries.COVERS.register(MAX_ELECTRIC_PUMP.getId(), MAX_ELECTRIC_PUMP);
+        GTRegistries.COVERS.register(MAX_FLUID_REGULATOR.getId(), MAX_FLUID_REGULATOR);
     }
 
     @Override
