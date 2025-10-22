@@ -1,3 +1,3 @@
-# Moni Labs 0.18.0
+# Moni Labs 0.18.1
 
-* Add new Microverse Type Sensor Hatch
+* Add MAX components
