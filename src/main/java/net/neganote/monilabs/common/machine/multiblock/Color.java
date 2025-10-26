@@ -4,7 +4,7 @@ import net.minecraft.util.StringRepresentable;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import org.jetbrains.annotations.NotNull;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,35 +13,35 @@ import java.util.stream.Stream;
 
 public enum Color implements StringRepresentable {
 
-    RED(0, "monilabs.prismatic.color_name.red", 1.0f, 0f, 0f, 0xFFFF0000),
-    ORANGE(1, "monilabs.prismatic.color_name.orange", 1.0f, 0.5f, 0f, 0xFFFF8000),
-    YELLOW(2, "monilabs.prismatic.color_name.yellow", 1.0f, 1.0f, 0f, 0xFFFFFF00),
-    LIME(3, "monilabs.prismatic.color_name.lime", 0.5f, 1.0f, 0f, 0xFF80FF00),
-    GREEN(4, "monilabs.prismatic.color_name.green", 0f, 1.0f, 0f, 0xFF00FF00),
-    TEAL(5, "monilabs.prismatic.color_name.teal", 0f, 1.0f, 0.5f, 0xFF00FF80),
-    CYAN(6, "monilabs.prismatic.color_name.cyan", 0f, 1.0f, 1.0f, 0xFF00FFFF),
-    AZURE(7, "monilabs.prismatic.color_name.azure", 0f, 0.5f, 1.0f, 0xFF0080FF),
-    BLUE(8, "monilabs.prismatic.color_name.blue", 0f, 0f, 1.0f, 0xFF0000FF),
-    INDIGO(9, "monilabs.prismatic.color_name.indigo", 0.5f, 0f, 1.0f, 0xFF8000FF),
-    MAGENTA(10, "monilabs.prismatic.color_name.magenta", 1.0f, 0f, 1.0f, 0xFFFF00FF),
-    PINK(11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f, 0xFFFF0080),
-    PRIMARY(12, "", 0f, 0f, 0f, 0),
-    SECONDARY(13, "", 0f, 0f, 0f, 0),
-    BASIC(14, "", 0f, 0f, 0f, 0),
-    TERTIARY(15, "", 0f, 0f, 0f, 0),
-    ANY(16, "", 0f, 0f, 0f, 0),
-    NOT_RED(17, "", 0f, 0f, 0f, 0),
-    NOT_ORANGE(18, "", 0f, 0f, 0f, 0),
-    NOT_YELLOW(19, "", 0f, 0f, 0f, 0),
-    NOT_LIME(20, "", 0f, 0f, 0f, 0),
-    NOT_GREEN(21, "", 0f, 0f, 0f, 0),
-    NOT_TEAL(22, "", 0f, 0f, 0f, 0),
-    NOT_CYAN(23, "", 0f, 0f, 0f, 0),
-    NOT_AZURE(24, "", 0f, 0f, 0f, 0),
-    NOT_BLUE(25, "", 0f, 0f, 0f, 0),
-    NOT_INDIGO(26, "", 0f, 0f, 0f, 0),
-    NOT_MAGENTA(27, "", 0f, 0f, 0f, 0),
-    NOT_PINK(28, "", 0f, 0f, 0f, 0);
+    RED("red", 0, "monilabs.prismatic.color_name.red", 1.0f, 0f, 0f, 0xFFFF0000),
+    ORANGE("orange", 1, "monilabs.prismatic.color_name.orange", 1.0f, 0.5f, 0f, 0xFFFF8000),
+    YELLOW("yellow", 2, "monilabs.prismatic.color_name.yellow", 1.0f, 1.0f, 0f, 0xFFFFFF00),
+    LIME("lime", 3, "monilabs.prismatic.color_name.lime", 0.5f, 1.0f, 0f, 0xFF80FF00),
+    GREEN("green", 4, "monilabs.prismatic.color_name.green", 0f, 1.0f, 0f, 0xFF00FF00),
+    TEAL("teal", 5, "monilabs.prismatic.color_name.teal", 0f, 1.0f, 0.5f, 0xFF00FF80),
+    CYAN("cyan", 6, "monilabs.prismatic.color_name.cyan", 0f, 1.0f, 1.0f, 0xFF00FFFF),
+    AZURE("azure", 7, "monilabs.prismatic.color_name.azure", 0f, 0.5f, 1.0f, 0xFF0080FF),
+    BLUE("blue", 8, "monilabs.prismatic.color_name.blue", 0f, 0f, 1.0f, 0xFF0000FF),
+    INDIGO("indigo", 9, "monilabs.prismatic.color_name.indigo", 0.5f, 0f, 1.0f, 0xFF8000FF),
+    MAGENTA("magenta", 10, "monilabs.prismatic.color_name.magenta", 1.0f, 0f, 1.0f, 0xFFFF00FF),
+    PINK("pink", 11, "monilabs.prismatic.color_name.pink", 1.0f, 0f, 0.5f, 0xFFFF0080),
+    PRIMARY("primary", 12, "", 0f, 0f, 0f, 0),
+    SECONDARY("secondary", 13, "", 0f, 0f, 0f, 0),
+    BASIC("basic", 14, "", 0f, 0f, 0f, 0),
+    TERTIARY("tertiary", 15, "", 0f, 0f, 0f, 0),
+    ANY("any", 16, "", 0f, 0f, 0f, 0),
+    NOT_RED("not_red", 17, "", 0f, 0f, 0f, 0),
+    NOT_ORANGE("not_orange", 18, "", 0f, 0f, 0f, 0),
+    NOT_YELLOW("not_yellow", 19, "", 0f, 0f, 0f, 0),
+    NOT_LIME("not_lime", 20, "", 0f, 0f, 0f, 0),
+    NOT_GREEN("not_green", 21, "", 0f, 0f, 0f, 0),
+    NOT_TEAL("not_teal", 22, "", 0f, 0f, 0f, 0),
+    NOT_CYAN("not_cyan", 23, "", 0f, 0f, 0f, 0),
+    NOT_AZURE("not_azure", 24, "", 0f, 0f, 0f, 0),
+    NOT_BLUE("not_blue", 25, "", 0f, 0f, 0f, 0),
+    NOT_INDIGO("not_indigo", 26, "", 0f, 0f, 0f, 0),
+    NOT_MAGENTA("not_magenta", 27, "", 0f, 0f, 0f, 0),
+    NOT_PINK("not_pink", 28, "", 0f, 0f, 0f, 0);
 
     public static final Color[] COLORS = Color.values();
 
@@ -69,17 +69,21 @@ public enum Color implements StringRepresentable {
 
     public final int integerColor;
 
+    @Getter
+    public final String serializedName;
+
     public static final int COLOR_COUNT = COLORS.length;
 
     public static final int ACTUAL_COLOR_COUNT = ACTUAL_COLORS.length;
 
-    Color(int key, String nameKey, float r, float g, float b, int integerColor) {
+    Color(String serializedName, int key, String nameKey, float r, float g, float b, int integerColor) {
         this.key = key;
         this.nameKey = nameKey;
         this.r = r;
         this.g = g;
         this.b = b;
         this.integerColor = integerColor;
+        this.serializedName = serializedName;
     }
 
     public static final Map<Color, Color> TO_NOT_COLOR = new Object2ObjectArrayMap<>();
@@ -169,10 +173,5 @@ public enum Color implements StringRepresentable {
 
     public boolean isTypeNotColor() {
         return Stream.of(NOT_COLORS).anyMatch(c -> c == this);
-    }
-
-    @Override
-    public @NotNull String getSerializedName() {
-        return this.name().toLowerCase();
     }
 }

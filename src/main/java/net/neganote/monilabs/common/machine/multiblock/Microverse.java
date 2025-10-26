@@ -4,14 +4,16 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 
+import lombok.Getter;
+
 @MethodsReturnNonnullByDefault
 public enum Microverse implements StringRepresentable {
 
-    NONE(0, 0, false, false, "microverse.monilabs.type.none"),
-    NORMAL(1, 0, true, false, "microverse.monilabs.type.normal"),
-    HOSTILE(2, 10, false, false, "microverse.monilabs.type.hostile"),
-    SHATTERED(3, 0, false, false, "microverse.monilabs.type.shattered"),
-    CORRUPTED(4, 10, true, true, "microverse.monilabs.type.corrupted");
+    NONE("none", 0, 0, false, false, "microverse.monilabs.type.none"),
+    NORMAL("normal", 1, 0, true, false, "microverse.monilabs.type.normal"),
+    HOSTILE("hostile", 2, 10, false, false, "microverse.monilabs.type.hostile"),
+    SHATTERED("shattered", 3, 0, false, false, "microverse.monilabs.type.shattered"),
+    CORRUPTED("corrupted", 4, 10, true, true, "microverse.monilabs.type.corrupted");
 
     public static final Microverse[] MICROVERSES = Microverse.values();
 
@@ -25,14 +27,18 @@ public enum Microverse implements StringRepresentable {
 
     public final String langKey;
 
+    @Getter
+    public final String serializedName;
+
     public final int key;
 
-    Microverse(int key, int decayRate, boolean isRepairable, boolean isHungry, String langKey) {
+    Microverse(String serializedName, int key, int decayRate, boolean isRepairable, boolean isHungry, String langKey) {
         this.decayRate = decayRate;
         this.isRepairable = isRepairable;
         this.isHungry = isHungry;
         this.langKey = langKey;
         this.key = key;
+        this.serializedName = serializedName;
     }
 
     public static Microverse getMicroverseFromKey(int pKey) {
@@ -42,10 +48,5 @@ public enum Microverse implements StringRepresentable {
     @Override
     public String toString() {
         return "Microverse{" + name() + "}";
-    }
-
-    @Override
-    public String getSerializedName() {
-        return name().toLowerCase();
     }
 }

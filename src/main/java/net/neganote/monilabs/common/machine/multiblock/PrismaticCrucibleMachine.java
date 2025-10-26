@@ -8,6 +8,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.core.BlockPos;
@@ -42,6 +44,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     @Getter
     @Persisted
     @DescSynced
+    @RequireRerender
+    @UpdateListener(methodName = "onColorChange")
     private Color color;
 
     @Getter
@@ -52,8 +56,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
     private BlockPos structMin;
 
     private BlockPos structMax;
-
-    private boolean updatingBlocksFromOnFormed = false;
 
     @Persisted
     private final NotifiableChromaContainer notifiableChromaContainer;
@@ -118,13 +120,6 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         }
 
         saveStructBoundingBox();
-
-        // The prismac can occasionally decide to run this method before it has synced its color,
-        // so this boolean is a way around that
-        //
-        updatingBlocksFromOnFormed = true;
-        updateActiveBlocks(true);
-        updatingBlocksFromOnFormed = false;
     }
 
     // Not currently used now, but would reset the machine's color
@@ -186,14 +181,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                 var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
                 if (blockState.hasProperty(GTBlockStateProperties.ACTIVE)) {
                     var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, isFormed());
-                    // Prevents color from desyncing
-                    if (!updatingBlocksFromOnFormed) {
-                        newState = newState.setValue(PrismaticActiveBlock.COLOR, color.key);
-                    } else {
-                        // Yes this is janky, but it ensures that the prismac doesn't randomly decide it wants to
-                        // reset its color on world load for no reason
-                        color = Color.getColorFromKey(blockState.getValue(PrismaticActiveBlock.COLOR));
-                    }
+                    newState = newState.setValue(PrismaticActiveBlock.COLOR, color.key);
+
                     if (!Objects.equals(blockState, newState)) {
                         getLevel().setBlockAndUpdate(blockPos, newState);
                     }
@@ -249,5 +238,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
 
     public Color getColorState() {
         return color;
+    }
+
+    public void onColorChange(Color oldColor, Color newColor) {
+        scheduleRenderUpdate();
     }
 }

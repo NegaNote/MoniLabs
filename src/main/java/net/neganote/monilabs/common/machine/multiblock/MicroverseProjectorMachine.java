@@ -15,8 +15,10 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -31,7 +33,6 @@ import net.neganote.monilabs.config.MoniConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -39,6 +40,7 @@ import java.util.*;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @SuppressWarnings("unused")
 public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachine {
 
@@ -63,6 +65,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Setter
     @Getter
     @RequireRerender
+    @UpdateListener(methodName = "onMicroverseChange")
     private Microverse microverse;
 
     // Current microverse integrity/"health"
@@ -99,7 +102,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     }
 
     @Override
-    @NotNull
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
@@ -176,6 +178,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 if (microverse == Microverse.SHATTERED) {
                     microverseIntegrity = MICROVERSE_MAX_INTEGRITY >> 1; // start at half integrity
                     microverse = Microverse.CORRUPTED;
+                    markDirty();
                 } else {
                     microverseIntegrity = 0;
                     microverse = Microverse.NONE;
@@ -235,7 +238,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 }
             }
         }
-        timer = (timer + 1) % 20;
+        timer = (timer + 1) % 6;
         if (microverse.decayRate != 0) {
             int decayRate = microverse.decayRate;
             microverseIntegrity -= decayRate;
@@ -265,5 +268,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                         (float) microverseIntegrity / FLUX_REPAIR_AMOUNT));
             }
         }
+    }
+
+    public void onMicroverseChange(Microverse oldMicroverse, Microverse newMicroverse) {
+        scheduleRenderUpdate();
     }
 }
