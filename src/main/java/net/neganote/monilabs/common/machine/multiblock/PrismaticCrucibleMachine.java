@@ -120,6 +120,8 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
         }
 
         saveStructBoundingBox();
+
+        updateActiveBlocks(true);
     }
 
     // Not currently used now, but would reset the machine's color
