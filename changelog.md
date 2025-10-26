@@ -1,3 +1,3 @@
-# Moni Labs 0.18.1
+# Moni Labs 0.18.2
 
-* Add MAX components
+* Fix issues with microverse/color persistence and rendering
