@@ -1,3 +1,3 @@
-# Moni Labs 0.18.2
+# Moni Labs 0.18.3
 
-* Fix issues with microverse/color persistence and rendering
+* Fix a niche bug with unique multiblock saved data

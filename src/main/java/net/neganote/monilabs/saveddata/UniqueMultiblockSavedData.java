@@ -45,6 +45,9 @@ public class UniqueMultiblockSavedData extends SavedData {
     public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag) {
         var uniqueMultiDataList = new ListTag();
         for (var entry : UniqueMultiblockMapping.entrySet()) {
+            if (entry.getKey() == null) {
+                continue;
+            }
             var tag = new CompoundTag();
             tag.putString(UNIQUE_MULTI_UUID, entry.getKey().toString());
             tag.put(UNIQUE_MULTI_DATA, entry.getValue().toTag());
