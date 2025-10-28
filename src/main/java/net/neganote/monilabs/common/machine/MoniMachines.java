@@ -24,11 +24,13 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachin
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.client.render.MoniDynamicRenderHelper;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.data.materials.MoniMaterials;
+import net.neganote.monilabs.common.data.tooltips.MoniTooltipHelper;
 import net.neganote.monilabs.common.machine.multiblock.*;
 import net.neganote.monilabs.common.machine.part.*;
 import net.neganote.monilabs.config.MoniConfig;
@@ -68,6 +70,96 @@ public class MoniMachines {
             }
         };
     }
+
+    public static final BiConsumer<ItemStack, List<Component>> PRISMATIC_TOOLTIPS = (stack, list) -> {
+        list.add(
+                Component.translatable("monilabs.tooltip.prismatic.0",
+                        Component.translatable("monilabs.tooltip.prismatic.rainbow")
+                                .withStyle(TooltipHelper.RAINBOW_HSL_SLOW)));
+        list.add(
+                Component.translatable("monilabs.tooltip.prismatic.1"));
+        list.add(
+                Component.translatable("monilabs.tooltip.prismatic.2"));
+    };
+
+    public static final BiConsumer<ItemStack, List<Component>> CREATIVE_ENERGY_MULTI_TOOLTIPS = (stack, list) -> {
+        list.add(
+                Component.translatable("monilabs.tooltip.creative_energy_multi_description.0",
+                        Component.translatable("monilabs.tooltip.universe_lerp")
+                                .withStyle(MoniTooltipHelper.UNIVERSE_HSL)));
+        list.add(
+                Component.translatable("monilabs.tooltip.creative_energy_multi_description.1"));
+    };
+    public static final BiConsumer<ItemStack, List<Component>> SCULK_VAT_TOOLTIPS = (stack, list) -> {
+        list.add(
+                Component.translatable("monilabs.tooltip.sculk_vat_description.0",
+                        Component.translatable("monilabs.tooltip.sculk_lerp")
+                                .withStyle(MoniTooltipHelper.SCULK_HSL)));
+        list.add(
+                Component.translatable("monilabs.tooltip.sculk_vat_description.1"));
+    };
+    public static final BiConsumer<ItemStack, List<Component>> CREATIVE_DATA_MULTI_TOOLTIPS = (stack, list) -> {
+        list.add(
+                Component.translatable("monilabs.tooltip.creative_data_multi_description.0",
+                        Component.translatable("monilabs.tooltip.universe_lerp")
+                                .withStyle(MoniTooltipHelper.UNIVERSE_HSL)));
+        list.add(
+                Component.translatable("monilabs.tooltip.creative_data_multi_description.1"));
+    };
+
+    public static final BiConsumer<ItemStack, List<Component>> BASIC_MICROVERSE_PROJECTOR_TOOLTIPS = (stack, list) -> {
+        list.add(
+                Component.translatable("tooltip.monilabs.basic_microverse_projector.description.0",
+                        Component.translatable("monilabs.tooltip.microverses.space_gradient")
+                                .withStyle(MoniTooltipHelper.NEBULA_HSL)));
+        list.add(
+                Component.translatable("tooltip.monilabs.basic_microverse_projector.description.1"));
+        list.add(
+                Component.translatable("tooltip.monilabs.basic_microverse_projector.description.2"));
+        if (MoniConfig.INSTANCE.values.hostileMicroverseTooltip) {
+            list.add(
+                    Component.translatable("tooltip.monilabs.hostile_microverse.0"));
+        }
+    };
+
+    public static final BiConsumer<ItemStack, List<Component>> ADVANCED_MICROVERSE_PROJECTOR_TOOLTIPS = (stack,
+                                                                                                         list) -> {
+        list.add(
+                Component.translatable("tooltip.monilabs.advanced_microverse_projector.description.0",
+                        Component.translatable("monilabs.tooltip.microverses.space_gradient")
+                                .withStyle(MoniTooltipHelper.NEBULA_HSL)));
+        list.add(
+                Component.translatable("tooltip.monilabs.advanced_microverse_projector.description.1"));
+        list.add(
+                Component.translatable("tooltip.monilabs.advanced_microverse_projector.description.2"));
+    };
+
+    public static final BiConsumer<ItemStack, List<Component>> ELITE_MICROVERSE_PROJECTOR_TOOLTIPS = (stack, list) -> {
+        list.add(
+                Component.translatable("tooltip.monilabs.elite_microverse_projector.description.0",
+                        Component.translatable("monilabs.tooltip.microverses.space_gradient")
+                                .withStyle(MoniTooltipHelper.NEBULA_HSL),
+                        Component.translatable("monilabs.tooltip.microversal.space_gradient")
+                                .withStyle(MoniTooltipHelper.NEBULA_HSL)));
+        list.add(
+                Component.translatable("tooltip.monilabs.elite_microverse_projector.description.1"));
+        list.add(
+                Component.translatable("tooltip.monilabs.elite_microverse_projector.description.2"));
+    };
+
+    public static final BiConsumer<ItemStack, List<Component>> HYPERBOLIC_MICROVERSE_PROJECTOR_TOOLTIPS = (stack,
+                                                                                                           list) -> {
+        list.add(
+                Component.translatable("tooltip.monilabs.hyperbolic_microverse_projector.description.0",
+                        Component.translatable("monilabs.tooltip.microverses.space_gradient")
+                                .withStyle(MoniTooltipHelper.NEBULA_HSL)));
+        list.add(
+                Component.translatable("tooltip.monilabs.hyperbolic_microverse_projector.description.1"));
+        list.add(
+                Component.translatable("gtceu.multiblock.parallelizable.tooltip"));
+        list.add(
+                Component.translatable("tooltip.monilabs.hyperbolic_microverse_projector.description.2"));
+    };
 
     public static MachineDefinition CHROMA_SENSOR_HATCH = MoniLabs.REGISTRATE
             .machine("chroma_sensor_hatch", ChromaSensorHatchPartMachine::new)
@@ -187,12 +279,7 @@ public class MoniMachines {
                     .where("F", Predicates.frames(GTMaterials.Neutronium))
                     .where("#", Predicates.any())
                     .build())
-            .tooltips(
-                    Component.translatable("monilabs.tooltip.prismatic.0",
-                            Component.translatable("monilabs.tooltip.prismatic.rainbow")
-                                    .withStyle(TooltipHelper.RAINBOW_HSL_FAST)),
-                    Component.translatable("monilabs.tooltip.prismatic.1"),
-                    Component.translatable("monilabs.tooltip.prismatic.2"))
+            .tooltipBuilder(PRISMATIC_TOOLTIPS)
             .additionalDisplay(MoniMachines.currentColorDisplayInfo())
             .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
@@ -228,7 +315,7 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
-            .tooltips(Component.translatable("tooltip.monilabs.basic_microverse_projector.description"))
+            .tooltipBuilder(BASIC_MICROVERSE_PROJECTOR_TOOLTIPS)
             .hasBER(true)
             .register();
 
@@ -261,7 +348,7 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
-            .tooltips(Component.translatable("tooltip.monilabs.advanced_microverse_projector.description"))
+            .tooltipBuilder(ADVANCED_MICROVERSE_PROJECTOR_TOOLTIPS)
             .hasBER(true)
             .register();
 
@@ -307,7 +394,7 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
-            .tooltips(Component.translatable("tooltip.monilabs.elite_microverse_projector.description"))
+            .tooltipBuilder(ELITE_MICROVERSE_PROJECTOR_TOOLTIPS)
             .hasBER(true)
             .register();
 
@@ -362,8 +449,7 @@ public class MoniMachines {
                             MoniLabs.id("block/machines/projectors"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createMicroverseProjectorRender)))
-            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
-                    Component.translatable("tooltip.monilabs.basic_microverse_projector.description"))
+            .tooltipBuilder(HYPERBOLIC_MICROVERSE_PROJECTOR_TOOLTIPS)
             .hasBER(true)
             .register();
 
@@ -414,6 +500,7 @@ public class MoniMachines {
                     GTCEu.id("block/multiblock/processing_array"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createCreativeEnergyRender)))
+            .tooltipBuilder(CREATIVE_ENERGY_MULTI_TOOLTIPS)
             .register();
 
     public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = MoniLabs.REGISTRATE
@@ -464,6 +551,7 @@ public class MoniMachines {
                     GTCEu.id("block/multiblock/processing_array"))
                     .andThen(b -> b.addDynamicRenderer(
                             MoniDynamicRenderHelper::createCreativeDataRender)))
+            .tooltipBuilder(CREATIVE_DATA_MULTI_TOOLTIPS)
             .register();
 
     public static MultiblockMachineDefinition SCULK_VAT = MoniLabs.REGISTRATE
@@ -502,6 +590,7 @@ public class MoniMachines {
                             () -> MoniDynamicRenderHelper.createSculkVatRender(0.125f,
                                     List.of(RelativeDirection.BACK, RelativeDirection.FRONT, RelativeDirection.LEFT,
                                             RelativeDirection.RIGHT)))))
+            .tooltipBuilder(SCULK_VAT_TOOLTIPS)
             .register();
 
     // MAX stuff
