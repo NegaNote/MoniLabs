@@ -63,25 +63,56 @@ public class MoniLangHandler {
         provider.add("gtceu.creative_data_multi", "Omniscience Research Beacon");
         provider.add("gtceu.creative_energy_multi", "Transdimensional Energy Singularity");
 
+        provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
+
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
 
         multiLang(provider, "monilabs.tooltip.prismatic",
-                "Use the power of %s to transform items!",
-                "Recipes MUST be input in the correct color state!",
-                "They can even change the crucible's color randomly!");
+                "§7Uses the power of %s to transform items!",
+                "§7Run recipes to §fswitch§7 the §fcolor§7.",
+                "§7The color state §f§iMUST§7 be §fcorrect§7 for recipes to §frun§7!");
 
-        provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
+        multiLang(provider, "monilabs.tooltip.creative_energy_multi_description",
+                "§7Imbues your factory with the power of the %s!",
+                "§7While this machine is §frunning§7, all §fenergy containers§7 act like they are full of §fenergy§7.");
+        provider.add("monilabs.tooltip.universe_lerp", "Universe");
 
-        provider.add("tooltip.monilabs.basic_microverse_projector.description",
-                "§7A machine capable of projecting microverses for basic miner missions.");
-        provider.add("tooltip.monilabs.advanced_microverse_projector.description",
-                "§7An advanced machine capable of projecting microverses for complex missions into the deepest parts of space.");
-        provider.add("tooltip.monilabs.elite_microverse_projector.description",
-                "§7An elite machine capable of projecting special microverses for exotic missions on a microversal scale.");
+        multiLang(provider, "monilabs.tooltip.creative_data_multi_description",
+                "§7Imbues §r§7your factory with the knowledge of the %s!",
+                "§7While this machine is §frunning§7, every §foptical data hatch§7 and §fdata access hatch§7 acts like it has all possible §fresearch§7.");
+
+        multiLang(provider, "monilabs.tooltip.sculk_vat_description",
+                "§7Uses the power of %s §7from the §2deepest §7depths of the earth to grow organic materials.",
+                "§7The further the §foutput hatch §7is from being §fhalf-full§7, the more of the product is lost.");
+        provider.add("monilabs.tooltip.sculk_lerp", "Sculk");
+
+        multiLang(provider, "tooltip.monilabs.basic_microverse_projector.description",
+                "§7A machine capable of projecting %s §7for basic miner missions.",
+                "§7Runs §fmicrominer§7 missions to gather resources from the §fmicroverse§7.",
+                "§7A microverse §ffirst§7 needs to be projected with a §fspecial mission§7, then resource missions can be run.");
+
+        multiLang(provider, "tooltip.monilabs.hostile_microverse",
+                "§7Hostile microverses are also available.",
+                "§7All hostile missions restore §fintegrity§7, required for the microverse to stay active.");
+
+        multiLang(provider, "tooltip.monilabs.advanced_microverse_projector.description",
+                "§7An §Iadvanced machine capable of projecting %s for complex missions into the deepest parts of space.",
+                "§7Can §fperfectly overclock§7 lower projector §ftier§7 missions §fonce§7.",
+                "§fHigher tier missions§7 drain a small amount of §fintegrity§7 each. Needs to be §ffed§7 quantum flux to §frestore§7 integrity.");
+
+        multiLang(provider, "tooltip.monilabs.elite_microverse_projector.description",
+                "§7An §Ielite machine capable of projecting special %s §7for exotic missions on a %s scale.",
+                "§7Can §fperfectly overclock§7 lower projector §ftier§7 missions §fonce§7 for each §ftier§7 above the §frequired§f mission tier.",
+                "§7Can also host §fshattered§7 and §fcorrupted§7 microverses.");
 
         multiLang(provider, "tooltip.monilabs.hyperbolic_microverse_projector.description",
-                "§7An epic machine capable of projecting microverses for hundreds of missions at once.",
-                "Can perform all Microverse Missions.");
+                "§7An §Iepic§7 machine capable of projecting %s for hundreds of missions at once.",
+                "§7Can §fperfectly overclock§7 lower projector §ftier§7 missions §fonce§7 for each §ftier§7 above the §frequired§7 mission tier.",
+                "§7Some missions are §fexempt§7 from being able to be §fparalleled§7.");
+
+        provider.add("monilabs.tooltip.microverse.space_gradient", "Microverse");
+        provider.add("monilabs.tooltip.microverses.space_gradient", "Microverses");
+        provider.add("monilabs.tooltip.microversal.space_gradient", "Microversal");
 
         provider.add("emi_info.monilabs.projector_info", "Projector tier: %d");
         provider.add("emi_info.monilabs.required_microverse", "Required type: %s");
