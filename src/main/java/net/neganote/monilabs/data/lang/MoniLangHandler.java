@@ -87,13 +87,13 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.sculk_lerp", "Sculk");
 
         multiLang(provider, "tooltip.monilabs.basic_microverse_projector.description",
-                "§7A machine capable of projecting %s for basic miner missions.",
+                "§7A machine capable of projecting %s §7for basic miner missions.",
                 "§7Runs §fmicrominer§7 missions to gather resources from the §fmicroverse§7.",
                 "§7A microverse §ffirst§7 needs to be projected with a §fspecial mission§7, then resource missions can be run.");
 
         multiLang(provider, "tooltip.monilabs.hostile_microverse",
-                "§7Hostile microverses are also available and can be started with a special mission.",
-                "§7It requires §fspecial missions§7 to repair §7integrity§7, as resource missions run.");
+                "§7Hostile microverses are also available.",
+                "§7All hostile missions restore §fintegrity§7, required for the microverse to stay active.");
 
         multiLang(provider, "tooltip.monilabs.advanced_microverse_projector.description",
                 "§7An §Iadvanced machine capable of projecting %s for complex missions into the deepest parts of space.",

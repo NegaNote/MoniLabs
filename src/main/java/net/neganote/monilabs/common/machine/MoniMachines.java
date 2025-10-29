@@ -119,6 +119,8 @@ public class MoniMachines {
         if (MoniConfig.INSTANCE.values.hostileMicroverseTooltip) {
             list.add(
                     Component.translatable("tooltip.monilabs.hostile_microverse.0"));
+            list.add(
+                    Component.translatable("tooltip.monilabs.hostile_microverse.1"));
         }
     };
 
