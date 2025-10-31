@@ -28,7 +28,7 @@ public class MoniLangHandler {
         provider.add("monilabs.prismatic.color_name.magenta", "§dMagenta§r");
         provider.add("monilabs.prismatic.color_name.pink", "§cPink§r");
 
-        provider.add("monilabs.omnic.current_diversity_points", "Current diversity points: %s");
+        provider.add("monilabs.omnic.current_diversity_points", "Current omnium progress: %s%%");
 
         provider.add("monilabs.recipe.required_color", "Required Initial Color:\n%s");
         provider.add("monilabs.recipe.result_color", "Resulting Color: \n%s");
