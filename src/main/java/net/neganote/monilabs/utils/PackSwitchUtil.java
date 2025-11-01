@@ -3,8 +3,11 @@ package net.neganote.monilabs.utils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Properties;
 
 public class PackSwitchUtil {
 
@@ -18,6 +21,7 @@ public class PackSwitchUtil {
     public static void switchToHard(String cwd) {
         copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "hardmode"),
                 Path.of(cwd, File.separator, "config"));
+        setServerDifficulty(cwd, "peaceful");
 
         createModeFile("hard");
     }
@@ -26,6 +30,7 @@ public class PackSwitchUtil {
         switchToHard(cwd);
         copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "expert"),
                 Path.of(cwd, File.separator, "config"));
+        setServerDifficulty(cwd, "peaceful");
 
         createModeFile("expert");
     }
@@ -73,5 +78,32 @@ public class PackSwitchUtil {
             throw new RuntimeException();
         }
         return true;
+    }
+
+    public static void setServerDifficulty(String cwd, String difficulty) {
+        Path propertiesPath = Path.of(cwd, "server.properties");
+
+        if (!Files.exists(propertiesPath)) {
+            return;
+        }
+
+        Properties properties = new Properties();
+
+        try (InputStream in = Files.newInputStream(propertiesPath)) {
+            properties.load(in);
+        } catch (IOException e) {
+            System.err.println("Failed to read server.properties: " + e.getMessage());
+            throw new RuntimeException();
+        }
+
+        properties.setProperty("difficulty", difficulty);
+
+        try (OutputStream out = Files.newOutputStream(propertiesPath)) {
+            properties.store(out, "Minecraft server properties");
+            System.out.println("Server difficulty set to " + difficulty);
+        } catch (IOException e) {
+            System.err.println("Failed to write server.properties: " + e.getMessage());
+            throw new RuntimeException();
+        }
     }
 }
