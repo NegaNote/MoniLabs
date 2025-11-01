@@ -66,7 +66,8 @@ public class MoniMachines {
     public static @NotNull BiConsumer<IMultiController, List<Component>> currentDiversityPointsInfo() {
         return (controller, list) -> {
             if (controller instanceof OmnicSynthesizerMachine omnic) {
-                list.add(Component.translatable("monilabs.omnic.current_diversity_points", omnic.diversityPoints));
+                list.add(Component.translatable("monilabs.omnic.current_diversity_points", omnic.diversityPoints)
+                        .append(Component.literal("%")));
             }
         };
     }

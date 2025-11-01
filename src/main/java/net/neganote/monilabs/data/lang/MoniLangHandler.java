@@ -28,7 +28,7 @@ public class MoniLangHandler {
         provider.add("monilabs.prismatic.color_name.magenta", "§dMagenta§r");
         provider.add("monilabs.prismatic.color_name.pink", "§cPink§r");
 
-        provider.add("monilabs.omnic.current_diversity_points", "Current omnium progress: %s%%");
+        provider.add("monilabs.omnic.current_diversity_points", "Current omnium progress: %s");
 
         provider.add("monilabs.recipe.required_color", "Required Initial Color:\n%s");
         provider.add("monilabs.recipe.result_color", "Resulting Color: \n%s");
@@ -185,6 +185,7 @@ public class MoniLangHandler {
         provider.add("config.jade.plugin_monilabs.color_info", "Prismatic Crucible Color Info");
         provider.add("config.jade.plugin_monilabs.microverse_info", "Microverse Projector Info");
         provider.add("config.jade.plugin_monilabs.sculk_vat_xp_info", "Sculk Vat XP Buffer Info");
+        provider.add("config.jade.plugin_monilabs.omnic_synth_info", "Omnic Synthesizer Info");
 
         multiLang(provider, "gtceu.placeholder_info.prismacColor",
                 "Returns the current color of the Prismatic Crucible.",
