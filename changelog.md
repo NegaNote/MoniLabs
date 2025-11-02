@@ -1,4 +1,5 @@
-# Moni Labs 0.18.4
+# Moni Labs 0.18.5
 
-* Update to GTm 7.2.1
-* New tooltips for the custom machines courtesy of Phoenixvine
+* updated pack mode switching to include server difficulty switching
+* remove unnecessary text for antimatter manipulator
+* add jade provider for omnic synthh
