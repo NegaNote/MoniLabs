@@ -53,10 +53,6 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
         provider.add("monilabs.recipe.mistake_output_colors",
                 "You made a mistake defining this recipe's output colors.");
-
-        provider.add("monilabs.recipe.antimatter_random_range", "Input and outputs\nvary by %sx-%sx");
-
-        provider.add("gtceu.antimatter_manipulator", "Antimatter Manipulation");
         provider.add("gtceu.chromatic_processing", "Chromatic Processing");
         provider.add("gtceu.chromatic_transcendence", "Chromatic Transcendence");
         provider.add("gtceu.microverse", "Microverse Mission");
