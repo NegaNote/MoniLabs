@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
@@ -16,7 +15,6 @@ import net.neganote.monilabs.client.gui.MoniGuiTextures;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
-import net.neganote.monilabs.config.MoniConfig;
 
 @SuppressWarnings("unused")
 public class MoniRecipeTypes {
