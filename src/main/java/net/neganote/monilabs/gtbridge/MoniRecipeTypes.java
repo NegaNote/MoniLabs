@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
@@ -16,7 +15,6 @@ import net.neganote.monilabs.client.gui.MoniGuiTextures;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
-import net.neganote.monilabs.config.MoniConfig;
 
 @SuppressWarnings("unused")
 public class MoniRecipeTypes {
@@ -95,23 +93,6 @@ public class MoniRecipeTypes {
 
     public static GTRecipeType CHROMATIC_PROCESSING = createPrismaCRecipeType("chromatic_processing");
     public static GTRecipeType CHROMATIC_TRANSCENDENCE = createPrismaCRecipeType("chromatic_transcendence");
-
-    public static GTRecipeType ANTIMATTER_MANIPULATOR_RECIPES = GTRecipeTypes
-            .register("antimatter_manipulator", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(1, 1, 3, 1)
-            .setEUIO(IO.IN)
-            .addDataInfo(data -> {
-                if (data.contains("antimatterRandom") && data.getBoolean("antimatterRandom")) {
-                    float minInclusive = MoniConfig.INSTANCE.values.antimatterRandomMinInclusive;
-                    float maxExclusive = MoniConfig.INSTANCE.values.antimatterRandomMaxExclusive;
-                    return LocalizationUtils.format("monilabs.recipe.antimatter_random_range",
-                            FormattingUtil.formatNumber2Places(minInclusive),
-                            FormattingUtil.formatNumber2Places(maxExclusive));
-                } else {
-                    return "";
-                }
-            })
-            .addDataInfo(data -> "");
 
     public static GTRecipeType MICROVERSE_RECIPES = GTRecipeTypes
             .register("microverse", GTRecipeTypes.MULTIBLOCK)
