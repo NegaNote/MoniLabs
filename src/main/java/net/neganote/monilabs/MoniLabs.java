@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.lookup.ingredient.MapIngredientTypeManager;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
@@ -41,6 +42,7 @@ import net.neganote.monilabs.client.render.effects.ParticleTypes;
 import net.neganote.monilabs.client.render.effects.PrismFX;
 import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.data.MoniPlaceholders;
+import net.neganote.monilabs.common.data.MoniSounds;
 import net.neganote.monilabs.common.data.materials.MoniMaterials;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.MoniMachines;
@@ -88,6 +90,7 @@ public class MoniLabs {
         IEventBus modEventBus = context.getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
+
         if (GTCEu.isClientSide()) {
             initializeDynamicRenders();
             modEventBus.register(MoniShaders.class);
@@ -101,6 +104,7 @@ public class MoniLabs {
         modEventBus.addListener(this::addMaterialRegistries);
         modEventBus.addListener(this::addMaterials);
         modEventBus.addListener(this::modifyMaterials);
+        modEventBus.addGenericListener(SoundEntry.class, this::registerSounds);
         modEventBus.addListener((RegisterEvent event) -> {
             event
                     .register(ForgeRegistries.PARTICLE_TYPES.getRegistryKey(),
@@ -126,6 +130,7 @@ public class MoniLabs {
         }
         modEventBus
                 .addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
+
         modEventBus
                 .addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(CoverDefinition.class, this::registerCovers);
@@ -198,6 +203,11 @@ public class MoniLabs {
     private void registerRecipeTypes(
                                      GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         MoniRecipeTypes.init();
+    }
+
+    public void registerSounds(
+                               GTCEuAPI.RegisterEvent<ResourceLocation, SoundEntry> event) {
+        MoniSounds.init();
     }
 
     private void registerMachines(
