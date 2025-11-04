@@ -200,21 +200,20 @@ public class MoniLabs {
         // CustomMaterials.modify();
     }
 
-    private void registerRecipeTypes(
-                                     GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+    // spotless:off
+    private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         MoniRecipeTypes.init();
     }
 
-    public void registerSounds(
-                               GTCEuAPI.RegisterEvent<ResourceLocation, SoundEntry> event) {
+    public void registerSounds(GTCEuAPI.RegisterEvent<ResourceLocation, SoundEntry> event) {
         MoniSounds.init();
     }
 
-    private void registerMachines(
-                                  GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
+    private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         MoniMachines.init();
     }
 
+    // spotless:on
     @Contract("_ -> new")
     @SuppressWarnings("unused")
     public static @NotNull ResourceLocation kjsResLoc(String path) {
