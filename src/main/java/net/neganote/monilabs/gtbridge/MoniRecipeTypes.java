@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import net.minecraft.client.resources.language.I18n;
 import net.neganote.monilabs.capability.recipe.MoniRecipeCapabilities;
 import net.neganote.monilabs.client.gui.MoniGuiTextures;
+import net.neganote.monilabs.common.data.MoniSounds;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
@@ -101,7 +102,7 @@ public class MoniRecipeTypes {
             .setMaxIOSize(9, 9, 3, 0)
             .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
             .setProgressBar(MoniGuiTextures.PROGRESS_BAR_ROCKET, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COOLING)
+            .setSound(MoniSounds.MICROVERSE)
             .addDataInfo(data -> "")
             .addDataInfo((data) -> I18n.get("emi_info.monilabs.projector_info",
                     data.getByte("projector_tier")))
