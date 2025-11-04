@@ -1,5 +1,9 @@
 {
   "loader": "forge:obj",
   "model": "monilabs:models/renderer/sphere.obj",
+  "textures": {
+    "texture0": "monilabs:renderer/sphere",
+    "particle": "monilabs:renderer/sphere"
+  },
   "automatic_culling": false
 }
