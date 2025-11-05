@@ -149,11 +149,10 @@ public class MoniMachines {
         list.add(
                 Component.translatable("tooltip.monilabs.elite_microverse_projector.description.2"));
     };
-
     public static final BiConsumer<ItemStack, List<Component>> HYPERBOLIC_MICROVERSE_PROJECTOR_TOOLTIPS = (stack,
                                                                                                            list) -> {
         list.add(
-                Component.translatable("tooltip.monilabs.hyperbolic_microverse_projector.description.0",
+                Component.translatable("monilabs.tooltip.hyper_desc",
                         Component.translatable("monilabs.tooltip.microverses.space_gradient")
                                 .withStyle(MoniTooltipHelper.NEBULA_HSL)));
         list.add(

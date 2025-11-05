@@ -100,12 +100,14 @@ public class MoniLangHandler {
                 "§7An §Ielite machine capable of projecting special %s §7for exotic missions on a %s scale.",
                 "§7Can §fperfectly overclock§7 lower projector §ftier§7 missions §fonce§7 for each §ftier§7 above the §frequired§f mission tier.",
                 "§7Can also host §fshattered§7 and §fcorrupted§7 microverses.");
-
+        // §7An §Iepic§7 machine capable of projecting %s §7for hundreds of missions at once.
         multiLang(provider, "tooltip.monilabs.hyperbolic_microverse_projector.description",
-                "§7An §Iepic§7 machine capable of projecting %s for hundreds of missions at once.",
+                "§7An §Iepic machine capable of projecting %s §7for hundreds of missions at once.",
                 "§7Can §fperfectly overclock§7 lower projector §ftier§7 missions §fonce§7 for each §ftier§7 above the §frequired§7 mission tier.",
                 "§7Some missions are §fexempt§7 from being able to be §fparalleled§7.");
 
+        provider.add("monilabs.tooltip.hyper_desc",
+                "§7An §Iepic machine capable of projecting %s §7for hundreds of missions at once.");
         provider.add("monilabs.tooltip.microverse.space_gradient", "Microverse");
         provider.add("monilabs.tooltip.microverses.space_gradient", "Microverses");
         provider.add("monilabs.tooltip.microversal.space_gradient", "Microversal");
