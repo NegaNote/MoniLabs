@@ -108,7 +108,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     @Override
     public void onStructureInvalid() {
-        updateMicroverse(0, false);
+        if (microverse.decayRate != 0) {
+            updateMicroverse(0, false);
+        }
         super.onStructureInvalid();
         microverseHandler.updateSubscription();
         inputBuses = null;
