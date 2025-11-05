@@ -2,7 +2,6 @@ package net.neganote.monilabs.mixin;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
 
 import net.minecraft.server.level.ServerLevel;
@@ -20,12 +19,12 @@ public class DataAccessHatchMixin extends MetaMachine {
         super(holder);
     }
 
-    @Inject(method = "modifyRecipe", at = @At(value = "HEAD"), cancellable = true)
-    public void modifyRecipe(GTRecipe recipe, CallbackInfoReturnable<GTRecipe> cir) {
+    @Inject(method = "isCreative", at = @At(value = "HEAD"), cancellable = true)
+    public void beforeIsCreative(CallbackInfoReturnable<Boolean> cir) {
         if (getLevel() instanceof ServerLevel serverLevel) {
             CreativeDataAccessSavedData savedData = CreativeDataAccessSavedData.getOrCreate(serverLevel);
             if (savedData.isEnabledFor(getOwnerUUID())) {
-                cir.setReturnValue(recipe);
+                cir.setReturnValue(true);
             }
         }
     }
