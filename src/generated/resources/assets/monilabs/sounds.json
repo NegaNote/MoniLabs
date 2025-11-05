@@ -1,0 +1,11 @@
+{
+  "microverse": {
+    "sounds": [
+      {
+        "type": "file",
+        "name": "monilabs:microverse"
+      }
+    ],
+    "subtitle": "monilabs.subtitle.microverse"
+  }
+}
