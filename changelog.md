@@ -1,4 +1,4 @@
-# Moni Labs 0.18.9
+# Moni Labs 0.18.10
 
-* Allow higher-tier glasses on Microverse Projectors
-* Remove limits on custom sensor hatches per multi
+* Change PrismaC structure to not allow hatches on its top
+* Adjust minimum casing requirement to be slightly more lenient

@@ -237,35 +237,24 @@ public class MoniMachines {
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############",
-                            "#############", "#############", "#############", "#############", "#############")
-                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#",
-                            "#F#########F#", "#F#########F#", "#F#########F#", "#F#L#####L#F#", "#LLL#####LLL#")
-                    .aisle("LLLLLLLLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##",
-                            "##F#######F##", "##F#######F##", "##F#######F##", "##FLL###LLF##", "#LLLL###LLLL#")
-                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###",
-                            "###C#####C###", "###C#####C###", "###C#####C###", "#LLCCC#CCCLL#", "#LLLL###LLLL#")
-                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############",
-                            "#############", "#############", "#####LCL#####", "##LCLCCCLCL##", "##LL#####LL##")
-                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############",
-                            "#############", "######F######", "####LLCLL####", "###CCL#LCC###", "#############")
-                    .aisle("##LCCLLLCCL##", "####C###C####", "####C###C####", "#############", "#############",
-                            "#############", "#####FPF#####", "####CCCCC####", "####C###C####", "#############")
-                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############",
-                            "#############", "######F######", "####LLCLL####", "###CCL#LCC###", "#############")
-                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############",
-                            "#############", "#############", "#####LCL#####", "##LCLCCCLCL##", "##LL#####LL##")
-                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###",
-                            "###C#####C###", "###C#####C###", "###C#####C###", "#LLCCC#CCCLL#", "#LLLL###LLLL#")
-                    .aisle("LLLLLLMLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##",
-                            "##F#######F##", "##F#######F##", "##F#######F##", "##FLL###LLF##", "#LLLL###LLLL#")
-                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#",
-                            "#F#########F#", "#F#########F#", "#F#########F#", "#F#L#####L#F#", "#LLL#####LLL#")
-                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############",
-                            "#############", "#############", "#############", "#############", "#############")
+                    // spotless:off
+                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
+                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#l#####l#F#", "#lll#####lll#")
+                    .aisle("LLLLLLLLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##Fll###llF##", "#llll###llll#")
+                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "#llCCC#CCCll#", "#llll###llll#")
+                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############", "#############", "#############", "#####lCl#####", "##lClCCClCl##", "##ll#####ll##")
+                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############", "#############", "######F######", "####llCll####", "###CCl#lCC###", "#############")
+                    .aisle("##LCCLLLCCL##", "####C###C####", "####C###C####", "#############", "#############", "#############", "#####FPF#####", "####CCCCC####", "####C###C####", "#############")
+                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############", "#############", "######F######", "####llCll####", "###CCl#lCC###", "#############")
+                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############", "#############", "#############", "#####lCl#####", "##lClCCClCl##", "##ll#####ll##")
+                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "#llCCC#CCCll#", "#llll###llll#")
+                    .aisle("LLLLLLMLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##Fll###llF##", "#llll###llll#")
+                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#l#####l#F#", "#lll#####lll#")
+                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
+                    // spotless:on
                     .where("L",
                             Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
-                                    .setMinGlobalLimited(197)
+                                    .setMinGlobalLimited(88)
                                     .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)
                                             .setMinGlobalLimited(1)
                                             .setPreviewCount(1))
@@ -275,6 +264,7 @@ public class MoniMachines {
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                                     .or(Predicates.machines(CHROMA_SENSOR_HATCH)))
+                    .where("l", Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
                     .where("C", Predicates.blocks(MoniBlocks.CHROMODYNAMIC_CONDUCTION_CASING.get()))
                     .where("M", Predicates.controller(Predicates.blocks(definition.getBlock())))
                     .where("P", Predicates.blocks(MoniBlocks.PRISMATIC_FOCUS.get()))
