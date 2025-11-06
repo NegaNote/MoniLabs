@@ -22,7 +22,8 @@ public class OpticalDataHatchMixin extends MetaMachine {
     @Inject(method = "isCreative", at = @At(value = "HEAD"), cancellable = true)
     public void beforeIsCreative(CallbackInfoReturnable<Boolean> cir) {
         if (getLevel() instanceof ServerLevel serverLevel) {
-            CreativeDataAccessSavedData savedData = CreativeDataAccessSavedData.getOrCreate(serverLevel);
+            CreativeDataAccessSavedData savedData = CreativeDataAccessSavedData
+                    .getOrCreate(serverLevel.getServer().overworld());
             if (savedData.isEnabledFor(getOwnerUUID())) {
                 cir.setReturnValue(true);
             }

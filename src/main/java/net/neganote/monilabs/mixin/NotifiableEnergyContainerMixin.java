@@ -44,15 +44,13 @@ public class NotifiableEnergyContainerMixin extends MachineTrait {
 
     @Inject(method = "getEnergyStored()J", at = @At(value = "HEAD"), cancellable = true)
     private void monilabs$injectBeforeGetEnergyStored(CallbackInfoReturnable<Long> cir) {
-        if (getMachine().getLevel() instanceof ServerLevel serverLevel) {
-            outputSubs = this.getMachine().subscribeServerTick(this.outputSubs, this::serverTick);
+        MetaMachine machine = getMachine();
+        if (machine.getLevel() instanceof ServerLevel serverLevel) {
+            outputSubs = machine.subscribeServerTick(this.outputSubs, this::serverTick);
             CreativeEnergySavedData savedData = CreativeEnergySavedData
                     .getOrCreate(serverLevel.getServer().overworld());
-            UUID uuid = getMachine().getOwnerUUID();
-            if (uuid == null) {
-                uuid = new UUID(0, 0);
-            }
-            if (savedData.isEnabledFor(uuid)) {
+            UUID uuid = machine.getOwnerUUID();
+            if (uuid != null && savedData.isEnabledFor(uuid)) {
                 cir.setReturnValue(getEnergyCapacity());
             }
         }
@@ -62,15 +60,13 @@ public class NotifiableEnergyContainerMixin extends MachineTrait {
     // the power substation and the like to be filled even after the boolean is set back to false.
     @Inject(method = "changeEnergy", at = @At(value = "HEAD"), cancellable = true)
     private void monilabs$injectBeforeChangeEnergy(long energyToAdd, CallbackInfoReturnable<Long> cir) {
-        if (getMachine().getLevel() instanceof ServerLevel serverLevel) {
-            outputSubs = this.getMachine().subscribeServerTick(this.outputSubs, this::serverTick);
+        MetaMachine machine = getMachine();
+        if (machine.getLevel() instanceof ServerLevel serverLevel) {
+            outputSubs = machine.subscribeServerTick(this.outputSubs, this::serverTick);
             CreativeEnergySavedData savedData = CreativeEnergySavedData
                     .getOrCreate(serverLevel.getServer().overworld());
-            UUID uuid = getMachine().getOwnerUUID();
-            if (uuid == null) {
-                uuid = new UUID(0, 0);
-            }
-            if (savedData.isEnabledFor(uuid)) {
+            UUID uuid = machine.getOwnerUUID();
+            if (uuid != null && savedData.isEnabledFor(uuid)) {
                 cir.setReturnValue(energyToAdd);
             }
         }
