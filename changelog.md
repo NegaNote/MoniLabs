@@ -1,4 +1,3 @@
-# Moni Labs 0.18.10
+# Moni Labs 0.18.11
 
-* Change PrismaC structure to not allow hatches on its top
-* Adjust minimum casing requirement to be slightly more lenient
+* Add laminated glass to allowed glasses for basic through elite microverse projectors (it was forgotten)
