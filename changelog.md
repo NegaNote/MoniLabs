@@ -1,5 +1,4 @@
-# Moni Labs 0.18.8
+# Moni Labs 0.18.9
 
-* Fix ORB not working across dimensions (we don't talk about 0.18.7)
-* Slight fix for hyperbolic projector tooltip
-* Fix SVat minimum casings and make the laminated glass mandatory
+* Allow higher-tier glasses on Microverse Projectors
+* Remove limits on custom sensor hatches per multi
