@@ -296,8 +296,8 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(10)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
                     .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
                             .or(Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                             .or(Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
@@ -331,8 +331,8 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(45)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
                     .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
                             .or(Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                             .or(Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
@@ -380,8 +380,8 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(125)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
                     .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
                             .or(Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                             .or(Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
@@ -434,8 +434,8 @@ public class MoniMachines {
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(195)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH)))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
                     .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get())
                             .or(Predicates.blocks(MoniBlocks.PRISM_GLASS.get())))
                     .where("N", Predicates.frames(MoniMaterials.SculkBioalloy))
@@ -575,7 +575,7 @@ public class MoniMachines {
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(Predicates.machines(MoniMachines.SCULK_XP_DRAINING_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MoniMachines.SCULK_XP_SENSOR_HATCH)))
+                            .or(Predicates.machines(MoniMachines.SCULK_XP_SENSOR_HATCH).setPreviewCount(1)))
                     .where("c", Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get()))
                     .where("L", Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where("F", Predicates.frames(GTMaterials.BlackSteel))
@@ -623,15 +623,15 @@ public class MoniMachines {
     public static final MachineDefinition MAX_LASER_INPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
             256, PartAbility.INPUT_LASER);
     public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
-            256, PartAbility.INPUT_LASER);
+            256, PartAbility.OUTPUT_LASER);
     public static final MachineDefinition MAX_LASER_INPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
             1024, PartAbility.INPUT_LASER);
     public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
-            1024, PartAbility.INPUT_LASER);
+            1024, PartAbility.OUTPUT_LASER);
     public static final MachineDefinition MAX_LASER_INPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
             4096, PartAbility.INPUT_LASER);
     public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
-            4096, PartAbility.INPUT_LASER);
+            4096, PartAbility.OUTPUT_LASER);
 
     public static void init() {}
 }

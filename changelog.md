@@ -1,3 +1,4 @@
-# Moni Labs 0.18.11
+# Moni Labs 0.18.12
 
-* Add laminated glass to allowed glasses for basic through elite microverse projectors (it was forgotten)
+* Fix preview counts for custom sensor hatches
+* Fix using the wrong part abilities for the custom max laser source hatches
