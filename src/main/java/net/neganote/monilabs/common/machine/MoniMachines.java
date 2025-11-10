@@ -237,35 +237,24 @@ public class MoniMachines {
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############",
-                            "#############", "#############", "#############", "#############", "#############")
-                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#",
-                            "#F#########F#", "#F#########F#", "#F#########F#", "#F#L#####L#F#", "#LLL#####LLL#")
-                    .aisle("LLLLLLLLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##",
-                            "##F#######F##", "##F#######F##", "##F#######F##", "##FLL###LLF##", "#LLLL###LLLL#")
-                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###",
-                            "###C#####C###", "###C#####C###", "###C#####C###", "#LLCCC#CCCLL#", "#LLLL###LLLL#")
-                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############",
-                            "#############", "#############", "#####LCL#####", "##LCLCCCLCL##", "##LL#####LL##")
-                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############",
-                            "#############", "######F######", "####LLCLL####", "###CCL#LCC###", "#############")
-                    .aisle("##LCCLLLCCL##", "####C###C####", "####C###C####", "#############", "#############",
-                            "#############", "#####FPF#####", "####CCCCC####", "####C###C####", "#############")
-                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############",
-                            "#############", "######F######", "####LLCLL####", "###CCL#LCC###", "#############")
-                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############",
-                            "#############", "#############", "#####LCL#####", "##LCLCCCLCL##", "##LL#####LL##")
-                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###",
-                            "###C#####C###", "###C#####C###", "###C#####C###", "#LLCCC#CCCLL#", "#LLLL###LLLL#")
-                    .aisle("LLLLLLMLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##",
-                            "##F#######F##", "##F#######F##", "##F#######F##", "##FLL###LLF##", "#LLLL###LLLL#")
-                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#",
-                            "#F#########F#", "#F#########F#", "#F#########F#", "#F#L#####L#F#", "#LLL#####LLL#")
-                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############",
-                            "#############", "#############", "#############", "#############", "#############")
+                    // spotless:off
+                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
+                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#l#####l#F#", "#lll#####lll#")
+                    .aisle("LLLLLLLLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##Fll###llF##", "#llll###llll#")
+                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "#llCCC#CCCll#", "#llll###llll#")
+                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############", "#############", "#############", "#####lCl#####", "##lClCCClCl##", "##ll#####ll##")
+                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############", "#############", "######F######", "####llCll####", "###CCl#lCC###", "#############")
+                    .aisle("##LCCLLLCCL##", "####C###C####", "####C###C####", "#############", "#############", "#############", "#####FPF#####", "####CCCCC####", "####C###C####", "#############")
+                    .aisle("##LCLLLLLCL##", "####L###L####", "#############", "#############", "#############", "#############", "######F######", "####llCll####", "###CCl#lCC###", "#############")
+                    .aisle("#LLCLLCLLCLL#", "#####LCL#####", "######C######", "#############", "#############", "#############", "#############", "#####lCl#####", "##lClCCClCl##", "##ll#####ll##")
+                    .aisle("#LLCCCCCCCLL#", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "###C#####C###", "#llCCC#CCCll#", "#llll###llll#")
+                    .aisle("LLLLLLMLLLLLL", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##Fll###llF##", "#llll###llll#")
+                    .aisle("LLLLL###LLLLL", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#########F#", "#F#l#####l#F#", "#lll#####lll#")
+                    .aisle("LLL#######LLL", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
+                    // spotless:on
                     .where("L",
                             Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get())
-                                    .setMinGlobalLimited(197)
+                                    .setMinGlobalLimited(88)
                                     .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)
                                             .setMinGlobalLimited(1)
                                             .setPreviewCount(1))
@@ -274,7 +263,8 @@ public class MoniMachines {
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                    .or(Predicates.blocks(CHROMA_SENSOR_HATCH.getBlock()).setMaxGlobalLimited(1)))
+                                    .or(Predicates.machines(CHROMA_SENSOR_HATCH)))
+                    .where("l", Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
                     .where("C", Predicates.blocks(MoniBlocks.CHROMODYNAMIC_CONDUCTION_CASING.get()))
                     .where("M", Predicates.controller(Predicates.blocks(definition.getBlock())))
                     .where("P", Predicates.blocks(MoniBlocks.PRISMATIC_FOCUS.get()))
@@ -306,9 +296,12 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(10)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
-                    .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
+                    .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
+                            .or(Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                            .or(Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
+                            .or(Predicates.blocks(MoniBlocks.PRISM_GLASS.get())))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .build())
             .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
@@ -338,9 +331,12 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(45)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
-                    .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
+                    .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
+                            .or(Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                            .or(Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
+                            .or(Predicates.blocks(MoniBlocks.PRISM_GLASS.get())))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .where("#", Predicates.any())
                     .build())
@@ -384,9 +380,12 @@ public class MoniMachines {
                     .where("D", Predicates.any())
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(125)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
-                    .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
+                    .where("G", Predicates.blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
+                            .or(Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                            .or(Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
+                            .or(Predicates.blocks(MoniBlocks.PRISM_GLASS.get())))
                     .where("V", Predicates.blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
                     .where("#", Predicates.any())
                     .build())
@@ -435,9 +434,10 @@ public class MoniMachines {
                     .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(195)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setMaxGlobalLimited(1)))
-                    .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
+                            .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
+                            .or(Predicates.machines(MICROVERSE_TYPE_SENSOR_HATCH).setPreviewCount(1)))
+                    .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get())
+                            .or(Predicates.blocks(MoniBlocks.PRISM_GLASS.get())))
                     .where("N", Predicates.frames(MoniMaterials.SculkBioalloy))
                     .where("V", Predicates.blocks(AEBlocks.QUARTZ_VIBRANT_GLASS.block()))
                     .where("W", Predicates.blocks(ForgeRegistries.BLOCKS
@@ -568,17 +568,16 @@ public class MoniMachines {
                     .aisle("CCCCC", "C   C", "C   C", "C   C", "C   C", "FSSSF", "ccccc")
                     .aisle("#C@C#", "#CLC#", "#CLC#", "#CLC#", "#CCC#", "#F#F#", "#ccc#")
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .where("C", Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get()).setMinGlobalLimited(40)
+                    .where("C", Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get()).setMinGlobalLimited(47)
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                             .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS_1X).setExactLimit(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(Predicates.machines(MoniMachines.SCULK_XP_DRAINING_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.machines(MoniMachines.SCULK_XP_SENSOR_HATCH).setMaxGlobalLimited(1)))
+                            .or(Predicates.machines(MoniMachines.SCULK_XP_SENSOR_HATCH).setPreviewCount(1)))
                     .where("c", Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get()))
-                    .where("L", Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get())
-                            .or(Predicates.blocks(MoniBlocks.CRYOLOBUS_CASING.get())))
+                    .where("L", Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where("F", Predicates.frames(GTMaterials.BlackSteel))
                     .where("S", Predicates.blocks(GTBlocks.FILTER_CASING_STERILE.get()))
                     .where("P", Predicates.blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
@@ -624,15 +623,15 @@ public class MoniMachines {
     public static final MachineDefinition MAX_LASER_INPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
             256, PartAbility.INPUT_LASER);
     public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
-            256, PartAbility.INPUT_LASER);
+            256, PartAbility.OUTPUT_LASER);
     public static final MachineDefinition MAX_LASER_INPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
             1024, PartAbility.INPUT_LASER);
     public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
-            1024, PartAbility.INPUT_LASER);
+            1024, PartAbility.OUTPUT_LASER);
     public static final MachineDefinition MAX_LASER_INPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
             4096, PartAbility.INPUT_LASER);
     public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
-            4096, PartAbility.INPUT_LASER);
+            4096, PartAbility.OUTPUT_LASER);
 
     public static void init() {}
 }
