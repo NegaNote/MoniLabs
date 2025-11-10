@@ -1,4 +1,3 @@
-# Moni Labs 0.18.12
+# Moni Labs 0.18.13
 
-* Fix preview counts for custom sensor hatches
-* Fix using the wrong part abilities for the custom max laser source hatches
+* Hotfix to actually do the PSS anti-cheese
