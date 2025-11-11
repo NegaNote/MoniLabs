@@ -1,3 +1,3 @@
-# Moni Labs 0.18.13
+# Moni Labs 0.19.0
 
-* Hotfix to actually do the PSS anti-cheese
+* (Provisional) move to using and including the Cosmic Frontiers fork of AE2
