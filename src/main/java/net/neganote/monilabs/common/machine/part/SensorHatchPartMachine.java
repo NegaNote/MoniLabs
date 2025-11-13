@@ -42,4 +42,9 @@ public class SensorHatchPartMachine extends TieredPartMachine {
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
         return false;
     }
+
+    @Override
+    public boolean canShared() {
+        return false;
+    }
 }
