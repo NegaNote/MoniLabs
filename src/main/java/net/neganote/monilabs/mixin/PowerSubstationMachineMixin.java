@@ -23,7 +23,8 @@ public class PowerSubstationMachineMixin extends MetaMachine {
     @Inject(method = "transferEnergyTick()V", at = @At(value = "HEAD"), cancellable = true)
     public void monilabs$injectBeforeTransferEnergyTick(CallbackInfo ci) {
         if (getLevel() instanceof ServerLevel serverLevel) {
-            CreativeDataAccessSavedData savedData = CreativeDataAccessSavedData.getOrCreate(serverLevel);
+            CreativeDataAccessSavedData savedData = CreativeDataAccessSavedData
+                    .getOrCreate(serverLevel.getServer().overworld());
             if (savedData.isEnabledFor(getOwnerUUID())) {
                 ci.cancel();
             }

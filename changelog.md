@@ -1,4 +1,3 @@
-# Moni Labs 0.18.12
+# Moni Labs 0.19.0
 
-* Fix preview counts for custom sensor hatches
-* Fix using the wrong part abilities for the custom max laser source hatches
+* (Provisional) move to using and including the Cosmic Frontiers fork of AE2
