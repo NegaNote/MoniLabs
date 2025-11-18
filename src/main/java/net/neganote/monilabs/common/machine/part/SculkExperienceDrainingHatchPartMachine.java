@@ -34,4 +34,9 @@ public class SculkExperienceDrainingHatchPartMachine extends FluidHatchPartMachi
     public boolean swapIO() {
         return false;
     }
+
+    @Override
+    public boolean canShared() {
+        return false;
+    }
 }
