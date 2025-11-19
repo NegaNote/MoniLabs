@@ -28,6 +28,8 @@
   "block.monilabs.sculk_vat": "Sculk Vat",
   "block.monilabs.sculk_xp_draining_hatch": "Sculk XP Draining Hatch",
   "block.monilabs.sculk_xp_sensor_hatch": "Sculk XP Sensor Hatch",
+  "block.monilabs.uev_parallel_hatch": "Ultra Parallel Control Hatch",
+  "block.monilabs.uhv_parallel_hatch": "Giga Parallel Control Hatch",
   "config.jade.plugin_monilabs.color_info": "Prismatic Crucible Color Info",
   "config.jade.plugin_monilabs.microverse_info": "Microverse Projector Info",
   "config.jade.plugin_monilabs.omnic_synth_info": "Omnic Synthesizer Info",
