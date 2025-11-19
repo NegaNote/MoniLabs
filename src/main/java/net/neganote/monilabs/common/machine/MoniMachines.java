@@ -177,7 +177,7 @@ public class MoniMachines {
             (tier, builder) -> builder
                     .langValue(switch (tier) {
                         case 9 -> "Giga";
-                        case 10 -> "Ultra";
+                        case 10 -> "Omega";
                         default -> "Simple"; // Should never be hit.
                     } + " Parallel Control Hatch")
                     .rotationState(RotationState.ALL)
@@ -189,7 +189,7 @@ public class MoniMachines {
                             .andThen((ctx, prov, model) -> {
                                 model.addReplaceableTextures("bottom", "top", "side");
                             }))
-                    .tooltips(Component.translatable("gtceu.machine.parallel_hatch_mk" + tier + ".tooltip"),
+                    .tooltips(Component.translatable("gtceu.machine.parallel_hatch_mk" + tier),
                             Component.translatable("gtceu.part_sharing.disabled"))
                     .register(),
             UHV, UEV);
