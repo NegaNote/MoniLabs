@@ -189,7 +189,7 @@ public class MoniMachines {
                             .andThen((ctx, prov, model) -> {
                                 model.addReplaceableTextures("bottom", "top", "side");
                             }))
-                    .tooltips(Component.translatable("gtceu.machine.parallel_hatch_mk" + tier),
+                    .tooltips(Component.translatable("gtceu.machine.parallel_hatch_mk" + tier + ".tooltip"),
                             Component.translatable("gtceu.part_sharing.disabled"))
                     .register(),
             UHV, UEV);

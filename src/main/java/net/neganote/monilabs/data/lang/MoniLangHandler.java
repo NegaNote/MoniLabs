@@ -45,6 +45,8 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.tertiary_input", "Tertiary");
         provider.add("monilabs.recipe.any_input_color", "ANY");
         provider.add("monilabs.recipe.input_color_not", "NOT %s");
+        provider.add("gtceu.machine.parallel_hatch_mk9.tooltip", "Allows to run up to 1024 recipes in parallel.");
+        provider.add("gtceu.machine.parallel_hatch_mk10.tooltip", "Allows to run up to 4096 recipes in parallel.");
 
         multiLang(provider, "monilabs.multiblock.duplicate",
                 "This multiblock is a duplicate",
@@ -211,8 +213,6 @@ public class MoniLangHandler {
                 "when the output hatch is not",
                 "half full (this is the maximum)",
                 "Min XP: %d, Max: %d");
-        provider.add("gtceu.machine.parallel_hatch_mk9.tooltip", "Allows to run up to 1024 recipes in parallel.");
-        provider.add("gtceu.machine.parallel_hatch_mk10.tooltip", "Allows to run up to 4096 recipes in parallel.");
 
         dfs(provider, new HashSet<>(), MoniConfig.CONFIG_HOLDER.getValueMap());
     }
