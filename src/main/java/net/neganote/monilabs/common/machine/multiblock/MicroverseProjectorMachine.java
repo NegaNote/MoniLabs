@@ -74,10 +74,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Getter
     private int microverseIntegrity;
 
-    @Persisted
-    @Getter
-    private int timer = 0;
-
     private List<NotifiableItemStackHandler> inputBuses = null;
     private List<NotifiableItemStackHandler> outputBuses = null;
 
@@ -210,7 +206,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     .toList();
         }
 
-        if (timer == 0 && microverse.isRepairable) {
+        if (microverse.isRepairable) {
             var missingHealth = MICROVERSE_MAX_INTEGRITY - microverseIntegrity;
             var fluxToFullHeal = missingHealth / FLUX_REPAIR_AMOUNT;
             var fluxAvailable = ParallelLogic.getMaxByInput(this, quantumFluxRecipe, Integer.MAX_VALUE,
@@ -240,7 +236,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 }
             }
         }
-        timer = (timer + 1) % 6;
         if (microverse.decayRate != 0) {
             int decayRate = microverse.decayRate;
             microverseIntegrity -= decayRate;
