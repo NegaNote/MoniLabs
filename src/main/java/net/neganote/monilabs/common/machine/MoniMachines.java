@@ -213,7 +213,8 @@ public class MoniMachines {
             .machine("chroma_sensor_hatch", ChromaSensorHatchPartMachine::new)
             .langValue("Chroma Sensor Hatch")
             .rotationState(RotationState.ALL)
-            .tooltips(Component.translatable("monilabs.tooltip.chroma_sensor_hatch.0"),
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.0"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
             .modelProperty(RenderColor.COLOR_PROPERTY, RenderColor.NONE)
@@ -226,7 +227,8 @@ public class MoniMachines {
             .machine("sculk_xp_draining_hatch", SculkExperienceDrainingHatchPartMachine::new)
             .langValue("Sculk XP Draining Hatch")
             .rotationState(RotationState.ALL)
-            .tooltips(Component.translatable("tooltip.monilabs.xp_draining_hatch.0"),
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.xp_draining_hatch.0"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.1"),
                     Component.translatable("tooltip.monilabs.xp_draining_hatch.2"))
             .modelProperty(IS_FORMED, false)
@@ -239,7 +241,8 @@ public class MoniMachines {
             .langValue("Sculk XP Sensor Hatch")
             .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("tooltip.monilabs.xp_sensor_hatch.0"),
-                    Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"))
+                    Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"),
+                    Component.translatable("gtceu.part_sharing.disabled"))
             .tier(GTValues.ZPM)
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
             .modelProperty(IS_FORMED, false)
@@ -250,7 +253,8 @@ public class MoniMachines {
             .machine("microverse_stability_sensor_hatch", MicroverseStabilitySensorHatchPartMachine::new)
             .langValue("Microverse Stability Sensor Hatch")
             .rotationState(RotationState.ALL)
-            .tooltips(Component.translatable("tooltip.monilabs.microverse_stability_hatch.0"),
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.microverse_stability_hatch.0"),
                     Component.translatable("tooltip.monilabs.microverse_stability_hatch.1"))
             .tier(GTValues.HV)
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
@@ -262,7 +266,8 @@ public class MoniMachines {
             .machine("microverse_type_sensor_hatch", MicroverseTypeSensorHatchPartMachine::new)
             .langValue("Microverse Type Sensor Hatch")
             .rotationState(RotationState.ALL)
-            .tooltips(Component.translatable("tooltip.monilabs.microverse_type_hatch.0"),
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.microverse_type_hatch.0"),
                     Component.translatable("tooltip.monilabs.microverse_type_hatch.1"),
                     Component.translatable("tooltip.monilabs.microverse_type_hatch.2"),
                     Component.translatable("tooltip.monilabs.microverse_type_hatch.3"),
