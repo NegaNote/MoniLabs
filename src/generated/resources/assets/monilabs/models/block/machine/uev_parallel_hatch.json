@@ -1,0 +1,76 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "monilabs:uev_parallel_hatch",
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
+  "variants": {
+    "is_formed=false,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front_active"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front_active"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front_active"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uev",
+        "textures": {
+          "overlay_front": "monilabs:block/machines/parallel_hatch_mk6/overlay_front_active"
+        }
+      }
+    }
+  }
+}

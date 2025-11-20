@@ -4,15 +4,19 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -21,6 +25,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
@@ -42,14 +47,18 @@ import appeng.core.definitions.AEBlocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
-import static com.gregtechceu.gtceu.api.GTValues.V;
-import static com.gregtechceu.gtceu.api.GTValues.VNF;
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.ZPM;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.OUT;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerTieredMachines;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableTieredHullMachineModel;
+import static net.neganote.monilabs.MoniLabs.REGISTRATE;
 
 @SuppressWarnings("unused")
 public class MoniMachines {
@@ -163,7 +172,44 @@ public class MoniMachines {
                 Component.translatable("tooltip.monilabs.hyperbolic_microverse_projector.description.2"));
     };
 
-    public static MachineDefinition CHROMA_SENSOR_HATCH = MoniLabs.REGISTRATE
+    public static final MachineDefinition[] PARALLEL_HATCH = registerTieredParallelMachines("parallel_hatch",
+            ParallelHatchPartMachine::new,
+            (tier, builder) -> builder
+                    .langValue(switch (tier) {
+                        case 9 -> "Giga";
+                        case 10 -> "Omega";
+                        default -> "Simple"; // Should never be hit.
+                    } + " Parallel Control Hatch")
+                    .rotationState(RotationState.ALL)
+                    .abilities(PartAbility.PARALLEL_HATCH)
+                    .modelProperty(IS_FORMED, false)
+                    .modelProperty(GTMachineModelProperties.RECIPE_LOGIC_STATUS, RecipeLogic.Status.IDLE)
+                    .model(createWorkableTieredHullMachineModel(
+                            MoniLabs.id("block/machines/parallel_hatch_mk" + (tier - 4)))
+                            .andThen((ctx, prov, model) -> {
+                                model.addReplaceableTextures("bottom", "top", "side");
+                            }))
+                    .tooltips(Component.translatable("gtceu.machine.parallel_hatch_mk" + tier + ".tooltip"),
+                            Component.translatable("gtceu.part_sharing.disabled"))
+                    .register(),
+            UHV, UEV);
+
+    public static MachineDefinition[] registerTieredParallelMachines(String name,
+                                                                     BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
+                                                                     BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
+                                                                     int... tiers) {
+        MachineDefinition[] definitions = new MachineDefinition[GTValues.TIER_COUNT];
+        for (int tier : tiers) {
+            var register = REGISTRATE
+                    .machine(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
+                            holder -> factory.apply(holder, tier))
+                    .tier(tier);
+            definitions[tier] = builder.apply(tier, register);
+        }
+        return definitions;
+    }
+
+    public static MachineDefinition CHROMA_SENSOR_HATCH = REGISTRATE
             .machine("chroma_sensor_hatch", ChromaSensorHatchPartMachine::new)
             .langValue("Chroma Sensor Hatch")
             .rotationState(RotationState.ALL)
@@ -177,7 +223,7 @@ public class MoniMachines {
             .tier(GTValues.UHV)
             .register();
 
-    public static MachineDefinition SCULK_XP_DRAINING_HATCH = MoniLabs.REGISTRATE
+    public static MachineDefinition SCULK_XP_DRAINING_HATCH = REGISTRATE
             .machine("sculk_xp_draining_hatch", SculkExperienceDrainingHatchPartMachine::new)
             .langValue("Sculk XP Draining Hatch")
             .rotationState(RotationState.ALL)
@@ -190,7 +236,7 @@ public class MoniMachines {
             .tier(GTValues.ZPM)
             .register();
 
-    public static MachineDefinition SCULK_XP_SENSOR_HATCH = MoniLabs.REGISTRATE
+    public static MachineDefinition SCULK_XP_SENSOR_HATCH = REGISTRATE
             .machine("sculk_xp_sensor_hatch", SculkExperienceSensorHatchPartMachine::new)
             .langValue("Sculk XP Sensor Hatch")
             .rotationState(RotationState.ALL)
@@ -203,7 +249,7 @@ public class MoniMachines {
             .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("exp_sensor", "casing/cryolobus"))
             .register();
 
-    public static MachineDefinition MICROVERSE_STABILITY_SENSOR_HATCH = MoniLabs.REGISTRATE
+    public static MachineDefinition MICROVERSE_STABILITY_SENSOR_HATCH = REGISTRATE
             .machine("microverse_stability_sensor_hatch", MicroverseStabilitySensorHatchPartMachine::new)
             .langValue("Microverse Stability Sensor Hatch")
             .rotationState(RotationState.ALL)
@@ -216,7 +262,7 @@ public class MoniMachines {
             .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("stability_hatch", "casing/microverse"))
             .register();
 
-    public static MachineDefinition MICROVERSE_TYPE_SENSOR_HATCH = MoniLabs.REGISTRATE
+    public static MachineDefinition MICROVERSE_TYPE_SENSOR_HATCH = REGISTRATE
             .machine("microverse_type_sensor_hatch", MicroverseTypeSensorHatchPartMachine::new)
             .langValue("Microverse Type Sensor Hatch")
             .rotationState(RotationState.ALL)
@@ -235,7 +281,7 @@ public class MoniMachines {
             .model(MoniMachineModels.createOverlayMicroverseCasingMachineModel("type_hatch", "casing/microverse"))
             .register();
 
-    public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.CHROMATIC_PROCESSING, MoniRecipeTypes.CHROMATIC_TRANSCENDENCE)
@@ -286,7 +332,7 @@ public class MoniMachines {
             .hasBER(true)
             .register();
 
-    public static MultiblockMachineDefinition BASIC_MICROVERSE_PROJECTOR = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition BASIC_MICROVERSE_PROJECTOR = REGISTRATE
             .multiblock("basic_microverse_projector", (holder) -> new MicroverseProjectorMachine(holder, 1))
             .langValue("Basic Microverse Projector")
             .rotationState(RotationState.NON_Y_AXIS)
@@ -319,7 +365,7 @@ public class MoniMachines {
             .hasBER(true)
             .register();
 
-    public static MultiblockMachineDefinition ADVANCED_MICROVERSE_PROJECTOR = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition ADVANCED_MICROVERSE_PROJECTOR = REGISTRATE
             .multiblock("advanced_microverse_projector", (holder) -> new MicroverseProjectorMachine(holder, 2))
             .langValue("Advanced Microverse Projector")
             .rotationState(RotationState.NON_Y_AXIS)
@@ -355,7 +401,7 @@ public class MoniMachines {
             .hasBER(true)
             .register();
 
-    public static MultiblockMachineDefinition ELITE_MICROVERSE_PROJECTOR = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition ELITE_MICROVERSE_PROJECTOR = REGISTRATE
             .multiblock("elite_microverse_projector", (holder) -> new MicroverseProjectorMachine(holder, 3))
             .langValue("Elite Microverse Projector")
             .rotationState(RotationState.NON_Y_AXIS)
@@ -404,7 +450,7 @@ public class MoniMachines {
             .hasBER(true)
             .register();
 
-    public static MultiblockMachineDefinition HYPERBOLIC_MICROVERSE_PROJECTOR = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition HYPERBOLIC_MICROVERSE_PROJECTOR = REGISTRATE
             .multiblock("hyperbolic_microverse_projector", (holder) -> new MicroverseProjectorMachine(holder, 4))
             .langValue("Hyperbolic Microverse Projector")
             .rotationState(RotationState.NON_Y_AXIS)
@@ -460,7 +506,7 @@ public class MoniMachines {
             .hasBER(true)
             .register();
 
-    public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition CREATIVE_ENERGY_MULTI = REGISTRATE
             .multiblock("creative_energy_multi", CreativeEnergyMultiMachine::new)
             .langValue("Transdimensional Energy Singularity")
             .rotationState(RotationState.NON_Y_AXIS)
@@ -510,7 +556,7 @@ public class MoniMachines {
             .tooltipBuilder(CREATIVE_ENERGY_MULTI_TOOLTIPS)
             .register();
 
-    public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition CREATIVE_DATA_MULTI = REGISTRATE
             .multiblock("creative_data_multi", CreativeDataMultiMachine::new)
             .langValue("Omniscience Research Beacon")
             .rotationState(RotationState.NON_Y_AXIS)
@@ -561,7 +607,7 @@ public class MoniMachines {
             .tooltipBuilder(CREATIVE_DATA_MULTI_TOOLTIPS)
             .register();
 
-    public static MultiblockMachineDefinition SCULK_VAT = MoniLabs.REGISTRATE
+    public static MultiblockMachineDefinition SCULK_VAT = REGISTRATE
             .multiblock("sculk_vat", SculkVatMachine::new)
             .recipeTypes(MoniRecipeTypes.SCULK_VAT_RECIPES)
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, MoniRecipeModifiers::sculkVatRecipeModifier)
@@ -625,17 +671,17 @@ public class MoniMachines {
                 GTValues.MAX)[0];
     }
 
-    public static final MachineDefinition MAX_LASER_INPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
+    public static final MachineDefinition MAX_LASER_INPUT_HATCH_256 = registerMaxLaserHatch(REGISTRATE, IN,
             256, PartAbility.INPUT_LASER);
-    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_256 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
+    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_256 = registerMaxLaserHatch(REGISTRATE, OUT,
             256, PartAbility.OUTPUT_LASER);
-    public static final MachineDefinition MAX_LASER_INPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
+    public static final MachineDefinition MAX_LASER_INPUT_HATCH_1024 = registerMaxLaserHatch(REGISTRATE, IN,
             1024, PartAbility.INPUT_LASER);
-    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_1024 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
+    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_1024 = registerMaxLaserHatch(REGISTRATE, OUT,
             1024, PartAbility.OUTPUT_LASER);
-    public static final MachineDefinition MAX_LASER_INPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, IN,
+    public static final MachineDefinition MAX_LASER_INPUT_HATCH_4096 = registerMaxLaserHatch(REGISTRATE, IN,
             4096, PartAbility.INPUT_LASER);
-    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_4096 = registerMaxLaserHatch(MoniLabs.REGISTRATE, OUT,
+    public static final MachineDefinition MAX_LASER_OUTPUT_HATCH_4096 = registerMaxLaserHatch(REGISTRATE, OUT,
             4096, PartAbility.OUTPUT_LASER);
 
     public static void init() {}
