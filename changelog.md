@@ -1,5 +1,3 @@
-# Moni Labs 0.19.1
+# Moni Labs 0.19.2
 
-* TEMPORARILY revert inclusion of AE2CL
-* make sensor hatches not allowed to be shared between multis
-* microverse projectors now consume quantum flux every tick
+* migrate kjs custom parallel hatches to coremod to fix visual/model issues
