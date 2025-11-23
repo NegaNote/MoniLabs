@@ -1,3 +1,3 @@
-# Moni Labs 0.19.3
+# Moni Labs 0.19.4
 
-* Re-add AE2 Cosmolite, now with proper compatibility with MAE2
+* Update embedded version of AE2 Cosmolite to 15.4.10-cosmolite.30
