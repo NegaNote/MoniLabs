@@ -45,6 +45,7 @@ repositories {
         url = 'https://maven.gtceu.com'
         content {
             includeGroup 'com.gregtechceu.gtceu'
+            includeGroup 'appeng'
         }
     }
     maven {
@@ -213,7 +214,7 @@ dependencies {
     modImplementation("dev.latvian.mods:rhino-forge:${rhino_version}")
     modImplementation("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
     modImplementation("dev.architectury:architectury-forge:${architectury_version}")
-    modImplementation("appeng:appliedenergistics2-forge:${appeng_version}")
+    jarJar(modImplementation("appeng:appliedenergistics2-forge:${ae2_version}"))
     modImplementation("org.appliedenergistics:guideme:${guideme_version}")
 
     modClientLocalRuntime("maven.modrinth:oculus:${oculus_version}")
