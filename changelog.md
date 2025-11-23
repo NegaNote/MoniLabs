@@ -1,3 +1,3 @@
-# Moni Labs 0.19.2
+# Moni Labs 0.19.3
 
-* migrate kjs custom parallel hatches to coremod to fix visual/model issues
+* Re-add AE2 Cosmolite, now with proper compatibility with MAE2
