@@ -1,3 +1,5 @@
-# Moni Labs 0.19.0
+# Moni Labs 0.19.1
 
-* (Provisional) move to using and including the Cosmic Frontiers fork of AE2
+* TEMPORARILY revert inclusion of AE2CL
+* make sensor hatches not allowed to be shared between multis
+* microverse projectors now consume quantum flux every tick
