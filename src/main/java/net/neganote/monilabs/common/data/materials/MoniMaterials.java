@@ -53,6 +53,7 @@ public class MoniMaterials {
                 .color(0xffffff)
                 .iconSet(MoniMaterialIconSets.Eltz)
                 .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_FRAME, MaterialFlags.PHOSPHORESCENT)
+                .cableProperties(GTValues.V[GTValues.UEV], 12, 12)
                 .register();
 
         TranscendentalMatrix = new Material.Builder(MoniLabs.id("transcendental_matrix"))
