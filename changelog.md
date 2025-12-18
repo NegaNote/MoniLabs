@@ -1,5 +1,4 @@
-# Moni Labs 0.19.1
+# Moni Labs 0.19.6
 
-* TEMPORARILY revert inclusion of AE2CL
-* make sensor hatches not allowed to be shared between multis
-* microverse projectors now consume quantum flux every tick
+* Make Eltz a UEV cable mat
+* update to gtm 7.4.0
