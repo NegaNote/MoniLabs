@@ -73,7 +73,7 @@
   "gtceu.placeholder_info.prismacColor.0": "Returns the current color of the Prismatic Crucible.",
   "gtceu.placeholder_info.prismacColor.1": "Usage:",
   "gtceu.placeholder_info.prismacColor.2": "  {prismacColor} -> Current color: (insert color here)",
-  "gtceu.placeholder_info.sculkVatXPBuffer.0": "Returns the current xp buffer of the sculk vat.",
+  "gtceu.placeholder_info.sculkVatXPBuffer.0": "Returns the current XP buffer of the Sculk Vat.",
   "gtceu.placeholder_info.sculkVatXPBuffer.1": "Usage:",
   "gtceu.placeholder_info.sculkVatXPBuffer.2": "  {sculkVatXPBuffer} -> XP Stored: (value in millibuckets)",
   "item.monilabs.max_conveyor_module": "MAX Conveyor Module",
@@ -184,6 +184,6 @@
   "tooltip.monilabs.xp_draining_hatch.0": "Drains all XP to the Sculk Vat's internal",
   "tooltip.monilabs.xp_draining_hatch.1": "buffer for its processing.",
   "tooltip.monilabs.xp_draining_hatch.2": "Buffer continuously decays slightly.",
-  "tooltip.monilabs.xp_sensor_hatch.0": "Outputs xp buffer status of sculk vat",
+  "tooltip.monilabs.xp_sensor_hatch.0": "Outputs XP buffer status of Sculk Vat",
   "tooltip.monilabs.xp_sensor_hatch.1": "as a redstone signal."
 }

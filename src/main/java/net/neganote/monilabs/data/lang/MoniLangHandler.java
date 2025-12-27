@@ -154,7 +154,7 @@ public class MoniLangHandler {
                 "Buffer continuously decays slightly.");
 
         multiLang(provider, "tooltip.monilabs.xp_sensor_hatch",
-                "Outputs xp buffer status of sculk vat",
+                "Outputs XP buffer status of Sculk Vat",
                 "as a redstone signal.");
 
         multiLang(provider, "tooltip.monilabs.microverse_stability_hatch",
@@ -204,7 +204,7 @@ public class MoniLangHandler {
                 "  {microverseStability} -> Microverse integrity: (integrity, in percent)");
 
         multiLang(provider, "gtceu.placeholder_info.sculkVatXPBuffer",
-                "Returns the current xp buffer of the sculk vat.",
+                "Returns the current XP buffer of the Sculk Vat.",
                 "Usage:",
                 "  {sculkVatXPBuffer} -> XP Stored: (value in millibuckets)");
 
