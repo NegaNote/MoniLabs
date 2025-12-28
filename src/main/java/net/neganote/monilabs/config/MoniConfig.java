@@ -39,11 +39,11 @@ public class MoniConfig {
 
         @Configurable
         @Configurable.Comment({
-                "The efficiency multiplier for the sculk vat. Would make it this many times less efficient at empty/full compared to half." })
+                "The efficiency multiplier for the Sculk Vat. Would make it this many times less efficient at empty/full compared to half." })
         public double sculkVatEfficiencyMultiplier = 33.0;
 
         @Configurable
-        @Configurable.Comment({ "Fluid ID for Liquid Experience for the Sculk Vat." })
+        @Configurable.Comment({ "Fluid ID for Liquid XP for the Sculk Vat." })
         public String sculkVatExperienceFluidID = "enderio:xp_juice";
 
         @Configurable
