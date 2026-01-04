@@ -1,4 +1,4 @@
-# Moni Labs 0.19.6
+# Moni Labs 0.19.7
 
-* Make Eltz a UEV cable mat
-* update to gtm 7.4.0
+* Add compat for Advanced AE2 courtesy of Oktawia
+* Update shipped ae2cl version
