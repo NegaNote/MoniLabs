@@ -3,12 +3,19 @@
   "package": "net.neganote.monilabs.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
+  "plugin": "net.neganote.monilabs.mixin.MoniMixinPlugin",
   "mixins": [
     "DataAccessHatchMixin",
     "KubeJSPluginsMixin",
     "NotifiableEnergyContainerMixin",
     "OpticalDataHatchMixin",
-    "PowerSubstationMachineMixin"
+    "PowerSubstationMachineMixin",
+    "aae.MixinCraftingJobStatusPacketCtorShim",
+    "aae.MixinCraftingServiceAAE",
+    "aae.MixinEncodedPatternItemShim",
+    "aae.MixinGuiTextShim",
+    "aae.MixinPatternDetailsHelperShim",
+    "aae.MixinProcessingPatternItemShim"
   ],
   "client": [
   ],

@@ -76,6 +76,7 @@
   "gtceu.placeholder_info.sculkVatXPBuffer.0": "Returns the current XP buffer of the Sculk Vat.",
   "gtceu.placeholder_info.sculkVatXPBuffer.1": "Usage:",
   "gtceu.placeholder_info.sculkVatXPBuffer.2": "  {sculkVatXPBuffer} -> XP Stored: (value in millibuckets)",
+  "gui.ae2.With": "With",
   "item.monilabs.max_conveyor_module": "MAX Conveyor Module",
   "item.monilabs.max_electric_motor": "MAX Electric Motor",
   "item.monilabs.max_electric_piston": "MAX Electric Piston",
