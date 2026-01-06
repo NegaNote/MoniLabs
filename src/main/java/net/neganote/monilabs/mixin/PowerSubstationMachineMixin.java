@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 
 import net.minecraft.server.level.ServerLevel;
-import net.neganote.monilabs.saveddata.CreativeDataAccessSavedData;
+import net.neganote.monilabs.saveddata.CreativeEnergySavedData;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +23,7 @@ public class PowerSubstationMachineMixin extends MetaMachine {
     @Inject(method = "transferEnergyTick()V", at = @At(value = "HEAD"), cancellable = true)
     public void monilabs$injectBeforeTransferEnergyTick(CallbackInfo ci) {
         if (getLevel() instanceof ServerLevel serverLevel) {
-            CreativeDataAccessSavedData savedData = CreativeDataAccessSavedData
+            CreativeEnergySavedData savedData = CreativeEnergySavedData
                     .getOrCreate(serverLevel.getServer().overworld());
             if (savedData.isEnabledFor(getOwnerUUID())) {
                 ci.cancel();
