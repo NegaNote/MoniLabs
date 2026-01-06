@@ -1,4 +1,3 @@
-# Moni Labs 0.19.7
+# Moni Labs 0.19.8
 
-* Add compat for Advanced AE2 courtesy of Oktawia
-* Update shipped ae2cl version
+* Fix the PSS being disabled on the ORB instead of the TES
