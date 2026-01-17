@@ -183,7 +183,9 @@ public class PrismaticCrucibleMachine extends WorkableElectricMultiblockMachine 
                 var blockState = Objects.requireNonNull(getLevel()).getBlockState(blockPos);
                 if (blockState.hasProperty(GTBlockStateProperties.ACTIVE)) {
                     var newState = blockState.setValue(GTBlockStateProperties.ACTIVE, isFormed());
-                    newState = newState.setValue(PrismaticActiveBlock.COLOR, color.key);
+                    if (blockState.hasProperty(PrismaticActiveBlock.COLOR)) {
+                        newState = newState.setValue(PrismaticActiveBlock.COLOR, color.key);
+                    }
 
                     if (!Objects.equals(blockState, newState)) {
                         getLevel().setBlockAndUpdate(blockPos, newState);
