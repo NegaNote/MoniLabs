@@ -208,14 +208,14 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
     }
 
     private Vec3 lissajous(float t, float time) {
-        float bx = 0.5f * Mth.cos(4 * t);
-        float by = 0.5f * Mth.sin(4 * t);
-        float bz = 4.0f * Mth.cos(t);
+        float rotationSpeed = 2.0f;
 
-        float cosT = Mth.cos(time);
-        float sinT = Mth.sin(time);
+        float bx = 0.5f * Mth.cos(4 * t + time * rotationSpeed);
+        float by = 0.5f * Mth.sin(4 * t + time * rotationSpeed);
 
-        return new Vec3(bx * cosT - by * sinT, bx * sinT + by * cosT, bz * 0.4f);
+        float bz = 6.0f * Mth.cos(t);
+
+        return new Vec3(bx, by, bz * 0.8f);
     }
 
     private Vec3 rotate(Vec3 v, Vec3 axis, float ang) {
