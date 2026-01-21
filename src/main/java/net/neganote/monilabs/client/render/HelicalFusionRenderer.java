@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMac
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.Direction;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
@@ -14,6 +15,7 @@ import net.minecraft.world.phys.Vec3;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -21,30 +23,18 @@ import org.joml.Matrix4f;
 public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, HelicalFusionRenderer> {
 
     public static final HelicalFusionRenderer INSTANCE = new HelicalFusionRenderer(
-            1f,
-            Vec3.ZERO,
-            0.45f * 0.2f,
-            0.60f * 0.2f,
-            100f);
-    // ---------------- LOD & Fade ----------------
+            2.0f,
+            new Vec3(-2.0, -1, 0),
+            0.09f,
+            0.12f,
+            10f);
+
     private static final float FADEOUT = 60f;
-    private static final double LOD_NEAR = 48.0;
-    private static final double LOD_MID = 96.0;
+    private static final double LOD_NEAR = 64.0;
+    private static final double LOD_MID = 128.0;
 
-    private static final int RING_SEGMENTS = 16;
-    private static final int RING_VERTS = RING_SEGMENTS + 1;
-
-    private static final Vec3[] BASE_RING = new Vec3[RING_VERTS];
-    static {
-        for (int i = 0; i <= RING_SEGMENTS; i++) {
-            float a = (float) (2.0 * Math.PI * i / RING_SEGMENTS);
-            BASE_RING[i] = new Vec3(Mth.cos(a), Mth.sin(a), 0);
-        }
-    }
-
-    // ---------------- Parameters ----------------
     private final float scale;
-    private final Vec3 offset;         // now relative to machine orientation
+    private final Vec3 offset;
     private final float outerRadius;
     private final float innerRadius;
     private final float twistSpeed;
@@ -60,9 +50,7 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         this.twistSpeed = twistSpeed;
     }
 
-    // ---------------- DynamicRenderType / Codec ----------------
-    public static final Codec<HelicalFusionRenderer> CODEC = Codec
-            .unit(() -> new HelicalFusionRenderer(1f, Vec3.ZERO, 0.45f * 0.2f, 0.6f * 0.2f, 100f));
+    public static final Codec<HelicalFusionRenderer> CODEC = Codec.unit(() -> INSTANCE);
     public static final DynamicRenderType<FusionReactorMachine, HelicalFusionRenderer> TYPE = new DynamicRenderType<>(
             CODEC);
 
@@ -83,10 +71,8 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         if (!machine.isFormed()) return;
 
         RecipeLogic logic = machine.getRecipeLogic();
-        int recipeColor = machine.getColor();
-
         if (logic.isWorking()) {
-            lastColor = recipeColor;
+            lastColor = machine.getColor();
             delta = FADEOUT;
         } else if (delta > 0 && lastColor != -1) {
             delta -= Minecraft.getInstance().getDeltaFrameTime();
@@ -94,24 +80,16 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
 
         float alpha = Mth.clamp(delta / FADEOUT, 0f, 1f);
 
-        // ---------------- COLOR STABILIZATION ----------------
         float rf = FastColor.ARGB32.red(lastColor) / 255f;
         float gf = FastColor.ARGB32.green(lastColor) / 255f;
         float bf = FastColor.ARGB32.blue(lastColor) / 255f;
-
         float lum = 0.2126f * rf + 0.7152f * gf + 0.0722f * bf;
-        final float MAX_LUM = 0.65f;
-        if (lum > MAX_LUM) {
-            float scaleLum = MAX_LUM / lum;
-            rf *= scaleLum;
-            gf *= scaleLum;
-            bf *= scaleLum;
+        if (lum > 0.65f) {
+            float s = 0.65f / lum;
+            rf *= s;
+            gf *= s;
+            bf *= s;
         }
-        if (bf > rf && bf > gf && lum > 0.55f) {
-            bf *= 0.90f;
-            gf *= 0.95f;
-        }
-
         int rBase = (int) (rf * 255f);
         int gBase = (int) (gf * 255f);
         int bBase = (int) (bf * 255f);
@@ -119,37 +97,21 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         float time = (machine.getOffsetTimer() + partialTick) * 0.02f;
 
         Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-        Vec3 center = Vec3.atCenterOf(machine.getPos());
-        double distSq = cam.distanceToSqr(center);
-
-        int segments, crossSections;
-        if (distSq < LOD_NEAR * LOD_NEAR) {
-            segments = 400;
-            crossSections = 12;
-        } else if (distSq < LOD_MID * LOD_MID) {
-            segments = 260;
-            crossSections = 10;
-        } else {
-            segments = 160;
-            crossSections = 8;
-        }
+        double distSq = cam.distanceToSqr(Vec3.atCenterOf(machine.getPos()));
+        int segments = distSq < LOD_NEAR * LOD_NEAR ? 400 : (distSq < LOD_MID * LOD_MID ? 260 : 160);
+        int crossSections = distSq < LOD_NEAR * LOD_NEAR ? 12 : 8;
 
         poseStack.pushPose();
 
-        // ---------------- Apply Relative Offset ----------------
-        Vec3 frontStep = new Vec3(
-                machine.getFrontFacing().step().x(),
-                machine.getFrontFacing().step().y(),
-                machine.getFrontFacing().step().z()).normalize().scale(offset.length());
+        poseStack.translate(0.5, 0.5, 0.5);
 
-        Vec3 rotatedOffset = new Vec3(
-                frontStep.x * offset.x - frontStep.z * offset.z,
-                offset.y,
-                frontStep.x * offset.z + frontStep.z * offset.x);
+        Direction facing = machine.getFrontFacing();
+        poseStack.mulPose(facing.getRotation());
 
-        poseStack.translate(rotatedOffset.x, rotatedOffset.y, rotatedOffset.z);
+        poseStack.mulPose(Axis.XP.rotationDegrees(90));
+        poseStack.mulPose(Axis.YP.rotationDegrees(90));
 
-        // ---------------- Apply scale ----------------
+        poseStack.translate(offset.x, offset.y, offset.z);
         poseStack.scale(scale, scale, scale);
 
         VertexConsumer vc = buffer.getBuffer(HelicalRenderHelpers.LIGHT_RING());
@@ -160,19 +122,15 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         poseStack.popPose();
     }
 
-    // ---------------- HELIX / RING FUNCTIONS ----------------
-    private void renderHelix(PoseStack stack, VertexConsumer vc,
-                             float time, float phase,
+    private void renderHelix(PoseStack stack, VertexConsumer vc, float time, float phase,
                              int rBase, int gBase, int bBase, float alpha,
                              int segments, int crossSections) {
         final float OUTER_ALPHA = 0.35f;
         final float INNER_ALPHA = 0.15f;
         final float OUTER_DEPTH_NUDGE = 0.015f;
-        final float INNER_DEPTH_NUDGE = 0.0f;
         final float INNER_RADIUS_SCALE = 0.85f;
 
         int ringCount = segments + 1;
-
         Vec3[] centers = new Vec3[ringCount];
         Vec3[] tangents = new Vec3[ringCount];
         Vec3[] normals = new Vec3[ringCount];
@@ -189,24 +147,18 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         Vec3[][] outer = new Vec3[ringCount][crossSections + 1];
         Vec3[][] inner = new Vec3[ringCount][crossSections + 1];
 
-        float innerRadiusVal = innerRadius * INNER_RADIUS_SCALE;
-
-        buildRings(time, ringCount, crossSections, centers, tangents, normals, binorms, outer, inner, innerRadiusVal);
+        buildRings(time, ringCount, crossSections, centers, tangents, normals, binorms, outer, inner,
+                innerRadius * INNER_RADIUS_SCALE);
 
         renderTube(stack, vc, outer, segments, crossSections, rBase, gBase, bBase, alpha * OUTER_ALPHA,
                 OUTER_DEPTH_NUDGE);
-        renderTube(stack, vc, inner, segments, crossSections, rBase, gBase, bBase, alpha * INNER_ALPHA,
-                INNER_DEPTH_NUDGE);
+        renderTube(stack, vc, inner, segments, crossSections, rBase, gBase, bBase, alpha * INNER_ALPHA, 0.0f);
     }
 
-    private void buildRings(float time, int ringCount, int crossSections,
-                            Vec3[] c, Vec3[] t,
-                            Vec3[] n, Vec3[] b,
-                            Vec3[][] o, Vec3[][] in,
-                            float innerRadius) {
+    private void buildRings(float time, int ringCount, int crossSections, Vec3[] c, Vec3[] t, Vec3[] n, Vec3[] b,
+                            Vec3[][] o, Vec3[][] in, float inRad) {
         for (int i = 0; i < ringCount; i++) {
             float twist = time * twistSpeed + i * 0.12f;
-
             Vec3 nt = rotate(n[i], t[i], twist);
             Vec3 bt = t[i].cross(nt).normalize();
 
@@ -216,72 +168,54 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
                 float sin = Mth.sin(angle);
 
                 o[i][v] = c[i].add(nt.scale(cos * outerRadius)).add(bt.scale(sin * outerRadius));
-
                 float pulse = 0.96f + 0.04f * Mth.sin(i * 0.1f + time * 3f);
-                in[i][v] = c[i].add(nt.scale(innerRadius * pulse)).add(bt.scale(sin * innerRadius * pulse));
+                in[i][v] = c[i].add(nt.scale(cos * inRad * pulse)).add(bt.scale(sin * inRad * pulse));
             }
         }
     }
 
-    private void renderTube(PoseStack stack, VertexConsumer vc,
-                            Vec3[][] rings, int segments, int crossSections,
-                            int rBase, int gBase, int bBase, float alpha, float depthNudge) {
+    private void renderTube(PoseStack stack, VertexConsumer vc, Vec3[][] rings, int segments, int crossSections, int r,
+                            int g, int b, float a, float depthNudge) {
         Matrix4f pose = stack.last().pose();
-
         for (int i = 0; i < segments; i++) {
-            int nextI = i + 1;
-
             for (int v = 0; v < crossSections; v++) {
-                int nextV = v + 1;
                 float s = 1.0f + depthNudge;
-
-                Vec3 v1 = rings[i][v].scale(s);
-                Vec3 v2 = rings[i][nextV].scale(s);
-                Vec3 v3 = rings[nextI][nextV].scale(s);
-                Vec3 v4 = rings[nextI][v].scale(s);
-
-                quad(vc, pose, v1, v2, v3, v4, rBase, gBase, bBase, alpha);
+                quad(vc, pose, rings[i][v].scale(s), rings[i][v + 1].scale(s), rings[i + 1][v + 1].scale(s),
+                        rings[i + 1][v].scale(s), r, g, b, a);
             }
         }
     }
 
-    private void computeCurve(float time, float phase, int segments,
-                              Vec3[] c, Vec3[] t) {
+    private void computeCurve(float time, float phase, int segments, Vec3[] c, Vec3[] t) {
         float dt = Mth.TWO_PI / segments;
         for (int i = 0; i < segments; i++) {
-            Vec3 p0 = lissajous(i * dt + phase, time);
-            Vec3 p1 = lissajous((i + 1) * dt + phase, time);
-            c[i] = p0;
-            t[i] = p1.subtract(p0).normalize();
+            c[i] = lissajous(i * dt + phase, time);
+        }
+        for (int i = 0; i < segments; i++) {
+            int next = (i + 1) % segments;
+            t[i] = lissajous((next * dt) + phase, time).subtract(c[i]).normalize();
         }
     }
 
-    private void computeBishopFrame(int segments, Vec3[] t,
-                                    Vec3[] n, Vec3[] b) {
+    private void computeBishopFrame(int segments, Vec3[] t, Vec3[] n, Vec3[] b) {
         Vec3 up = Math.abs(t[0].y) > 0.9 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
         n[0] = up.subtract(t[0].scale(up.dot(t[0]))).normalize();
         b[0] = t[0].cross(n[0]).normalize();
-
         for (int i = 1; i < segments; i++) {
-            Vec3 ni = n[i - 1].subtract(t[i].scale(n[i - 1].dot(t[i]))).normalize();
-            n[i] = ni;
-            b[i] = t[i].cross(ni).normalize();
+            n[i] = n[i - 1].subtract(t[i].scale(n[i - 1].dot(t[i]))).normalize();
+            b[i] = t[i].cross(n[i]).normalize();
         }
     }
 
     private Vec3 lissajous(float t, float time) {
-        float scale = 0.02f;
-        float x = 2f * scale * Mth.cos(4 * t);
-        float y = 2f * scale * Mth.sin(4 * t);
-        float z = 17f * scale * Mth.cos(t);
+        float bx = 0.5f * Mth.cos(4 * t);
+        float by = 0.5f * Mth.sin(4 * t);
+        float bz = 4.0f * Mth.cos(t);
 
-        float c = Mth.cos(time);
-        float s = Mth.sin(time);
+        float cosT = Mth.cos(time);
+        float sinT = Mth.sin(time);
 
-        return new Vec3(
-                x * c - y * s,
-                x * s + y * c,
-                z * 0.4f);
+        return new Vec3(bx * cosT - by * sinT, bx * sinT + by * cosT, bz * 0.4f);
     }
 
     private Vec3 rotate(Vec3 v, Vec3 axis, float ang) {
@@ -290,20 +224,16 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         return v.scale(c).add(axis.cross(v).scale(s)).add(axis.scale(axis.dot(v) * (1 - c)));
     }
 
-    private void quad(VertexConsumer vc, Matrix4f pose,
-                      Vec3 a, Vec3 b, Vec3 c, Vec3 d,
-                      int r, int g, int bl, float al) {
+    private void quad(VertexConsumer vc, Matrix4f pose, Vec3 a, Vec3 b, Vec3 c, Vec3 d, int r, int g, int bl,
+                      float al) {
         vertex(vc, pose, a, r, g, bl, al);
         vertex(vc, pose, b, r, g, bl, al);
         vertex(vc, pose, c, r, g, bl, al);
         vertex(vc, pose, d, r, g, bl, al);
     }
 
-    private void vertex(VertexConsumer vc, Matrix4f pose,
-                        Vec3 p, int r, int g, int b, float a) {
-        vc.vertex(pose, (float) p.x, (float) p.y, (float) p.z)
-                .color(r / 255f, g / 255f, b / 255f, a)
-                .endVertex();
+    private void vertex(VertexConsumer vc, Matrix4f pose, Vec3 p, int r, int g, int b, float a) {
+        vc.vertex(pose, (float) p.x, (float) p.y, (float) p.z).color(r / 255f, g / 255f, b / 255f, a).endVertex();
     }
 
     @Override
@@ -318,6 +248,6 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
 
     @Override
     public @NotNull AABB getRenderBoundingBox(FusionReactorMachine m) {
-        return new AABB(m.getPos()).inflate(40);
+        return new AABB(m.getPos()).inflate(60);
     }
 }
