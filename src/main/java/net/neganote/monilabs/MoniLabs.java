@@ -31,12 +31,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
 import net.neganote.monilabs.capability.recipe.MapColorIngredient;
 import net.neganote.monilabs.capability.recipe.MapMicroverseIngredient;
-import net.neganote.monilabs.client.render.CreativeDataRender;
-import net.neganote.monilabs.client.render.CreativeEnergyRender;
-import net.neganote.monilabs.client.render.MicroverseProjectorRender;
-import net.neganote.monilabs.client.render.MoniShaders;
-import net.neganote.monilabs.client.render.PrismaticCrucibleRender;
-import net.neganote.monilabs.client.render.SculkVatRender;
+import net.neganote.monilabs.client.render.*;
 import net.neganote.monilabs.client.render.effects.MoniTrails;
 import net.neganote.monilabs.client.render.effects.ParticleTypes;
 import net.neganote.monilabs.client.render.effects.PrismFX;
@@ -182,6 +177,8 @@ public class MoniLabs {
                 .register(MoniLabs.id("creative_data"), CreativeDataRender.TYPE);
         DynamicRenderManager
                 .register(MoniLabs.id("sculk_vat"), SculkVatRender.TYPE);
+        DynamicRenderManager
+                .register(MoniLabs.id("helical_fusion"), HelicalFusionRenderer.TYPE);
     }
 
     // You MUST have this for custom materials.

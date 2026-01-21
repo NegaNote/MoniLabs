@@ -40,4 +40,8 @@ public class MoniDynamicRenderHelper {
                 .setForcedLight(LightTexture.FULL_BRIGHT)
                 .getRenderer(), drawFaces);
     }
+
+    public static DynamicRender<?, ?> createHelicalFusionRenderer() {
+        return HelicalFusionRenderer.INSTANCE;
+    }
 }
