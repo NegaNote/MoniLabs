@@ -22,7 +22,7 @@ import org.joml.Matrix4f;
 
 public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, HelicalFusionRenderer> {
 
-    public static final HelicalFusionRenderer INSTANCE = new HelicalFusionRenderer(
+    static final HelicalFusionRenderer INSTANCE = new HelicalFusionRenderer(
             2.0f,
             new Vec3(-2.0, -1, 0),
             0.09f,
@@ -68,8 +68,6 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
     public void render(FusionReactorMachine machine, float partialTick,
                        @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer,
                        int packedLight, int packedOverlay) {
-        if (!machine.isFormed()) return;
-
         RecipeLogic logic = machine.getRecipeLogic();
         if (logic.isWorking()) {
             lastColor = machine.getColor();
