@@ -56,7 +56,6 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
     public void render(FusionReactorMachine machine, float partialTick,
                        @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer,
                        int packedLight, int packedOverlay) {
-
         RecipeLogic logic = machine.getRecipeLogic();
         if (logic.isWorking()) {
             lastColor = machine.getColor();
