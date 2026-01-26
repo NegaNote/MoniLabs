@@ -22,33 +22,21 @@ import org.joml.Matrix4f;
 
 public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, HelicalFusionRenderer> {
 
-    static final HelicalFusionRenderer INSTANCE = new HelicalFusionRenderer(
-            2.0f,
-            new Vec3(-2.0, -1, 0),
-            0.09f,
-            0.12f,
-            10f);
+    public static final HelicalFusionRenderer INSTANCE = new HelicalFusionRenderer();
 
+    private static final float scale = 2.0f;
+    private static final Vec3 offset = new Vec3(-2.0, -1, 0);
+    private static final float outerRadius = 0.09f;
+    private static final float innerRadius = 0.12f;
+    private static final float twistSpeed = 10f;
     private static final float FADEOUT = 60f;
     private static final double LOD_NEAR = 64.0;
     private static final double LOD_MID = 128.0;
 
-    private final float scale;
-    private final Vec3 offset;
-    private final float outerRadius;
-    private final float innerRadius;
-    private final float twistSpeed;
-
     private float delta = 0f;
     private int lastColor = -1;
 
-    public HelicalFusionRenderer(float scale, Vec3 offset, float outerRadius, float innerRadius, float twistSpeed) {
-        this.scale = scale;
-        this.offset = offset;
-        this.outerRadius = outerRadius;
-        this.innerRadius = innerRadius;
-        this.twistSpeed = twistSpeed;
-    }
+    public HelicalFusionRenderer() {}
 
     public static final Codec<HelicalFusionRenderer> CODEC = Codec.unit(() -> INSTANCE);
     public static final DynamicRenderType<FusionReactorMachine, HelicalFusionRenderer> TYPE = new DynamicRenderType<>(
@@ -68,6 +56,7 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
     public void render(FusionReactorMachine machine, float partialTick,
                        @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer,
                        int packedLight, int packedOverlay) {
+
         RecipeLogic logic = machine.getRecipeLogic();
         if (logic.isWorking()) {
             lastColor = machine.getColor();
