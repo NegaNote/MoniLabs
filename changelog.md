@@ -1,3 +1,3 @@
-# Moni Labs 0.19.8
+# Moni Labs 0.19.9
 
-* Fix the PSS being disabled on the ORB instead of the TES
+* Add renderer for Helical Fusion (courtesy of Phoenixvine)
