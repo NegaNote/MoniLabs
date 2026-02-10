@@ -1,3 +1,3 @@
-# Moni Labs 0.19.9
+# Moni Labs 0.20.0
 
-* Add renderer for Helical Fusion (courtesy of Phoenixvine)
+* Migrate to GTm 7.5.1 (rebuild necessary to work with new gregtech version)
