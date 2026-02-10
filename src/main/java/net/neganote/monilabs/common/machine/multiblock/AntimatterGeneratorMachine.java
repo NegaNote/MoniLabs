@@ -44,7 +44,7 @@ public class AntimatterGeneratorMachine extends WorkableElectricMultiblockMachin
                     .map(IFluidHandlerModifiable.class::cast)
                     .toList();
 
-            var recipe = MoniRecipeTypes.ANTIMATTER_COLLIDER_RECIPES.getLookup().findRecipe(this);
+            var recipe = MoniRecipeTypes.ANTIMATTER_COLLIDER_RECIPES.db().find(this);
 
             if (recipe == null) {
                 voidFluids(hatches);

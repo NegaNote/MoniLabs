@@ -196,7 +196,7 @@ public class MoniMachines {
 
     public static MachineDefinition[] registerTieredParallelMachines(String name,
                                                                      BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-                                                                     BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
+                                                                     BiFunction<Integer, MachineBuilder<MachineDefinition, ?>, MachineDefinition> builder,
                                                                      int... tiers) {
         MachineDefinition[] definitions = new MachineDefinition[GTValues.TIER_COUNT];
         for (int tier : tiers) {
