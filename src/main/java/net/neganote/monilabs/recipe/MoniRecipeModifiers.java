@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
@@ -77,7 +78,7 @@ public class MoniRecipeModifiers {
                         .outputModifier(ContentModifier.multiplier(multiplier))
                         .build();
             }
-            return ModifierFunction.NULL;
+            return RecipeModifier.nullWrongType(OmnicSynthesizerMachine.class, metaMachine);
         };
     }
 
@@ -88,7 +89,7 @@ public class MoniRecipeModifiers {
             return RecipeModifier.nullWrongType(MicroverseProjectorMachine.class, machine);
         }
         if (RecipeHelper.getRecipeEUtTier(recipe) > projector.getTier()) {
-            return ModifierFunction.NULL;
+            return ModifierFunction.cancel(Component.translatable("gtceu.recipe_modifier.insufficient_voltage"));
         }
         int projectorTier = projector.getProjectorTier();
         int recipeTier;
