@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
@@ -129,6 +130,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         if (recipe == null) return false;
         if (microverseIntegrity == 0 && microverse != Microverse.NONE) return false;
         if (recipe.data.contains("projector_tier") && recipe.data.getLong("projector_tier") > projectorTier) {
+            RecipeLogic.putFailureReason(this, recipe,
+                    Component.translatable("monilabs.failure_reason.insufficient_projector_tier"));
             return false;
         }
         return super.beforeWorking(recipe);

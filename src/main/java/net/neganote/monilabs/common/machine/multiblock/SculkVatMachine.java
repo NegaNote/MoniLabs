@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IFluidRenderMulti;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -167,6 +168,7 @@ public class SculkVatMachine extends WorkableElectricMultiblockMachine implement
             lastSavedRecipe = recipe;
             return true;
         } else {
+            RecipeLogic.putFailureReason(this, recipe, Component.translatable("monilabs.failure_reason.improper_xp"));
             return false;
         }
     }

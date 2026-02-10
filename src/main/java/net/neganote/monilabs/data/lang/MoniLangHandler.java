@@ -108,6 +108,9 @@ public class MoniLangHandler {
                 "§7Can §fperfectly overclock§7 lower projector §ftier§7 missions §fonce§7 for each §ftier§7 above the §frequired§7 mission tier.",
                 "§7Some missions are §fexempt§7 from being able to be §fparalleled§7.");
 
+        provider.add("monilabs.failure_reason.improper_xp", "XP buffer is outside necessary range");
+        provider.add("monilabs.failure_reason.insufficient_projector_tier", "Insufficient Projector Tier");
+
         provider.add("monilabs.tooltip.hyper_desc",
                 "§7An §Iepic machine capable of projecting %s §7for hundreds of missions at once.");
         provider.add("monilabs.tooltip.microverse.space_gradient", "Microverse");

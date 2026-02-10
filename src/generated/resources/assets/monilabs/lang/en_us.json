@@ -101,6 +101,8 @@
   "monilabs.commands.helpexpert": "Expert Mode - A modifier for hard, enables some of the more extreme GTm settings among other things",
   "monilabs.commands.helphard": "Hard Mode - Adds more lines and progression, removes HNN and Monicoin spending",
   "monilabs.commands.helpnormal": "Normal Mode - The Default mode",
+  "monilabs.failure_reason.improper_xp": "XP buffer is outside necessary range",
+  "monilabs.failure_reason.insufficient_projector_tier": "Insufficient Projector Tier",
   "monilabs.menu.SaveTmpModeFileAction.description": "Saves the letter that packmodeswitcher reads",
   "monilabs.menu.SaveTmpModeFileAction.displayname": "Save pack mode something something",
   "monilabs.menu.SaveTmpModeFileAction.valuename": "(N/H/E) Letter",
