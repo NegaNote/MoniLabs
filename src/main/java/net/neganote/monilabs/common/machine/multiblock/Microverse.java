@@ -3,6 +3,7 @@ package net.neganote.monilabs.common.machine.multiblock;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.neganote.monilabs.config.MoniConfig;
 
 import lombok.Getter;
 
@@ -11,7 +12,8 @@ public enum Microverse implements StringRepresentable {
 
     NONE("none", 0, 0, false, false, "microverse.monilabs.type.none"),
     NORMAL("normal", 1, 0, true, false, "microverse.monilabs.type.normal"),
-    HOSTILE("hostile", 2, 10, false, false, "microverse.monilabs.type.hostile"),
+    HOSTILE("hostile", 2, MoniConfig.INSTANCE.values.hostileDecayRate, false, false,
+            "microverse.monilabs.type.hostile"),
     SHATTERED("shattered", 3, 0, false, false, "microverse.monilabs.type.shattered"),
     CORRUPTED("corrupted", 4, 10, true, true, "microverse.monilabs.type.corrupted");
 

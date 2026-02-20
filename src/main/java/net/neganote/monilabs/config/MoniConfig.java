@@ -50,5 +50,11 @@ public class MoniConfig {
         @Configurable.Comment({
                 "Whether to include the hostile microverse tooltip for the microverse type sensor hatch." })
         public boolean hostileMicroverseTooltip = false;
+
+        @Configurable
+        @Configurable.Comment({
+                "Passive decay rate for hostile microverses."
+        })
+        public int hostileDecayRate = 10;
     }
 }
