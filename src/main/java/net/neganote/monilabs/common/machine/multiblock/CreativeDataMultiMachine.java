@@ -52,7 +52,7 @@ public class CreativeDataMultiMachine extends UniqueWorkableElectricMultiblockMa
     }
 
     private void tickEnableCreativeData() {
-        enableCreativeData(isActive());
+        enableCreativeData(recipeLogic.isWorking());
     }
 
     private Boolean isSubscriptionActive() {

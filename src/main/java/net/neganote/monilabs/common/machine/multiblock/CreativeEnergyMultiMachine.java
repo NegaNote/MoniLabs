@@ -45,7 +45,7 @@ public class CreativeEnergyMultiMachine extends UniqueWorkableElectricMultiblock
     }
 
     private void tickEnableCreativeEnergy() {
-        enableCreativeEnergy(isActive());
+        enableCreativeEnergy(recipeLogic.isWorking());
     }
 
     private Boolean isSubscriptionActive() {
