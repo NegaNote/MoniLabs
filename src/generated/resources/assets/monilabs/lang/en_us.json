@@ -100,6 +100,7 @@
   "microverse.monilabs.type.none": "None",
   "microverse.monilabs.type.normal": "Normal",
   "microverse.monilabs.type.shattered": "Shattered",
+  "monilabs.advanced_chroma_sensor_hatch.toggle": "Toggle redstone output: ",
   "monilabs.commands.helpexpert": "Expert Mode - A modifier for hard, enables some of the more extreme GTm settings among other things",
   "monilabs.commands.helphard": "Hard Mode - Adds more lines and progression, removes HNN and Monicoin spending",
   "monilabs.commands.helpnormal": "Normal Mode - The Default mode",
