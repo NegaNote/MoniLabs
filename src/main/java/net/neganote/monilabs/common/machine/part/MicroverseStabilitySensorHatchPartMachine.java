@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,18 +22,12 @@ public class MicroverseStabilitySensorHatchPartMachine extends SensorHatchPartMa
     @Override
     public int getOutputSignal(@Nullable Direction direction) {
         if (direction == getFrontFacing().getOpposite()) {
-            var controllers = getControllers().stream().filter(MicroverseProjectorMachine.class::isInstance)
-                    .map(MicroverseProjectorMachine.class::cast)
-                    .toList();
-            if (controllers.isEmpty()) {
+            var controller = (MicroverseProjectorMachine) getController();
+            if (controller == null) {
                 return 0;
-            } else {
-                var controller = controllers.get(0);
-                int value = (int) (16 * controller.getMicroverseIntegrity() /
-                        ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY));
-
-                return value == 16 ? 15 : value;
             }
+            return Mth.clamp((int) (16 * controller.getMicroverseIntegrity() /
+                    ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY)), 0, 15);
         } else {
             return 0;
         }
@@ -41,21 +36,18 @@ public class MicroverseStabilitySensorHatchPartMachine extends SensorHatchPartMa
     @Override
     public void updateSignal() {
         super.updateSignal();
-        var controllers = getControllers().stream().filter(MicroverseProjectorMachine.class::isInstance)
-                .map(MicroverseProjectorMachine.class::cast)
-                .toList();
-        if (controllers.isEmpty()) {
+        var controller = (MicroverseProjectorMachine) getController();
+        if (controller == null) {
             setRenderFillLevel(FillLevel.EMPTY_TO_QUARTER);
-        } else {
-            var controller = controllers.get(0);
-            int value = (int) (16 * controller.getMicroverseIntegrity() /
-                    ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY));
-            int signal = value == 16 ? 15 : value;
-
-            var fillLevel = FillLevel.values()[signal / 4];
-
-            setRenderFillLevel(fillLevel);
+            return;
         }
+
+        int value = Mth.clamp((int) (16 * controller.getMicroverseIntegrity() /
+                ((float) MicroverseProjectorMachine.MICROVERSE_MAX_INTEGRITY)), 0, 15);
+
+        var fillLevel = FillLevel.values()[value / 4];
+
+        setRenderFillLevel(fillLevel);
     }
 
     private void setRenderFillLevel(FillLevel newFillLevel) {

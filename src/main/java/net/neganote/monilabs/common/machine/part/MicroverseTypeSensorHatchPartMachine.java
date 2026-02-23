@@ -35,15 +35,11 @@ public class MicroverseTypeSensorHatchPartMachine extends SensorHatchPartMachine
     @Override
     public int getOutputSignal(@Nullable Direction direction) {
         if (direction == getFrontFacing().getOpposite()) {
-            var controllers = getControllers().stream().filter(MicroverseProjectorMachine.class::isInstance)
-                    .map(MicroverseProjectorMachine.class::cast)
-                    .toList();
-            if (controllers.isEmpty()) {
+            var controller = (MicroverseProjectorMachine) getController();
+            if (controller == null) {
                 return 0;
-            } else {
-                var controller = controllers.get(0);
-                return SIGNAL_MAP.getInt(controller.getMicroverse());
             }
+            return SIGNAL_MAP.getInt(controller.getMicroverse());
         }
         return 0;
     }
@@ -51,16 +47,10 @@ public class MicroverseTypeSensorHatchPartMachine extends SensorHatchPartMachine
     @Override
     public void updateSignal() {
         super.updateSignal();
-        var controllers = getControllers().stream().filter(MicroverseProjectorMachine.class::isInstance)
-                .map(MicroverseProjectorMachine.class::cast)
-                .toList();
-        if (controllers.isEmpty()) {
-            setRenderMicroverse(Microverse.NONE);
-        } else {
-            var controller = controllers.get(0);
 
-            setRenderMicroverse(controller.getMicroverse());
-        }
+        var controller = (MicroverseProjectorMachine) getController();
+
+        setRenderMicroverse(controller == null ? Microverse.NONE : controller.getMicroverse());
     }
 
     private void setRenderMicroverse(Microverse newMicroverse) {

@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraftforge.fluids.FluidType;
 import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
 
@@ -22,17 +23,14 @@ public class SculkExperienceSensorHatchPartMachine extends SensorHatchPartMachin
     @Override
     public int getOutputSignal(@Nullable Direction direction) {
         if (direction == getFrontFacing().getOpposite()) {
-            var controllers = getControllers().stream().filter(SculkVatMachine.class::isInstance)
-                    .map(SculkVatMachine.class::cast)
-                    .toList();
-            if (controllers.isEmpty()) {
-                return 0;
-            } else {
-                var controller = controllers.get(0);
-                int value = (int) (16 * controller.getXpBuffer() / ((float) (FluidType.BUCKET_VOLUME << GTValues.ZPM)));
+            var controller = (SculkVatMachine) getController();
 
-                return value == 16 ? 15 : value;
+            if (controller == null) {
+                return 0;
             }
+
+            return Mth.clamp(
+                    (int) (16 * controller.getXpBuffer() / ((float) (FluidType.BUCKET_VOLUME << GTValues.ZPM))), 0, 15);
         } else {
             return 0;
         }
@@ -49,17 +47,15 @@ public class SculkExperienceSensorHatchPartMachine extends SensorHatchPartMachin
     @Override
     public void updateSignal() {
         super.updateSignal();
-        var controllers = getControllers().stream().filter(SculkVatMachine.class::isInstance)
-                .map(SculkVatMachine.class::cast)
-                .toList();
-        if (controllers.isEmpty()) {
+        var controller = (SculkVatMachine) getController();
+
+        if (controller == null) {
             setRenderFillLevel(FillLevel.EMPTY_TO_QUARTER);
         } else {
-            var controller = controllers.get(0);
-            int value = (int) (16 * controller.getXpBuffer() / ((float) (FluidType.BUCKET_VOLUME << GTValues.ZPM)));
-            int signal = value == 16 ? 15 : value;
+            int value = Mth.clamp(
+                    (int) (16 * controller.getXpBuffer() / ((float) (FluidType.BUCKET_VOLUME << GTValues.ZPM))), 0, 15);
 
-            var fillLevel = FillLevel.values()[signal / 4];
+            var fillLevel = FillLevel.values()[value / 4];
 
             setRenderFillLevel(fillLevel);
         }
@@ -69,9 +65,9 @@ public class SculkExperienceSensorHatchPartMachine extends SensorHatchPartMachin
     public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
         if (controller instanceof SculkVatMachine sculkVat) {
-            int value = (int) (16 * sculkVat.getXpBuffer() / ((float) (FluidType.BUCKET_VOLUME << GTValues.ZPM)));
-            int signal = value == 16 ? 15 : value;
-            setRenderFillLevel(FillLevel.values()[signal / 4]);
+            int value = Mth.clamp(
+                    (int) (16 * sculkVat.getXpBuffer() / ((float) (FluidType.BUCKET_VOLUME << GTValues.ZPM))), 0, 15);
+            setRenderFillLevel(FillLevel.values()[value / 4]);
         }
     }
 
