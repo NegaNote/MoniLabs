@@ -227,9 +227,8 @@ public class MoniMachines {
             .langValue("Advanced Chroma Sensor Hatch")
             .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
-                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.0"),
-                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
-                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
+                    Component.translatable("monilabs.tooltip.advanced_chroma_sensor_hatch.0"),
+                    Component.translatable("monilabs.tooltip.advanced_chroma_sensor_hatch.1"))
             .modelProperty(RenderColor.COLOR_PROPERTY, RenderColor.NONE)
             .modelProperty(IS_FORMED, false)
             .model(MoniMachineModels.createOverlayChromaCasingMachineModel("chroma_sensor", "casing/netherite"))
@@ -328,7 +327,8 @@ public class MoniMachines {
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                    .or(Predicates.machines(CHROMA_SENSOR_HATCH)))
+                                    .or(Predicates.machines(CHROMA_SENSOR_HATCH))
+                                    .or(Predicates.machines(ADVANCED_CHROMA_SENSOR_HATCH)))
                     .where("l", Predicates.blocks(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING.get()))
                     .where("C", Predicates.blocks(MoniBlocks.CHROMODYNAMIC_CONDUCTION_CASING.get()))
                     .where("M", Predicates.controller(Predicates.blocks(definition.getBlock())))

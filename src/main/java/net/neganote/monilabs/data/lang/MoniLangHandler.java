@@ -152,8 +152,8 @@ public class MoniLangHandler {
                 "1-12 for each color the PrismaC can be in.");
 
         multiLang(provider, "monilabs.tooltip.advanced_chroma_sensor_hatch",
-                "Outputs a redstone signal when the" +
-                        "Prismatic Crucible is in a specified color.");
+                "Outputs a redstone signal when the",
+                "Prismatic Crucible is in a specified color.");
 
         multiLang(provider, "tooltip.monilabs.xp_draining_hatch",
                 "Drains all XP to the Sculk Vat's internal",
@@ -222,6 +222,8 @@ public class MoniLangHandler {
                 "when the output hatch is not",
                 "half full (this is the maximum)",
                 "Min XP: %d, Max: %d");
+
+        provider.add("monilabs.advanced_chroma_sensor_hatch.toggle", "Toggle redstone output: ");
 
         dfs(provider, new HashSet<>(), MoniConfig.CONFIG_HOLDER.getValueMap());
     }

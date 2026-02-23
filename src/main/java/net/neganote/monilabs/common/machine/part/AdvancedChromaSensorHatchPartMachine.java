@@ -1,8 +1,11 @@
 package net.neganote.monilabs.common.machine.part;
 
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.widget.ToggleButtonWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -67,7 +70,15 @@ public class AdvancedChromaSensorHatchPartMachine extends ChromaSensorHatchPartM
 
     @Override
     public Widget createUIWidget() {
-        return super.createUIWidget();
+        WidgetGroup group = new WidgetGroup(0, 0, 176, 105);
+
+        group.addWidget(new ToggleButtonWidget(
+                9, 20, 20, 20,
+                GuiTextures.INVERT_REDSTONE_BUTTON, this::isInverted, this::setInverted)
+                .isMultiLang()
+                .setTooltipText("cover.advanced_energy_detector.invert"));
+
+        return group;
     }
 
     @Override
