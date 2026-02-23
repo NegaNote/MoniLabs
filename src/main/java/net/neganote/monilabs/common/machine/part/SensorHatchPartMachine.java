@@ -10,7 +10,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 
+import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class SensorHatchPartMachine extends TieredPartMachine {
 
@@ -36,6 +38,17 @@ public class SensorHatchPartMachine extends TieredPartMachine {
     public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
         signalUpdateHandler.updateSubscription();
+    }
+
+    public @Nullable IMultiController getController() {
+        var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
+                .map(PrismaticCrucibleMachine.class::cast)
+                .toList();
+        if (controllers.isEmpty() || !controllers.get(0).isFormed()) {
+            return null;
+        } else {
+            return controllers.get(0);
+        }
     }
 
     @Override

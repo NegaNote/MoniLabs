@@ -28,13 +28,11 @@ public class ChromaSensorHatchPartMachine extends SensorHatchPartMachine {
     }
 
     public @Nullable Color getPrismacColor() {
-        var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
-                .map(PrismaticCrucibleMachine.class::cast)
-                .toList();
-        if (controllers.isEmpty() || !controllers.get(0).isFormed()) {
+        var controller = getController();
+        if (controller == null) {
             return null;
         }
-        return controllers.get(0).getColorState();
+        return ((PrismaticCrucibleMachine) controller).getColorState();
     }
 
     @Override
