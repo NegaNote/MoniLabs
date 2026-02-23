@@ -41,9 +41,7 @@ public class SensorHatchPartMachine extends TieredPartMachine {
     }
 
     public @Nullable IMultiController getController() {
-        var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
-                .map(PrismaticCrucibleMachine.class::cast)
-                .toList();
+        var controllers = getControllers().stream().toList();
         if (controllers.isEmpty() || !controllers.get(0).isFormed()) {
             return null;
         } else {
