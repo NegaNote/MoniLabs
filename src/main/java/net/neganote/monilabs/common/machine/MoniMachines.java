@@ -52,7 +52,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.GTValues.ZPM;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.OUT;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
@@ -212,6 +211,20 @@ public class MoniMachines {
     public static MachineDefinition CHROMA_SENSOR_HATCH = REGISTRATE
             .machine("chroma_sensor_hatch", ChromaSensorHatchPartMachine::new)
             .langValue("Chroma Sensor Hatch")
+            .rotationState(RotationState.ALL)
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.0"),
+                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.1"),
+                    Component.translatable("monilabs.tooltip.chroma_sensor_hatch.2"))
+            .modelProperty(RenderColor.COLOR_PROPERTY, RenderColor.NONE)
+            .modelProperty(IS_FORMED, false)
+            .model(MoniMachineModels.createOverlayChromaCasingMachineModel("chroma_sensor", "casing/netherite"))
+            .tier(GTValues.UHV)
+            .register();
+
+    public static MachineDefinition ADVANCED_CHROMA_SENSOR_HATCH = REGISTRATE
+            .machine("advanced_chroma_sensor_hatch", AdvancedChromaSensorHatchPartMachine::new)
+            .langValue("Advanced Chroma Sensor Hatch")
             .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
                     Component.translatable("monilabs.tooltip.chroma_sensor_hatch.0"),

@@ -151,6 +151,10 @@ public class MoniLangHandler {
                 "as a redstone signal. 0 for unformed,",
                 "1-12 for each color the PrismaC can be in.");
 
+        multiLang(provider, "monilabs.tooltip.advanced_chroma_sensor_hatch",
+                "Outputs a redstone signal when the" +
+                        "Prismatic Crucible is in a specified color.");
+
         multiLang(provider, "tooltip.monilabs.xp_draining_hatch",
                 "Drains all XP to the Sculk Vat's internal",
                 "buffer for its processing.",

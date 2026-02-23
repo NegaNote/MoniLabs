@@ -1,4 +1,5 @@
 {
+  "block.monilabs.advanced_chroma_sensor_hatch": "Advanced Chroma Sensor Hatch",
   "block.monilabs.advanced_microverse_projector": "Advanced Microverse Projector",
   "block.monilabs.basic_microverse_projector": "Basic Microverse Projector",
   "block.monilabs.bioalloy_casing": "Bioalloy Casing",
@@ -35,6 +36,7 @@
   "config.jade.plugin_monilabs.omnic_synth_info": "Omnic Synthesizer Info",
   "config.jade.plugin_monilabs.sculk_vat_xp_info": "Sculk Vat XP Buffer Info",
   "config.monilabs.option.forcePrideMonth": "forcePrideMonth",
+  "config.monilabs.option.hostileDecayRate": "hostileDecayRate",
   "config.monilabs.option.hostileMicroverseTooltip": "hostileMicroverseTooltip",
   "config.monilabs.option.microminerReturnedOnZeroIntegrity": "microminerReturnedOnZeroIntegrity",
   "config.monilabs.option.omnicSynthesizerExponent": "omnicSynthesizerExponent",
@@ -140,6 +142,7 @@
   "monilabs.recipe.result_color_relative": "Resulting Color Increment: \n%s",
   "monilabs.recipe.secondary_input": "Secondary",
   "monilabs.recipe.tertiary_input": "Tertiary",
+  "monilabs.tooltip.advanced_chroma_sensor_hatch.0": "Outputs a redstone signal when thePrismatic Crucible is in a specified color.",
   "monilabs.tooltip.chroma_sensor_hatch.0": "Outputs color state of Prismatic Crucible",
   "monilabs.tooltip.chroma_sensor_hatch.1": "as a redstone signal. 0 for unformed,",
   "monilabs.tooltip.chroma_sensor_hatch.2": "1-12 for each color the PrismaC can be in.",

@@ -1,4 +1,5 @@
 {
+  "block.monilabs.advanced_chroma_sensor_hatch": "ɥɔʇɐH ɹosuǝS ɐɯoɹɥƆ pǝɔuɐʌpⱯ",
   "block.monilabs.advanced_microverse_projector": "ɹoʇɔǝظoɹԀ ǝsɹǝʌoɹɔıW pǝɔuɐʌpⱯ",
   "block.monilabs.basic_microverse_projector": "ɹoʇɔǝظoɹԀ ǝsɹǝʌoɹɔıW ɔısɐᗺ",
   "block.monilabs.bioalloy_casing": "buısɐƆ ʎoןןɐoıᗺ",
@@ -35,6 +36,7 @@
   "config.jade.plugin_monilabs.omnic_synth_info": "oɟuI ɹǝzısǝɥʇuʎS ɔıuɯO",
   "config.jade.plugin_monilabs.sculk_vat_xp_info": "oɟuI ɹǝɟɟnᗺ ԀX ʇɐΛ ʞןnɔS",
   "config.monilabs.option.forcePrideMonth": "ɥʇuoWǝpıɹԀǝɔɹoɟ",
+  "config.monilabs.option.hostileDecayRate": "ǝʇɐᴚʎɐɔǝᗡǝןıʇsoɥ",
   "config.monilabs.option.hostileMicroverseTooltip": "dıʇןoo⟘ǝsɹǝʌoɹɔıWǝןıʇsoɥ",
   "config.monilabs.option.microminerReturnedOnZeroIntegrity": "ʎʇıɹbǝʇuIoɹǝZuOpǝuɹnʇǝᴚɹǝuıɯoɹɔıɯ",
   "config.monilabs.option.omnicSynthesizerExponent": "ʇuǝuodxƎɹǝzısǝɥʇuʎSɔıuɯo",
@@ -140,6 +142,7 @@
   "monilabs.recipe.result_color_relative": "%s\n :ʇuǝɯǝɹɔuI ɹoןoƆ buıʇןnsǝᴚ",
   "monilabs.recipe.secondary_input": "ʎɹɐpuoɔǝS",
   "monilabs.recipe.tertiary_input": "ʎɹɐıʇɹǝ⟘",
+  "monilabs.tooltip.advanced_chroma_sensor_hatch.0": "˙ɹoןoɔ pǝıɟıɔǝds ɐ uı sı ǝןqıɔnɹƆ ɔıʇɐɯsıɹԀǝɥʇ uǝɥʍ ןɐubıs ǝuoʇspǝɹ ɐ sʇndʇnO",
   "monilabs.tooltip.chroma_sensor_hatch.0": "ǝןqıɔnɹƆ ɔıʇɐɯsıɹԀ ɟo ǝʇɐʇs ɹoןoɔ sʇndʇnO",
   "monilabs.tooltip.chroma_sensor_hatch.1": "'pǝɯɹoɟun ɹoɟ 0 ˙ןɐubıs ǝuoʇspǝɹ ɐ sɐ",
   "monilabs.tooltip.chroma_sensor_hatch.2": "˙uı ǝq uɐɔ ƆɐɯsıɹԀ ǝɥʇ ɹoןoɔ ɥɔɐǝ ɹoɟ ᄅƖ-Ɩ",

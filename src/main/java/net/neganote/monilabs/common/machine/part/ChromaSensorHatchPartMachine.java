@@ -5,9 +5,11 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 
 import net.minecraft.core.Direction;
+import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.PrismaticCrucibleMachine;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -25,18 +27,21 @@ public class ChromaSensorHatchPartMachine extends SensorHatchPartMachine {
         }
     }
 
+    public @Nullable Color getPrismacColor() {
+        var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
+                .map(PrismaticCrucibleMachine.class::cast)
+                .toList();
+        if (controllers.isEmpty() || !controllers.get(0).isFormed()) {
+            return null;
+        }
+        return controllers.get(0).getColorState();
+    }
+
     @Override
     public int getOutputSignal(Direction direction) {
         if (direction == getFrontFacing().getOpposite()) {
-            var controllers = getControllers().stream().filter(PrismaticCrucibleMachine.class::isInstance)
-                    .map(PrismaticCrucibleMachine.class::cast)
-                    .toList();
-            if (controllers.isEmpty()) {
-                return 0;
-            } else {
-                var controller = controllers.get(0);
-                return controller.isFormed() ? controller.getColorState().key + 1 : 0;
-            }
+            var prismacColor = getPrismacColor();
+            return prismacColor == null ? 0 : prismacColor.key + 1;
         } else {
             return 0;
         }
