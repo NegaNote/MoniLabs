@@ -164,6 +164,8 @@ public class MoniLangHandler {
                 "Outputs XP buffer status of Sculk Vat",
                 "as a redstone signal.");
 
+        provider.add("tooltip.monilabs.advanced_sensor_hatch", "as a configurable redstone signal.");
+
         multiLang(provider, "tooltip.monilabs.microverse_stability_hatch",
                 "Outputs microverse stability",
                 "as a redstone signal.");
@@ -175,6 +177,10 @@ public class MoniLangHandler {
                 "1: Normal",
                 "2: Shattered",
                 "3: Corrupted");
+
+        multiLang(provider, "tooltip.monilabs.advanced_microverse_type_hatch",
+                "Outputs a redstone signal when the",
+                "Microverse projector has projected a specified microverse type.");
 
         provider.add("tooltip.monilabs.microverse_type_hatch.hostile", "4: Hostile");
 

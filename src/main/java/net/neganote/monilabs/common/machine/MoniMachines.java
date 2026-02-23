@@ -252,9 +252,23 @@ public class MoniMachines {
             .machine("sculk_xp_sensor_hatch", SculkExperienceSensorHatchPartMachine::new)
             .langValue("Sculk XP Sensor Hatch")
             .rotationState(RotationState.ALL)
-            .tooltips(Component.translatable("tooltip.monilabs.xp_sensor_hatch.0"),
-                    Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"),
-                    Component.translatable("gtceu.part_sharing.disabled"))
+
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.xp_sensor_hatch.0"),
+                    Component.translatable("tooltip.monilabs.xp_sensor_hatch.1"))
+            .tier(GTValues.ZPM)
+            .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
+            .modelProperty(IS_FORMED, false)
+            .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("exp_sensor", "casing/cryolobus"))
+            .register();
+
+    public static MachineDefinition ADVANCED_SCULK_XP_SENSOR_HATCH = REGISTRATE
+            .machine("advanced_sculk_xp_sensor_hatch", AdvancedSculkExperienceSensorHatchPartMachine::new)
+            .langValue("Advanced Sculk XP Sensor Hatch")
+            .rotationState(RotationState.ALL)
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.xp_sensor_hatch.0"),
+                    Component.translatable("tooltip.monilabs.advanced_sensor_hatch"))
             .tier(GTValues.ZPM)
             .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
             .modelProperty(IS_FORMED, false)
@@ -274,6 +288,20 @@ public class MoniMachines {
             .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("stability_hatch", "casing/microverse"))
             .register();
 
+    public static MachineDefinition ADVANCED_MICROVERSE_STABILITY_SENSOR_HATCH = REGISTRATE
+            .machine("advanced_microverse_stability_sensor_hatch",
+                    AdvancedMicroverseStabilitySensorHatchPartMachine::new)
+            .langValue("Advanced Microverse Stability Sensor Hatch")
+            .rotationState(RotationState.ALL)
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.microverse_stability_hatch.0"),
+                    Component.translatable("tooltip.monilabs.advanced_sensor_hatch"))
+            .tier(GTValues.HV)
+            .modelProperty(FillLevel.FILL_PROPERTY, FillLevel.EMPTY_TO_QUARTER)
+            .modelProperty(IS_FORMED, false)
+            .model(MoniMachineModels.createOverlayFillLevelCasingMachineModel("stability_hatch", "casing/microverse"))
+            .register();
+
     public static MachineDefinition MICROVERSE_TYPE_SENSOR_HATCH = REGISTRATE
             .machine("microverse_type_sensor_hatch", MicroverseTypeSensorHatchPartMachine::new)
             .langValue("Microverse Type Sensor Hatch")
@@ -285,6 +313,21 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.microverse_type_hatch.3"),
                     Component.translatable("tooltip.monilabs.microverse_type_hatch.4"),
                     Component.translatable("tooltip.monilabs.microverse_type_hatch.5"))
+            .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.hostile"),
+                    MoniConfig.INSTANCE.values.hostileMicroverseTooltip)
+            .tier(GTValues.HV)
+            .modelProperty(Microverse.MICROVERSE_TYPE, Microverse.NONE)
+            .modelProperty(IS_FORMED, false)
+            .model(MoniMachineModels.createOverlayMicroverseCasingMachineModel("type_hatch", "casing/microverse"))
+            .register();
+
+    public static MachineDefinition ADVANCED_MICROVERSE_TYPE_SENSOR_HATCH = REGISTRATE
+            .machine("advanced_microverse_type_sensor_hatch", AdvancedMicroverseTypeSensorHatchPartMachine::new)
+            .langValue("Advanced Microverse Type Sensor Hatch")
+            .rotationState(RotationState.ALL)
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.advanced_microverse_type_hatch.0"),
+                    Component.translatable("tooltip.monilabs.advanced_microverse_type_hatch.1"))
             .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.hostile"),
                     MoniConfig.INSTANCE.values.hostileMicroverseTooltip)
             .tier(GTValues.HV)
