@@ -12,4 +12,6 @@ public class MoniGuiTextures {
             "monilabs:textures/gui/progress_bar/progress_bar_simulation.png");
     public static final ResourceTexture PROGRESS_BAR_XP = new ResourceTexture(
             "monilabs:textures/gui/progress_bar/progress_bar_xp.png");
+    public static final ResourceTexture XP_SENSOR_BUTTON = new ResourceTexture(
+            "monilabs:textures/gui/widget/button_xp_sensor.png");
 }

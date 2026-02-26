@@ -1,5 +1,6 @@
 package net.neganote.monilabs.common.machine.multiblock;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -87,6 +88,36 @@ public enum Color implements StringRepresentable {
     }
 
     public static final Map<Color, Color> TO_NOT_COLOR = new Object2ObjectArrayMap<>();
+
+    public String getColoredDisplayName() {
+        String displayName;
+
+        if (nameKey != null && !nameKey.isEmpty()) {
+            displayName = Component.translatable(nameKey).getString();
+        } else {
+            displayName = this.name().toUpperCase().replace('_', ' ');
+        }
+
+        boolean isRealColor = this.key >= Color.RED.key && this.key <= Color.PINK.key;
+
+        if (isRealColor) {
+            int rgb = this.integerColor;
+            String hex = String.format("%06X", rgb & 0xFFFFFF);
+            StringBuilder sb = new StringBuilder("§x");
+            for (char c : hex.toCharArray()) {
+                sb.append('§').append(c);
+            }
+            return sb + displayName;
+        } else {
+            String hex = String.format("%06X", 0x555555 & 0xFFFFFF);
+            StringBuilder sb = new StringBuilder("§x");
+            for (char c : hex.toCharArray()) {
+                sb.append('§').append(c);
+            }
+            return sb + displayName;
+        }
+    }
+
     public static final Map<Color, Color> FROM_NOT_COLOR = new Object2ObjectArrayMap<>();
 
     static {

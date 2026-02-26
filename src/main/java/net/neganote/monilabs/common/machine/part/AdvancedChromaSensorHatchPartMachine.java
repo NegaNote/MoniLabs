@@ -1,41 +1,39 @@
 package net.neganote.monilabs.common.machine.part;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.ToggleButtonWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 
-import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
-import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.ArrayUtils;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import static net.neganote.monilabs.common.machine.multiblock.Color.ACTUAL_COLORS;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class AdvancedChromaSensorHatchPartMachine extends ChromaSensorHatchPartMachine {
+public class AdvancedChromaSensorHatchPartMachine extends ChromaSensorHatchPartMachine
+                                                  implements IFancyUIMachine {
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             AdvancedChromaSensorHatchPartMachine.class,
@@ -53,18 +51,19 @@ public class AdvancedChromaSensorHatchPartMachine extends ChromaSensorHatchPartM
     @DescSynced
     public boolean inverted = false;
 
-    private static final List<String> COLOR_NAMES = Arrays.stream(Color.values())
-            .map(Enum::name)
-            .toList();
-
-    private static final it.unimi.dsi.fastutil.objects.Object2ObjectMap<String, Color> NAME_TO_COLOR =
-            new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+    public static final Object2ObjectMap<String, Color> NAME_TO_COLOR = new Object2ObjectOpenHashMap<>();
 
     static {
         for (Color color : Color.values()) {
             NAME_TO_COLOR.put(color.name(), color);
         }
     }
+
+    private static final List<Color> VALID_COLORS = Arrays.asList(ACTUAL_COLORS);
+
+    private static final List<String> ACTUAL_COLOR_DISPLAY_NAMES = VALID_COLORS.stream()
+            .map(Color::getColoredDisplayName)
+            .toList();
 
     public AdvancedChromaSensorHatchPartMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -96,27 +95,33 @@ public class AdvancedChromaSensorHatchPartMachine extends ChromaSensorHatchPartM
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 70, 70);
 
-        // Selection Widget
-        group.addWidget(new LabelWidget(5, 5, "Color:"));
+        int currentIndex = VALID_COLORS.indexOf(getDetectorColor());
+        if (currentIndex == -1) currentIndex = 0;
+
+        group.addWidget(new LabelWidget(-40, 15, "gui.monilabs.chroma.color.display"));
 
         group.addWidget(new SelectorWidget(
-                15, 10, 80, 20,
-                COLOR_NAMES,
-                COLOR_NAMES.indexOf(getDetectorColor().name()))
+                -5, 11, 80, 20,
+                ACTUAL_COLOR_DISPLAY_NAMES,
+                currentIndex)
+                .setMaxCount(3)
                 .setOnChanged(selectedName -> {
-                    // Safe retrieval using the fastutil map
-                    Color newColor = NAME_TO_COLOR.getOrDefault(selectedName, Color.RED);
-                    setDetectorColor(newColor);
+                    int index = ACTUAL_COLOR_DISPLAY_NAMES.indexOf(selectedName);
+                    if (index >= 0) {
+                        setDetectorColor(VALID_COLORS.get(index));
+                    }
                 })
                 .setButtonBackground(ResourceBorderTexture.BUTTON_COMMON)
-                .setBackground(ColorPattern.BLACK.rectTexture())
-                .setSupplier(() -> getDetectorColor().name()));
+                .setSupplier(() -> {
+                    int idx = VALID_COLORS.indexOf(getDetectorColor());
+                    return idx >= 0 ? ACTUAL_COLOR_DISPLAY_NAMES.get(idx) : "gui.monilabs.chroma.color.unknown";
+                }));
 
-        // Invert Redstone Output Toggle:
         group.addWidget(new ToggleButtonWidget(
-                9, 55, 20, 20,
+                80, 11, 20, 20,
                 GuiTextures.INVERT_REDSTONE_BUTTON, this::isInverted, this::setInverted)
-                .setTooltipText("gtceu.gui.button.invert_redstone"));
+                .isMultiLang()
+                .setTooltipText("gui.advanced_chroma_sensor.invert"));
 
         return group;
     }

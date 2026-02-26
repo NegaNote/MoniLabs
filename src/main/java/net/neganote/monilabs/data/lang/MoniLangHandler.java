@@ -229,7 +229,43 @@ public class MoniLangHandler {
                 "half full (this is the maximum)",
                 "Min XP: %d, Max: %d");
 
-        provider.add("monilabs.advanced_chroma_sensor_hatch.toggle", "Toggle redstone output: ");
+        provider.add("gui.monilabs.chroma.color.display", "Color: ");
+        provider.add("gui.monilabs.chroma.color.unknown", "Unknown");
+        provider.add("gui.monilabs.microverse_stability.min_threshold", "Set minimum threshold");
+        provider.add("gui.monilabs.microverse_stability.max_threshold", "Set maximum threshold");
+        provider.add("gui.monilabs.microverse_stability.min", "Min: ");
+        provider.add("gui.monilabs.microverse_stability.max", "Max: ");
+        provider.add("gui.advanced_chroma_sensor.display", "Type: ");
+        provider.add("gui.advanced_chroma_sensor.none", "None");
+        provider.add("gui.monilabs.xp_sensor.mode_percentage", "Mode: Percentage (%%) ");
+        provider.add("gui.monilabs.xp_sensor.mode_raw_amount", "Mode: Raw Amount (XP) ");
+        provider.add("gui.monilabs.xp_sensor.min_threshold", "Set minimum threshold");
+        provider.add("gui.monilabs.xp_sensor.max_threshold", "Set maximum threshold");
+        provider.add("gui.monilabs.xp_sensor.min", "Min: ");
+        provider.add("gui.monilabs.xp_sensor.max", "Max: ");
+
+        var advancedChromaSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the color chosen does not match the active color of the Prismatic Crucible.";
+        multilineLang(provider, "gui.advanced_chroma_sensor.invert.enabled",
+                "Output: Inverted\n\n" + advancedChromaSensorHatchDescription);
+        multilineLang(provider, "gui.advanced_chroma_sensor.invert.disabled",
+                "Output: Normal\n\n" + advancedChromaSensorHatchDescription);
+
+        var advancedSculkExperienceSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the raw value or percentage does not match the amount of XP in the internal buffer of the Sculk Vat.";
+        multilineLang(provider, "gui.monilabs.xp_sensor.invert.enabled",
+                "Output: Inverted\n\n" + advancedSculkExperienceSensorHatchDescription);
+        multilineLang(provider, "gui.monilabs.xp_sensor.invert.disabled",
+                "Output: Normal\n\n" + advancedSculkExperienceSensorHatchDescription);
+
+        var advancedMicroverseStabilitySensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the percentage does not match the current stability of the Microverse Projector.";
+        multilineLang(provider, "gui.monilabs.microverse_stability_sensor.invert.enabled",
+                "Output: Inverted\n\n" + advancedMicroverseStabilitySensorHatchDescription);
+        multilineLang(provider, "gui.monilabs.microverse_stability_sensor.invert.disabled",
+                "Output: Normal\n\n" + advancedMicroverseStabilitySensorHatchDescription);
+
+        multilineLang(provider, "gui.monilabs.xp_sensor.mode_toggle.enabled",
+                "Mode: Percentage \n\nToggle to select the mode of Sculk Experience Signal.\nIn this mode, redstone is emitted when the amount of XP in the Sculk Vat matches the percentages");
+        multilineLang(provider, "gui.monilabs.xp_sensor.mode_toggle.disabled",
+                "Mode: Raw Amount\n\nToggle to select the mode of Sculk Experience Signal.\nIn this mode, redstone is emitted when the amount of XP in the Sculk Vat matches the raw values");
 
         dfs(provider, new HashSet<>(), MoniConfig.CONFIG_HOLDER.getValueMap());
     }
@@ -250,6 +286,11 @@ public class MoniLangHandler {
         for (var i = 0; i < values.length; i++) {
             provider.add(getSubKey(key, i), values[i]);
         }
+    }
+
+    protected static void multilineLang(RegistrateLangProvider provider, String key, String multiline) {
+        var lines = multiline.split("\n");
+        multiLang(provider, key, lines);
     }
 
     protected static String getSubKey(String key, int index) {
