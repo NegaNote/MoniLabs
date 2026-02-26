@@ -20,6 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neganote.monilabs.client.gui.MoniGuiTextures;
 import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
 
+import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class AdvancedSculkExperienceSensorHatchPartMachine extends SculkExperienceSensorHatchPartMachine {
 
     @Persisted
@@ -85,7 +87,7 @@ public class AdvancedSculkExperienceSensorHatchPartMachine extends SculkExperien
         }
 
         boolean inRange = (currentXP >= min && currentXP <= max);
-        return (inverted ? !inRange : inRange) ? 15 : 0;
+        return (inverted != inRange) ? 15 : 0;
     }
 
     @Override
@@ -111,7 +113,7 @@ public class AdvancedSculkExperienceSensorHatchPartMachine extends SculkExperien
                 () -> usesPercent ? minPercent : minValue,
                 val -> {
                     if (usesPercent) minPercent = Mth.clamp(val, 0, 100);
-                    else minValue = Math.max(0, val);
+                    else minValue = Mth.clamp(val, 0, SculkVatMachine.XP_BUFFER_MAX);
                 })
                 .setHoverTooltips("gui.monilabs.xp_sensor.min_threshold"));
 
@@ -120,7 +122,7 @@ public class AdvancedSculkExperienceSensorHatchPartMachine extends SculkExperien
                 () -> usesPercent ? maxPercent : maxValue,
                 val -> {
                     if (usesPercent) maxPercent = Mth.clamp(val, 0, 100);
-                    else maxValue = Math.max(0, val);
+                    else maxValue = Mth.clamp(val, 0, SculkVatMachine.XP_BUFFER_MAX);
                 })
                 .setHoverTooltips("gui.monilabs.xp_sensor.max_threshold"));
 

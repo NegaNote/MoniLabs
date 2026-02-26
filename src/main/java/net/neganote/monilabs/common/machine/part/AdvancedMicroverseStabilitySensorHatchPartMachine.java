@@ -101,9 +101,7 @@ public class AdvancedMicroverseStabilitySensorHatchPartMachine extends Microvers
         group.addWidget(new LabelWidget(10, 35, "gui.monilabs.microverse_stability.min"));
         group.addWidget(new IntInputWidget(45, 30, 100, 20,
                 () -> minPercent,
-                val -> {
-                    minPercent = Mth.clamp(val, 0, 100);
-                })
+                val -> minPercent = Mth.clamp(val, 0, 100))
                 .setHoverTooltips("gui.monilabs.microverse_stability.min_threshold"));
 
         group.addWidget(new LabelWidget(10, 60, "gui.monilabs.microverse_stability.max"));
