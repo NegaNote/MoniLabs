@@ -29,6 +29,7 @@ import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static net.neganote.monilabs.common.machine.multiblock.Color.ACTUAL_COLORS;
+import static net.neganote.monilabs.common.machine.multiblock.Color.ACTUAL_COLOR_COUNT;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -52,18 +53,18 @@ public class AdvancedChromaSensorHatchPartMachine extends ChromaSensorHatchPartM
     public boolean inverted = false;
 
     public static final Object2ObjectMap<String, Color> NAME_TO_COLOR = new Object2ObjectOpenHashMap<>();
+    public static final Object2ObjectMap<Color, String> COLOR_TO_NAME = new Object2ObjectOpenHashMap<>();
 
-    static {
-        for (Color color : Color.values()) {
-            NAME_TO_COLOR.put(color.name(), color);
-        }
-    }
-
-    private static final List<Color> VALID_COLORS = Arrays.asList(ACTUAL_COLORS);
-
-    private static final List<String> ACTUAL_COLOR_DISPLAY_NAMES = VALID_COLORS.stream()
+    private static final List<String> ACTUAL_COLOR_DISPLAY_NAMES = Arrays.stream(ACTUAL_COLORS)
             .map(Color::getColoredDisplayName)
             .toList();
+
+    static {
+        for (int i = 0; i < ACTUAL_COLOR_COUNT; i++) {
+            NAME_TO_COLOR.put(ACTUAL_COLOR_DISPLAY_NAMES.get(i), ACTUAL_COLORS[i]);
+            COLOR_TO_NAME.put(ACTUAL_COLORS[i], ACTUAL_COLOR_DISPLAY_NAMES.get(i));
+        }
+    }
 
     public AdvancedChromaSensorHatchPartMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -95,27 +96,16 @@ public class AdvancedChromaSensorHatchPartMachine extends ChromaSensorHatchPartM
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 70, 70);
 
-        int currentIndex = VALID_COLORS.indexOf(getDetectorColor());
-        if (currentIndex == -1) currentIndex = 0;
-
         group.addWidget(new LabelWidget(-40, 15, "gui.monilabs.chroma.color.display"));
 
         group.addWidget(new SelectorWidget(
                 -5, 11, 80, 20,
                 ACTUAL_COLOR_DISPLAY_NAMES,
-                currentIndex)
+                0)
                 .setMaxCount(3)
-                .setOnChanged(selectedName -> {
-                    int index = ACTUAL_COLOR_DISPLAY_NAMES.indexOf(selectedName);
-                    if (index >= 0) {
-                        setDetectorColor(VALID_COLORS.get(index));
-                    }
-                })
+                .setOnChanged(selectedName -> setDetectorColor(NAME_TO_COLOR.get(selectedName)))
                 .setButtonBackground(ResourceBorderTexture.BUTTON_COMMON)
-                .setSupplier(() -> {
-                    int idx = VALID_COLORS.indexOf(getDetectorColor());
-                    return idx >= 0 ? ACTUAL_COLOR_DISPLAY_NAMES.get(idx) : "gui.monilabs.chroma.color.unknown";
-                }));
+                .setSupplier(() -> COLOR_TO_NAME.get(getDetectorColor())));
 
         group.addWidget(new ToggleButtonWidget(
                 80, 11, 20, 20,

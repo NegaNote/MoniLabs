@@ -6,9 +6,6 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.neganote.monilabs.config.MoniConfig;
 
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 public enum Microverse implements StringRepresentable {
 
@@ -54,15 +51,7 @@ public enum Microverse implements StringRepresentable {
         return this.name().toLowerCase().replace('_', ' ');
     }
 
-    public static final Microverse[] ACTUAL_MICROVERSES = Arrays.copyOfRange(MICROVERSES, 0,
-            Microverse.CORRUPTED.ordinal() + 1);
-
     public static Microverse getMicroverseFromKey(int pKey) {
         return MICROVERSES[pKey];
-    }
-
-    @Override
-    public @NotNull String getSerializedName() {
-        return serializedName;
     }
 }

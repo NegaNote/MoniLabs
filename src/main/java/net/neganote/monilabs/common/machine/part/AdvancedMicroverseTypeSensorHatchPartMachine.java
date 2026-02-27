@@ -33,8 +33,6 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static net.neganote.monilabs.common.machine.multiblock.Microverse.ACTUAL_MICROVERSES;
-
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class AdvancedMicroverseTypeSensorHatchPartMachine extends MicroverseTypeSensorHatchPartMachine
@@ -65,20 +63,20 @@ public class AdvancedMicroverseTypeSensorHatchPartMachine extends MicroverseType
         return true;
     }
 
-    public static final Object2ObjectMap<String, Microverse> MICROVERSE_NAME = new Object2ObjectOpenHashMap<>();
-
-    static {
-        for (Microverse microverse : Microverse.values()) {
-            MICROVERSE_NAME.put(microverse.name(), microverse);
-        }
-    }
-
-    private static final List<Microverse> VALID_TYPES = Arrays.asList(ACTUAL_MICROVERSES);
-
     // Now uses getDisplayName() for plain white text
-    private static final List<String> ACTUAL_MICROVERSE_DISPLAY_NAMES = VALID_TYPES.stream()
+    private static final List<String> ACTUAL_MICROVERSE_DISPLAY_NAMES = Arrays.stream(Microverse.values())
             .map(Microverse::getDisplayName)
             .toList();
+
+    public static final Object2ObjectMap<String, Microverse> NAME_TO_MICROVERSE = new Object2ObjectOpenHashMap<>();
+    public static final Object2ObjectMap<Microverse, String> MICROVERSE_TO_NAME = new Object2ObjectOpenHashMap<>();
+
+    static {
+        for (int i = 0; i < Microverse.values().length; i++) {
+            NAME_TO_MICROVERSE.put(ACTUAL_MICROVERSE_DISPLAY_NAMES.get(i), Microverse.values()[i]);
+            MICROVERSE_TO_NAME.put(Microverse.values()[i], ACTUAL_MICROVERSE_DISPLAY_NAMES.get(i));
+        }
+    }
 
     @Override
     public int getOutputSignal(@Nullable Direction direction) {
@@ -107,20 +105,11 @@ public class AdvancedMicroverseTypeSensorHatchPartMachine extends MicroverseType
 
         group.addWidget(new SelectorWidget(
                 -5, 11, 80, 20,
-                ACTUAL_MICROVERSE_DISPLAY_NAMES,
-                VALID_TYPES.indexOf(getDetectorMicroverse()))
+                ACTUAL_MICROVERSE_DISPLAY_NAMES, 0)
                 .setMaxCount(3)
-                .setOnChanged(selectedName -> {
-                    int index = ACTUAL_MICROVERSE_DISPLAY_NAMES.indexOf(selectedName);
-                    if (index >= 0) {
-                        setDetectorMicroverse(VALID_TYPES.get(index));
-                    }
-                })
+                .setOnChanged(selectedName -> setDetectorMicroverse(NAME_TO_MICROVERSE.get(selectedName)))
                 .setButtonBackground(ResourceBorderTexture.BUTTON_COMMON)
-                .setSupplier(() -> {
-                    int idx = VALID_TYPES.indexOf(getDetectorMicroverse());
-                    return idx >= 0 ? ACTUAL_MICROVERSE_DISPLAY_NAMES.get(idx) : "gui.advanced_chroma_sensor.none";
-                }));
+                .setSupplier(() -> MICROVERSE_TO_NAME.get(getDetectorMicroverse())));
 
         group.addWidget(new ToggleButtonWidget(
                 80, 11, 20, 20,
