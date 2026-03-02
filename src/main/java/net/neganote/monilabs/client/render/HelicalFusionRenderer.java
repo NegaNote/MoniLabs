@@ -1,6 +1,7 @@
 package net.neganote.monilabs.client.render;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
@@ -15,7 +16,6 @@ import net.minecraft.world.phys.Vec3;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -23,12 +23,15 @@ import org.joml.Matrix4f;
 public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, HelicalFusionRenderer> {
 
     public static final HelicalFusionRenderer INSTANCE = new HelicalFusionRenderer();
+    public static final Codec<HelicalFusionRenderer> CODEC = Codec.unit(() -> INSTANCE);
+    public static final DynamicRenderType<FusionReactorMachine, HelicalFusionRenderer> TYPE = new DynamicRenderType<>(
+            CODEC);
 
-    private static final float scale = 2.0f;
-    private static final Vec3 offset = new Vec3(-2.0, -1, 0);
-    private static final float outerRadius = 0.09f;
-    private static final float innerRadius = 0.12f;
-    private static final float twistSpeed = 10f;
+    private static final float SCALE = 2.0f;
+    private static final Vec3 OFFSET = new Vec3(-2.0, -1.0, 0.0);
+    private static final float OUTER_RADIUS = 0.2f;
+    private static final float INNER_RADIUS = 0.12f;
+    private static final float TWIST_SPEED = 10f;
     private static final float FADEOUT = 60f;
     private static final double LOD_NEAR = 64.0;
     private static final double LOD_MID = 128.0;
@@ -37,10 +40,6 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
     private int lastColor = -1;
 
     public HelicalFusionRenderer() {}
-
-    public static final Codec<HelicalFusionRenderer> CODEC = Codec.unit(() -> INSTANCE);
-    public static final DynamicRenderType<FusionReactorMachine, HelicalFusionRenderer> TYPE = new DynamicRenderType<>(
-            CODEC);
 
     @Override
     public @NotNull DynamicRenderType<FusionReactorMachine, HelicalFusionRenderer> getType() {
@@ -65,22 +64,17 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         } else return;
 
         float alpha = Mth.clamp(delta / FADEOUT, 0f, 1f);
-
-        float rf = FastColor.ARGB32.red(lastColor) / 255f;
-        float gf = FastColor.ARGB32.green(lastColor) / 255f;
-        float bf = FastColor.ARGB32.blue(lastColor) / 255f;
-        float lum = 0.2126f * rf + 0.7152f * gf + 0.0722f * bf;
-        if (lum > 0.65f) {
-            float s = 0.65f / lum;
-            rf *= s;
-            gf *= s;
-            bf *= s;
-        }
-        int rBase = (int) (rf * 255f);
-        int gBase = (int) (gf * 255f);
-        int bBase = (int) (bf * 255f);
-
+        int[] color = getProcessedColor(lastColor);
         float time = (machine.getOffsetTimer() + partialTick) * 0.02f;
+
+        Direction frontDir = machine.getFrontFacing();
+        Direction upDir = RelativeDirection.UP.getRelative(frontDir, machine.getUpwardsFacing(), machine.isFlipped());
+        Direction leftDir = RelativeDirection.LEFT.getRelative(frontDir, machine.getUpwardsFacing(),
+                machine.isFlipped());
+
+        Vec3 vFront = Vec3.atLowerCornerOf(frontDir.getNormal());
+        Vec3 vUp = Vec3.atLowerCornerOf(upDir.getNormal());
+        Vec3 vLeft = Vec3.atLowerCornerOf(leftDir.getNormal());
 
         Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         double distSq = cam.distanceToSqr(Vec3.atCenterOf(machine.getPos()));
@@ -91,26 +85,23 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
 
         poseStack.translate(0.5, 0.5, 0.5);
 
-        Direction facing = machine.getFrontFacing();
-        poseStack.mulPose(facing.getRotation());
+        Vec3 dynamicOffset = vFront.scale(-2.0)
+                .add(vUp.scale(3.5))
+                .add(vLeft.scale(4.0));
 
-        poseStack.mulPose(Axis.XP.rotationDegrees(90));
-        poseStack.mulPose(Axis.YP.rotationDegrees(90));
-
-        poseStack.translate(offset.x, offset.y, offset.z);
-        poseStack.scale(scale, scale, scale);
+        poseStack.translate(dynamicOffset.x, dynamicOffset.y, dynamicOffset.z);
 
         VertexConsumer vc = buffer.getBuffer(HelicalRenderHelpers.LIGHT_RING());
 
-        renderHelix(poseStack, vc, time, 0f, rBase, gBase, bBase, alpha, segments, crossSections);
-        renderHelix(poseStack, vc, time, Mth.PI, rBase, gBase, bBase, alpha, segments, crossSections);
+        renderHelix(poseStack, vc, time, 0f, color, alpha, segments, crossSections, vFront, vUp, vLeft);
+        renderHelix(poseStack, vc, time, Mth.PI, color, alpha, segments, crossSections, vFront, vUp, vLeft);
 
         poseStack.popPose();
     }
 
     private void renderHelix(PoseStack stack, VertexConsumer vc, float time, float phase,
-                             int rBase, int gBase, int bBase, float alpha,
-                             int segments, int crossSections) {
+                             int[] c, float alpha, int segments, int crossSections,
+                             Vec3 f, Vec3 u, Vec3 l) {
         final float OUTER_ALPHA = 0.35f;
         final float INNER_ALPHA = 0.15f;
         final float OUTER_DEPTH_NUDGE = 0.015f;
@@ -119,107 +110,100 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
         int ringCount = segments + 1;
         Vec3[] centers = new Vec3[ringCount];
         Vec3[] tangents = new Vec3[ringCount];
+
+        float dt = Mth.TWO_PI / segments;
+        for (int i = 0; i < ringCount; i++) {
+            float t = (i % segments) * dt + phase;
+            centers[i] = computeLissajous(t, time, f, u, l);
+        }
+        for (int i = 0; i < segments; i++) {
+            tangents[i] = centers[i + 1].subtract(centers[i]).normalize();
+        }
+        tangents[segments] = tangents[0];
+
         Vec3[] normals = new Vec3[ringCount];
         Vec3[] binorms = new Vec3[ringCount];
+        Vec3 helper = Math.abs(tangents[0].y) > 0.9 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
+        normals[0] = helper.subtract(tangents[0].scale(helper.dot(tangents[0]))).normalize();
+        binorms[0] = tangents[0].cross(normals[0]).normalize();
 
-        computeCurve(time, phase, segments, centers, tangents);
-        computeBishopFrame(segments, tangents, normals, binorms);
-
-        centers[segments] = centers[0];
-        tangents[segments] = tangents[0];
-        normals[segments] = normals[0];
-        binorms[segments] = binorms[0];
-
-        Vec3[][] outer = new Vec3[ringCount][crossSections + 1];
-        Vec3[][] inner = new Vec3[ringCount][crossSections + 1];
-
-        buildRings(time, ringCount, crossSections, centers, tangents, normals, binorms, outer, inner,
-                innerRadius * INNER_RADIUS_SCALE);
-
-        renderTube(stack, vc, outer, segments, crossSections, rBase, gBase, bBase, alpha * OUTER_ALPHA,
-                OUTER_DEPTH_NUDGE);
-        renderTube(stack, vc, inner, segments, crossSections, rBase, gBase, bBase, alpha * INNER_ALPHA, 0.0f);
-    }
-
-    private void buildRings(float time, int ringCount, int crossSections, Vec3[] c, Vec3[] t, Vec3[] n, Vec3[] b,
-                            Vec3[][] o, Vec3[][] in, float inRad) {
-        for (int i = 0; i < ringCount; i++) {
-            float twist = time * twistSpeed + i * 0.12f;
-            Vec3 nt = rotate(n[i], t[i], twist);
-            Vec3 bt = t[i].cross(nt).normalize();
-
-            for (int v = 0; v <= crossSections; v++) {
-                float angle = v * Mth.TWO_PI / crossSections;
-                float cos = Mth.cos(angle);
-                float sin = Mth.sin(angle);
-
-                o[i][v] = c[i].add(nt.scale(cos * outerRadius)).add(bt.scale(sin * outerRadius));
-                float pulse = 0.96f + 0.04f * Mth.sin(i * 0.1f + time * 3f);
-                in[i][v] = c[i].add(nt.scale(cos * inRad * pulse)).add(bt.scale(sin * inRad * pulse));
-            }
+        for (int i = 1; i <= segments; i++) {
+            normals[i] = normals[i - 1].subtract(tangents[i].scale(normals[i - 1].dot(tangents[i]))).normalize();
+            binorms[i] = tangents[i].cross(normals[i]).normalize();
         }
-    }
 
-    private void renderTube(PoseStack stack, VertexConsumer vc, Vec3[][] rings, int segments, int crossSections, int r,
-                            int g, int b, float a, float depthNudge) {
         Matrix4f pose = stack.last().pose();
         for (int i = 0; i < segments; i++) {
+            float twist = time * TWIST_SPEED + i * 0.12f;
             for (int v = 0; v < crossSections; v++) {
-                float s = 1.0f + depthNudge;
-                quad(vc, pose, rings[i][v].scale(s), rings[i][v + 1].scale(s), rings[i + 1][v + 1].scale(s),
-                        rings[i + 1][v].scale(s), r, g, b, a);
+                // Outer Tube
+                Vec3[] qOuter = getQuad(i, v, centers, tangents, normals, binorms, crossSections, OUTER_RADIUS, twist,
+                        0, 1.015f);
+                drawQuad(vc, pose, qOuter, c, alpha * OUTER_ALPHA);
+
+                // Inner Tube
+                Vec3[] qInner = getQuad(i, v, centers, tangents, normals, binorms, crossSections,
+                        INNER_RADIUS * INNER_RADIUS_SCALE, twist, time, 1.0f);
+                drawQuad(vc, pose, qInner, c, alpha * INNER_ALPHA);
             }
         }
     }
 
-    private void computeCurve(float time, float phase, int segments, Vec3[] c, Vec3[] t) {
-        float dt = Mth.TWO_PI / segments;
-        for (int i = 0; i < segments; i++) {
-            c[i] = lissajous(i * dt + phase, time);
-        }
-        for (int i = 0; i < segments; i++) {
-            int next = (i + 1) % segments;
-            t[i] = lissajous((next * dt) + phase, time).subtract(c[i]).normalize();
-        }
+    private Vec3 computeLissajous(float t, float time, Vec3 f, Vec3 u, Vec3 l) {
+        float bx = 0.5f * Mth.cos(4 * t + time * 2.0f);
+        float by = 0.5f * Mth.sin(4 * t + time * 2.0f);
+        float bz = 6.0f * Mth.cos(t) * 0.8f;
+
+        return l.scale(bz + OFFSET.x)
+                .add(u.scale(by + OFFSET.y))
+                .add(f.scale(bx + OFFSET.z))
+                .scale(SCALE);
     }
 
-    private void computeBishopFrame(int segments, Vec3[] t, Vec3[] n, Vec3[] b) {
-        Vec3 up = Math.abs(t[0].y) > 0.9 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
-        n[0] = up.subtract(t[0].scale(up.dot(t[0]))).normalize();
-        b[0] = t[0].cross(n[0]).normalize();
-        for (int i = 1; i < segments; i++) {
-            n[i] = n[i - 1].subtract(t[i].scale(n[i - 1].dot(t[i]))).normalize();
-            b[i] = t[i].cross(n[i]).normalize();
+    private Vec3[] getQuad(int i, int v, Vec3[] c, Vec3[] t, Vec3[] n, Vec3[] b,
+                           int res, float rad, float twist, float pTime, float nudge) {
+        Vec3[] quad = new Vec3[4];
+        for (int k = 0; k < 4; k++) {
+            int rIdx = i + (k == 2 || k == 3 ? 1 : 0);
+            int vIdx = v + (k == 1 || k == 2 ? 1 : 0);
+            float angle = vIdx * Mth.TWO_PI / res;
+
+            Vec3 nt = rotate(n[rIdx], t[rIdx], twist);
+            Vec3 bt = t[rIdx].cross(nt).normalize();
+            float pulse = pTime == 0 ? 1.0f : 0.96f + 0.04f * Mth.sin(rIdx * 0.1f + pTime * 3f);
+
+            quad[k] = c[rIdx].add(nt.scale(Mth.cos(angle) * rad * pulse))
+                    .add(bt.scale(Mth.sin(angle) * rad * pulse))
+                    .scale(nudge);
         }
+        return quad;
     }
 
-    private Vec3 lissajous(float t, float time) {
-        float rotationSpeed = 2.0f;
-
-        float bx = 0.5f * Mth.cos(4 * t + time * rotationSpeed);
-        float by = 0.5f * Mth.sin(4 * t + time * rotationSpeed);
-
-        float bz = 6.0f * Mth.cos(t);
-
-        return new Vec3(bx, by, bz * 0.8f);
+    private void drawQuad(VertexConsumer vc, Matrix4f pose, Vec3[] q, int[] c, float a) {
+        for (Vec3 p : q) {
+            vc.vertex(pose, (float) p.x, (float) p.y, (float) p.z)
+                    .color(c[0] / 255f, c[1] / 255f, c[2] / 255f, a).endVertex();
+        }
     }
 
     private Vec3 rotate(Vec3 v, Vec3 axis, float ang) {
-        double c = Math.cos(ang);
-        double s = Math.sin(ang);
-        return v.scale(c).add(axis.cross(v).scale(s)).add(axis.scale(axis.dot(v) * (1 - c)));
+        float co = Mth.cos(ang);
+        float si = Mth.sin(ang);
+        return v.scale(co).add(axis.cross(v).scale(si)).add(axis.scale(axis.dot(v) * (1 - co)));
     }
 
-    private void quad(VertexConsumer vc, Matrix4f pose, Vec3 a, Vec3 b, Vec3 c, Vec3 d, int r, int g, int bl,
-                      float al) {
-        vertex(vc, pose, a, r, g, bl, al);
-        vertex(vc, pose, b, r, g, bl, al);
-        vertex(vc, pose, c, r, g, bl, al);
-        vertex(vc, pose, d, r, g, bl, al);
-    }
-
-    private void vertex(VertexConsumer vc, Matrix4f pose, Vec3 p, int r, int g, int b, float a) {
-        vc.vertex(pose, (float) p.x, (float) p.y, (float) p.z).color(r / 255f, g / 255f, b / 255f, a).endVertex();
+    private int[] getProcessedColor(int color) {
+        float r = FastColor.ARGB32.red(color) / 255f;
+        float g = FastColor.ARGB32.green(color) / 255f;
+        float b = FastColor.ARGB32.blue(color) / 255f;
+        float lum = 0.2126f * r + 0.7152f * g + 0.0722f * b;
+        if (lum > 0.65f) {
+            float s = 0.65f / lum;
+            r *= s;
+            g *= s;
+            b *= s;
+        }
+        return new int[] { (int) (r * 255), (int) (g * 255), (int) (b * 255) };
     }
 
     @Override
