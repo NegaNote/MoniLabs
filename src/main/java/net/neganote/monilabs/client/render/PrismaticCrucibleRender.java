@@ -64,7 +64,9 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
                 pcm.getUpwardsFacing(),
                 pcm.isFlipped());
 
-        Direction faceDir = resolvedUp.getAxis() == Direction.Axis.Y ? resolvedUp : resolvedUp.getOpposite();
+        Direction faceDir = resolvedUp;
+
+
 
         Direction down = faceDir.getOpposite();
 
@@ -113,12 +115,21 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
     }
 
     // Stolen and modified from FluidBlockRender
-    public void drawPlane(Direction face, Direction resolvedUp, Collection<BlockPos> offsets, Matrix4f pose,
-                          VertexConsumer consumer, Fluid fluid, RenderUtil.FluidTextureType texture,
-                          int combinedOverlay, PrismaticCrucibleMachine pcm) {
+    public void drawPlane(Direction face, Direction resolvedUp,
+                          Collection<BlockPos> offsets,
+                          Matrix4f pose,
+                          VertexConsumer consumer,
+                          Fluid fluid,
+                          RenderUtil.FluidTextureType texture,
+                          int combinedOverlay,
+                          PrismaticCrucibleMachine pcm) {
+
         var fluidClientInfo = IClientFluidTypeExtensions.of(fluid);
         var sprite = texture.map(fluidClientInfo);
-        float u0 = sprite.getU0(), v0 = sprite.getV0(), u1 = sprite.getU1(), v1 = sprite.getV1();
+
+        float u0 = sprite.getU0(), v0 = sprite.getV0();
+        float u1 = sprite.getU1(), v1 = sprite.getV1();
+
         int color = pcm.getColorState().integerColor;
         int r = red(color), g = green(color), b = blue(color), a = alpha(color);
 
@@ -128,32 +139,46 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
         Direction front = pcm.getFrontFacing();
         Direction upDir = resolvedUp;
 
-        Vector3f leftVec = new Vector3f(
-                (float) upDir.getStepY() * front.getStepZ() - (float) upDir.getStepZ() * front.getStepY(),
-                (float) upDir.getStepZ() * front.getStepX() - (float) upDir.getStepX() * front.getStepZ(),
-                (float) upDir.getStepX() * front.getStepY() - (float) upDir.getStepY() * front.getStepX());
+        // 🔥 Correct right-handed basis
+        Vector3f frontVec = new Vector3f(front.getStepX(), front.getStepY(), front.getStepZ());
+        Vector3f upVec = new Vector3f(upDir.getStepX(), upDir.getStepY(), upDir.getStepZ());
+
+        // Correct cross order
+        Vector3f leftVec = frontVec.cross(upVec, new Vector3f()).normalize();
 
         float leftShift = 0.0f;
         float backShift = -8.0f;
 
         Matrix4f shiftedPose = new Matrix4f(pose);
         shiftedPose.translate(
-                (leftVec.x() * leftShift) + (front.getStepX() * backShift),
-                (leftVec.y() * leftShift) + (front.getStepY() * backShift),
-                (leftVec.z() * leftShift) + (front.getStepZ() * backShift));
+                (leftVec.x * leftShift) + (frontVec.x * backShift),
+                (leftVec.y * leftShift) + (frontVec.y * backShift),
+                (leftVec.z * leftShift) + (frontVec.z * backShift));
 
         for (var offset : offsets) {
-            float dx = (leftVec.x() * -offset.getX()) + (upDir.getStepX() * offset.getY()) +
-                    (front.getStepX() * offset.getZ());
-            float dy = (leftVec.y() * -offset.getX()) + (upDir.getStepY() * offset.getY()) +
-                    (front.getStepY() * offset.getZ());
-            float dz = (leftVec.z() * -offset.getX()) + (upDir.getStepZ() * offset.getY()) +
-                    (front.getStepZ() * offset.getZ());
+
+            float dx =
+                    (leftVec.x * -offset.getX()) +
+                            (upVec.x   *  offset.getY()) +
+                            (frontVec.x * offset.getZ());
+
+            float dy =
+                    (leftVec.y * -offset.getX()) +
+                            (upVec.y   *  offset.getY()) +
+                            (frontVec.y * offset.getZ());
+
+            float dz =
+                    (leftVec.z * -offset.getX()) +
+                            (upVec.z   *  offset.getY()) +
+                            (frontVec.z * offset.getZ());
 
             Matrix4f blockPose = new Matrix4f(shiftedPose);
             blockPose.translate(dx, dy, dz);
 
-            drawFace(blockPose, consumer, vertices, normal, u0, u1, v0, v1, r, g, b, a, combinedOverlay);
+            drawFace(blockPose, consumer, vertices, normal,
+                    u0, u1, v0, v1,
+                    r, g, b, a,
+                    combinedOverlay);
         }
     }
 
