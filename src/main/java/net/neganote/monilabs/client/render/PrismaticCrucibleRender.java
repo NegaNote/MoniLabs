@@ -52,7 +52,6 @@ public class PrismaticCrucibleRender extends DynamicRender<PrismaticCrucibleMach
     public PrismaticCrucibleRender() {}
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void render(PrismaticCrucibleMachine pcm, float partialTicks, PoseStack poseStack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
         var level = pcm.getLevel();
