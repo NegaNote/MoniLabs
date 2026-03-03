@@ -1,3 +1,6 @@
-# Moni Labs 0.20.0
+# Moni Labs 0.21.0
 
-* Migrate to GTm 7.5.1 (rebuild necessary to work with new gregtech version)
+* Update to GTm 7.5.2
+* Fix rotation on Helical Fusion Reactor render (thanks Phoenixvine)
+* Add advanced (configurable) versions of the sensor hatches (UIs made by Phoenixvine, thanks)
+* Update embedded ae2cl version to .36
