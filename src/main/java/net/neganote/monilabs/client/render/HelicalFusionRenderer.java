@@ -28,7 +28,7 @@ public class HelicalFusionRenderer extends DynamicRender<FusionReactorMachine, H
             CODEC);
 
     private static final float SCALE = 2.0f;
-    private static final Vec3 OFFSET = new Vec3(-2.0, -1.0, 0.0);
+    private static final Vec3 OFFSET = new Vec3(-2.0, -1.25, 0.0);
     private static final float OUTER_RADIUS = 0.2f;
     private static final float INNER_RADIUS = 0.12f;
     private static final float TWIST_SPEED = 10f;
