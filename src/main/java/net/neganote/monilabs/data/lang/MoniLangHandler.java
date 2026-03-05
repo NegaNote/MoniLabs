@@ -250,6 +250,12 @@ public class MoniLangHandler {
         multilineLang(provider, "gui.advanced_chroma_sensor.invert.disabled",
                 "Output: Normal\n\n" + advancedChromaSensorHatchDescription);
 
+        var advancedMicroverseTypeSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the type chosen does not match the active microverse type in the Microverse Projector.";
+        multilineLang(provider, "gui.advanced_type_sensor.invert.enabled",
+                "Output: Inverted\n\n" + advancedMicroverseTypeSensorHatchDescription);
+        multilineLang(provider, "gui.advanced_type_sensor.invert.disabled",
+                "Output: Normal\n\n" + advancedMicroverseTypeSensorHatchDescription);
+
         var advancedSculkExperienceSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the raw value or percentage does not match the amount of XP in the internal buffer of the Sculk Vat.";
         multilineLang(provider, "gui.monilabs.xp_sensor.invert.enabled",
                 "Output: Inverted\n\n" + advancedSculkExperienceSensorHatchDescription);

@@ -115,7 +115,7 @@ public class AdvancedMicroverseTypeSensorHatchPartMachine extends MicroverseType
                 80, 11, 20, 20,
                 GuiTextures.INVERT_REDSTONE_BUTTON, this::isInverted, this::setInverted)
                 .isMultiLang()
-                .setTooltipText("gui.advanced_chroma_sensor.invert"));
+                .setTooltipText("gui.advanced_type_sensor.invert"));
 
         return group;
     }

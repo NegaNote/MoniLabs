@@ -70,8 +70,8 @@ public class AdvancedMicroverseStabilitySensorHatchPartMachine extends Microvers
 
         var actualStability = controller.getMicroverseIntegrity();
 
-        var minStability = minPercent * 100;
-        var maxStability = maxPercent * 100;
+        var minStability = minPercent * MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT;
+        var maxStability = maxPercent * MicroverseProjectorMachine.FLUX_REPAIR_AMOUNT;
 
         if (inverted) {
             if (actualStability >= minStability && actualStability <= maxStability) {
