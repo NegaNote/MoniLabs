@@ -244,25 +244,25 @@ public class MoniLangHandler {
         provider.add("gui.monilabs.xp_sensor.min", "Min: ");
         provider.add("gui.monilabs.xp_sensor.max", "Max: ");
 
-        var advancedChromaSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the color chosen does not match the active color of the Prismatic Crucible.";
+        var advancedChromaSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone is emitted when the color chosen matches the active color of the Prismatic Crucible.";
         multilineLang(provider, "gui.advanced_chroma_sensor.invert.enabled",
                 "Output: Inverted\n\n" + advancedChromaSensorHatchDescription);
         multilineLang(provider, "gui.advanced_chroma_sensor.invert.disabled",
                 "Output: Normal\n\n" + advancedChromaSensorHatchDescription);
 
-        var advancedMicroverseTypeSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the type chosen does not match the active microverse type in the Microverse Projector.";
+        var advancedMicroverseTypeSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone is emitted when the type chosen matches the active microverse type in the Microverse Projector.";
         multilineLang(provider, "gui.advanced_type_sensor.invert.enabled",
                 "Output: Inverted\n\n" + advancedMicroverseTypeSensorHatchDescription);
         multilineLang(provider, "gui.advanced_type_sensor.invert.disabled",
                 "Output: Normal\n\n" + advancedMicroverseTypeSensorHatchDescription);
 
-        var advancedSculkExperienceSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the raw value or percentage does not match the amount of XP in the internal buffer of the Sculk Vat.";
+        var advancedSculkExperienceSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone is emitted when the raw value or percentage matches the amount of XP in the internal buffer of the Sculk Vat.";
         multilineLang(provider, "gui.monilabs.xp_sensor.invert.enabled",
                 "Output: Inverted\n\n" + advancedSculkExperienceSensorHatchDescription);
         multilineLang(provider, "gui.monilabs.xp_sensor.invert.disabled",
                 "Output: Normal\n\n" + advancedSculkExperienceSensorHatchDescription);
 
-        var advancedMicroverseStabilitySensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone stops emitting when the percentage does not match the current stability of the Microverse Projector.";
+        var advancedMicroverseStabilitySensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone is emitted when the percentage matches the current stability of the Microverse Projector.";
         multilineLang(provider, "gui.monilabs.microverse_stability_sensor.invert.enabled",
                 "Output: Inverted\n\n" + advancedMicroverseStabilitySensorHatchDescription);
         multilineLang(provider, "gui.monilabs.microverse_stability_sensor.invert.disabled",

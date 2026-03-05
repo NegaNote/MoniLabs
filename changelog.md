@@ -1,4 +1,3 @@
-# Moni Labs 0.21.1
+# Moni Labs 0.21.2
 
-* Fix readings on advanced stability hatch
-* Fix lang on advanced microverse type hatch invert tooltip
+* Fix more advanced sensor hatch lang stuff

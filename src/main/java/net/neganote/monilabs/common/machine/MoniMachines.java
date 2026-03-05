@@ -328,8 +328,6 @@ public class MoniMachines {
             .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
                     Component.translatable("tooltip.monilabs.advanced_microverse_type_hatch.0"),
                     Component.translatable("tooltip.monilabs.advanced_microverse_type_hatch.1"))
-            .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.hostile"),
-                    MoniConfig.INSTANCE.values.hostileMicroverseTooltip)
             .tier(GTValues.HV)
             .modelProperty(Microverse.MICROVERSE_TYPE, Microverse.NONE)
             .modelProperty(IS_FORMED, false)
