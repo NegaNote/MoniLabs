@@ -130,13 +130,15 @@ public class MoniLangHandler {
         provider.add("monilabs.menu.SaveTmpModeFileAction.displayname", "Save pack mode something something");
         provider.add("monilabs.menu.SaveTmpModeFileAction.description",
                 "Saves the letter that packmodeswitcher reads");
-        provider.add("monilabs.menu.SaveTmpModeFileAction.valuename", "(N/H/E) Letter");
+        provider.add("monilabs.menu.SaveTmpModeFileAction.valuename", "(N/H/E/I) Letter");
 
         provider.add("monilabs.commands.helpnormal", "Normal Mode - The Default mode");
         provider.add("monilabs.commands.helphard",
                 "Hard Mode - Adds more lines and progression, removes HNN and Monicoin spending");
         provider.add("monilabs.commands.helpexpert",
                 "Expert Mode - A modifier for hard, enables some of the more extreme GTm settings among other things");
+        provider.add("monilabs.commands.helpinsanity",
+                "Insanity Mode - Why are you doing this to yourself?");
 
         multiLang(provider, "emi_info.creative_energy_multi",
                 "Imbues your factory with",
@@ -184,11 +186,21 @@ public class MoniLangHandler {
 
         provider.add("tooltip.monilabs.microverse_type_hatch.hostile", "4: Hostile");
 
+        multiLang(provider, "tooltip.monilabs.microverse_type_hatch.complex",
+                "5: Abyssal",
+                "6: Necrosed",
+                "7: Supercharged",
+                "8: Degenerate");
+
         provider.add("microverse.monilabs.type.none", "None");
         provider.add("microverse.monilabs.type.normal", "Normal");
         provider.add("microverse.monilabs.type.hostile", "Hostile");
         provider.add("microverse.monilabs.type.shattered", "Shattered");
         provider.add("microverse.monilabs.type.corrupted", "Corrupted");
+        provider.add("microverse.monilabs.type.abyssal", "Abyssal");
+        provider.add("microverse.monilabs.type.necrosed", "Necrosed");
+        provider.add("microverse.monilabs.type.supercharged", "Supercharged");
+        provider.add("microverse.monilabs.type.degenerate", "Degenerate");
 
         provider.add("microverse.monilabs.current_microverse", "Microverse type: %s");
         provider.add("microverse.monilabs.integrity", "Microverse integrity: %.2f%%");

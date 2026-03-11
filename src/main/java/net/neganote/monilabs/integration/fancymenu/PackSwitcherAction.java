@@ -45,6 +45,7 @@ public class PackSwitcherAction extends Action {
             case "n" -> PackSwitchUtil.switchToNormal(cwd);
             case "h" -> PackSwitchUtil.switchToHard(cwd);
             case "e" -> PackSwitchUtil.switchToExpert(cwd);
+            case "i" -> PackSwitchUtil.switchToInsanity(cwd);
         }
     }
 

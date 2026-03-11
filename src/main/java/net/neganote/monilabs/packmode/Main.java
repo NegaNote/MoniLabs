@@ -31,7 +31,7 @@ public class Main {
         }
 
         if (mode == null) {
-            System.out.print("Hello! Please provide a mode to switch Monifactory to (N/H/E): ");
+            System.out.print("Hello! Please provide a mode to switch Monifactory to (N/H/E/I): ");
             Scanner inputScanner = new Scanner(System.in);
             mode = inputScanner.nextLine().strip();
         }
@@ -54,6 +54,9 @@ public class Main {
         } else if (mode.equalsIgnoreCase("e") || mode.equalsIgnoreCase("expert")) {
             PackSwitchUtil.switchToExpert(mcRoot);
             System.out.println("Switched Monifactory to expert mode!");
+        } else if (mode.equalsIgnoreCase("i") || mode.equalsIgnoreCase("insanity")) {
+            PackSwitchUtil.switchToInsanity(mcRoot);
+            System.out.println("I hope you know what you're doing...");
         } else {
             System.out.println("Invalid mode! Please run the script again.");
             usage();

@@ -315,6 +315,14 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.microverse_type_hatch.5"))
             .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.hostile"),
                     MoniConfig.INSTANCE.values.hostileMicroverseTooltip)
+            .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.complex.0"),
+                    MoniConfig.INSTANCE.values.doComplexMicroverses)
+            .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.complex.1"),
+                    MoniConfig.INSTANCE.values.doComplexMicroverses)
+            .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.complex.2"),
+                    MoniConfig.INSTANCE.values.doComplexMicroverses)
+            .conditionalTooltip(Component.translatable("tooltip.monilabs.microverse_type_hatch.complex.3"),
+                    MoniConfig.INSTANCE.values.doComplexMicroverses)
             .tier(GTValues.HV)
             .modelProperty(Microverse.MICROVERSE_TYPE, Microverse.NONE)
             .modelProperty(IS_FORMED, false)

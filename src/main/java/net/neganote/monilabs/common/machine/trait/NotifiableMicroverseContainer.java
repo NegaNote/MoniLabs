@@ -12,6 +12,7 @@ import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachin
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class NotifiableMicroverseContainer extends NotifiableRecipeHandlerTrait<Microverse> {
@@ -43,7 +44,11 @@ public class NotifiableMicroverseContainer extends NotifiableRecipeHandlerTrait<
 
     @Override
     public @NotNull List<Object> getContents() {
-        return List.of(getHeldMicroverse());
+        if (getHeldMicroverse() == Microverse.DEGENERATE) {
+            return Arrays.asList(Microverse.MICROVERSES);
+        } else {
+            return List.of(getHeldMicroverse());
+        }
     }
 
     @Override

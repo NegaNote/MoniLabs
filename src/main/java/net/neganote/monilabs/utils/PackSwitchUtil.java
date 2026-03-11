@@ -35,6 +35,15 @@ public class PackSwitchUtil {
         createModeFile("expert");
     }
 
+    public static void switchToInsanity(String cwd) {
+        switchToExpert(cwd);
+        copyFiles(Path.of(cwd, File.separator, "config-overrides", File.separator, "insanity"),
+                Path.of(cwd, File.separator, "config"));
+        setServerDifficulty(cwd, "peaceful");
+
+        createModeFile("insanity");
+    }
+
     public static boolean copyFiles(Path source, Path target) {
         if (source == null || target == null) {
             return false;

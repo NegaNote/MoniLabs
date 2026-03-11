@@ -50,11 +50,24 @@ public class MoniConfig {
         @Configurable.Comment({
                 "Whether to include the hostile microverse tooltip for the microverse type sensor hatch." })
         public boolean hostileMicroverseTooltip = false;
-
         @Configurable
         @Configurable.Comment({
                 "Passive decay rate for hostile microverses."
         })
         public int hostileDecayRate = 10;
+
+        /*
+         * Insanity Mode configs. Those can get spicy lol.
+         */
+        @Configurable
+        @Configurable.Comment({
+                "Whether to enable changes related to Complex Microverses." })
+        public boolean doComplexMicroverses = false;
+
+        @Configurable
+        @Configurable.Comment({
+                "Passive decay rate for abyssal microverses. Abyssal is a Complex Microverse."
+        })
+        public int abyssalDecayRate = 50;
     }
 }

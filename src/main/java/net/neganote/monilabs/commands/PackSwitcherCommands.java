@@ -33,6 +33,12 @@ public class PackSwitcherCommands {
         return 0;
     }
 
+    public static int switchToInsanity() {
+        PackSwitchUtil.switchToInsanity(System.getProperty("user.dir"));
+        stopMinecraft();
+        return 0;
+    }
+
     public static void stopMinecraft() {
         if (GTCEu.isClientSide()) {
             Minecraft.getInstance().stop();
@@ -45,6 +51,7 @@ public class PackSwitcherCommands {
         sourceStack.sendSystemMessage(Component.translatable("monilabs.commands.helpnormal"));
         sourceStack.sendSystemMessage(Component.translatable("monilabs.commands.helphard"));
         sourceStack.sendSystemMessage(Component.translatable("monilabs.commands.helpexpert"));
+        sourceStack.sendSystemMessage(Component.translatable("monilabs.commands.helpinsanity"));
         return 0;
     }
 
@@ -58,6 +65,8 @@ public class PackSwitcherCommands {
                         .executes(commandContext -> switchToHard()))
                 .then(literal("expert")
                         .executes(commandContext -> switchToExpert()))
+                .then(literal("insanity")
+                        .executes(commandContext -> switchToInsanity()))
                 .then(literal("help")
                         .executes(commandContext -> help(commandContext.getSource())))
                 .requires(stack -> stack.hasPermission(4)));

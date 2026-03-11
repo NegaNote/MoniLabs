@@ -10,11 +10,16 @@ import lombok.Getter;
 public enum Microverse implements StringRepresentable {
 
     NONE("none", 0, 0, false, false, "microverse.monilabs.type.none"),
-    NORMAL("normal", 1, 0, true, false, "microverse.monilabs.type.normal"),
+    NORMAL("normal", 1, 0, true, MoniConfig.INSTANCE.values.doComplexMicroverses, "microverse.monilabs.type.normal"),
     HOSTILE("hostile", 2, MoniConfig.INSTANCE.values.hostileDecayRate, false, false,
             "microverse.monilabs.type.hostile"),
     SHATTERED("shattered", 3, 0, false, false, "microverse.monilabs.type.shattered"),
-    CORRUPTED("corrupted", 4, 10, true, true, "microverse.monilabs.type.corrupted");
+    CORRUPTED("corrupted", 4, 10, true, true, "microverse.monilabs.type.corrupted"),
+    ABYSSAL("abyssal", 5, MoniConfig.INSTANCE.values.abyssalDecayRate, false, false,
+            "microverse.monilabs.type.abyssal"),
+    NECROSED("necrosed", 6, 1, false, false, "microverse.monilabs.type.necrosed"),
+    SUPERCHARGED("supercharged", 7, -40, false, false, "microverse.monilabs.type.supercharged"),
+    DEGENERATE("degenerate", 8, 100, false, false, "microverse.monilabs.type.degenerate");
 
     public static final Microverse[] MICROVERSES = values();
 

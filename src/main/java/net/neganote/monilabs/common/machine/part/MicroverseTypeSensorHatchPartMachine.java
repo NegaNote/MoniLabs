@@ -30,6 +30,10 @@ public class MicroverseTypeSensorHatchPartMachine extends SensorHatchPartMachine
         SIGNAL_MAP.put(Microverse.SHATTERED, 2);
         SIGNAL_MAP.put(Microverse.CORRUPTED, 3);
         SIGNAL_MAP.put(Microverse.HOSTILE, 4);
+        SIGNAL_MAP.put(Microverse.ABYSSAL, 5);
+        SIGNAL_MAP.put(Microverse.NECROSED, 6);
+        SIGNAL_MAP.put(Microverse.SUPERCHARGED, 7);
+        SIGNAL_MAP.put(Microverse.DEGENERATE, 8);
     }
 
     @Override

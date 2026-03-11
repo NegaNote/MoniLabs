@@ -8,6 +8,18 @@
     "side"
   ],
   "variants": {
+    "is_formed=false,microverse_type=abyssal": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_abyssal",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
     "is_formed=false,microverse_type=corrupted": {
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
@@ -20,6 +32,18 @@
         }
       }
     },
+    "is_formed=false,microverse_type=degenerate": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_degenerate",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
     "is_formed=false,microverse_type=hostile": {
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
@@ -27,6 +51,18 @@
           "bottom": "monilabs:block/casing/microverse",
           "overlay": "monilabs:block/overlay/machine/type_hatch_base",
           "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_hostile",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
+    "is_formed=false,microverse_type=necrosed": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_necrosed",
           "side": "monilabs:block/casing/microverse",
           "top": "monilabs:block/casing/microverse"
         }
@@ -68,6 +104,30 @@
         }
       }
     },
+    "is_formed=false,microverse_type=supercharged": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_supercharged",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
+    "is_formed=true,microverse_type=abyssal": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_abyssal",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
     "is_formed=true,microverse_type=corrupted": {
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
@@ -80,6 +140,18 @@
         }
       }
     },
+    "is_formed=true,microverse_type=degenerate": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_degenerate",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
     "is_formed=true,microverse_type=hostile": {
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
@@ -87,6 +159,18 @@
           "bottom": "monilabs:block/casing/microverse",
           "overlay": "monilabs:block/overlay/machine/type_hatch_base",
           "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_hostile",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
+    "is_formed=true,microverse_type=necrosed": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_necrosed",
           "side": "monilabs:block/casing/microverse",
           "top": "monilabs:block/casing/microverse"
         }
@@ -123,6 +207,18 @@
           "bottom": "monilabs:block/casing/microverse",
           "overlay": "monilabs:block/overlay/machine/type_hatch_base",
           "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_shattered",
+          "side": "monilabs:block/casing/microverse",
+          "top": "monilabs:block/casing/microverse"
+        }
+      }
+    },
+    "is_formed=true,microverse_type=supercharged": {
+      "model": {
+        "parent": "gtceu:block/overlay/2_layer/front_emissive",
+        "textures": {
+          "bottom": "monilabs:block/casing/microverse",
+          "overlay": "monilabs:block/overlay/machine/type_hatch_base",
+          "overlay_emissive": "monilabs:block/overlay/machine/type_hatch_overlay_supercharged",
           "side": "monilabs:block/casing/microverse",
           "top": "monilabs:block/casing/microverse"
         }
