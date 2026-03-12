@@ -3,6 +3,7 @@ package net.neganote.monilabs.recipe;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
@@ -13,7 +14,9 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
@@ -21,9 +24,11 @@ import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
 import net.neganote.monilabs.config.MoniConfig;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @SuppressWarnings("unused")
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class MoniRecipeModifiers {
 
     public static ModifierFunction sculkVatRecipeModifier(MetaMachine machine, GTRecipe recipe) {
@@ -140,8 +145,8 @@ public class MoniRecipeModifiers {
 
     // Identical to GTRecipeModifiers.hatchParallel, with the addition of the ability to blacklist parallels
     // on a per-recipe basis.
-    public static @NotNull ModifierFunction hatchParallelMicroverse(@NotNull MetaMachine machine,
-                                                                    @NotNull GTRecipe recipe) {
+    public static ModifierFunction hatchParallelMicroverse(MetaMachine machine,
+                                                           GTRecipe recipe) {
         if (recipe.data.contains("blacklistParallel") && recipe.data.getBoolean("blacklistParallel")) {
             return ModifierFunction.IDENTITY;
         }
@@ -158,5 +163,26 @@ public class MoniRecipeModifiers {
                     .build();
         }
         return ModifierFunction.IDENTITY;
+    }
+
+    public static ModifierFunction greenhouseOCasParallels(MetaMachine machine, GTRecipe recipe) {
+        var workableMachine = (WorkableElectricMultiblockMachine) machine;
+
+        OCParams params = new OCParams(RecipeHelper.getRealEUt(recipe).getTotalEU(), recipe.duration,
+                GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage()) -
+                        GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU()),
+                1);
+
+        var ocResult = OverclockingLogic.NON_PERFECT_OVERCLOCK.runOverclockingLogic(params,
+                workableMachine.getOverclockVoltage());
+
+        int parallels = ParallelLogic.getParallelAmount(machine, recipe, (int) Math.pow(2, ocResult.ocLevel()));
+
+        if (parallels == 1) return ModifierFunction.IDENTITY;
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(parallels))
+                .eutMultiplier(parallels)
+                .parallels(parallels)
+                .build();
     }
 }
