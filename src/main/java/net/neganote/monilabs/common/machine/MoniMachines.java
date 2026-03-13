@@ -28,7 +28,9 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachin
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.neganote.monilabs.MoniLabs;
@@ -753,16 +755,19 @@ public class MoniMachines {
             .recipeModifiers(MoniRecipeModifiers.OC_AS_PARALLELS, MoniRecipeModifiers::VirtualParticleSynthesisModifier)
             .appearanceBlock(MoniBlocks.MICROVERSE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("CCC", "CVC", "CCC")
-                    .aisle("CCC", "GDG", "CCC")
-                    .aisle("C@C", "CGC", "CCC")
+                    .aisle("CCCCC", "F###F", "F###F", "F###F", "CCCCC")
+                    .aisle("CCCCC", "#CLC#", "#CLC#", "#CLC#", "CCCCC")
+                    .aisle("CCLCC", "#L L#", "#L L#", "#L L#", "CCLCC")
+                    .aisle("CCCCC", "#CLC#", "#CLC#", "#CLC#", "CCCCC")
+                    .aisle("CC@CC", "F###F", "F###F", "F###F", "CCCCC")
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .where("D", Predicates.any())
-                    .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(10)
+                    .where("C", Predicates.blocks(BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("kubejs","dark_steel_casing"))).setMinGlobalLimited(44)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
-                    .where("G", Predicates.blocks(GTBlocks.CASING_HSSE_STURDY.get()))
+                    .where("L", Predicates.blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
+                    .where(" ", Predicates.air())
+                    .where("#", Predicates.any())
                     .build())
             .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels

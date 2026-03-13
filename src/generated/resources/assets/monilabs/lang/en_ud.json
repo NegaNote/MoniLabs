@@ -66,9 +66,9 @@
   "emi_info.monilabs.multiblock.sculk_vat.3": "%d :xɐW '%d :ԀX uıW",
   "emi_info.monilabs.new_microverse": "%s :ǝdʎʇ ʍǝN",
   "emi_info.monilabs.projector_info": "%d :ɹǝıʇ ɹoʇɔǝظoɹԀ",
-  "emi_info.monilabs.quantum_rule_base": "%s ǝɥʇ ʎq pǝʇɔǝɟɟⱯ",
+  "emi_info.monilabs.quantum_rule_base": "%s\n ǝɥʇ ʎq pǝʇɔǝɟɟⱯ",
   "emi_info.monilabs.quantum_rule_quantum_entanglement": "ɹ§ʇuǝɯǝןbuɐʇuƎ ɯnʇuɐnὉ ɟO ǝןnᴚq§",
-  "emi_info.monilabs.quantum_rule_quantum_entanglement_fluid": "ɹ§ʇuǝɯǝןbuɐʇuƎ ɯnʇuɐnὉ pınןℲ ɟO ǝןnᴚq§",
+  "emi_info.monilabs.quantum_rule_quantum_polarization": "ɹ§uoıʇɐzıɹɐןoԀ ɯnʇuɐnὉ ɟO ǝןnᴚq§",
   "emi_info.monilabs.quantum_rule_quantum_waves": "ɹ§sǝʌɐM ɯnʇuɐnὉ ɟO ǝןnᴚq§",
   "emi_info.monilabs.required_microverse": "%s :ǝdʎʇ pǝɹınbǝᴚ",
   "gtceu.chromatic_alignment": "ʇuǝɯubıןⱯ ɔıʇɐɯoɹɥƆ",
@@ -282,5 +282,7 @@
   "tooltip.monilabs.xp_draining_hatch.2": "˙ʎןʇɥbıןs sʎɐɔǝp ʎןsnonuıʇuoɔ ɹǝɟɟnᗺ",
   "tooltip.monilabs.xp_sensor_hatch.0": "ʇɐΛ ʞןnɔS ɟo snʇɐʇs ɹǝɟɟnq ԀX sʇndʇnO",
   "tooltip.monilabs.xp_sensor_hatch.1": "˙ןɐubıs ǝuoʇspǝɹ ɐ sɐ",
-  "virtual_particle_synthesis.monilabs.noise": "ı% :uoıʇɐnʇɔnןℲ ɯnʇuɐnὉ ןɐɔoꞀ"
+  "virtual_particle_synthesis.monilabs.debug.0": "ɟᄅ˙% :ʇǝsɟɟO 'ɟᄅ˙% :puƎ 'ɟᄅ˙% :ʇɹɐʇS",
+  "virtual_particle_synthesis.monilabs.debug.1": "%d :ɹoɟ ϛƖ oN '%d :ɹoɟ 0 oN",
+  "virtual_particle_synthesis.monilabs.noise": "%d :uoıʇɐnʇɔnןℲ ɯnʇuɐnὉ ןɐɔoꞀ"
 }

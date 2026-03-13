@@ -15,10 +15,10 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.neganote.monilabs.config.MoniConfig;
-import net.neganote.monilabs.utils.QuantumNoiseManager;
 
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -37,9 +37,6 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             VirtualParticleSynthesizerMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    @Persisted
-    private final QuantumNoiseManager noiseManager;
-
     // Current noise value
     @Persisted
     @DescSynced
@@ -49,8 +46,9 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     public VirtualParticleSynthesizerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.quantumNoiseHandler = new ConditionalSubscriptionHandler(this, this::quantumNoiseTick, this::isFormed);
-        this.noiseManager = new QuantumNoiseManager();
         quantumNoise = 0;
+        resetNoise();
+        quantumNoise = nextInt();
     }
 
     @Override
@@ -63,7 +61,7 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
         super.onStructureInvalid();
         quantumNoiseHandler.updateSubscription();
 
-        noiseManager.resetNoise();
+        resetNoise();
         quantumNoise = 0;
         tickCount = MoniConfig.INSTANCE.values.virtualParticleSynthesisRefreshDelay;
     }
@@ -77,6 +75,7 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     public void onStructureFormed() {
         super.onStructureFormed();
         quantumNoiseHandler.updateSubscription();
+        if (offset == 0) quantumNoise = nextInt();
     }
 
     @Override
@@ -111,7 +110,8 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
 
     public void quantumNoiseTick() {
         if (++tickCount >= MoniConfig.INSTANCE.values.virtualParticleSynthesisRefreshDelay) {
-            quantumNoise = noiseManager.nextInt();
+            quantumNoise = nextInt();
+            tickCount = 0;
         }
     }
 
@@ -121,6 +121,8 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
         if (isFormed()) {
             textList.add(Component.translatable("virtual_particle_synthesis.monilabs.noise", quantumNoise));
         }
+        textList.add(Component.translatable("virtual_particle_synthesis.monilabs.debug.0", (float) startValue,
+                (float) endValue, (float) offset));
     }
 
     public void explode(float explosionPower) {
@@ -131,5 +133,75 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
         level.explode((Entity) null, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
                 explosionPower, ConfigHolder.INSTANCE.machines.doesExplosionDamagesTerrain ?
                         Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
+    }
+
+    // Noise Manager inside the class because fuck me I guess...
+
+    @Persisted
+    private double startValue;
+    @Persisted
+    private double endValue;
+
+    @Persisted
+    private double offset = 0;
+    @Persisted
+    private int counter0 = 0;
+    @Persisted
+    private int counter15 = 0;
+
+    private int nextInt() {
+        offset += (0.1 + Math.random() * 0.05);
+        if (offset >= 1) {
+            offset = offset - 1;
+            startValue = endValue;
+            endValue = randomCall();
+        }
+        double v = startValue + smoothStep(offset) * (endValue - startValue);
+
+        return (int) Math.floor(v);
+    }
+
+    /*
+     * A random method with slight weight towards extremes to ensure a uniform distribution after interpolation.
+     * Takes a random number r, and returns (3.5*smoothStep(r) + r) / 4.5
+     * Also contains bad luck protection (in the 0.0012% of cases where you're *really* unlucky)
+     */
+    private double randomCall() {
+        double rand = Math.random();
+        rand = 16 * ((smoothStep(rand) * 3.5 + rand) / 4.5);
+
+        if (counter15 >= 75) {
+            rand = 15.5;
+            counter15 = 0;
+        } else if (counter0 >= 75) {
+            rand = 0.5;
+            counter0 = 0;
+        }
+
+        if (rand >= 15) {
+            counter15 = 0;
+        } else {
+            counter15++;
+        }
+        if (rand < 1) {
+            counter0 = 0;
+        } else {
+            counter0++;
+        }
+
+        return rand;
+    }
+
+    private double smoothStep(double x) {
+        x = Mth.clamp(x, 0F, 1F);
+        return 3 * Math.pow(x, 2) - 2 * Math.pow(x, 3);     // 3x^2-2x^3
+    }
+
+    private void resetNoise() {
+        counter0 = 0;
+        counter15 = 0;
+        startValue = randomCall();
+        endValue = randomCall();
+        offset = 0;
     }
 }

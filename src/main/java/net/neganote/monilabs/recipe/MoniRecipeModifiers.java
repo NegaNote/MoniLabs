@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -250,7 +251,7 @@ public class MoniRecipeModifiers {
                     newOutputs.put(ItemRecipeCapability.CAP, recipeOutputs);
                     break;
 
-                case "quantum_entanglement_fluid":
+                case "quantum_polarization":
                     // Target noise is the last 4 bits of the hash
                     targetNoise = (int) (recipeHash & 0xF);
 
@@ -295,6 +296,7 @@ public class MoniRecipeModifiers {
                     newOutputs.put(ItemRecipeCapability.CAP, recipeOutputs);
                     break;
             }
+
             return (inputRecipe) -> new GTRecipe(recipe.recipeType, recipe.id, new HashMap<>(recipe.inputs), newOutputs,
                     new HashMap<>(recipe.tickInputs), new HashMap<>(recipe.tickOutputs),
                     new HashMap<>(recipe.inputChanceLogics), new HashMap<>(recipe.outputChanceLogics),
@@ -320,7 +322,7 @@ public class MoniRecipeModifiers {
             x = x >>> 4;
             while (true) {
                 if ((bitMap >>> offset & 1) == 0) {
-                    bitMap = bitMap | 1 >> offset;
+                    bitMap = bitMap | 1 << offset;
                     break;
                 }
                 offset = Math.floorMod(offset + 5, 16);

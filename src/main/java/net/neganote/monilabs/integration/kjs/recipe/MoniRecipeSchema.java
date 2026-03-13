@@ -25,7 +25,7 @@ public interface MoniRecipeSchema {
     enum QuantumRule {
 
         QUANTUM_ENTANGLEMENT("quantum_entanglement"),
-        QUANTUM_ENTANGLEMENT_FLUID("quantum_entanglement_fluid"),
+        QUANTUM_POLARIZATION("quantum_polarization"),
         QUANTUM_WAVES("quantum_waves");
 
         public final String serializedName;

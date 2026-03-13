@@ -25,7 +25,7 @@ public class VirtualParticleSynthQuantumProvider implements IBlockComponentProvi
                 meta_machine_be.getMetaMachine() instanceof VirtualParticleSynthesizerMachine) {
             CompoundTag data = blockAccessor.getServerData();
             if (data.contains("quantumNoise")) {
-                int noise = data.getInt("quantumNoise");
+                var noise = data.getInt("quantumNoise");
                 iTooltip.add(Component.translatable("virtual_particle_synthesis.monilabs.noise", noise));
             }
         }

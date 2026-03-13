@@ -66,9 +66,9 @@
   "emi_info.monilabs.multiblock.sculk_vat.3": "Min XP: %d, Max: %d",
   "emi_info.monilabs.new_microverse": "New type: %s",
   "emi_info.monilabs.projector_info": "Projector tier: %d",
-  "emi_info.monilabs.quantum_rule_base": "Affected by the %s",
+  "emi_info.monilabs.quantum_rule_base": "Affected by the \n%s",
   "emi_info.monilabs.quantum_rule_quantum_entanglement": "§bRule Of Quantum Entanglement§r",
-  "emi_info.monilabs.quantum_rule_quantum_entanglement_fluid": "§bRule Of Fluid Quantum Entanglement§r",
+  "emi_info.monilabs.quantum_rule_quantum_polarization": "§bRule Of Quantum Polarization§r",
   "emi_info.monilabs.quantum_rule_quantum_waves": "§bRule Of Quantum Waves§r",
   "emi_info.monilabs.required_microverse": "Required type: %s",
   "gtceu.chromatic_alignment": "Chromatic Alignment",
@@ -282,5 +282,7 @@
   "tooltip.monilabs.xp_draining_hatch.2": "Buffer continuously decays slightly.",
   "tooltip.monilabs.xp_sensor_hatch.0": "Outputs XP buffer status of Sculk Vat",
   "tooltip.monilabs.xp_sensor_hatch.1": "as a redstone signal.",
-  "virtual_particle_synthesis.monilabs.noise": "Local Quantum Fluctuation: %i"
+  "virtual_particle_synthesis.monilabs.debug.0": "Start: %.2f, End: %.2f, Offset: %.2f",
+  "virtual_particle_synthesis.monilabs.debug.1": "No 0 for: %d, No 15 for: %d",
+  "virtual_particle_synthesis.monilabs.noise": "Local Quantum Fluctuation: %d"
 }

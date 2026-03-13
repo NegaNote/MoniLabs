@@ -138,10 +138,10 @@ public class MoniLangHandler {
         provider.add("emi_info.monilabs.integrity_healed", "Integrity healed: %.2f");
         provider.add("emi_info.monilabs.cannot_parallel", "Cannot parallel");
 
-        provider.add("emi_info.monilabs.quantum_rule_base", "Affected by the %s");
+        provider.add("emi_info.monilabs.quantum_rule_base", "Affected by the \n%s");
         provider.add("emi_info.monilabs.quantum_rule_quantum_entanglement", "§bRule Of Quantum Entanglement§r");
-        provider.add("emi_info.monilabs.quantum_rule_quantum_entanglement_fluid",
-                "§bRule Of Fluid Quantum Entanglement§r");
+        provider.add("emi_info.monilabs.quantum_rule_quantum_polarization",
+                "§bRule Of Quantum Polarization§r");
         provider.add("emi_info.monilabs.quantum_rule_quantum_waves", "§bRule Of Quantum Waves§r");
 
         provider.add("monilabs.menu.packmodeswitcher.displayname", "Switch Pack Mode");
@@ -229,7 +229,9 @@ public class MoniLangHandler {
         provider.add("microverse.monilabs.current_microverse", "Microverse type: %s");
         provider.add("microverse.monilabs.integrity", "Microverse integrity: %.2f%%");
 
-        provider.add("virtual_particle_synthesis.monilabs.noise", "Local Quantum Fluctuation: %i");
+        provider.add("virtual_particle_synthesis.monilabs.noise", "Local Quantum Fluctuation: %d");
+        provider.add("virtual_particle_synthesis.monilabs.debug.0", "Start: %.2f, End: %.2f, Offset: %.2f");
+        provider.add("virtual_particle_synthesis.monilabs.debug.1", "No 0 for: %d, No 15 for: %d");
 
         provider.add("sculk_vat.monilabs.current_xp_buffer", "XP Stored: %d/%d");
 
