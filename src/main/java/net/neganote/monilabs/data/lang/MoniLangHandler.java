@@ -55,6 +55,7 @@ public class MoniLangHandler {
         provider.add("monilabs.recipe.mistake_input_colors", "You made a mistake defining this recipe's input colors.");
         provider.add("monilabs.recipe.mistake_output_colors",
                 "You made a mistake defining this recipe's output colors.");
+        provider.add("gtceu.chromatic_alignment", "Chromatic Alignment");
         provider.add("gtceu.chromatic_processing", "Chromatic Processing");
         provider.add("gtceu.chromatic_transcendence", "Chromatic Transcendence");
         provider.add("gtceu.microverse", "Microverse Mission");
@@ -205,6 +206,8 @@ public class MoniLangHandler {
         provider.add("microverse.monilabs.current_microverse", "Microverse type: %s");
         provider.add("microverse.monilabs.integrity", "Microverse integrity: %.2f%%");
 
+        provider.add("virtual_particle_synthesis.monilabs.noise", "Local Quantum Fluctuation: %i");
+
         provider.add("sculk_vat.monilabs.current_xp_buffer", "XP Stored: %d/%d");
 
         provider.add("config.jade.plugin_monilabs.color_info", "Prismatic Crucible Color Info");
@@ -236,7 +239,7 @@ public class MoniLangHandler {
                 "  {sculkVatXPBuffer} -> XP Stored: (value in millibuckets)");
 
         multiLang(provider, "emi_info.monilabs.multiblock.sculk_vat",
-                "Outputs may be up to 8x less",
+                "Outputs may be up to %dx less",
                 "when the output hatch is not",
                 "half full (this is the maximum)",
                 "Min XP: %d, Max: %d");

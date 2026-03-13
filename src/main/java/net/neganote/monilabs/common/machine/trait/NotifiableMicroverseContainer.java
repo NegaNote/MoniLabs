@@ -36,7 +36,7 @@ public class NotifiableMicroverseContainer extends NotifiableRecipeHandlerTrait<
     @Override
     public List<Microverse> handleRecipeInner(IO io, GTRecipe recipe, List<Microverse> left, boolean simulate) {
         Microverse recipeMicroverse = left.get(0);
-        if (getHeldMicroverse() == recipeMicroverse) {
+        if (getHeldMicroverse() == recipeMicroverse || getHeldMicroverse() == Microverse.DEGENERATE) {
             return null;
         }
         return left;

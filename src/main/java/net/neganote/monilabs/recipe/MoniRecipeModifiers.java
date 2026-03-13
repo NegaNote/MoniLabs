@@ -1,6 +1,9 @@
 package net.neganote.monilabs.recipe;
 
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
@@ -9,6 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic.*;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -18,11 +22,19 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
 import net.neganote.monilabs.common.machine.multiblock.SculkVatMachine;
+import net.neganote.monilabs.common.machine.multiblock.VirtualParticleSynthesizerMachine;
 import net.neganote.monilabs.config.MoniConfig;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -184,5 +196,134 @@ public class MoniRecipeModifiers {
                 .eutMultiplier(parallels)
                 .parallels(parallels)
                 .build();
+    }
+
+    public static ModifierFunction VirtualParticleSynthesisModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof VirtualParticleSynthesizerMachine vps)) {
+            return RecipeModifier.nullWrongType(VirtualParticleSynthesizerMachine.class, machine);
+        }
+
+        long recipeHash = 7L;
+        // Hash the recipe through its id and the world seed.
+        if (vps.getLevel() instanceof ServerLevel serverLevel) {
+            long seed = serverLevel.getSeed();
+            String seededRecipeID = String.valueOf(seed).concat(recipe.getId().toString());
+            for (int i = 0; i < seededRecipeID.length(); i++) {
+                recipeHash = recipeHash * 31L + seededRecipeID.charAt(i);
+            }
+            recipeHash = recipeHash ^ seed;
+        } else {
+            return ModifierFunction.IDENTITY;
+        }
+
+        // Calculate modifier
+        if (recipe.data.contains("quantum_rule")) {
+            String modifierType = recipe.data.getString("quantum_rule");
+
+            int noise = vps.getQuantumNoise();
+            int targetNoise, diff;
+
+            List<Content> recipeOutputs;
+            Map<RecipeCapability<?>, List<Content>> newOutputs = new HashMap<>(recipe.outputs);
+
+            switch (modifierType) {
+                case "quantum_entanglement":
+                    // Target noise is the last 4 bits of the hash
+                    targetNoise = (int) (recipeHash & 0xF);
+
+                    // Calculate modulo distance between random target and destination
+                    diff = Mth.abs(noise - targetNoise);
+                    diff = (diff <= 8 ? diff : 16 - diff);
+
+                    recipeOutputs = new ArrayList<>(recipe.getOutputContents(ItemRecipeCapability.CAP));
+                    // Modify Item Outputs accordingly
+                    try {
+                        // Try to remove failed item output
+                        recipeOutputs.remove((Math.random() <= diff / 8.0 ? 1 : 0));
+                    } catch (IndexOutOfBoundsException E) {
+                        // Do nothing if there's nothing to remove lol
+                    }
+
+                    // Replace the Item Output list with a version of the list
+                    newOutputs.put(ItemRecipeCapability.CAP, recipeOutputs);
+                    break;
+
+                case "quantum_entanglement_fluid":
+                    // Target noise is the last 4 bits of the hash
+                    targetNoise = (int) (recipeHash & 0xF);
+
+                    // Calculate modulo distance between random target and destination
+                    diff = Mth.abs(noise - targetNoise);
+                    diff = (diff <= 8 ? diff : 16 - diff);
+
+                    recipeOutputs = new ArrayList<>(recipe.getOutputContents(FluidRecipeCapability.CAP));
+                    try {
+                        recipeOutputs.set(0,
+                                recipeOutputs.get(0)
+                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier(1 - diff / 8.0)));
+                    } catch (IndexOutOfBoundsException E) {
+                        // Do nothing if the output doesn't exist lol
+                    }
+                    try {
+                        recipeOutputs.set(1,
+                                recipeOutputs.get(1)
+                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier(diff / 8.0)));
+                    } catch (IndexOutOfBoundsException E) {
+                        // Do nothing if the output doesn't exist lol
+                    }
+
+                    // Replace the Fluid Output list with an updated version
+                    newOutputs.put(FluidRecipeCapability.CAP, recipeOutputs);
+                    break;
+                case "quantum_waves":
+                    recipeOutputs = new ArrayList<>(recipe.getOutputContents(ItemRecipeCapability.CAP));
+
+                    // Calculate success for each item
+                    for (int i = 0; i < recipeOutputs.size(); i++) {
+                        int bitMap = hashToBitMap((int) (recipeHash >>> 8 * i & 0xFFFF));
+
+                        boolean success = (bitMap >>> noise & 1) != 0;
+
+                        recipeOutputs.set(i,
+                                recipeOutputs.get(i)
+                                        .copy(ItemRecipeCapability.CAP, ContentModifier.multiplier((success ? 1 : 0))));
+                    }
+
+                    // Replace the Item Output list with an updated version
+                    newOutputs.put(ItemRecipeCapability.CAP, recipeOutputs);
+                    break;
+            }
+            return (inputRecipe) -> new GTRecipe(recipe.recipeType, recipe.id, new HashMap(recipe.inputs), newOutputs,
+                    new HashMap(recipe.tickInputs), new HashMap(recipe.tickOutputs),
+                    new HashMap(recipe.inputChanceLogics), new HashMap(recipe.outputChanceLogics),
+                    new HashMap(recipe.tickInputChanceLogics), new HashMap(recipe.tickOutputChanceLogics),
+                    new ArrayList(recipe.conditions), new ArrayList(recipe.ingredientActions), recipe.data,
+                    recipe.duration, recipe.recipeCategory, recipe.groupColor);
+        } else {
+            return ModifierFunction.IDENTITY;
+        }
+    }
+
+    /*
+     * Takes any 16-bit int and computes a 16-bit int with a Hamming Weight of exactly 4 from it.
+     * 
+     * @param x The input int (only least 16 bits are used)
+     * 
+     * @return int with HW 4
+     */
+    private static int hashToBitMap(int x) {
+        int bitMap = 0;
+        for (int j = 0; j < 4; j++) {
+            int offset = x & 0xF;
+            x = x >>> 4;
+            while (true) {
+                if ((bitMap >>> offset & 1) == 0) {
+                    bitMap = bitMap | 1 >> offset;
+                    break;
+                }
+                offset = Math.floorMod(offset + 5, 16);
+            }
+        }
+        return bitMap;
     }
 }

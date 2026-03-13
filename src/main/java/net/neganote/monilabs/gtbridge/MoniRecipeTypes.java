@@ -16,6 +16,7 @@ import net.neganote.monilabs.common.data.MoniSounds;
 import net.neganote.monilabs.common.machine.multiblock.Color;
 import net.neganote.monilabs.common.machine.multiblock.Microverse;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
+import net.neganote.monilabs.config.MoniConfig;
 
 @SuppressWarnings("unused")
 public class MoniRecipeTypes {
@@ -92,6 +93,7 @@ public class MoniRecipeTypes {
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
     }
 
+    public static GTRecipeType CHROMATIC_ALIGNMENT = createPrismaCRecipeType("chromatic_alignment");
     public static GTRecipeType CHROMATIC_PROCESSING = createPrismaCRecipeType("chromatic_processing");
     public static GTRecipeType CHROMATIC_TRANSCENDENCE = createPrismaCRecipeType("chromatic_transcendence");
 
@@ -162,7 +164,8 @@ public class MoniRecipeTypes {
             .setMaxIOSize(2, 0, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
-            .addDataInfo((data) -> LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.0"))
+            .addDataInfo((data) -> LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.0",
+                    MoniConfig.INSTANCE.values.sculkVatEfficiencyMultiplier))
             .addDataInfo((data) -> LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.1"))
             .addDataInfo((data) -> LocalizationUtils.format("emi_info.monilabs.multiblock.sculk_vat.2"))
             .addDataInfo((data) -> {

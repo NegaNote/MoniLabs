@@ -346,7 +346,8 @@ public class MoniMachines {
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowExtendedFacing(false)
-            .recipeTypes(MoniRecipeTypes.CHROMATIC_PROCESSING, MoniRecipeTypes.CHROMATIC_TRANSCENDENCE)
+            .recipeTypes(MoniRecipeTypes.CHROMATIC_ALIGNMENT, MoniRecipeTypes.CHROMATIC_PROCESSING,
+                    MoniRecipeTypes.CHROMATIC_TRANSCENDENCE)
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
             .appearanceBlock(MoniBlocks.DIMENSIONAL_STABILIZATION_NETHERITE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()

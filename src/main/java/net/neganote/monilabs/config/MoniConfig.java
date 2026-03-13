@@ -69,5 +69,14 @@ public class MoniConfig {
                 "Passive decay rate for abyssal microverses. Abyssal is a Complex Microverse."
         })
         public int abyssalDecayRate = 50;
+
+        @Configurable
+        @Configurable.Comment({
+                "Number of ticks between Virtual Particle Synthesizer noise steps. Default value is 40t (2s)",
+                "Most values will change after a single interaction. This can put time pressure on players.",
+                "It takes an average of 70 steps before every number is visited at least once. (2m20s at default)",
+                "Bad luck protection will kick in after 500-750 steps without covering a value. (~17-25min at default)"
+        })
+        public int virtualParticleSynthesisRefreshDelay = 40;
     }
 }
