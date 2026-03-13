@@ -170,6 +170,21 @@ public class MoniMachines {
         list.add(
                 Component.translatable("tooltip.monilabs.hyperbolic_microverse_projector.description.2"));
     };
+    public static final BiConsumer<ItemStack, List<Component>> VIRTUAL_PARTICLE_SYNTHESIZER_TOOLTIPS = (stack,
+                                                                                                        list) -> {
+        list.add(
+                Component.translatable("tooltip.monilabs.virtual_particle_synthesizer.description.0",
+                        Component.translatable("monilabs.tooltip.quantum_fluctuations.space_gradient")
+                                .withStyle(MoniTooltipHelper.NEBULA_HSL)));
+        list.add(
+                Component.translatable("tooltip.monilabs.virtual_particle_synthesizer.description.1"));
+        list.add(
+                Component.translatable("tooltip.monilabs.virtual_particle_synthesizer.description.2"));
+        list.add(
+                Component.translatable("tooltip.monilabs.virtual_particle_synthesizer.description.3"));
+        list.add(
+                Component.translatable("monilabs.multiblock.oc_parallels.tooltip"));
+    };
 
     public static final MachineDefinition[] PARALLEL_HATCH = registerTieredParallelMachines("parallel_hatch",
             ParallelHatchPartMachine::new,
@@ -342,6 +357,17 @@ public class MoniMachines {
             .model(MoniMachineModels.createOverlayMicroverseCasingMachineModel("type_hatch", "casing/microverse"))
             .register();
 
+    public static MachineDefinition QUANTUM_FLUCTUATION_SENSOR_HATCH = REGISTRATE
+            .machine("quantum_sensor_hatch", QuantumNoseSensorHatchPartMachine::new)
+            .langValue("Quantum Fluctuation Sensor Hatch")
+            .rotationState(RotationState.ALL)
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.quantum_sensor_hatch.0"),
+                    Component.translatable("tooltip.monilabs.quantum_sensor_hatch.1"))
+            .modelProperty(IS_FORMED, false)
+            .model(MoniMachineModels.createOverlayCasingMachineModel("quantum_sensor_hatch", "casing/microverse"))
+            .tier(GTValues.ZPM)
+            .register();
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
@@ -716,6 +742,33 @@ public class MoniMachines {
                                     List.of(RelativeDirection.BACK, RelativeDirection.FRONT, RelativeDirection.LEFT,
                                             RelativeDirection.RIGHT)))))
             .tooltipBuilder(SCULK_VAT_TOOLTIPS)
+            .register();
+
+    // Insanity Mode machines
+    public static MultiblockMachineDefinition VIRTUAL_PARTICLE_SYNTHESIZER = REGISTRATE
+            .multiblock("virtual_particle_synthesizer", VirtualParticleSynthesizerMachine::new)
+            .langValue("Virtual Particle Synthesizer")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(MoniRecipeTypes.VIRTUAL_PARTICLE_SYNTHESIS_RECIPES)
+            .recipeModifiers(MoniRecipeModifiers.OC_AS_PARALLELS, MoniRecipeModifiers::VirtualParticleSynthesisModifier)
+            .appearanceBlock(MoniBlocks.MICROVERSE_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("CCC", "CVC", "CCC")
+                    .aisle("CCC", "GDG", "CCC")
+                    .aisle("C@C", "CGC", "CCC")
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("D", Predicates.any())
+                    .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(10)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
+                    .where("G", Predicates.blocks(GTBlocks.CASING_HSSE_STURDY.get()))
+                    .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
+                    .build())
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
+            .model(GTMachineModels
+                    .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
+                            MoniLabs.id("block/machines/projectors")))
+            .tooltipBuilder(VIRTUAL_PARTICLE_SYNTHESIZER_TOOLTIPS)
             .register();
 
     // MAX stuff

@@ -177,6 +177,8 @@ public class MoniRecipeModifiers {
         return ModifierFunction.IDENTITY;
     }
 
+    public static RecipeModifier OC_AS_PARALLELS = MoniRecipeModifiers::greenhouseOCasParallels;
+
     public static ModifierFunction greenhouseOCasParallels(MetaMachine machine, GTRecipe recipe) {
         var workableMachine = (WorkableElectricMultiblockMachine) machine;
 
@@ -193,7 +195,7 @@ public class MoniRecipeModifiers {
         if (parallels == 1) return ModifierFunction.IDENTITY;
         return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallels))
-                .eutMultiplier(parallels)
+                .eutMultiplier(Math.pow(Mth.smallestEncompassingPowerOfTwo(parallels), 2))
                 .parallels(parallels)
                 .build();
     }
@@ -293,11 +295,11 @@ public class MoniRecipeModifiers {
                     newOutputs.put(ItemRecipeCapability.CAP, recipeOutputs);
                     break;
             }
-            return (inputRecipe) -> new GTRecipe(recipe.recipeType, recipe.id, new HashMap(recipe.inputs), newOutputs,
-                    new HashMap(recipe.tickInputs), new HashMap(recipe.tickOutputs),
-                    new HashMap(recipe.inputChanceLogics), new HashMap(recipe.outputChanceLogics),
-                    new HashMap(recipe.tickInputChanceLogics), new HashMap(recipe.tickOutputChanceLogics),
-                    new ArrayList(recipe.conditions), new ArrayList(recipe.ingredientActions), recipe.data,
+            return (inputRecipe) -> new GTRecipe(recipe.recipeType, recipe.id, new HashMap<>(recipe.inputs), newOutputs,
+                    new HashMap<>(recipe.tickInputs), new HashMap<>(recipe.tickOutputs),
+                    new HashMap<>(recipe.inputChanceLogics), new HashMap<>(recipe.outputChanceLogics),
+                    new HashMap<>(recipe.tickInputChanceLogics), new HashMap<>(recipe.tickOutputChanceLogics),
+                    new ArrayList<>(recipe.conditions), new ArrayList<>(recipe.ingredientActions), recipe.data,
                     recipe.duration, recipe.recipeCategory, recipe.groupColor);
         } else {
             return ModifierFunction.IDENTITY;

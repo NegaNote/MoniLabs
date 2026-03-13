@@ -179,5 +179,22 @@ public class MoniRecipeTypes {
             })
             .addDataInfo((data) -> "");
 
+    public static GTRecipeType VIRTUAL_PARTICLE_SYNTHESIS_RECIPES = GTRecipeTypes
+            .register("virtual_particle_synthesis", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(6, 4, 3, 4)
+            .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
+            .setProgressBar(MoniGuiTextures.PROGRESS_BAR_SIMULATION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(MoniSounds.MICROVERSE)
+            .addDataInfo(data -> {
+                String info = "";
+                if (data.contains("quantum_rule")) {
+                    info += I18n.get("emi_info.monilabs.quantum_rule_base",
+                            I18n.get("emi_info.monilabs.quantum_rule_" + data.getString("quantum_rule"))) + "\n";
+                }
+                return info;
+            })
+            .addDataInfo(data -> "");
+
     public static void init() {}
 }

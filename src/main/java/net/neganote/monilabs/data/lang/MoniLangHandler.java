@@ -14,6 +14,9 @@ import java.util.Set;
 public class MoniLangHandler {
 
     public static void init(RegistrateLangProvider provider) {
+        provider.add("monilabs.multiblock.oc_parallels.tooltip",
+                "Overclocks double the parallel amount instead of halving the duration.");
+
         provider.add("monilabs.prismatic.current_color", "Current color: %s");
         provider.add("monilabs.prismatic.color_name.red", "§4Red§r");
         provider.add("monilabs.prismatic.color_name.orange", "§6Orange§r");
@@ -62,6 +65,8 @@ public class MoniLangHandler {
         provider.add("gtceu.creative_data_multi", "Omniscience Research Beacon");
         provider.add("gtceu.creative_energy_multi", "Transdimensional Energy Singularity");
 
+        provider.add("gtceu.virtual_particle_synthesis", "Virtual Particle Synthesis");
+
         provider.add("monilabs.tooltip.prismatic_core", "The heart of the Prismatic Crucible!");
 
         provider.add("monilabs.tooltip.prismatic.rainbow", "the rainbow");
@@ -109,6 +114,12 @@ public class MoniLangHandler {
                 "§7Can §fperfectly overclock§7 lower projector §ftier§7 missions §fonce§7 for each §ftier§7 above the §frequired§7 mission tier.",
                 "§7Some missions are §fexempt§7 from being able to be §fparalleled§7.");
 
+        multiLang(provider, "tooltip.monilabs.virtual_particle_synthesizer.description",
+                "§7Uses the power of %s §7to produce exotic materials.",
+                "§7Recipe outputs are affected by the §flocal quantum fluctuation§7, with each value giving its own rates.",
+                "§7Quantum Fluctuations randomly evolve over time.",
+                "§7Optimal recipe fluctuations §fwill vary§7 depending on the §frecipe§7, its §fquantum rule§7 and the §fworld seed§7.");
+
         provider.add("monilabs.failure_reason.improper_xp", "XP buffer is outside necessary range");
         provider.add("monilabs.failure_reason.insufficient_projector_tier", "Insufficient Projector Tier");
 
@@ -118,12 +129,20 @@ public class MoniLangHandler {
         provider.add("monilabs.tooltip.microverses.space_gradient", "Microverses");
         provider.add("monilabs.tooltip.microversal.space_gradient", "Microversal");
 
+        provider.add("monilabs.tooltip.quantum_fluctuations.space_gradient", "Quantum Fluctuations");
+
         provider.add("emi_info.monilabs.projector_info", "Projector tier: %d");
         provider.add("emi_info.monilabs.required_microverse", "Required type: %s");
         provider.add("emi_info.monilabs.new_microverse", "New type: %s");
         provider.add("emi_info.monilabs.integrity_drained", "Integrity drained: %.2f");
         provider.add("emi_info.monilabs.integrity_healed", "Integrity healed: %.2f");
         provider.add("emi_info.monilabs.cannot_parallel", "Cannot parallel");
+
+        provider.add("emi_info.monilabs.quantum_rule_base", "Affected by the %s");
+        provider.add("emi_info.monilabs.quantum_rule_quantum_entanglement", "§bRule Of Quantum Entanglement§r");
+        provider.add("emi_info.monilabs.quantum_rule_quantum_entanglement_fluid",
+                "§bRule Of Fluid Quantum Entanglement§r");
+        provider.add("emi_info.monilabs.quantum_rule_quantum_waves", "§bRule Of Quantum Waves§r");
 
         provider.add("monilabs.menu.packmodeswitcher.displayname", "Switch Pack Mode");
         provider.add("monilabs.menu.packmodeswitcher.description",
@@ -193,6 +212,10 @@ public class MoniLangHandler {
                 "7: Supercharged",
                 "8: Degenerate");
 
+        multiLang(provider, "tooltip.monilabs.quantum_sensor_hatch",
+                "Outputs local quantum fluctuation",
+                "as a redstone signal.");
+
         provider.add("microverse.monilabs.type.none", "None");
         provider.add("microverse.monilabs.type.normal", "Normal");
         provider.add("microverse.monilabs.type.hostile", "Hostile");
@@ -214,6 +237,8 @@ public class MoniLangHandler {
         provider.add("config.jade.plugin_monilabs.microverse_info", "Microverse Projector Info");
         provider.add("config.jade.plugin_monilabs.sculk_vat_xp_info", "Sculk Vat XP Buffer Info");
         provider.add("config.jade.plugin_monilabs.omnic_synth_info", "Omnic Synthesizer Info");
+
+        provider.add("config.jade.plugin_monilabs.virtual_particle_synth_info", "Virtual Particle Synthesizer Info");
 
         provider.add("gui.ae2.With", "With");
 
