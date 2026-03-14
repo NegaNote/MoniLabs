@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
@@ -171,12 +172,13 @@ public class MoniRecipeModifiers {
         OCParams params = new OCParams(RecipeHelper.getRealEUt(recipe).getTotalEU(), recipe.duration,
                 GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage()) -
                         GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU()),
-                1);
+                Integer.MAX_VALUE);
 
-        var ocResult = OverclockingLogic.NON_PERFECT_OVERCLOCK.runOverclockingLogic(params,
+        var ocResult = OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK.runOverclockingLogic(params,
                 workableMachine.getOverclockVoltage());
 
-        int parallels = ParallelLogic.getParallelAmount(machine, recipe, (int) Math.pow(2, ocResult.ocLevel()));
+        int parallels = ParallelLogic.getParallelAmount(machine, recipe,
+                Mth.smallestEncompassingPowerOfTwo(ocResult.ocLevel()) * ocResult.parallels());
 
         if (parallels == 1) return ModifierFunction.IDENTITY;
         return ModifierFunction.builder()
