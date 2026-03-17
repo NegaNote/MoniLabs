@@ -94,6 +94,16 @@ public class MoniItems {
             })))
             .register();
 
+    public static final ItemEntry<Item> CAUSALITY_COLLAPSER = REGISTRATE
+            .item("causality_collapser", Item::new)
+            .lang("Causality Collapser")
+            .register();
+
+    public static final ItemEntry<Item> SHARD_OF_CAUSALITY = REGISTRATE
+            .item("shard_of_causality", Item::new)
+            .lang("Shard Of Causality")
+            .register();
+
     // Copied from GTItems
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent... components) {
         return item -> item.attachComponents(components);

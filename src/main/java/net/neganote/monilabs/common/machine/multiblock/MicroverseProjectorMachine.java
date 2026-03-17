@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -27,14 +28,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.trait.NotifiableMicroverseContainer;
 import net.neganote.monilabs.config.MoniConfig;
+import net.neganote.monilabs.data.tags.MoniTags;
 import net.neganote.monilabs.utils.IllegalMicroverseException;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -52,12 +56,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachine {
 
     private final ConditionalSubscriptionHandler microverseHandler;
-    private final ConditionalSubscriptionHandler degenerateMicroverseHandler;
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MicroverseProjectorMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private final Item quantumFluxItem;
+
+    private final Item universeDataItem;
 
     @Getter
     @Persisted
@@ -82,6 +87,11 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Getter
     private int microverseIntegrity;
 
+    @Persisted
+    @DescSynced
+    @Getter
+    private int stabilizationProgress;
+
     private List<NotifiableItemStackHandler> inputBuses = null;
     private List<NotifiableItemStackHandler> outputBuses = null;
 
@@ -90,6 +100,11 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public static final int FLUX_REPAIR_AMOUNT = 1000;
 
     private final GTRecipe quantumFluxRecipe;
+    private final GTRecipe causalityCollapserRecipe;
+    private final GTRecipe causalityShardRecipe;
+    private final GTRecipe universeDataRecipe;
+
+    private ItemStack targetItem;
 
     @Persisted
     private final NotifiableMicroverseContainer microverseContainer;
@@ -98,13 +113,19 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         super(holder, args);
         this.projectorTier = tier;
         this.microverseHandler = new ConditionalSubscriptionHandler(this, this::microverseTick, this::isFormed);
-        this.degenerateMicroverseHandler = new ConditionalSubscriptionHandler(this, this::degenerateMicroverseTick,
-                this::isDegenerate);
-        updateMicroverse(0, false);
         this.quantumFluxItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.bySeparator("kubejs:quantum_flux", ':'));
         assert this.quantumFluxItem != null;
         this.quantumFluxRecipe = GTRecipeBuilder.ofRaw().inputItems(this.quantumFluxItem).buildRawRecipe();
         this.microverseContainer = new NotifiableMicroverseContainer(this);
+
+        updateMicroverse(0, false);
+
+        // Insanity Mode setup
+        this.universeDataItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.bySeparator("kubejs:universe_creation_data", ':'));
+        assert this.universeDataItem != null;
+        this.causalityCollapserRecipe = GTRecipeBuilder.ofRaw().inputItems(MoniItems.CAUSALITY_COLLAPSER).buildRawRecipe();
+        this.causalityShardRecipe = GTRecipeBuilder.ofRaw().outputItems(MoniItems.SHARD_OF_CAUSALITY).buildRawRecipe();
+        this.universeDataRecipe = GTRecipeBuilder.ofRaw().outputItems(this.universeDataItem).buildRawRecipe();
     }
 
     @Override
@@ -119,10 +140,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         inputBuses = null;
         outputBuses = null;
         if (microverse == Microverse.DEGENERATE) {
-            updateMicroverse(0, false);
-            degenerateMicroverseHandler.updateSubscription();
-            throw new IllegalMicroverseException("Failed to contain degenerate Microverse at " +
-                    this.getPos().toString() + ": Caused by loss of structural integrity in the Microverse Projector.");
+            FailMicroverse("loss of structural integrity in the Microverse Projector");
         }
         if (microverse.decayRate != 0) {
             updateMicroverse(0, false);
@@ -138,18 +156,19 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     public void onStructureFormed() {
         super.onStructureFormed();
         microverseHandler.updateSubscription();
-        degenerateMicroverseHandler.updateSubscription();
     }
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         if (recipe == null) return false;
         if (microverseIntegrity == 0 && microverse != Microverse.NONE) return false;
-        // TODO: Override below check if Degenerate
-        if (recipe.data.contains("projector_tier") && recipe.data.getLong("projector_tier") > projectorTier) {
-            RecipeLogic.putFailureReason(this, recipe,
-                    Component.translatable("monilabs.failure_reason.insufficient_projector_tier"));
-            return false;
+        // Override projector tier check if Degenerate
+        if (microverse != Microverse.DEGENERATE) {
+            if (recipe.data.contains("projector_tier") && recipe.data.getLong("projector_tier") > projectorTier) {
+                RecipeLogic.putFailureReason(this, recipe,
+                        Component.translatable("monilabs.failure_reason.insufficient_projector_tier"));
+                return false;
+            }
         }
         return super.beforeWorking(recipe);
     }
@@ -160,8 +179,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             return false;
         }
 
-        if ((outputBuses == null || outputBuses.isEmpty()) &&
-                MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
+        if (outputBuses == null || outputBuses.isEmpty()) {
             outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
                     .filter(NotifiableItemStackHandler.class::isInstance)
                     .map(NotifiableItemStackHandler.class::cast)
@@ -170,17 +188,25 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         var activeRecipe = recipeLogic.getLastRecipe();
 
-        // TODO: Reenable if stabilization challenge lol
-        /*
-         * if (activeRecipe != null && microverse == Microverse.DEGENERATE) {
-         * degenerateMicroverseHandler.updateSubscription();
-         * throw new IllegalMicroverseException("Failed to contain degenerate Microverse at "
-         * + this.getPos().toString()
-         * + ": Caused by dangerous interference with degenerate Microverse.");
-         * }
-         */
+        // Shards Of Causality logic
+        if (activeRecipe != null && microverse == Microverse.DEGENERATE) {
+            if (stabilizationProgress >= 0) {
+                List<ItemStack> outputs = RecipeHelper.getOutputItems(activeRecipe);
+                for (ItemStack output : outputs) {
+                    if (output.is(targetItem.getItem())) {
+                        advanceStabilization();
+                        abortMission(activeRecipe);
+                        return false;
+                    }
+                }
+            }
+            // Fallback if not actively stabilizing or if wrong recipe is running
+            abortMission(activeRecipe);
+            FailMicroverse("dangerous interference with Microverse's Causality Flux");
+            return false;
+        }
 
-        if (activeRecipe != null && activeRecipe.data.contains("damage_rate")) {
+        if (activeRecipe != null && (activeRecipe.data.contains("damage_rate"))) {
             int decayRate = activeRecipe.data.getInt("damage_rate");
             decayRate *= activeRecipe.parallels;
 
@@ -193,19 +219,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
             boolean microverseChanged = doIntegrityTypeTransitions();
             if (microverseChanged) {
-                if (MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
-                    var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
-                            .getContent();
-                    List<Ingredient> left = List.of(contents);
-                    for (var outputBus : outputBuses) {
-                        left = outputBus.handleRecipe(IO.OUT, activeRecipe, left, false);
-                        if (left == null) {
-                            break;
-                        }
-                    }
-                }
-
-                abortMission();
+                abortMission(activeRecipe);
                 return false;
             }
         }
@@ -228,6 +242,49 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     .filter(NotifiableItemStackHandler.class::isInstance)
                     .map(NotifiableItemStackHandler.class::cast)
                     .toList();
+        }
+        if (MoniConfig.INSTANCE.values.doComplexMicroverses && microverse != Microverse.NONE) {
+            // Attempt to consume a Causality Collapser
+            var collapsersAvailable = ParallelLogic.getMaxByInput(this, causalityCollapserRecipe, 1,
+                    Collections.emptyList());
+
+            if (collapsersAvailable > 0) {
+                List<Ingredient> inputList = ObjectArrayList
+                        .of(SizedIngredient.create(new ItemStack(MoniItems.CAUSALITY_COLLAPSER, 1)));
+
+                for (var bus : inputBuses) {
+                    inputList = bus.handleRecipe(IO.IN, causalityCollapserRecipe, inputList, false);
+                    if (inputList == null) break;
+                }
+
+                if (microverse == Microverse.DEGENERATE) {
+                    if (stabilizationProgress == -1) {
+                        // Initiate Stabilization sequence
+                        advanceStabilization();
+                    } else {
+                        FailMicroverse("uncontrolled collapse of the Causality Flux");
+                    }
+                } else {
+                    updateMicroverse(0, false);
+                }
+            }
+
+            if (microverse == Microverse.DEGENERATE && stabilizationProgress == -1) {
+                int dataAvailable = ParallelLogic.getMaxByInput(this, universeDataRecipe, 1,
+                        Collections.emptyList());
+
+                if (collapsersAvailable > 0) {
+                    List<Ingredient> inputList = ObjectArrayList
+                            .of(SizedIngredient.create(new ItemStack(this.universeDataItem, 1)));
+
+                    for (var bus : inputBuses) {
+                        inputList = bus.handleRecipe(IO.IN, universeDataRecipe, inputList, false);
+                        if (inputList == null) break;
+                    }
+
+                    updateMicroverse(0, false);
+                }
+            }
         }
 
         if (microverse.isRepairable) {
@@ -256,7 +313,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                     microverseIntegrity = MICROVERSE_MAX_INTEGRITY;
                     if (microverse == Microverse.CORRUPTED) {
                         updateMicroverse(7, 50);
-                        abortMission();
+                        abortMission(recipeLogic.getLastRecipe());
                     } else {
                         int rollbackCount = fluxToConsume - usedToHeal;
                         if (recipeLogic.getLastRecipe() != null && recipeLogic.getProgress() > 1) {
@@ -275,21 +332,85 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         // Reset recipe logic if type transition leads to a change in microverse.
         boolean microverseChanged = doIntegrityTypeTransitions();
         if (microverseChanged) {
-            abortMission();
+            abortMission(recipeLogic.getLastRecipe());
         }
     }
 
-    private void abortMission() {
+    private void abortMission(@Nullable GTRecipe activeRecipe) {
+        if (activeRecipe != null && MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
+            var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
+                    .getContent();
+            List<Ingredient> left = List.of(contents);
+            for (var outputBus : outputBuses) {
+                left = outputBus.handleRecipe(IO.OUT, activeRecipe, left, false);
+                if (left == null) {
+                    break;
+                }
+            }
+        }
         recipeLogic.resetRecipeLogic();
         recipeLogic.markLastRecipeDirty();
     }
 
-    private boolean isDegenerate() {
-        return microverse == Microverse.DEGENERATE && this.isFormed();
+    private void advanceStabilization() {
+        if (outputBuses == null || outputBuses.isEmpty()) {
+            inputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
+        }
+        stabilizationProgress++;
+
+        if (Math.random() <= Math.pow(stabilizationProgress / 5.0, 2)) {
+            // Success, you gain one (1) shard of causality.
+            List<Ingredient> outputList = ObjectArrayList
+                    .of(SizedIngredient.create(new ItemStack(MoniItems.SHARD_OF_CAUSALITY, 1)));
+
+            for (var bus : outputBuses) {
+                outputList = bus.handleRecipe(IO.OUT, causalityShardRecipe, outputList, false);
+                if (outputList == null) break;
+            }
+
+            updateMicroverse(1, 1);
+        } else {
+            // Restore 10% of the Microverse (5 seconds)
+            microverseIntegrity = Mth.clamp(microverseIntegrity + 10_000, 0, MICROVERSE_MAX_INTEGRITY);
+
+            // Compute next target
+            Optional<Item> potentialItem = ForgeRegistries.ITEMS.tags().getTag(MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE)
+                    .getRandomElement(RandomSource.create());
+            if (potentialItem.isPresent()) {
+                targetItem = new ItemStack(potentialItem.get(), 1);
+
+                // Output target item
+                List<Ingredient> outputList = ObjectArrayList
+                        .of(SizedIngredient.create(targetItem));
+
+                GTRecipe outputItemRecipe = GTRecipeBuilder.ofRaw().outputItems(targetItem).buildRawRecipe();
+
+                for (var bus : outputBuses) {
+                    outputList = bus.handleRecipe(IO.OUT, outputItemRecipe, outputList, false);
+                    if (outputList == null) break;
+                }
+            } else {
+                // Empty tag, can't stabilize
+                FailMicroverse("empty tag " + MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE.toString());
+            }
+        }
     }
 
-    private void degenerateMicroverseTick() {
-        // TODO: Implement special logic (If time and energy.)
+    private void FailMicroverse(String cause) {
+        updateMicroverse(0, false);
+
+        BlockPos pos = this.getPos();
+        MetaMachine machine = this.self();
+        Level level = machine.getLevel();
+        level.removeBlock(pos, false);
+
+        // Commented out for the testers' sanity.
+        // throw new IllegalMicroverseException("Failed to contain degenerate Microverse at "
+        //         + this.getPos().toString()
+        //         + ", caused by " + cause + ".");
     }
 
     private boolean doIntegrityTypeTransitions() {
@@ -346,10 +467,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 }
 
                 case DEGENERATE -> {
-                    updateMicroverse(0, false);
-                    degenerateMicroverseHandler.updateSubscription();
-                    throw new IllegalMicroverseException("Failed to contain degenerate Microverse at " +
-                            this.getPos().toString() + ": Caused by Microverse entering critical state.");
+                    FailMicroverse("rift in the Microverse's Causality Flux entering critical state");
                 }
             }
         } else if (microverseIntegrity >= MICROVERSE_MAX_INTEGRITY) {
@@ -405,9 +523,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         } else {
             microverseIntegrity = (keepIntegrity ? microverseIntegrity : integrity);
         }
-        degenerateMicroverseHandler.updateSubscription();
-        if (pKey == 8) {
-            // TODO: Initialize %t magmatter or something
+        if (pKey != 8) {
+            stabilizationProgress = -1;
+            targetItem = null;
         }
     }
 
