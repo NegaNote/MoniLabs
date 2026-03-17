@@ -39,7 +39,6 @@ import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.trait.NotifiableMicroverseContainer;
 import net.neganote.monilabs.config.MoniConfig;
 import net.neganote.monilabs.data.tags.MoniTags;
-import net.neganote.monilabs.utils.IllegalMicroverseException;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
@@ -121,9 +120,11 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         updateMicroverse(0, false);
 
         // Insanity Mode setup
-        this.universeDataItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.bySeparator("kubejs:universe_creation_data", ':'));
+        this.universeDataItem = ForgeRegistries.ITEMS
+                .getValue(ResourceLocation.bySeparator("kubejs:universe_creation_data", ':'));
         assert this.universeDataItem != null;
-        this.causalityCollapserRecipe = GTRecipeBuilder.ofRaw().inputItems(MoniItems.CAUSALITY_COLLAPSER).buildRawRecipe();
+        this.causalityCollapserRecipe = GTRecipeBuilder.ofRaw().inputItems(MoniItems.CAUSALITY_COLLAPSER)
+                .buildRawRecipe();
         this.causalityShardRecipe = GTRecipeBuilder.ofRaw().outputItems(MoniItems.SHARD_OF_CAUSALITY).buildRawRecipe();
         this.universeDataRecipe = GTRecipeBuilder.ofRaw().outputItems(this.universeDataItem).buildRawRecipe();
     }
@@ -377,7 +378,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             microverseIntegrity = Mth.clamp(microverseIntegrity + 10_000, 0, MICROVERSE_MAX_INTEGRITY);
 
             // Compute next target
-            Optional<Item> potentialItem = ForgeRegistries.ITEMS.tags().getTag(MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE)
+            Optional<Item> potentialItem = ForgeRegistries.ITEMS.tags()
+                    .getTag(MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE)
                     .getRandomElement(RandomSource.create());
             if (potentialItem.isPresent()) {
                 targetItem = new ItemStack(potentialItem.get(), 1);
@@ -409,8 +411,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
         // Commented out for the testers' sanity.
         // throw new IllegalMicroverseException("Failed to contain degenerate Microverse at "
-        //         + this.getPos().toString()
-        //         + ", caused by " + cause + ".");
+        // + this.getPos().toString()
+        // + ", caused by " + cause + ".");
     }
 
     private boolean doIntegrityTypeTransitions() {

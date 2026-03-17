@@ -761,9 +761,13 @@ public class MoniMachines {
                     .aisle("CCCCC", "#CLC#", "#CLC#", "#CLC#", "CCCCC")
                     .aisle("CC@CC", "F###F", "F###F", "F###F", "CCCCC")
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .where("C", Predicates.blocks(BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("kubejs","dark_steel_casing"))).setMinGlobalLimited(44)
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
+                    .where("C",
+                            Predicates
+                                    .blocks(BuiltInRegistries.BLOCK
+                                            .get(ResourceLocation.fromNamespaceAndPath("kubejs", "dark_steel_casing")))
+                                    .setMinGlobalLimited(44)
+                                    .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                                    .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
                     .where("L", Predicates.blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .where(" ", Predicates.air())
