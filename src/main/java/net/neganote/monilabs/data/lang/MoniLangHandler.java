@@ -228,6 +228,8 @@ public class MoniLangHandler {
 
         provider.add("microverse.monilabs.current_microverse", "Microverse type: %s");
         provider.add("microverse.monilabs.integrity", "Microverse integrity: %.2f%%");
+        provider.add("microverse.monilabs.debug.0", "Stabilization Progress: %d");
+        provider.add("microverse.monilabs.debug.1", "Target Item: \n%s");
 
         provider.add("virtual_particle_synthesis.monilabs.noise", "Local Quantum Fluctuation: %d");
         provider.add("virtual_particle_synthesis.monilabs.debug.0", "Start: %.2f, End: %.2f, Offset: %.2f");

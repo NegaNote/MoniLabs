@@ -126,7 +126,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         this.causalityCollapserRecipe = GTRecipeBuilder.ofRaw().inputItems(MoniItems.CAUSALITY_COLLAPSER)
                 .buildRawRecipe();
         this.causalityShardRecipe = GTRecipeBuilder.ofRaw().outputItems(MoniItems.SHARD_OF_CAUSALITY).buildRawRecipe();
-        this.universeDataRecipe = GTRecipeBuilder.ofRaw().outputItems(this.universeDataItem).buildRawRecipe();
+        this.universeDataRecipe = GTRecipeBuilder.ofRaw().inputItems(this.universeDataItem).buildRawRecipe();
     }
 
     @Override
@@ -141,7 +141,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         inputBuses = null;
         outputBuses = null;
         if (microverse == Microverse.DEGENERATE) {
-            FailMicroverse("loss of structural integrity in the Microverse Projector");
+            failMicroverse("loss of structural integrity in the Microverse Projector");
         }
         if (microverse.decayRate != 0) {
             updateMicroverse(0, false);
@@ -203,7 +203,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             }
             // Fallback if not actively stabilizing or if wrong recipe is running
             abortMission(activeRecipe);
-            FailMicroverse("dangerous interference with Microverse's Causality Flux");
+            failMicroverse("dangerous interference with Microverse's Causality Flux");
             return false;
         }
 
@@ -263,13 +263,14 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                         // Initiate Stabilization sequence
                         advanceStabilization();
                     } else {
-                        FailMicroverse("uncontrolled collapse of the Causality Flux");
+                        failMicroverse("uncontrolled collapse of the Causality Flux");
                     }
                 } else {
                     updateMicroverse(0, false);
                 }
             }
 
+            // If not stabilizing, attempt to consume a data to clear the 'verse
             if (microverse == Microverse.DEGENERATE && stabilizationProgress == -1) {
                 int dataAvailable = ParallelLogic.getMaxByInput(this, universeDataRecipe, 1,
                         Collections.emptyList());
@@ -355,7 +356,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     private void advanceStabilization() {
         if (outputBuses == null || outputBuses.isEmpty()) {
-            inputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
+            outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
                     .filter(NotifiableItemStackHandler.class::isInstance)
                     .map(NotifiableItemStackHandler.class::cast)
                     .toList();
@@ -396,12 +397,13 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 }
             } else {
                 // Empty tag, can't stabilize
-                FailMicroverse("empty tag " + MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE.toString());
+                failMicroverse("empty tag " + MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE.toString()
+                        + ". Please report the issue to the dev team");
             }
         }
     }
 
-    private void FailMicroverse(String cause) {
+    private void failMicroverse(String cause) {
         updateMicroverse(0, false);
 
         BlockPos pos = this.getPos();
@@ -469,7 +471,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 }
 
                 case DEGENERATE -> {
-                    FailMicroverse("rift in the Microverse's Causality Flux entering critical state");
+                    failMicroverse("rift in the Microverse's Causality Flux entering critical state");
                 }
             }
         } else if (microverseIntegrity >= MICROVERSE_MAX_INTEGRITY) {
@@ -540,6 +542,12 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             if (microverse != Microverse.NONE) {
                 textList.add(Component.translatable("microverse.monilabs.integrity",
                         (float) microverseIntegrity / FLUX_REPAIR_AMOUNT));
+                textList.add(Component.translatable("microverse.monilabs.debug.0",
+                        (double) stabilizationProgress));
+                if (targetItem != null) {
+                    textList.add(Component.translatable("microverse.monilabs.debug.1",
+                            targetItem.getItem().toString()));
+                }
             }
         }
     }
