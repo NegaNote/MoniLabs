@@ -770,6 +770,7 @@ public class MoniMachines {
                                     .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
                     .where("L", Predicates.blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
+                    .where("F", Predicates.frames(GTMaterials.BlackSteel))
                     .where(" ", Predicates.air())
                     .where("#", Predicates.any())
                     .build())
