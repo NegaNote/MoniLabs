@@ -275,7 +275,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 int dataAvailable = ParallelLogic.getMaxByInput(this, universeDataRecipe, 1,
                         Collections.emptyList());
 
-                if (collapsersAvailable > 0) {
+                if (dataAvailable > 0) {
                     List<Ingredient> inputList = ObjectArrayList
                             .of(SizedIngredient.create(new ItemStack(this.universeDataItem, 1)));
 
