@@ -235,7 +235,7 @@ public class MoniRecipeModifiers {
             long inputHash = hashString("input", recipeHash) ^ seed;
 
             switch (inputModifier) {
-                case "quantum_entanglement" :
+                case "quantum_entanglement":
                     // Target noise is the last 4 bits of the hash
                     targetNoise = (int) (inputHash & 0xF);
 
@@ -260,7 +260,7 @@ public class MoniRecipeModifiers {
                     newInputs.put(ItemRecipeCapability.CAP, recipeInputs);
                     recipeDirty = true;
                     break;
-                case "quantum_polarization" :
+                case "quantum_polarization":
                     // Target noise is the last 4 bits of the hash
                     targetNoise = (int) (inputHash & 0xF);
 
@@ -273,14 +273,16 @@ public class MoniRecipeModifiers {
                     try {
                         recipeInputs.set(0,
                                 recipeInputs.get(0)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier( 0.5 + (1 - diff / 16.0) )));
+                                        .copy(FluidRecipeCapability.CAP,
+                                                ContentModifier.multiplier(0.5 + (1 - diff / 16.0))));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if the output doesn't exist lol
                     }
                     try {
                         recipeInputs.set(1,
                                 recipeInputs.get(1)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier( 0.5 + (diff / 16.0) )));
+                                        .copy(FluidRecipeCapability.CAP,
+                                                ContentModifier.multiplier(0.5 + (diff / 16.0))));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if the output doesn't exist lol
                     }
@@ -289,25 +291,23 @@ public class MoniRecipeModifiers {
                     newInputs.put(FluidRecipeCapability.CAP, recipeInputs);
                     recipeDirty = true;
                     break;
-                case "quantum_fields" :
+                case "quantum_fields":
                     recipeInputs = new ArrayList<>(recipe.getInputContents(ItemRecipeCapability.CAP));
 
                     int averageItems = 0;
                     for (int i = 0; i < recipeInputs.size(); i++) {
                         // Creates a new hash based on inputHash and ingredient index.
                         // Then, take a group of 4 bits based on current noise to serve as a multiplier.
-                        int multiplier = (int) (
-                                (hashString(
-                                        String.valueOf(i) + "Needs 14 chars" + "-".repeat(i)
-                                        , inputHash
-                                ) >>> (4 * noise)) & 0xF);
+                        int multiplier = (int) ((hashString(
+                                String.valueOf(i) + "Needs 14 chars" + "-".repeat(i), inputHash) >>> (4 * noise)) &
+                                0xF);
                         averageItems += multiplier;
 
                         // Modifies the current ingredient using the multiplier (ranging from 1/16x to 1x)
                         recipeInputs.set(i,
                                 recipeInputs.get(i)
                                         .copy(ItemRecipeCapability.CAP,
-                                                ContentModifier.multiplier( (multiplier + 1) / 16.0 )));
+                                                ContentModifier.multiplier((multiplier + 1) / 16.0)));
                     }
 
                     nomnom = (int) (averageItems / (double) recipeInputs.size());
@@ -316,25 +316,23 @@ public class MoniRecipeModifiers {
                     newInputs.put(ItemRecipeCapability.CAP, recipeInputs);
                     recipeDirty = true;
                     break;
-                case "quantum_waves" :
+                case "quantum_waves":
                     recipeInputs = new ArrayList<>(recipe.getInputContents(FluidRecipeCapability.CAP));
 
                     int averageFluids = 0;
                     for (int i = 0; i < recipeInputs.size(); i++) {
                         // Creates a new hash based on inputHash and ingredient index.
                         // Then, take a group of 4 bits based on current noise to serve as a multiplier.
-                        int multiplier = (int) (
-                                (hashString(
-                                        String.valueOf(i) + "Needs 14 chars" + "-".repeat(i)
-                                        , inputHash
-                                ) >>> (4 * noise)) & 0xF);
+                        int multiplier = (int) ((hashString(
+                                String.valueOf(i) + "Needs 14 chars" + "-".repeat(i), inputHash) >>> (4 * noise)) &
+                                0xF);
                         averageFluids += multiplier;
 
                         // Modifies the current ingredient using the multiplier (ranging from 1/16x to 1x)
                         recipeInputs.set(i,
                                 recipeInputs.get(i)
                                         .copy(FluidRecipeCapability.CAP,
-                                                ContentModifier.multiplier( (multiplier + 1) / 16.0 )));
+                                                ContentModifier.multiplier((multiplier + 1) / 16.0)));
                     }
 
                     nomnom = (int) (averageFluids / (double) recipeInputs.size());
@@ -432,7 +430,8 @@ public class MoniRecipeModifiers {
 
                         recipeOutputs.set(i,
                                 recipeOutputs.get(i)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier((success ? 1 : 0))));
+                                        .copy(FluidRecipeCapability.CAP,
+                                                ContentModifier.multiplier((success ? 1 : 0))));
                     }
 
                     // Replace the Fluid Output list with an updated version

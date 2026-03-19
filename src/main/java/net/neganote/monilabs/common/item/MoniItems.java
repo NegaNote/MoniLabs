@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.cover.MoniCovers;
 
@@ -101,6 +102,15 @@ public class MoniItems {
 
     public static final ItemEntry<Item> SHARD_OF_CAUSALITY = REGISTRATE
             .item("shard_of_causality", Item::new)
+            .model((ctx, prov) -> {
+                Item item = ctx.getEntry();
+                prov.generated(ctx, MoniLabs.id("item/shard_of_causality"))
+                        .transforms()
+                        .transform(ItemDisplayContext.GUI)
+                        .scale(1.5f)
+                        .end()
+                        .end();
+            })
             .lang("Shard Of Causality")
             .register();
 
