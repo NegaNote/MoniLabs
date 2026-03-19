@@ -150,6 +150,16 @@ public interface MoniRecipeSchema {
             }
             return this;
         }
+
+        public GTRecipeSchema.GTRecipeJS quantumRuleIn(QuantumRule rule) {
+            this.addDataString("quantum_rule_input", rule.serializedName);
+            return this;
+        }
+
+        public GTRecipeSchema.GTRecipeJS quantumRuleOut(QuantumRule rule) {
+            this.addDataString("quantum_rule_output", rule.serializedName);
+            return this;
+        }
     }
 
     RecipeSchema SCHEMA = new RecipeSchema(MoniRecipeJS.class, MoniRecipeJS::new, DURATION, DATA, CONDITIONS,

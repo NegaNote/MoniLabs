@@ -361,7 +361,7 @@ public class MoniRecipeModifiers {
                     diff = Mth.abs(noise - targetNoise);
                     diff = (diff <= 8 ? diff : 16 - diff);
 
-                    recipeOutputs = new ArrayList<>(newOutputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList()));
+                    recipeOutputs = new ArrayList<>(recipe.getOutputContents(ItemRecipeCapability.CAP));
                     // Modify Item Outputs accordingly
                     try {
                         // Try to remove failed item output
@@ -383,7 +383,7 @@ public class MoniRecipeModifiers {
                     diff = Mth.abs(noise - targetNoise);
                     diff = (diff <= 8 ? diff : 16 - diff);
 
-                    recipeOutputs = new ArrayList<>(newOutputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()));
+                    recipeOutputs = new ArrayList<>(recipe.getOutputContents(FluidRecipeCapability.CAP));
                     try {
                         recipeOutputs.set(0,
                                 recipeOutputs.get(0)
@@ -404,7 +404,7 @@ public class MoniRecipeModifiers {
                     recipeDirty = true;
                     break;
                 case "quantum_fields":
-                    recipeOutputs = new ArrayList<>(newOutputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList()));
+                    recipeOutputs = new ArrayList<>(recipe.getOutputContents(ItemRecipeCapability.CAP));
 
                     // Calculate success for each item
                     for (int i = 0; i < recipeOutputs.size(); i++) {
@@ -422,7 +422,7 @@ public class MoniRecipeModifiers {
                     recipeDirty = true;
                     break;
                 case "quantum_waves":
-                    recipeOutputs = new ArrayList<>(newOutputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()));
+                    recipeOutputs = new ArrayList<>(recipe.getOutputContents(FluidRecipeCapability.CAP));
 
                     // Calculate success for each fluid
                     for (int i = 0; i < recipeOutputs.size(); i++) {
@@ -442,7 +442,7 @@ public class MoniRecipeModifiers {
             }
         }
 
-        final int outputMultiplier = nomnom;
+        final double outputMultiplier = nomnom;
         if (recipeDirty) {
             return (inputRecipe) -> new GTRecipe(recipe.recipeType, recipe.id, newInputs,
                     ContentModifier.multiplier(outputMultiplier).applyContents(newOutputs),
