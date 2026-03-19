@@ -138,10 +138,12 @@ public class MoniLangHandler {
         provider.add("emi_info.monilabs.integrity_healed", "Integrity healed: %.2f");
         provider.add("emi_info.monilabs.cannot_parallel", "Cannot parallel");
 
-        provider.add("emi_info.monilabs.quantum_rule_base", "Affected by the \n%s");
+        provider.add("emi_info.monilabs.quantum_rule_base_in", "Inputs affected by the \n%s");
+        provider.add("emi_info.monilabs.quantum_rule_base_out", "Outputs affected by the \n%s");
         provider.add("emi_info.monilabs.quantum_rule_quantum_entanglement", "§bRule Of Quantum Entanglement§r");
         provider.add("emi_info.monilabs.quantum_rule_quantum_polarization",
                 "§bRule Of Quantum Polarization§r");
+        provider.add("emi_info.monilabs.quantum_rule_quantum_fields", "§bRule Of Quantum Fields§r");
         provider.add("emi_info.monilabs.quantum_rule_quantum_waves", "§bRule Of Quantum Waves§r");
 
         provider.add("monilabs.menu.packmodeswitcher.displayname", "Switch Pack Mode");

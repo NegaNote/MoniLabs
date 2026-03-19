@@ -188,9 +188,18 @@ public class MoniRecipeTypes {
             .setSound(MoniSounds.MICROVERSE)
             .addDataInfo(data -> {
                 String info = "";
-                if (data.contains("quantum_rule")) {
-                    info += I18n.get("emi_info.monilabs.quantum_rule_base",
-                            I18n.get("emi_info.monilabs.quantum_rule_" + data.getString("quantum_rule"))) + "\n";
+                if (data.contains("quantum_rule_input")) {
+                    info += I18n.get("emi_info.monilabs.quantum_rule_base_in",
+                            I18n.get("emi_info.monilabs.quantum_rule_" + data.getString("quantum_rule_input"))) + "\n";
+                }
+                return info;
+            })
+            .addDataInfo(data -> "")
+            .addDataInfo(data -> {
+                String info = "";
+                if (data.contains("quantum_rule_output")) {
+                    info += I18n.get("emi_info.monilabs.quantum_rule_base_out",
+                            I18n.get("emi_info.monilabs.quantum_rule_" + data.getString("quantum_rule_output"))) + "\n";
                 }
                 return info;
             })

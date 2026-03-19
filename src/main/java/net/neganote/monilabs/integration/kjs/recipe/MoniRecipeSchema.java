@@ -1,5 +1,6 @@
 package net.neganote.monilabs.integration.kjs.recipe;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema;
 
 import net.neganote.monilabs.capability.recipe.ChromaIngredient;
@@ -26,12 +27,27 @@ public interface MoniRecipeSchema {
 
         QUANTUM_ENTANGLEMENT("quantum_entanglement"),
         QUANTUM_POLARIZATION("quantum_polarization"),
+        QUANTUM_FIELDS("quantum_fields"),
         QUANTUM_WAVES("quantum_waves");
 
         public final String serializedName;
 
         QuantumRule(String serializedName) {
             this.serializedName = serializedName;
+        }
+    }
+
+    enum VIO {
+        IN(true, false),
+        OUT(false, true),
+        BOTH(true, true);
+
+        public final boolean canIn;
+        public final boolean canOut;
+
+        VIO(boolean canIn, boolean canOut) {
+            this.canIn = canIn;
+            this.canOut = canOut;
         }
     }
 
@@ -125,8 +141,13 @@ public interface MoniRecipeSchema {
             return this;
         }
 
-        public GTRecipeSchema.GTRecipeJS quantumRule(QuantumRule rule) {
-            this.addDataString("quantum_rule", rule.serializedName);
+        public GTRecipeSchema.GTRecipeJS quantumRule(QuantumRule rule, IO io) {
+            if (io.support(IO.IN)) {
+                this.addDataString("quantum_rule_input", rule.serializedName);
+            }
+            if (io.support(IO.OUT)) {
+                this.addDataString("quantum_rule_output", rule.serializedName);
+            }
             return this;
         }
     }

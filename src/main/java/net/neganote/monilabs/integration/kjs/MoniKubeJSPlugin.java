@@ -1,5 +1,6 @@
 package net.neganote.monilabs.integration.kjs;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.neganote.monilabs.MoniLabs;
@@ -70,5 +71,8 @@ public class MoniKubeJSPlugin extends KubeJSPlugin {
 
         // Rendering
         event.add("MoniDynamicRenderHelper", MoniDynamicRenderHelper.class);
+
+        // GTm classes
+        event.add("IO", IO.class);
     }
 }
