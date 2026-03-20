@@ -18,7 +18,6 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.neganote.monilabs.common.machine.multiblock.MicroverseProjectorMachine;
 import net.neganote.monilabs.common.machine.multiblock.OmnicSynthesizerMachine;
@@ -169,21 +168,18 @@ public class MoniRecipeModifiers {
     public static ModifierFunction greenhouseOCasParallels(MetaMachine machine, GTRecipe recipe) {
         var workableMachine = (WorkableElectricMultiblockMachine) machine;
 
-        OCParams params = new OCParams(RecipeHelper.getRealEUt(recipe).getTotalEU(), recipe.duration,
-                GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage()) -
-                        GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU()),
-                Integer.MAX_VALUE);
+        int maxParallels = (int) Math.pow(2, GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage()) -
+                GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU()));
 
-        var ocResult = OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK.runOverclockingLogic(params,
-                workableMachine.getOverclockVoltage());
-
-        int parallels = ParallelLogic.getParallelAmount(machine, recipe,
-                Mth.smallestEncompassingPowerOfTwo(ocResult.ocLevel()) * ocResult.parallels());
+        int parallels = ParallelLogic.getParallelAmount(machine, recipe, maxParallels);
 
         if (parallels == 1) return ModifierFunction.IDENTITY;
+
+        var eutMultiplier = Math.pow(4, Math.ceil(Math.log(parallels) / Math.log(2)));
+
         return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallels))
-                .eutMultiplier(parallels)
+                .eutMultiplier(eutMultiplier)
                 .parallels(parallels)
                 .build();
     }
