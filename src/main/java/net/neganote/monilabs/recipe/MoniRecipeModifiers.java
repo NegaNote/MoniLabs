@@ -298,11 +298,9 @@ public class MoniRecipeModifiers {
                     for (int i = 0; i < recipeInputs.size(); i++) {
                         // Creates a new hash based on inputHash and ingredient index.
                         // Then, take a group of 4 bits based on current noise to serve as a multiplier.
-                        int multiplier = (int) (
-                                (hashString(
-                                        String.valueOf(i) + "Needs 14 chars" + "-".repeat(i)
-                                        , inputHash
-                                ) >>> (4 * noise)) & 0xF);
+                        int multiplier = (int) ((hashString(
+                                String.valueOf(i) + "Needs 14 chars" + "-".repeat(i), inputHash) >>> (4 * noise)) &
+                                0xF);
                         averageItems += multiplier;
 
                         // Modifies the current ingredient using the multiplier (ranging from 1/16x to 1x)
@@ -326,11 +324,9 @@ public class MoniRecipeModifiers {
                     for (int i = 0; i < recipeInputs.size(); i++) {
                         // Creates a new hash based on inputHash and ingredient index.
                         // Then, take a group of 4 bits based on current noise to serve as a multiplier.
-                        int multiplier = (int) (
-                                (hashString(
-                                        String.valueOf(i) + "Needs 14 chars" + "-".repeat(i)
-                                        , inputHash
-                                ) >>> (4 * noise)) & 0xF);
+                        int multiplier = (int) ((hashString(
+                                String.valueOf(i) + "Needs 14 chars" + "-".repeat(i), inputHash) >>> (4 * noise)) &
+                                0xF);
                         averageFluids += multiplier;
 
                         // Modifies the current ingredient using the multiplier (ranging from 1/16x to 1x)
@@ -438,7 +434,8 @@ public class MoniRecipeModifiers {
 
                         recipeOutputs.set(i,
                                 recipeOutputs.get(i)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier((success ? 1 : 0))));
+                                        .copy(FluidRecipeCapability.CAP,
+                                                ContentModifier.multiplier((success ? 1 : 0))));
                     }
 
                     // Replace the Fluid Output list with an updated version

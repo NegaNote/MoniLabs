@@ -1,5 +1,14 @@
 {
   "parent": "minecraft:item/generated",
+  "display": {
+    "gui": {
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ]
+    }
+  },
   "textures": {
     "layer0": "monilabs:item/shard_of_causality"
   }

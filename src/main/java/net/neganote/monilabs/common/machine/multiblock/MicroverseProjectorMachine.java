@@ -397,8 +397,8 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
                 }
             } else {
                 // Empty tag, can't stabilize
-                failMicroverse("empty tag " + MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE.toString()
-                        + ". Please report the issue to the dev team");
+                failMicroverse("empty tag " + MoniTags.DEGENERATE_MICROVERSE_REQUESTABLE.toString() +
+                        ". Please report the issue to the dev team");
             }
         }
     }

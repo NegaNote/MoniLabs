@@ -38,6 +38,7 @@ public interface MoniRecipeSchema {
     }
 
     enum VIO {
+
         IN(true, false),
         OUT(false, true),
         BOTH(true, true);
