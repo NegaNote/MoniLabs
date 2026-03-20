@@ -102,6 +102,7 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     public void afterWorking() {
         super.afterWorking();
 
+        recipeLogic.markLastRecipeDirty();
         // Special logic yadda yadda
     }
 

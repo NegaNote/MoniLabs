@@ -227,7 +227,7 @@ public class MoniRecipeModifiers {
         List<Content> recipeOutputs;
         final Map<RecipeCapability<?>, List<Content>> newOutputs = new HashMap<>(recipe.outputs);
 
-        int nomnom = 1;
+        double nomnom = 1;
 
         if (recipe.data.contains("quantum_rule_input")) {
             String inputModifier = recipe.data.getString("quantum_rule_input");
@@ -235,7 +235,7 @@ public class MoniRecipeModifiers {
             long inputHash = hashString("input", recipeHash) ^ seed;
 
             switch (inputModifier) {
-                case "quantum_entanglement" :
+                case "quantum_entanglement": {
                     // Target noise is the last 4 bits of the hash
                     targetNoise = (int) (inputHash & 0xF);
 
@@ -260,7 +260,8 @@ public class MoniRecipeModifiers {
                     newInputs.put(ItemRecipeCapability.CAP, recipeInputs);
                     recipeDirty = true;
                     break;
-                case "quantum_polarization" :
+                }
+                case "quantum_polarization": {
                     // Target noise is the last 4 bits of the hash
                     targetNoise = (int) (inputHash & 0xF);
 
@@ -273,14 +274,14 @@ public class MoniRecipeModifiers {
                     try {
                         recipeInputs.set(0,
                                 recipeInputs.get(0)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier( 0.5 + (1 - diff / 16.0) )));
+                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier(0.5 + (0.5 - diff / 16.0))));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if the output doesn't exist lol
                     }
                     try {
                         recipeInputs.set(1,
                                 recipeInputs.get(1)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier( 0.5 + (diff / 16.0) )));
+                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier(0.5 + (diff / 16.0))));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if the output doesn't exist lol
                     }
@@ -289,7 +290,8 @@ public class MoniRecipeModifiers {
                     newInputs.put(FluidRecipeCapability.CAP, recipeInputs);
                     recipeDirty = true;
                     break;
-                case "quantum_fields" :
+                }
+                case "quantum_fields" : {
                     recipeInputs = new ArrayList<>(recipe.getInputContents(ItemRecipeCapability.CAP));
 
                     int averageItems = 0;
@@ -307,16 +309,17 @@ public class MoniRecipeModifiers {
                         recipeInputs.set(i,
                                 recipeInputs.get(i)
                                         .copy(ItemRecipeCapability.CAP,
-                                                ContentModifier.multiplier( (multiplier + 1) / 16.0 )));
+                                                ContentModifier.multiplier((multiplier + 1) / 16.0)));
                     }
 
-                    nomnom = (int) (averageItems / (double) recipeInputs.size());
+                    nomnom = ((int) ((averageItems / (double) recipeInputs.size()) + 1) / 16.0);
 
                     // Replace the Item Input list with a version of the list
                     newInputs.put(ItemRecipeCapability.CAP, recipeInputs);
                     recipeDirty = true;
                     break;
-                case "quantum_waves" :
+                }
+                case "quantum_waves" : {
                     recipeInputs = new ArrayList<>(recipe.getInputContents(FluidRecipeCapability.CAP));
 
                     int averageFluids = 0;
@@ -334,15 +337,16 @@ public class MoniRecipeModifiers {
                         recipeInputs.set(i,
                                 recipeInputs.get(i)
                                         .copy(FluidRecipeCapability.CAP,
-                                                ContentModifier.multiplier( (multiplier + 1) / 16.0 )));
+                                                ContentModifier.multiplier((multiplier + 1) / 16.0)));
                     }
 
-                    nomnom = (int) (averageFluids / (double) recipeInputs.size());
+                    nomnom = ((int) ((averageFluids / (double) recipeInputs.size()) + 1) / 16.0);
 
                     // Replace the Item Input list with a version of the list
                     newInputs.put(FluidRecipeCapability.CAP, recipeInputs);
                     recipeDirty = true;
                     break;
+                }
             }
         }
 
@@ -353,7 +357,7 @@ public class MoniRecipeModifiers {
             long outputHash = hashString("input", recipeHash) ^ seed;
 
             switch (outputModifier) {
-                case "quantum_entanglement":
+                case "quantum_entanglement": {
                     // Target noise is the last 4 bits of the hash
                     targetNoise = (int) (outputHash & 0xF);
 
@@ -374,8 +378,8 @@ public class MoniRecipeModifiers {
                     newOutputs.put(ItemRecipeCapability.CAP, recipeOutputs);
                     recipeDirty = true;
                     break;
-
-                case "quantum_polarization":
+                }
+                case "quantum_polarization": {
                     // Target noise is the last 4 bits of the hash
                     targetNoise = (int) (outputHash & 0xF);
 
@@ -403,7 +407,8 @@ public class MoniRecipeModifiers {
                     newOutputs.put(FluidRecipeCapability.CAP, recipeOutputs);
                     recipeDirty = true;
                     break;
-                case "quantum_fields":
+                }
+                case "quantum_fields": {
                     recipeOutputs = new ArrayList<>(recipe.getOutputContents(ItemRecipeCapability.CAP));
 
                     // Calculate success for each item
@@ -421,7 +426,8 @@ public class MoniRecipeModifiers {
                     newOutputs.put(ItemRecipeCapability.CAP, recipeOutputs);
                     recipeDirty = true;
                     break;
-                case "quantum_waves":
+                }
+                case "quantum_waves": {
                     recipeOutputs = new ArrayList<>(recipe.getOutputContents(FluidRecipeCapability.CAP));
 
                     // Calculate success for each fluid
@@ -439,6 +445,7 @@ public class MoniRecipeModifiers {
                     newOutputs.put(FluidRecipeCapability.CAP, recipeOutputs);
                     recipeDirty = true;
                     break;
+                }
             }
         }
 

@@ -752,7 +752,7 @@ public class MoniMachines {
             .langValue("Virtual Particle Synthesizer")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.VIRTUAL_PARTICLE_SYNTHESIS_RECIPES)
-            .recipeModifiers(MoniRecipeModifiers::VirtualParticleSynthesisModifier, MoniRecipeModifiers.OC_AS_PARALLELS)
+            .recipeModifiers(MoniRecipeModifiers::VirtualParticleSynthesisModifier)
             .appearanceBlock(MoniBlocks.MICROVERSE_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCCCC", "F###F", "F###F", "F###F", "CCCCC")
