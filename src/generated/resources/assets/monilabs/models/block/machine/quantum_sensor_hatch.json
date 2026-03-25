@@ -12,11 +12,11 @@
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {
-          "bottom": "monilabs:block/casing/microverse",
+          "bottom": "monilabs:block/casing/dark_steel",
           "overlay": "monilabs:block/overlay/machine/quantum_sensor_hatch_base",
           "overlay_emissive": "monilabs:block/overlay/machine/quantum_sensor_hatch_emissive",
-          "side": "monilabs:block/casing/microverse",
-          "top": "monilabs:block/casing/microverse"
+          "side": "monilabs:block/casing/dark_steel",
+          "top": "monilabs:block/casing/dark_steel"
         }
       }
     },
@@ -24,11 +24,11 @@
       "model": {
         "parent": "gtceu:block/overlay/2_layer/front_emissive",
         "textures": {
-          "bottom": "monilabs:block/casing/microverse",
+          "bottom": "monilabs:block/casing/dark_steel",
           "overlay": "monilabs:block/overlay/machine/quantum_sensor_hatch_base",
           "overlay_emissive": "monilabs:block/overlay/machine/quantum_sensor_hatch_emissive",
-          "side": "monilabs:block/casing/microverse",
-          "top": "monilabs:block/casing/microverse"
+          "side": "monilabs:block/casing/dark_steel",
+          "top": "monilabs:block/casing/dark_steel"
         }
       }
     }

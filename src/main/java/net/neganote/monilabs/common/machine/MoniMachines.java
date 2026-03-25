@@ -28,9 +28,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachin
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.neganote.monilabs.MoniLabs;
@@ -367,7 +365,7 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.quantum_sensor_hatch.0"),
                     Component.translatable("tooltip.monilabs.quantum_sensor_hatch.1"))
             .modelProperty(IS_FORMED, false)
-            .model(MoniMachineModels.createOverlayCasingMachineModel("quantum_sensor_hatch", "casing/microverse"))
+            .model(MoniMachineModels.createOverlayCasingMachineModel("quantum_sensor_hatch", "casing/dark_steel"))
             .tier(GTValues.ZPM)
             .register();
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
@@ -763,8 +761,7 @@ public class MoniMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("C",
                             Predicates
-                                    .blocks(BuiltInRegistries.BLOCK
-                                            .get(ResourceLocation.fromNamespaceAndPath("kubejs", "dark_steel_casing")))
+                                    .blocks(MoniBlocks.DARK_STEEL_CASING.get())
                                     .setMinGlobalLimited(44)
                                     .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                                     .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
@@ -776,7 +773,7 @@ public class MoniMachines {
                     .build())
             .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
-                    .createWorkableCasingMachineModel(MoniLabs.id("block/casing/microverse"),
+                    .createWorkableCasingMachineModel(MoniLabs.id("block/casing/dark_steel"),
                             MoniLabs.id("block/machines/projectors")))
             .tooltipBuilder(VIRTUAL_PARTICLE_SYNTHESIZER_TOOLTIPS)
             .register();

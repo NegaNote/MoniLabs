@@ -121,6 +121,9 @@ public class MoniBlocks {
             "bioalloy_fusion_casing",
             "casing/bioalloy_fusion", BlockItem::new);
 
+    public static BlockEntry<Block> DARK_STEEL_CASING = registerSimpleBlock("Dark Steel Casing", "dark_steel_casing",
+            "casing/dark_steel", BlockItem::new);
+
     public static final BlockEntry<PRISMBlock> PRISM_GLASS = REGISTRATE
             .block("prism_glass", PRISMBlock::new)
             .initialProperties(() -> Blocks.GLASS)

@@ -274,14 +274,16 @@ public class MoniRecipeModifiers {
                     try {
                         recipeInputs.set(0,
                                 recipeInputs.get(0)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier(0.5 + (0.5 - diff / 16.0))));
+                                        .copy(FluidRecipeCapability.CAP,
+                                                ContentModifier.multiplier(0.5 + (0.5 - diff / 16.0))));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if the output doesn't exist lol
                     }
                     try {
                         recipeInputs.set(1,
                                 recipeInputs.get(1)
-                                        .copy(FluidRecipeCapability.CAP, ContentModifier.multiplier(0.5 + (diff / 16.0))));
+                                        .copy(FluidRecipeCapability.CAP,
+                                                ContentModifier.multiplier(0.5 + (diff / 16.0))));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if the output doesn't exist lol
                     }
@@ -291,7 +293,7 @@ public class MoniRecipeModifiers {
                     recipeDirty = true;
                     break;
                 }
-                case "quantum_fields" : {
+                case "quantum_fields": {
                     recipeInputs = new ArrayList<>(recipe.getInputContents(ItemRecipeCapability.CAP));
 
                     int averageItems = 0;
@@ -317,7 +319,7 @@ public class MoniRecipeModifiers {
                     recipeDirty = true;
                     break;
                 }
-                case "quantum_waves" : {
+                case "quantum_waves": {
                     recipeInputs = new ArrayList<>(recipe.getInputContents(FluidRecipeCapability.CAP));
 
                     int averageFluids = 0;
