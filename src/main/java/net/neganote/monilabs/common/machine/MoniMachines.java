@@ -366,7 +366,7 @@ public class MoniMachines {
                     Component.translatable("tooltip.monilabs.quantum_sensor_hatch.1"))
             .modelProperty(IS_FORMED, false)
             .model(MoniMachineModels.createOverlayCasingMachineModel("quantum_sensor_hatch", "casing/dark_steel"))
-            .tier(GTValues.ZPM)
+            .tier(GTValues.EV)
             .register();
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
