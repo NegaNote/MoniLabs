@@ -761,10 +761,14 @@ public class MoniMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("C",
                             Predicates
-                                    .blocks(MoniBlocks.DARK_STEEL_CASING.get())
-                                    .setMinGlobalLimited(44)
-                                    .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                                    .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
+                                    .blocks(MoniBlocks.DARK_STEEL_CASING.get()).setMinGlobalLimited(44)
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
+                                    .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1))
+                    )
                     .where("L", Predicates.blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .where("F", Predicates.frames(GTMaterials.BlackSteel))
