@@ -751,7 +751,7 @@ public class MoniMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(MoniRecipeTypes.VIRTUAL_PARTICLE_SYNTHESIS_RECIPES)
             .recipeModifiers(MoniRecipeModifiers::VirtualParticleSynthesisModifier)
-            .appearanceBlock(MoniBlocks.MICROVERSE_CASING)
+            .appearanceBlock(MoniBlocks.DARK_STEEL_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCCCC", "F###F", "F###F", "F###F", "CCCCC")
                     .aisle("CCCCC", "#CLC#", "#CLC#", "#CLC#", "CCCCC")
@@ -778,7 +778,7 @@ public class MoniMachines {
             .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
             .model(GTMachineModels
                     .createWorkableCasingMachineModel(MoniLabs.id("block/casing/dark_steel"),
-                            MoniLabs.id("block/machines/projectors")))
+                            MoniLabs.id("block/machines/virtual_particle_synthesizer")))
             .tooltipBuilder(VIRTUAL_PARTICLE_SYNTHESIZER_TOOLTIPS)
             .register();
 
