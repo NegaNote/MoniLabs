@@ -218,6 +218,10 @@ public class MoniLangHandler {
                 "Outputs local quantum fluctuation",
                 "as a redstone signal.");
 
+        multiLang(provider, "tooltip.monilabs.advanced_quantum_sensor_hatch",
+                "Outputs a redstone signal when the",
+                "Virtual Particle Synthesizer has a specified local quantum fluctuation.");
+
         provider.add("microverse.monilabs.type.none", "None");
         provider.add("microverse.monilabs.type.normal", "Normal");
         provider.add("microverse.monilabs.type.hostile", "Hostile");
@@ -289,6 +293,8 @@ public class MoniLangHandler {
         provider.add("gui.monilabs.xp_sensor.max_threshold", "Set maximum threshold");
         provider.add("gui.monilabs.xp_sensor.min", "Min: ");
         provider.add("gui.monilabs.xp_sensor.max", "Max: ");
+        provider.add("gui.monilabs.quantum_noise.label", "Noise: ");
+        provider.add("gui.monilabs.quantum_noise.target", "Set target quantum noise");
 
         var advancedChromaSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone is emitted when the color chosen matches the active color of the Prismatic Crucible.";
         multilineLang(provider, "gui.advanced_chroma_sensor.invert.enabled",
@@ -313,6 +319,12 @@ public class MoniLangHandler {
                 "Output: Inverted\n\n" + advancedMicroverseStabilitySensorHatchDescription);
         multilineLang(provider, "gui.monilabs.microverse_stability_sensor.invert.disabled",
                 "Output: Normal\n\n" + advancedMicroverseStabilitySensorHatchDescription);
+
+        var advancedQuantumNoiseSensorHatchDescription = "Toggle to invert the redstone logic\nBy default, redstone is emitted when the specified noise level matches the local quantum fluctuation of the Virtual Particle Synthesizer.";
+        multilineLang(provider, "gui.monilabs.quantum_noise_sensor.invert.enabled",
+                "Output: Inverted\n\n" + advancedQuantumNoiseSensorHatchDescription);
+        multilineLang(provider, "gui.monilabs.quantum_noise_sensor.invert.disabled",
+                "Output: Normal\n\n" + advancedQuantumNoiseSensorHatchDescription);
 
         multilineLang(provider, "gui.monilabs.xp_sensor.mode_toggle.enabled",
                 "Mode: Percentage \n\nToggle to select the mode of Sculk Experience Signal.\nIn this mode, redstone is emitted when the amount of XP in the Sculk Vat matches the percentages");

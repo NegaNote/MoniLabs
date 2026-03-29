@@ -10,9 +10,9 @@ import net.neganote.monilabs.common.machine.multiblock.VirtualParticleSynthesize
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class QuantumNoseSensorHatchPartMachine extends SensorHatchPartMachine {
+public class QuantumNoiseSensorHatchPartMachine extends SensorHatchPartMachine {
 
-    public QuantumNoseSensorHatchPartMachine(IMachineBlockEntity holder) {
+    public QuantumNoiseSensorHatchPartMachine(IMachineBlockEntity holder) {
         super(holder, GTValues.EV);
     }
 

@@ -358,7 +358,7 @@ public class MoniMachines {
             .register();
 
     public static MachineDefinition QUANTUM_FLUCTUATION_SENSOR_HATCH = REGISTRATE
-            .machine("quantum_sensor_hatch", QuantumNoseSensorHatchPartMachine::new)
+            .machine("quantum_sensor_hatch", QuantumNoiseSensorHatchPartMachine::new)
             .langValue("Quantum Fluctuation Sensor Hatch")
             .rotationState(RotationState.ALL)
             .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
@@ -368,6 +368,19 @@ public class MoniMachines {
             .model(MoniMachineModels.createOverlayCasingMachineModel("quantum_sensor_hatch", "casing/dark_steel"))
             .tier(GTValues.EV)
             .register();
+
+    public static MachineDefinition ADVANCED_QUANTUM_FLUCTUATION_SENSOR_HATCH = REGISTRATE
+            .machine("advanced_quantum_sensor_hatch", AdvancedQuantumNoiseSensorHatchPartMachine::new)
+            .langValue("Advanced Quantum Fluctuation Sensor Hatch")
+            .rotationState(RotationState.ALL)
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
+                    Component.translatable("tooltip.monilabs.advanced_quantum_sensor_hatch.0"),
+                    Component.translatable("tooltip.monilabs.advanced_quantum_sensor_hatch.1"))
+            .modelProperty(IS_FORMED, false)
+            .model(MoniMachineModels.createOverlayCasingMachineModel("quantum_sensor_hatch", "casing/dark_steel"))
+            .tier(GTValues.EV)
+            .register();
+
     public static MultiblockMachineDefinition PRISMATIC_CRUCIBLE = REGISTRATE
             .multiblock("prismatic_crucible", PrismaticCrucibleMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
@@ -767,8 +780,7 @@ public class MoniMachines {
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                    .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1))
-                    )
+                                    .or(Predicates.machines(QUANTUM_FLUCTUATION_SENSOR_HATCH).setPreviewCount(1)))
                     .where("L", Predicates.blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get()))
                     .where("V", Predicates.blocks(GTBlocks.CASING_GRATE.get()))
                     .where("F", Predicates.frames(GTMaterials.BlackSteel))
