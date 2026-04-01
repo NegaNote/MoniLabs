@@ -179,21 +179,18 @@ public class MoniRecipeModifiers {
     public static ModifierFunction greenhouseOCasParallels(MetaMachine machine, GTRecipe recipe) {
         var workableMachine = (WorkableElectricMultiblockMachine) machine;
 
-        OCParams params = new OCParams(RecipeHelper.getRealEUt(recipe).getTotalEU(), recipe.duration,
-                GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage()) -
-                        GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU()),
-                Integer.MAX_VALUE);
+        int maxParallels = (int) Math.pow(2, GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage()) -
+                GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU()));
 
-        var ocResult = OverclockingLogic.NON_PERFECT_OVERCLOCK_SUBTICK.runOverclockingLogic(params,
-                workableMachine.getOverclockVoltage());
-
-        int parallels = ParallelLogic.getParallelAmount(machine, recipe,
-                Mth.smallestEncompassingPowerOfTwo(ocResult.ocLevel()) * ocResult.parallels());
+        int parallels = ParallelLogic.getParallelAmount(machine, recipe, maxParallels);
 
         if (parallels == 1) return ModifierFunction.IDENTITY;
+
+        var eutMultiplier = Math.pow(4, Math.ceil(Math.log(parallels) / Math.log(2)));
+
         return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallels))
-                .eutMultiplier(Math.pow(Mth.smallestEncompassingPowerOfTwo(parallels), 2))
+                .eutMultiplier(eutMultiplier)
                 .parallels(parallels)
                 .build();
     }
@@ -450,13 +447,17 @@ public class MoniRecipeModifiers {
 
         final double outputMultiplier = nomnom;
         if (recipeDirty) {
-            return (inputRecipe) -> new GTRecipe(recipe.recipeType, recipe.id, newInputs,
-                    ContentModifier.multiplier(outputMultiplier).applyContents(newOutputs),
-                    new HashMap<>(recipe.tickInputs), new HashMap<>(recipe.tickOutputs),
-                    new HashMap<>(recipe.inputChanceLogics), new HashMap<>(recipe.outputChanceLogics),
-                    new HashMap<>(recipe.tickInputChanceLogics), new HashMap<>(recipe.tickOutputChanceLogics),
-                    new ArrayList<>(recipe.conditions), new ArrayList<>(recipe.ingredientActions), recipe.data,
-                    recipe.duration, recipe.recipeCategory, recipe.groupColor);
+            return (inputRecipe) -> {
+                var outputRecipe = new GTRecipe(recipe.recipeType, recipe.id, newInputs,
+                        ContentModifier.multiplier(outputMultiplier).applyContents(newOutputs),
+                        new HashMap<>(recipe.tickInputs), new HashMap<>(recipe.tickOutputs),
+                        new HashMap<>(recipe.inputChanceLogics), new HashMap<>(recipe.outputChanceLogics),
+                        new HashMap<>(recipe.tickInputChanceLogics), new HashMap<>(recipe.tickOutputChanceLogics),
+                        new ArrayList<>(recipe.conditions), new ArrayList<>(recipe.ingredientActions), recipe.data,
+                        recipe.duration, recipe.recipeCategory, recipe.groupColor);
+                outputRecipe.parallels = recipe.parallels;
+                return outputRecipe;
+            };
         } else {
             return ModifierFunction.IDENTITY;
         }
