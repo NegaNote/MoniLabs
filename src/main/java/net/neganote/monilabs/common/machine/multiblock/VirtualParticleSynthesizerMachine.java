@@ -16,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.neganote.monilabs.config.MoniConfig;
 
@@ -128,8 +127,9 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
         BlockPos pos = this.getPos();
         MetaMachine machine = this.self();
         Level level = machine.getLevel();
+        assert level != null;
         level.removeBlock(pos, false);
-        level.explode((Entity) null, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
+        level.explode(null, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
                 explosionPower, ConfigHolder.INSTANCE.machines.doesExplosionDamagesTerrain ?
                         Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
     }
