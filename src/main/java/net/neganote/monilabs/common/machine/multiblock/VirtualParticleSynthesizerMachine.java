@@ -122,10 +122,6 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
         if (isFormed()) {
             textList.add(Component.translatable("virtual_particle_synthesis.monilabs.noise", quantumNoise));
         }
-
-        // TODO: Debug text. Remove in final version.
-        textList.add(Component.translatable("virtual_particle_synthesis.monilabs.debug.0", (float) startValue,
-                (float) endValue, (float) offset));
     }
 
     public void explode(float explosionPower) {
