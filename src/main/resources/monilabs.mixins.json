@@ -15,9 +15,13 @@
     "aae.MixinEncodedPatternItemShim",
     "aae.MixinGuiTextShim",
     "aae.MixinPatternDetailsHelperShim",
-    "aae.MixinProcessingPatternItemShim"
-  ],
-  "client": [
+    "aae.MixinProcessingPatternItemShim",
+    "TranslucentRenderMixin",
+    "ShaderChunkRendererMixin",
+    "ShaderLoaderMixin",
+    "DefaultChunkRendererMixin",
+    "accessor.TerrainRenderPassAccessor",
+    "accessor.ShaderChunkRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,35 +1,30 @@
 package net.neganote.monilabs.client.render;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.gregtechceu.gtceu.client.util.ModelUtils;
 
-import net.irisshaders.iris.Iris;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.model.data.ModelData;
 import net.neganote.monilabs.MoniLabs;
 import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachine;
+import net.neganote.monilabs.utils.LaserUtil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import org.joml.Vector3f;
 
-import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -69,9 +64,6 @@ public class CreativeEnergyRender extends DynamicRender<CreativeEnergyMultiMachi
 
         Direction upwards = RelativeDirection.UP.getRelative(frontFacing, upwardsFacing, machine.isFlipped());
 
-        List<BakedQuad> sphereQuads = sphereModel.getQuads(null, null, RandomSource.create(), ModelData.EMPTY,
-                null);
-
         poseStack.pushPose();
         float translateX = 0.5f;
         float translateY = 0.5f;
@@ -81,23 +73,23 @@ public class CreativeEnergyRender extends DynamicRender<CreativeEnergyMultiMachi
         Vec3i backVec = back.getNormal().multiply(6);
         Vec3i upVec = upwards.getNormal().multiply(13);
 
+        Vec3i bhPos = machine.getPos().relative(back, 6).relative(upwards, 13);
         translateX += backVec.getX() + upVec.getX();
         translateY += backVec.getY() + upVec.getY();
         translateZ += backVec.getZ() + upVec.getZ();
 
         poseStack.translate(translateX, translateY, translateZ);
-        float radius = 3.25f;
-        poseStack.scale(radius, radius, radius);
 
-        PoseStack.Pose pose = poseStack.last();
+        int gameTime = Objects.requireNonNull(Minecraft.getInstance().player).tickCount;
+        poseStack.pushPose();
+        poseStack.scale(4, 1, 4);
+        LaserUtil.renderLaser(new Vector3f(0, 256, 0), poseStack, buffer, 0.6f, 1f, 1f, 1f, 0, -translateY, 0,
+                partialTick,
+                gameTime,
+                false);
+        poseStack.popPose();
 
-        VertexConsumer consumer = buffer
-                .getBuffer(GTCEu.isModLoaded(GTValues.MODID_OCULUS) && Iris.getCurrentPack().isPresent() ?
-                        RenderType.solid() : MoniRenderTypes.WORMHOLE);
-
-        for (BakedQuad quad : sphereQuads) {
-            consumer.putBulkData(pose, quad, 1.0f, 1.0f, 1.0f, packedLight, packedOverlay);
-        }
+        BlackHoleRenderer.render(new Vector3f(bhPos.getX() + 0.5f, bhPos.getY() + 0.5f, bhPos.getZ() + 0.5f));
         poseStack.popPose();
     }
 
