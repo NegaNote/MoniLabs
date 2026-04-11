@@ -18,8 +18,7 @@ bool hitSphere(vec3 ro, vec3 rd, float radius, out float t, out bool inside) {
     float c = dot(oc, oc) - radius * radius;
     float h = b * b - c;
 
-    if (c < 0.0)
-    {
+    if (c < 0.0) {
         inside = true;
     }
     if (h < 0.0) return false;
@@ -38,8 +37,7 @@ float writeDepth(float t, vec3 ro, vec3 rd) {
     vec4 clipPos = ProjMat * vec4(hitPoint, 1.0);
     float ndcDepth = clipPos.z / clipPos.w;
     float writtenDepth = (ndcDepth + 1.0) * 0.5;
-    if (writtenDepth <= 0.01)
-    {
+    if (writtenDepth <= 0.01) {
         gl_FragDepth = gl_FragCoord.z;
         return writtenDepth;
     }
@@ -82,8 +80,7 @@ vec2 getDistortedRayUV(out bool absorbed) {
 
     vec3 L = SpherePos - ro;
     float t_closest = dot(L, rd);
-    if (t_closest < 0.0)
-    {
+    if (t_closest < 0.0) {
         t_closest = 0;
     }
     vec3 closestPoint = ro + rd * t_closest;
@@ -98,8 +95,7 @@ vec2 getDistortedRayUV(out bool absorbed) {
     return bhUV + delta * (1.0 - gravityStrength);
 }
 
-vec2 getDistortedTextureUV(out bool isBlack)
-{
+vec2 getDistortedTextureUV(out bool isBlack) {
     isBlack = false;
     return fract(getDistortedRayUV(isBlack));
 }
@@ -108,12 +104,13 @@ void main() {
     vec3 rayDir = normalize(rayDirection);
     float t;
     bool inside;
-    hitSphere(rayOrigin, rayDir, uSphereRadius, t, inside);
-    if (uWriteOnlyDepth == 1)
-    {
+    bool hit = hitSphere(rayOrigin, rayDir, uSphereRadius, t, inside);
+    if (uWriteOnlyDepth == 1) {
+        if (!hit) {
+            discard;
+        }
         float writtenDepth = writeDepth(t, rayOrigin, rayDir);
-        if (inside || writtenDepth <= 0.01)
-        {
+        if (inside || writtenDepth <= 0.01) {
             gl_FragDepth = 0.0;
         }
         return;
@@ -125,11 +122,11 @@ void main() {
 
     fragColor = backgroundColor;
     fragColor.a = 1.0;
-    if (isBlack)
+    if (isBlack) {
         fragColor = vec4(0, 0, 0, 1);
+    }
     float writtenDepth = writeDepth(t, rayOrigin, rayDir);
-    if (inside || writtenDepth <= 0.01)
-    {
+    if (inside || writtenDepth <= 0.01) {
         gl_FragDepth = 0.0;
     }
 }

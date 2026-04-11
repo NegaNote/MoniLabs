@@ -1,5 +1,6 @@
 package net.neganote.monilabs.mixin;
 
+import net.irisshaders.iris.Iris;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -21,17 +22,17 @@ public class TranslucentRenderMixin {
                    at = @At(
                             value = "INVOKE",
                             target = "Lnet/minecraft/client/renderer/LevelRenderer;renderChunkLayer(Lnet/minecraft/client/renderer/RenderType;Lcom/mojang/blaze3d/vertex/PoseStack;DDDLorg/joml/Matrix4f;)V"))
-    private void wrapSecondRenderChunkLayer(
-                                            LevelRenderer instance,
-                                            RenderType renderType,
-                                            PoseStack poseStack,
-                                            double camX,
-                                            double camY,
-                                            double camZ,
-                                            Matrix4f projectionMatrix,
-                                            Operation<Void> original,
-                                            @Local(argsOnly = true) Camera camera) {
-        if (renderType == RenderType.translucent()) {
+    private void moniLabs$wrapSecondRenderChunkLayer(
+                                                     LevelRenderer instance,
+                                                     RenderType renderType,
+                                                     PoseStack poseStack,
+                                                     double camX,
+                                                     double camY,
+                                                     double camZ,
+                                                     Matrix4f projectionMatrix,
+                                                     Operation<Void> original,
+                                                     @Local(argsOnly = true) Camera camera) {
+        if (renderType == RenderType.translucent() && Iris.getCurrentPack().isEmpty()) {
             BlackHoleRenderer.preTranslucentPass(instance, renderType, poseStack, camX, camY, camZ, projectionMatrix,
                     original,
                     camera);

@@ -1,5 +1,6 @@
 package net.neganote.monilabs.mixin;
 
+import net.irisshaders.iris.Iris;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.neganote.monilabs.client.render.BlackHoleRenderer;
@@ -14,7 +15,6 @@ import me.jellysquid.mods.sodium.client.gl.tessellation.GlTessellation;
 import me.jellysquid.mods.sodium.client.render.chunk.DefaultChunkRenderer;
 import me.jellysquid.mods.sodium.client.render.chunk.terrain.TerrainRenderPass;
 import org.lwjgl.opengl.GL31;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,17 +24,19 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class DefaultChunkRendererMixin {
 
     @Shadow
-    private static void executeDrawBatch(CommandList commandList, GlTessellation tessellation, MultiDrawBatch batch) {};
+    private static void executeDrawBatch(CommandList commandList, GlTessellation tessellation, MultiDrawBatch batch) {}
 
     @Redirect(
               method = "render",
               at = @At(
                        value = "INVOKE",
                        target = "Lme/jellysquid/mods/sodium/client/render/chunk/DefaultChunkRenderer;executeDrawBatch(Lme/jellysquid/mods/sodium/client/gl/device/CommandList;Lme/jellysquid/mods/sodium/client/gl/tessellation/GlTessellation;Lme/jellysquid/mods/sodium/client/gl/device/MultiDrawBatch;)V"))
-    private void redirectExecuteDrawBatch(CommandList commandList, GlTessellation tessellation, MultiDrawBatch batch,
-                                          @Local(argsOnly = true) TerrainRenderPass renderPass) {
+    private void moniLabs$redirectExecuteDrawBatch(CommandList commandList, GlTessellation tessellation,
+                                                   MultiDrawBatch batch,
+                                                   @Local(argsOnly = true) TerrainRenderPass renderPass) {
         DefaultChunkRenderer instance = (DefaultChunkRenderer) (Object) this;
-        if (((TerrainRenderPassAccessor) renderPass).getLayer() != RenderType.translucent()) {
+        if (((TerrainRenderPassAccessor) renderPass).getLayer() != RenderType.translucent() ||
+                Iris.getCurrentPack().isPresent()) {
             executeDrawBatch(commandList,
                     tessellation,
                     batch);
@@ -48,7 +50,8 @@ public class DefaultChunkRendererMixin {
                 tessellation,
                 batch);
 
-        // Somewhat unoptimized. Should be in the beginning of render method (the uniform and glBindFramebuffer part)
+        // Somewhat unoptimized (but should be fine). Should be in the beginning of render method (the uniform and
+        // glBindFramebuffer part)
         GL31.glUniform1i(GL31.glGetUniformLocation(((ShaderChunkRendererAccessor) instance).getActiveProgram().handle(),
                 "uDrawInFrontOfBlackHole"), 1);
         GL31.glBindFramebuffer(GL31.GL_DRAW_FRAMEBUFFER, BlackHoleRenderer.miscTranslucentTexture.frameBufferId);

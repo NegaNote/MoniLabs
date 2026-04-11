@@ -24,14 +24,14 @@ public class ShaderChunkRendererMixin {
     protected GlProgram<ChunkShaderInterface> activeProgram;
 
     @Inject(method = "createShader", at = @At("HEAD"), remap = false)
-    private void createShader(String path, ChunkShaderOptions options,
-                              CallbackInfoReturnable<GlProgram<ChunkShaderInterface>> cir) {
+    private void moniLabs$saveShaderType(String path, ChunkShaderOptions options,
+                                         CallbackInfoReturnable<GlProgram<ChunkShaderInterface>> cir) {
         BlackHoleRendererHelpers.isTranslucentShader = ((TerrainRenderPassAccessor) options.pass()).getLayer() ==
                 RenderType.translucent();
     }
 
     @Inject(method = "begin", at = @At("TAIL"), remap = false)
-    private void begin(TerrainRenderPass pass, CallbackInfo ci) {
+    private void moniLabs$handleTranslucentPassBegin(TerrainRenderPass pass, CallbackInfo ci) {
         BlackHoleRenderer.handleTranslucentPassBegin(activeProgram.handle());
     }
 }

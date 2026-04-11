@@ -1,5 +1,7 @@
 package net.neganote.monilabs.client.render;
 
+import net.irisshaders.iris.Iris;
+import net.irisshaders.iris.shadows.ShadowRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -35,26 +37,25 @@ public class BlackHoleRenderer {
     private static RenderTarget depthTextureForTranslucency;
     private static int cachedSlot = -1;
 
-    // Settings
-    private static final float uMass = 9.05f;
-    private static final float uDistModifier = 0.20f;
-    private static final float uSchwarzschildRadius = 2.55f;
     private static final int uAABBSize = 14;
-    private static final float uSphereRadius = 5.2f;
-
     private static final List<Vector3f> blackHoles = new ArrayList<>();
-    public static RenderTarget worldTexture = null;
+
+    private static RenderTarget worldTexture = null;
     public static RenderTarget miscTranslucentTexture = null;
 
+    private static final Matrix4f projectionMatrix = new Matrix4f();
+    private static final Matrix4f viewMatrix = new Matrix4f();
+    private static Vec3 lastCameraPos = new Vec3(0f, 0f, 0f);
+
     private static int findFreeTextureSlot() {
-        int maxUnits = GL41.glGetInteger(GL41.GL_MAX_TEXTURE_IMAGE_UNITS) - 1;
+        int maxUnits = GL31.glGetInteger(GL31.GL_MAX_TEXTURE_IMAGE_UNITS) - 1;
         int freeSlot = -1;
 
-        int originalActiveUnit = GL41.glGetInteger(GL41.GL_ACTIVE_TEXTURE);
+        int originalActiveUnit = GL31.glGetInteger(GL31.GL_ACTIVE_TEXTURE);
 
         for (int i = maxUnits - 1; i >= 0; i--) {
-            GL41.glActiveTexture(GL41.GL_TEXTURE0 + i);
-            int boundTexture = GL41.glGetInteger(GL41.GL_TEXTURE_BINDING_2D);
+            GL31.glActiveTexture(GL31.GL_TEXTURE0 + i);
+            int boundTexture = GL31.glGetInteger(GL31.GL_TEXTURE_BINDING_2D);
 
             if (boundTexture == 0) {
                 freeSlot = i;
@@ -62,7 +63,7 @@ public class BlackHoleRenderer {
             }
         }
 
-        GL41.glActiveTexture(originalActiveUnit);
+        GL31.glActiveTexture(originalActiveUnit);
 
         if (freeSlot == -1) {
             throw new RuntimeException("Failed to find free texture slot.");
@@ -82,21 +83,11 @@ public class BlackHoleRenderer {
         Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder builder = tessellator.getBuilder();
 
-        depthTextureForTranslucency.bindWrite(true);
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(true);
-        RenderSystem.depthFunc(GL11.GL_ALWAYS);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.clearDepth(1);
-        RenderSystem.clear(GL41.GL_DEPTH_BUFFER_BIT, false);
-        GL31.glCullFace(GL11.GL_FRONT); // To render only back faces
         ShaderInstance shader = MoniShaders.WORMHOLE_SHADER;
         RenderSystem.setShader(() -> shader);
 
         shader.safeGetUniform("SpherePos").set(viewSpaceSpherePos.x, viewSpaceSpherePos.y,
                 viewSpaceSpherePos.z);
-        shader.safeGetUniform("uSphereRadius").set(uSphereRadius);
         shader.safeGetUniform("uWriteOnlyDepth").set(1);
 
         AABB box = BlackHoleRendererHelpers.createAABBAt(bhPos, uAABBSize);
@@ -109,8 +100,6 @@ public class BlackHoleRenderer {
         tessellator.end();
 
         poseStack.popPose();
-        GL31.glCullFace(GL31.GL_BACK);
-        RenderSystem.depthFunc(GL31.GL_LEQUAL);
     }
 
     public static void updateTextures() {
@@ -118,22 +107,28 @@ public class BlackHoleRenderer {
         Window w = Minecraft.getInstance().getWindow();
         int mcWidth = w.getWidth();
         int mcHeight = w.getHeight();
-        if (mcWidth == 0 || mcHeight == 0)
+        if (mcWidth == 0 || mcHeight == 0 ||
+                (worldTexture != null && mcWidth == worldTexture.width && mcHeight == worldTexture.height)) {
             return;
-        if (depthTextureForTranslucency != null)
+        }
+
+        if (depthTextureForTranslucency != null) {
             depthTextureForTranslucency.resize(mcWidth, mcHeight, false);
-        else
+        } else {
             depthTextureForTranslucency = new TextureTarget(mcWidth, mcHeight, true, Minecraft.ON_OSX);
+        }
 
-        if (BlackHoleRenderer.worldTexture != null)
-            BlackHoleRenderer.worldTexture.resize(mcWidth, mcHeight, false);
-        else
-            BlackHoleRenderer.worldTexture = new TextureTarget(mcWidth, mcHeight, true, Minecraft.ON_OSX);
+        if (BlackHoleRenderer.worldTexture != null) {
+            worldTexture.resize(mcWidth, mcHeight, false);
+        } else {
+            worldTexture = new TextureTarget(mcWidth, mcHeight, true, Minecraft.ON_OSX);
+        }
 
-        if (miscTranslucentTexture != null)
+        if (miscTranslucentTexture != null) {
             miscTranslucentTexture.resize(mcWidth, mcHeight, false);
-        else
+        } else {
             miscTranslucentTexture = new TextureTarget(mcWidth, mcHeight, true, Minecraft.ON_OSX);
+        }
     }
 
     public static void render(Vector3f position) {
@@ -141,11 +136,12 @@ public class BlackHoleRenderer {
     }
 
     public static void handleTranslucentPassBegin(int programHandle) {
-        if (!BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer)
+        if (!BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer || Iris.getCurrentPack().isPresent()) {
             return;
+        }
 
-        int activeUnit = GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE);
-        int uDepthLocation = GL41.glGetUniformLocation(programHandle, "u_BlackHoleDepthTexture");
+        int activeUnit = GL31.glGetInteger(GL31.GL_ACTIVE_TEXTURE);
+        int uDepthLocation = GL31.glGetUniformLocation(programHandle, "u_BlackHoleDepthTexture");
 
         if (uDepthLocation != -1) {
             if (cachedSlot == -1) {
@@ -153,12 +149,12 @@ public class BlackHoleRenderer {
             }
             int targetUnit = cachedSlot;
 
-            GL41.glUniform1i(uDepthLocation, targetUnit);
+            GL31.glUniform1i(uDepthLocation, targetUnit);
 
-            GL13.glActiveTexture(GL13.GL_TEXTURE0 + targetUnit);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, depthTextureForTranslucency.getDepthTextureId());
+            GL31.glActiveTexture(GL31.GL_TEXTURE0 + targetUnit);
+            GL31.glBindTexture(GL31.GL_TEXTURE_2D, depthTextureForTranslucency.getDepthTextureId());
 
-            GL13.glActiveTexture(activeUnit);
+            GL31.glActiveTexture(activeUnit);
         }
     }
 
@@ -175,35 +171,43 @@ public class BlackHoleRenderer {
         miscTranslucentTexture.bindWrite(true);
         RenderSystem.clear(GL31.GL_COLOR_BUFFER_BIT, false);
 
-        int currentFBO = GL41.glGetInteger(GL41.GL_FRAMEBUFFER_BINDING);
+        int currentFBO = GL31.glGetInteger(GL31.GL_FRAMEBUFFER_BINDING);
 
-        for (Vector3f bh : blackHoles)
+        depthTextureForTranslucency.bindWrite(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthMask(true);
+        RenderSystem.depthFunc(GL31.GL_ALWAYS);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.clearDepth(1);
+        RenderSystem.clear(GL31.GL_DEPTH_BUFFER_BIT, false);
+        GL31.glCullFace(GL31.GL_FRONT); // To render only back faces
+
+        for (Vector3f bh : blackHoles) {
             drawBlackHoleToDepthBuffer(poseStack, bh, camera);
+        }
 
-        GL41.glBindFramebuffer(GL41.GL_FRAMEBUFFER, currentFBO);
+        GL31.glCullFace(GL31.GL_BACK);
+        RenderSystem.depthFunc(GL31.GL_LEQUAL);
+        GL31.glBindFramebuffer(GL31.GL_FRAMEBUFFER, currentFBO);
 
         BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer = true;
         original.call(instance, renderType, poseStack, camX, camY, camZ, projectionMatrix);
         BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer = false;
     }
 
-    @SubscribeEvent
-    public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER || MoniShaders.WORMHOLE_SHADER == null)
-            return;
-
+    private static void renderCore(PoseStack poseStack, Vec3 cameraPos, Matrix4f projectionMatrix) {
         Window w = Minecraft.getInstance().getWindow();
         if (worldTexture.width != w.getWidth() ||
-                worldTexture.height != w.getHeight())
+                worldTexture.height != w.getHeight()) {
             updateTextures();
-        Vec3 camPos = event.getCamera().getPosition();
-        PoseStack poseStack = event.getPoseStack();
+        }
+
         poseStack.pushPose();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        RenderSystem.backupProjectionMatrix();
+        RenderSystem.setProjectionMatrix(projectionMatrix, null);
         RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(true);
-        GL31.glCullFace(GL11.GL_FRONT);
+        GL31.glCullFace(GL31.GL_FRONT);
 
         var mcWorldTexture = Minecraft.getInstance().getMainRenderTarget();
 
@@ -221,39 +225,63 @@ public class BlackHoleRenderer {
         shader.setSampler("WorldColor", worldTexture);
         RenderSystem.setShaderTexture(0, worldTexture.getColorTextureId());
 
-        shader.safeGetUniform("uMass").set(uMass);
-        shader.safeGetUniform("uDistModifier").set(uDistModifier);
-        shader.safeGetUniform("uSchwarzschildRadius").set(uSchwarzschildRadius);
-        shader.safeGetUniform("uSphereRadius").set(uSphereRadius);
         shader.safeGetUniform("uWriteOnlyDepth").set(0);
 
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder builder = tessellator.getBuilder();
-        builder.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        Tesselator tesselator = Tesselator.getInstance();
 
         for (Vector3f blackHolePos : blackHoles) {
+            BufferBuilder builder = tesselator.getBuilder();
+            builder.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
             var viewSpaceSpherePos = poseStack.last().pose().transform(
-                    new Vector4f(blackHolePos.x - (float) camPos.x, blackHolePos.y - (float) camPos.y,
-                            blackHolePos.z - (float) camPos.z, 1.0f));
+                    new Vector4f(blackHolePos.x - (float) cameraPos.x, blackHolePos.y - (float) cameraPos.y,
+                            blackHolePos.z - (float) cameraPos.z, 1.0f));
             shader.safeGetUniform("SpherePos").set(viewSpaceSpherePos.x, viewSpaceSpherePos.y,
                     viewSpaceSpherePos.z);
-
             AABB box = BlackHoleRendererHelpers.createAABBAt(blackHolePos, uAABBSize);
-
             BlackHoleRendererHelpers.addBoxTriangles(poseStack, builder,
-                    (float) (box.minX - camPos.x), (float) (box.minY - camPos.y), (float) (box.minZ - camPos.z),
-                    (float) (box.maxX - camPos.x), (float) (box.maxY - camPos.y), (float) (box.maxZ - camPos.z),
+                    (float) (box.minX - cameraPos.x), (float) (box.minY - cameraPos.y),
+                    (float) (box.minZ - cameraPos.z),
+                    (float) (box.maxX - cameraPos.x), (float) (box.maxY - cameraPos.y),
+                    (float) (box.maxZ - cameraPos.z),
                     1, 1, 0, 1);
+            tesselator.end();
         }
-        tessellator.end();
-        GL11.glCullFace(GL11.GL_BACK);
+
+        GL31.glCullFace(GL31.GL_BACK);
         poseStack.popPose();
 
-        Minecraft.getInstance().getMainRenderTarget().bindWrite(true);
         RenderSystem.enableBlend();
         miscTranslucentTexture.blitToScreen(miscTranslucentTexture.width, miscTranslucentTexture.height, false);
         RenderSystem.enableDepthTest();
         blackHoles.clear();
+        RenderSystem.restoreProjectionMatrix();
+    }
+
+    @SubscribeEvent
+    public static void onRenderLevel(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER || MoniShaders.WORMHOLE_SHADER == null ||
+                ShadowRenderer.ACTIVE)
+            return;
+        if (Iris.getCurrentPack().isPresent()) {
+            lastCameraPos = event.getCamera().getPosition();
+            // copy because viewMatrix = event.getPoseStack().last().pose() doesnt work :(
+            viewMatrix.identity().mul(event.getPoseStack().last().pose());
+            projectionMatrix.identity().mul(event.getProjectionMatrix());
+            return;
+        }
+        renderCore(event.getPoseStack(), event.getCamera().getPosition(), event.getProjectionMatrix());
+    }
+
+    public static void renderWithShadersOn() {
+        Window w = Minecraft.getInstance().getWindow();
+        if (worldTexture.width != w.getWidth() ||
+                worldTexture.height != w.getHeight()) {
+            updateTextures();
+        }
+        PoseStack poseStack = new PoseStack();
+        poseStack.setIdentity();
+        poseStack.mulPoseMatrix(viewMatrix);
+        renderCore(poseStack, lastCameraPos, projectionMatrix);
     }
 
     @SubscribeEvent
