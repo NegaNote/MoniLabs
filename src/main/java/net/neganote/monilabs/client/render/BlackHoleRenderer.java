@@ -2,6 +2,7 @@ package net.neganote.monilabs.client.render;
 
 import net.irisshaders.iris.Iris;
 import net.irisshaders.iris.shadows.ShadowRenderer;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -23,6 +24,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -31,20 +34,25 @@ import org.lwjgl.opengl.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber(modid = MoniLabs.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class BlackHoleRenderer {
+
+    public static RenderTarget miscTranslucentTexture = null;
+    private static final int uAABBSize = 14;
+    private static final List<Vector3f> blackHoles = new ArrayList<>();
+    private static final Matrix4f projectionMatrix = new Matrix4f();
+    private static final Matrix4f viewMatrix = new Matrix4f();
 
     private static RenderTarget depthTextureForTranslucency;
     private static int cachedSlot = -1;
 
-    private static final int uAABBSize = 14;
-    private static final List<Vector3f> blackHoles = new ArrayList<>();
-
     private static RenderTarget worldTexture = null;
-    public static RenderTarget miscTranslucentTexture = null;
 
-    private static final Matrix4f projectionMatrix = new Matrix4f();
-    private static final Matrix4f viewMatrix = new Matrix4f();
     private static Vec3 lastCameraPos = new Vec3(0f, 0f, 0f);
 
     private static int findFreeTextureSlot() {
@@ -118,7 +126,7 @@ public class BlackHoleRenderer {
             depthTextureForTranslucency = new TextureTarget(mcWidth, mcHeight, true, Minecraft.ON_OSX);
         }
 
-        if (BlackHoleRenderer.worldTexture != null) {
+        if (worldTexture != null) {
             worldTexture.resize(mcWidth, mcHeight, false);
         } else {
             worldTexture = new TextureTarget(mcWidth, mcHeight, true, Minecraft.ON_OSX);
@@ -260,8 +268,9 @@ public class BlackHoleRenderer {
     @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER || MoniShaders.WORMHOLE_SHADER == null ||
-                ShadowRenderer.ACTIVE)
+                ShadowRenderer.ACTIVE) {
             return;
+        }
         if (Iris.getCurrentPack().isPresent()) {
             lastCameraPos = event.getCamera().getPosition();
             // copy because viewMatrix = event.getPoseStack().last().pose() doesnt work :(
