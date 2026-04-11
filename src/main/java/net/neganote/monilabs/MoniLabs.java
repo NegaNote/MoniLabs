@@ -15,13 +15,9 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -133,7 +129,7 @@ public class MoniLabs {
         modEventBus
                 .addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(CoverDefinition.class, this::registerCovers);
-        modEventBus.addListener(this::onRegisterReloadListeners);
+
         // Most other events are fired on Forge's bus.
         // If we want to use annotations to register event listeners,
         // we need to register our object like this!
@@ -223,21 +219,6 @@ public class MoniLabs {
 
     private void registerCovers(
                                 GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {}
-
-    private void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(new SimplePreparableReloadListener<Object>() {
-
-            @Override
-            protected Object prepare(ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-                return null;
-            }
-
-            @Override
-            protected void apply(Object o, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-                BlackHoleRenderer.updateTextures();
-            }
-        });
-    }
 
     public void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
         event.register(CreativeEnergyRender.SPHERE);
