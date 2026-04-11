@@ -35,13 +35,14 @@ public class DefaultChunkRendererMixin {
                                                    MultiDrawBatch batch,
                                                    @Local(argsOnly = true) TerrainRenderPass renderPass) {
         DefaultChunkRenderer instance = (DefaultChunkRenderer) (Object) this;
-        if (((TerrainRenderPassAccessor) renderPass).getLayer() != RenderType.translucent()
-                || Iris.getCurrentPack().isPresent()
-            || !BlackHoleRenderer.hasBlackHoles()) {
-            //we do that because iris overrides getActiveProgram to null
+        if (((TerrainRenderPassAccessor) renderPass).getLayer() != RenderType.translucent() ||
+                Iris.getCurrentPack().isPresent() || !BlackHoleRenderer.hasBlackHoles()) {
+            // we do that because iris overrides getActiveProgram to null
             if (Iris.getCurrentPack().isEmpty())
-                GL31.glUniform1i(GL31.glGetUniformLocation(((ShaderChunkRendererAccessor) instance).getActiveProgram().handle(),
-                        "uAnyBlackHoles"), 0);
+                GL31.glUniform1i(
+                        GL31.glGetUniformLocation(((ShaderChunkRendererAccessor) instance).getActiveProgram().handle(),
+                                "uAnyBlackHoles"),
+                        0);
             executeDrawBatch(commandList,
                     tessellation,
                     batch);

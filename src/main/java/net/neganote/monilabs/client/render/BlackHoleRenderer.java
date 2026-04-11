@@ -142,14 +142,14 @@ public class BlackHoleRenderer {
     public static boolean hasBlackHoles() {
         return !blackHoles.isEmpty();
     }
+
     public static void render(Vector3f position) {
         blackHoles.add(position);
     }
 
     public static void handleTranslucentPassBegin(int programHandle) {
-        if (!BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer
-        || Iris.getCurrentPack().isPresent()
-        || !hasBlackHoles()) {
+        if (!BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer || Iris.getCurrentPack().isPresent() ||
+                !hasBlackHoles()) {
             return;
         }
 
