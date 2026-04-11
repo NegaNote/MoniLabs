@@ -5,21 +5,23 @@ import net.irisshaders.iris.shadows.ShadowRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.neganote.monilabs.client.render.BlackHoleRenderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = GameRenderer.class)
+@Mixin(value = GameRenderer.class, priority = 1)
 public class GameRendererMixin {
 
-    @Inject(method = "render",
+    @Inject(method = "renderLevel",
             at = @At(
                      value = "INVOKE",
-                     target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V"))
-    public void moniLabs$renderBlackHoleWithShaders(float partialTicks, long nanoTime, boolean renderLevel,
+                     target = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
+                     shift = At.Shift.AFTER))
+    public void moniLabs$renderBlackHoleWithShaders(float partialTicks, long finishTimeNano, PoseStack poseStack,
                                                     CallbackInfo ci) {
-        if (Iris.getCurrentPack().isPresent() && renderLevel && !ShadowRenderer.ACTIVE) {
+        if (Iris.getCurrentPack().isPresent() && !ShadowRenderer.ACTIVE) {
             BlackHoleRenderer.renderWithShadersOn();
         }
     }

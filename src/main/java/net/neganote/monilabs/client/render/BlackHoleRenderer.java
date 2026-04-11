@@ -270,7 +270,8 @@ public class BlackHoleRenderer {
 
     @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER || MoniShaders.WORMHOLE_SHADER == null ||
+        if (blackHoles.isEmpty() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER ||
+                MoniShaders.WORMHOLE_SHADER == null ||
                 ShadowRenderer.ACTIVE) {
             return;
         }
@@ -285,6 +286,9 @@ public class BlackHoleRenderer {
     }
 
     public static void renderWithShadersOn() {
+        if (blackHoles.isEmpty()) {
+            return;
+        }
         Window w = Minecraft.getInstance().getWindow();
         if (worldTexture.width != w.getWidth() ||
                 worldTexture.height != w.getHeight()) {
