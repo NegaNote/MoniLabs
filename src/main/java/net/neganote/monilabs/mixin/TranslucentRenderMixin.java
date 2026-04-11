@@ -32,7 +32,8 @@ public class TranslucentRenderMixin {
                                                      Matrix4f projectionMatrix,
                                                      Operation<Void> original,
                                                      @Local(argsOnly = true) Camera camera) {
-        if (renderType == RenderType.translucent() && Iris.getCurrentPack().isEmpty()) {
+        if (renderType == RenderType.translucent() && Iris.getCurrentPack().isEmpty()
+        && BlackHoleRenderer.hasBlackHoles()) {
             BlackHoleRenderer.preTranslucentPass(instance, renderType, poseStack, camX, camY, camZ, projectionMatrix,
                     original,
                     camera);

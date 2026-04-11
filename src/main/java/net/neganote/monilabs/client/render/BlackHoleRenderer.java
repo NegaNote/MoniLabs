@@ -139,12 +139,17 @@ public class BlackHoleRenderer {
         }
     }
 
+    public static boolean hasBlackHoles() {
+        return !blackHoles.isEmpty();
+    }
     public static void render(Vector3f position) {
         blackHoles.add(position);
     }
 
     public static void handleTranslucentPassBegin(int programHandle) {
-        if (!BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer || Iris.getCurrentPack().isPresent()) {
+        if (!BlackHoleRendererHelpers.isRenderingMinecraftTranslucentLayer
+        || Iris.getCurrentPack().isPresent()
+        || !hasBlackHoles()) {
             return;
         }
 
@@ -270,7 +275,7 @@ public class BlackHoleRenderer {
 
     @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (blackHoles.isEmpty() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER ||
+        if (!hasBlackHoles() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER ||
                 MoniShaders.WORMHOLE_SHADER == null ||
                 ShadowRenderer.ACTIVE) {
             return;
@@ -286,7 +291,7 @@ public class BlackHoleRenderer {
     }
 
     public static void renderWithShadersOn() {
-        if (blackHoles.isEmpty()) {
+        if (!hasBlackHoles()) {
             return;
         }
         Window w = Minecraft.getInstance().getWindow();

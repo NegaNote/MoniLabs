@@ -22,8 +22,8 @@
   [
     "TranslucentRenderMixin",
     "ShaderChunkRendererMixin",
-    "ShaderLoaderMixin",
     "DefaultChunkRendererMixin",
+    "ShaderLoaderMixin",
     "GameRendererMixin",
     "accessor.TerrainRenderPassAccessor",
     "accessor.ShaderChunkRendererAccessor"

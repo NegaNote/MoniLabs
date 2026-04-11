@@ -18,7 +18,7 @@ public class ShaderLoaderMixin {
         if (BlackHoleRendererHelpers.isTranslucentShader) {
             if (name.toString().endsWith(".fsh")) {
                 String originalSource = cir.getReturnValue();
-                String myUniform = "\nuniform sampler2D u_BlackHoleDepthTexture;\nuniform int uDrawInFrontOfBlackHole;\n";
+                String myUniform = "\nuniform sampler2D u_BlackHoleDepthTexture;\nuniform int uDrawInFrontOfBlackHole;\nuniform int uAnyBlackHoles = 0;\n";
                 String regex = "(?s)(.*)(uniform sampler2D\\s+\\w+;)([^\r\n]*)";
 
                 var replaced = originalSource.replaceFirst(regex, "$1$2$3\n" + myUniform)
@@ -27,9 +27,9 @@ public class ShaderLoaderMixin {
                                         void main() {
                                          float sphereDepth = texture(u_BlackHoleDepthTexture, gl_FragCoord.xy / vec2(textureSize(u_BlackHoleDepthTexture, 0))).r;
                                          bool isBehindBlackHole = gl_FragCoord.z >= sphereDepth;
-                                         if (uDrawInFrontOfBlackHole == 0 && !isBehindBlackHole && sphereDepth < 1.0)
+                                         if (uAnyBlackHoles == 1 && uDrawInFrontOfBlackHole == 0 && !isBehindBlackHole && sphereDepth < 1.0)
                                             discard;
-                                         if (uDrawInFrontOfBlackHole == 1 && (sphereDepth >= 1.0 || isBehindBlackHole))
+                                         if (uAnyBlackHoles == 1 && uDrawInFrontOfBlackHole == 1 && (sphereDepth >= 1.0 || isBehindBlackHole))
                                             discard;
                                         """);
                 cir.setReturnValue(replaced);
