@@ -258,9 +258,12 @@ public class BlackHoleRenderer {
         GL31.glCullFace(GL31.GL_BACK);
         poseStack.popPose();
 
-        RenderSystem.enableBlend();
-        miscTranslucentTexture.blitToScreen(miscTranslucentTexture.width, miscTranslucentTexture.height, false);
-        RenderSystem.enableDepthTest();
+        if (Iris.getCurrentPack().isEmpty()) {
+            RenderSystem.enableBlend();
+            miscTranslucentTexture.blitToScreen(miscTranslucentTexture.width, miscTranslucentTexture.height, false);
+            RenderSystem.enableDepthTest();
+        }
+
         blackHoles.clear();
         RenderSystem.restoreProjectionMatrix();
     }
