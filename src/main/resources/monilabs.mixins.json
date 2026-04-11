@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "plugin": "net.neganote.monilabs.mixin.MoniMixinPlugin",
+  "refmap": "mixins.monilabs.refmap.json",
   "mixins": [
     "DataAccessHatchMixin",
     "KubeJSPluginsMixin",
@@ -17,7 +18,15 @@
     "aae.MixinPatternDetailsHelperShim",
     "aae.MixinProcessingPatternItemShim"
   ],
-  "client": [
+  "client":
+  [
+    "TranslucentRenderMixin",
+    "ShaderChunkRendererMixin",
+    "ShaderLoaderMixin",
+    "DefaultChunkRendererMixin",
+    "GameRendererMixin",
+    "accessor.TerrainRenderPassAccessor",
+    "accessor.ShaderChunkRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
