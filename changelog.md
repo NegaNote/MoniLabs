@@ -1,3 +1,4 @@
-# Moni Labs 0.21.2
+# Moni Labs 0.21.4
 
-* Fix more advanced sensor hatch lang stuff
+* Add colored end portal support for microverse projector rendering, courtesy of @JenyaRostov
+* Remove the ability for crystal matrix fluid pipes to transport plasma

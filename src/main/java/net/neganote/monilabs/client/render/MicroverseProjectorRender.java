@@ -8,11 +8,15 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.gregtechceu.gtceu.client.util.RenderBufferHelper;
 
 import net.irisshaders.iris.Iris;
+import net.irisshaders.iris.shaderpack.materialmap.WorldRenderingSettings;
+import net.irisshaders.iris.uniforms.CapturedRenderingState;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.textures.UnitTextureAtlasSprite;
@@ -24,6 +28,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.NotNull;
 
 // @SuppressWarnings("unused")
@@ -154,9 +159,19 @@ public class MicroverseProjectorRender extends
         if (GTCEu.isModLoaded(GTValues.MODID_OCULUS) && Iris.getCurrentPack().isPresent()) {
             consumer = buffer.getBuffer(RenderType.entitySolid(TheEndPortalRenderer.END_PORTAL_LOCATION));
         } else {
-            consumer = buffer.getBuffer(RenderType.endPortal());
+            consumer = buffer.getBuffer(MoniRenderTypes.END_PORTAL_COLORED);
         }
-        RenderBufferHelper.renderCube(consumer, pose, 0xFFFFFF00, combinedLight, UnitTextureAtlasSprite.INSTANCE,
+        Iris.getCurrentPack().ifPresent(pack -> {
+            Object2IntMap<BlockState> stateIds = WorldRenderingSettings.INSTANCE.getBlockStateIds();
+            if (stateIds != null) {
+                CapturedRenderingState.INSTANCE
+                        .setCurrentBlockEntity(stateIds.getOrDefault(Blocks.END_PORTAL.defaultBlockState(), -1));
+                CapturedRenderingState.INSTANCE.setCurrentEntity(6767); // Should be unclaimed hopefully :)
+            }
+        });
+
+        RenderBufferHelper.renderCube(consumer, pose, 0xFF0000FF,
+                combinedLight, UnitTextureAtlasSprite.INSTANCE,
                 minX, minY, minZ, maxX, maxY, maxZ);
         stack.popPose();
     }

@@ -25,7 +25,7 @@ public class MoniMaterials {
                 .color(0x66ffff)
                 .secondaryColor(0x004590)
                 .blastTemp(3823, BlastProperty.GasTier.HIGHEST, GTValues.VA[GTValues.ZPM])
-                .fluidPipeProperties(4773, 1200, true, false, true, true)
+                .fluidPipeProperties(4773, 1200, true, false, true, false)
                 .flags(MaterialFlags.NO_WORKING, MaterialFlags.EXCLUDE_BLOCK_CRAFTING_RECIPES,
                         MaterialFlags.GENERATE_FOIL, MaterialFlags.GENERATE_FRAME, MaterialFlags.GENERATE_ROTOR)
                 .iconSet(MoniMaterialIconSets.Crystal)

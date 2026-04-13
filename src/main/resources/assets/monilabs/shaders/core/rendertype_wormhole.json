@@ -7,11 +7,16 @@
   "vertex": "monilabs:rendertype_wormhole",
   "fragment": "monilabs:rendertype_wormhole",
   "attributes": [],
-  "samplers": [],
+  "samplers": [
+    { "name": "WorldColor" }
+  ],
   "uniforms": [
-    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
     { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
-    { "name": "GameTime", "type": "float", "count": 1, "values": [ 0.0 ] },
-    { "name": "ScrollSpeed", "type": "float", "count": 1, "values": [ 600.0 ] }
+    { "name": "SpherePos", "type": "float", "count": 3, "values": [ 0.0, 0.0, 0.0 ] },
+    { "name": "uMass", "type": "float", "count": 1, "values": [ 9.05 ] },
+    { "name": "uDistModifier", "type": "float", "count": 1, "values": [ 0.2 ] },
+    { "name": "uSchwarzschildRadius", "type": "float", "count": 1, "values": [ 2.55 ] },
+    { "name": "uSphereRadius", "type": "float", "count": 1, "values": [ 5.2 ] },
+    { "name": "uWriteOnlyDepth", "type": "int", "count": 1, "values": [ 0.0 ] }
   ]
 }

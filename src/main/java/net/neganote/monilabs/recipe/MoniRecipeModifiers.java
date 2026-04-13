@@ -475,9 +475,9 @@ public class MoniRecipeModifiers {
 
     /*
      * Takes any 16-bit int and computes a 16-bit int with a Hamming Weight of exactly 4 from it.
-     * 
+     *
      * @param x The input int (only least 16 bits are used)
-     * 
+     *
      * @return int with HW 4
      */
     private static int hashToBitMap(int x) {
