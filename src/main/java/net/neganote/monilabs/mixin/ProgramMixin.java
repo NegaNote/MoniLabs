@@ -21,11 +21,15 @@ import java.util.regex.Pattern;
 @Mixin(Program.class)
 public class ProgramMixin {
 
+    @Unique
     private static final Pattern MAIN_PATTERN = Pattern.compile("void\\s+main\\s*\\(\\s*\\)\\s*\\{([\\s\\S]*)}");
+    @Unique
     private static final Pattern DECL_PATTERN = Pattern
             .compile("\\b((?:[iu]?vec\\d|float|int|bool))\\b\\s+([\\w\\d_]+)");
+    @Unique
     private static final Pattern TARGET_PATTERN = Pattern
             .compile("layout\\s*\\(\\s*location\\s*=\\s*0\\s*\\)\\s*out\\s+vec4\\s+(\\w+)");
+    @Unique
     private static final Pattern VAR_PATTERN = Pattern.compile("\\b([a-zA-Z_]\\w*)\\b");
 
     // Works for all popular shaders
@@ -112,9 +116,9 @@ public class ProgramMixin {
 
     @Redirect(method = "compileShaderInternal",
               at = @At(value = "INVOKE",
-                       target = "Lorg/apache/commons/io/IOUtils;toString(Ljava/io/InputStream;Ljava/nio/charset/Charset;)Ljava/lang/String;"),
-              remap = false)
-    private static String test(InputStream sw, Charset input, Program.Type type, String name) throws IOException {
+                       target = "Lorg/apache/commons/io/IOUtils;toString(Ljava/io/InputStream;Ljava/nio/charset/Charset;)Ljava/lang/String;"))
+    private static String moniLabs$modifyIrisEntityDiffuseShader(InputStream sw, Charset input, Program.Type type,
+                                                                 String name) throws IOException {
         String original = IOUtils.toString(sw, input);
         if (name.contains("block_entity_diffuse") && type == Program.Type.FRAGMENT) {
             var analysisResult = moniLabs$analyzeShaderForColorWrite(original);
