@@ -25,6 +25,7 @@
     "DefaultChunkRendererMixin",
     "ShaderLoaderMixin",
     "GameRendererMixin",
+    "ProgramMixin",
     "accessor.TerrainRenderPassAccessor",
     "accessor.ShaderChunkRendererAccessor"
   ],
