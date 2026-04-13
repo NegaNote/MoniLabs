@@ -1,3 +1,4 @@
-# Moni Labs 0.21.3
+# Moni Labs 0.21.4
 
-* Add black hole gravitational lensing effect for the TES, courtesy of @JenyaRostov
+* Add colored end portal support for microverse projector rendering, courtesy of @JenyaRostov
+* Remove the ability for crystal matrix fluid pipes to transport plasma
