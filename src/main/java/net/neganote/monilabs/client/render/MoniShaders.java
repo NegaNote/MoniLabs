@@ -15,6 +15,7 @@ import java.io.IOException;
 public class MoniShaders {
 
     public static ShaderInstance WORMHOLE_SHADER;
+    public static ShaderInstance ENDPORTAL_COLORED_SHADER;
 
     @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) {
@@ -22,6 +23,10 @@ public class MoniShaders {
             event.registerShader(new ShaderInstance(event.getResourceProvider(),
                     MoniLabs.id("rendertype_wormhole"), DefaultVertexFormat.POSITION),
                     (shaderInstance -> WORMHOLE_SHADER = shaderInstance));
+
+            event.registerShader(new ShaderInstance(event.getResourceProvider(),
+                    MoniLabs.id("rendertype_colored_endportal"), DefaultVertexFormat.POSITION_COLOR),
+                    (shaderInstance -> ENDPORTAL_COLORED_SHADER = shaderInstance));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
