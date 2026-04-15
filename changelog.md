@@ -1,4 +1,3 @@
-# Moni Labs 0.21.4
+# Moni Labs 0.22.snapshot-i2
 
-* Add colored end portal support for microverse projector rendering, courtesy of @JenyaRostov
-* Remove the ability for crystal matrix fluid pipes to transport plasma
+* add new features from main branch to april fools version
