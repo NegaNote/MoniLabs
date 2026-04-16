@@ -35,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.neganote.monilabs.common.block.MoniBlocks;
 import net.neganote.monilabs.common.item.MoniItems;
 import net.neganote.monilabs.common.machine.trait.NotifiableMicroverseContainer;
 import net.neganote.monilabs.config.MoniConfig;
@@ -407,15 +408,28 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         updateMicroverse(0, false);
 
         BlockPos pos = this.getPos();
-        MetaMachine machine = this.self();
-        Level level = machine.getLevel();
-        level.removeBlock(pos, false);
+        Level level = this.self().getLevel();
+
+        var state = this.getMultiblockState();
+        if (state != null && this.isFormed()) {
+            for (BlockPos structurePos : state.getCache()) {
+                var blockState = level.getBlockState(structurePos);
+
+                if (blockState.is(MoniBlocks.MICROVERSE_CASING.get())) {
+                    level.removeBlock(structurePos, false);
+                }
+            }
+        }
 
         // Commented out for the testers' sanity.
         // throw new IllegalMicroverseException("Failed to contain degenerate Microverse at "
         // + this.getPos().toString()
         // + ", caused by " + cause + ".");
+
+        level.removeBlock(pos, false);
     }
+
+
 
     private boolean doIntegrityTypeTransitions() {
         microverseIntegrity = Mth.clamp(microverseIntegrity, 0, MICROVERSE_MAX_INTEGRITY);
