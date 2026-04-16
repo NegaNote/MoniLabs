@@ -429,8 +429,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         level.removeBlock(pos, false);
     }
 
-
-
     private boolean doIntegrityTypeTransitions() {
         microverseIntegrity = Mth.clamp(microverseIntegrity, 0, MICROVERSE_MAX_INTEGRITY);
         if (microverseIntegrity <= 0) {
