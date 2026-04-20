@@ -1,3 +1,3 @@
-# Moni Labs 0.22.snapshot-i2
+# Moni Labs 0.22.snapshot-i3
 
-* add new features from main branch to april fools version
+* make degenerate microverse failure remove casings as well as the controller
