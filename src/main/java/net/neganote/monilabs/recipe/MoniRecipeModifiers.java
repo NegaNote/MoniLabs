@@ -349,7 +349,7 @@ public class MoniRecipeModifiers {
         if (recipe.data.contains("quantum_rule_output")) {
             String outputModifier = recipe.data.getString("quantum_rule_output");
 
-            long outputHash = hashString("input", recipeHash) ^ seed;
+            long outputHash = hashString("output", recipeHash) ^ seed;
 
             switch (outputModifier) {
                 case "quantum_entanglement": {
