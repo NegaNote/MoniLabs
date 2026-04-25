@@ -179,8 +179,15 @@ public class MoniRecipeModifiers {
     public static ModifierFunction greenhouseOCasParallels(MetaMachine machine, GTRecipe recipe) {
         var workableMachine = (WorkableElectricMultiblockMachine) machine;
 
-        int maxParallels = (int) Math.pow(2, GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage()) -
-                GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU()));
+        int recipeTier = GTUtil.getTierByVoltage(RecipeHelper.getRealEUt(recipe).getTotalEU());
+
+        if (recipeTier > workableMachine.getTier()) {
+            return ModifierFunction.cancel(Component.translatable("gtceu.recipe_modifier.insufficient_voltage"));
+        }
+
+        int ocTier = GTUtil.getOCTierByVoltage(workableMachine.getOverclockVoltage());
+
+        int maxParallels = (int) Math.pow(2, ocTier - recipeTier);
 
         int parallels = ParallelLogic.getParallelAmount(machine, recipe, maxParallels);
 
