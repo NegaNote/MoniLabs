@@ -485,7 +485,7 @@ public class MoniMachines {
                     .aisle("CC@CC", "CGGGC", "CGGGC", "CGGGC", "CCCCC")
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("D", Predicates.any())
-                    .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(45)
+                    .where("C", Predicates.blocks(MoniBlocks.MICROVERSE_CASING.get()).setMinGlobalLimited(38)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.machines(MICROVERSE_STABILITY_SENSOR_HATCH).setPreviewCount(1))
                             .or(Predicates.machines(ADVANCED_MICROVERSE_STABILITY_SENSOR_HATCH))

@@ -23,6 +23,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -41,6 +42,12 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     @DescSynced
     @Getter
     private int quantumNoise;
+
+    // Current noise value
+    @Persisted
+    @DescSynced
+    @Getter
+    private int lastNoiseRunAt;
 
     public VirtualParticleSynthesizerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -83,7 +90,12 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
 
         // Special logic yadda yadda
 
-        return super.beforeWorking(recipe);
+        if(super.beforeWorking(recipe)) {
+            lastNoiseRunAt = quantumNoise;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -120,75 +132,68 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
         super.addDisplayText(textList);
         if (isFormed()) {
             textList.add(Component.translatable("virtual_particle_synthesis.monilabs.noise", quantumNoise));
+            textList.add(Component.translatable(
+                    "virtual_particle_synthesis.monilabs.debug.0",
+                    startValue, endValue));
+            if (lastNoiseRunAt >= 0) {
+                textList.add(Component.translatable("virtual_particle_synthesis.monilabs.lastrun", lastNoiseRunAt));
+            }
         }
-    }
-
-    public void explode(float explosionPower) {
-        BlockPos pos = this.getPos();
-        MetaMachine machine = this.self();
-        Level level = machine.getLevel();
-        assert level != null;
-        level.removeBlock(pos, false);
-        level.explode(null, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
-                explosionPower, ConfigHolder.INSTANCE.machines.doesExplosionDamagesTerrain ?
-                        Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
     }
 
     // Noise Manager inside the class because fuck me I guess...
 
     @Persisted
-    private double startValue;
+    private int startValue;
     @Persisted
-    private double endValue;
+    private int endValue;
+    @Persisted
+    private int targetOffset;
 
     @Persisted
     private double offset = 0;
     @Persisted
-    private int counter0 = 0;
+    private byte arrayIndex;
     @Persisted
-    private int counter15 = 0;
+    private final int[] queue = new int[64];
 
     private int nextInt() {
-        offset += (0.1 + Math.random() * 0.05);
+        offset += (0.1 + Math.random() * 0.1);
         if (offset >= 1) {
             offset = offset - 1;
             startValue = endValue;
             endValue = randomCall();
+
+            // Take the shortest path
+            targetOffset = ((endValue-startValue) > 8 ? -(startValue-endValue) : endValue-startValue);
         }
-        double v = startValue + smoothStep(offset) * (endValue - startValue);
+        // Approach end
+        double v = startValue + smoothStep(offset) * targetOffset + 0.5;
+        v = (v>=16 ? v-16 : (v<0 ? v+16 : v));
 
         return (int) Math.floor(v);
     }
 
     /*
-     * A random method with slight weight towards extremes to ensure a uniform distribution after interpolation.
-     * Takes a random number r, and returns (3.5*smoothStep(r) + r) / 4.5
-     * Also contains bad luck protection (in the 0.0012% of cases where you're *really* unlucky)
+     * Gets the next element of the queue. If you reach the end of the queue, generate a new queue.
      */
-    private double randomCall() {
-        double rand = Math.random();
-        rand = 16 * ((smoothStep(rand) * 3.5 + rand) / 4.5);
+    private int randomCall() {
+        arrayIndex--;
+        if(arrayIndex < 0) {
+            arrayIndex = 63;
 
-        if (counter15 >= 75) {
-            rand = 15.5;
-            counter15 = 0;
-        } else if (counter0 >= 75) {
-            rand = 0.5;
-            counter0 = 0;
+            // Populate and shuffle an array in the same loop.
+            // The array contains 4x each number from 0 to 15.
+            Random rand = new Random();
+            for (int i = 0; i < 64; i++) {
+                int index = rand.nextInt(i + 1);
+                // Combining swapping and populating the array
+                queue[i] = queue[index];
+                queue[index] = i % 16;
+            }
         }
 
-        if (rand >= 15) {
-            counter15 = 0;
-        } else {
-            counter15++;
-        }
-        if (rand < 1) {
-            counter0 = 0;
-        } else {
-            counter0++;
-        }
-
-        return rand;
+        return queue[arrayIndex];
     }
 
     private double smoothStep(double x) {
@@ -197,10 +202,10 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     }
 
     private void resetNoise() {
-        counter0 = 0;
-        counter15 = 0;
         startValue = randomCall();
-        endValue = randomCall();
+        targetOffset = randomCall();
+        arrayIndex = 0;
         offset = 0;
+        lastNoiseRunAt = -1;
     }
 }

@@ -366,12 +366,12 @@ public class MoniRecipeModifiers {
                     // Calculate modulo distance between random target and destination
                     diff = Mth.abs(noise - targetNoise);
                     diff = (diff <= 8 ? diff : 16 - diff);
-
                     recipeOutputs = new ArrayList<>(recipe.getOutputContents(ItemRecipeCapability.CAP));
                     // Modify Item Outputs accordingly
                     try {
                         // Try to remove failed item output
-                        recipeOutputs.remove((Math.random() >= diff / 8.0 ? 1 : 0));
+                        // Funny math things to make the output deterministic based on fluctuation.
+                        recipeOutputs.remove(((outputHash >>> (3*noise + 4) & 0b111) >= diff*2 / 8.0 ? 1 : 0));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if there's nothing to remove lol
                     }
