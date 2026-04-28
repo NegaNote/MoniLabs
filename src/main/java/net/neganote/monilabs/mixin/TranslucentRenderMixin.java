@@ -1,5 +1,8 @@
 package net.neganote.monilabs.mixin;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
+
 import net.irisshaders.iris.Iris;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -32,7 +35,9 @@ public class TranslucentRenderMixin {
                                                      Matrix4f projectionMatrix,
                                                      Operation<Void> original,
                                                      @Local(argsOnly = true) Camera camera) {
-        if (renderType == RenderType.translucent() && Iris.getCurrentPack().isEmpty() &&
+        boolean hasIrisPacks = GTCEu.isModLoaded(GTValues.MODID_OCULUS) && Iris.getCurrentPack().isPresent();
+
+        if (renderType == RenderType.translucent() && !hasIrisPacks &&
                 BlackHoleRenderer.hasBlackHoles()) {
             BlackHoleRenderer.preTranslucentPass(instance, renderType, poseStack, camX, camY, camZ, projectionMatrix,
                     original,
