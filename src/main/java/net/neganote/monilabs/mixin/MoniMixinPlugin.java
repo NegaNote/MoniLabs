@@ -92,6 +92,13 @@ public final class MoniMixinPlugin implements IMixinConfigPlugin {
         if (AAE_MIXINS.contains(mixinClassName)) {
             apply = isModLoaded("advanced_ae");
         }
+        boolean isDatagen = System.getProperty("sun.java.command").contains("dataRun");
+        if (mixinClassName.toLowerCase().contains("render") && isDatagen) {
+            apply = false;
+        }
+        if (targetClassName.contains("jellysquid.mods.sodium")) {
+            apply = isModLoaded("embeddium");
+        }
         if (VERBOSE) {
             LOGGER.info("[MoniMixinPlugin] {} {} -> {}", apply ? "APPLY" : "SKIP", mixinClassName, targetClassName);
         }

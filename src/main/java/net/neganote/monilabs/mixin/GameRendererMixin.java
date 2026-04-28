@@ -1,5 +1,8 @@
 package net.neganote.monilabs.mixin;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
+
 import net.irisshaders.iris.Iris;
 import net.irisshaders.iris.shadows.ShadowRenderer;
 import net.minecraft.client.renderer.GameRenderer;
@@ -21,7 +24,8 @@ public class GameRendererMixin {
                      shift = At.Shift.AFTER))
     public void moniLabs$renderBlackHoleWithShaders(float partialTicks, long finishTimeNano, PoseStack poseStack,
                                                     CallbackInfo ci) {
-        if (Iris.getCurrentPack().isPresent() && !ShadowRenderer.ACTIVE) {
+        boolean hasIrisPacks = GTCEu.isModLoaded(GTValues.MODID_OCULUS) && Iris.getCurrentPack().isPresent();
+        if (hasIrisPacks && !ShadowRenderer.ACTIVE) {
             BlackHoleRenderer.renderWithShadersOn();
         }
     }
