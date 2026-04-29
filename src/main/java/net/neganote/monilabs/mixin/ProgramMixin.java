@@ -116,8 +116,7 @@ public class ProgramMixin {
 
     @Redirect(method = "compileShaderInternal",
               at = @At(value = "INVOKE",
-                       target = "Lorg/apache/commons/io/IOUtils;toString(Ljava/io/InputStream;Ljava/nio/charset/Charset;)Ljava/lang/String;"),
-              remap = false)
+                       target = "Lorg/apache/commons/io/IOUtils;toString(Ljava/io/InputStream;Ljava/nio/charset/Charset;)Ljava/lang/String;"))
     private static String moniLabs$modifyIrisEntityDiffuseShader(InputStream sw, Charset input, Program.Type type,
                                                                  String name) throws IOException {
         String original = IOUtils.toString(sw, input);
