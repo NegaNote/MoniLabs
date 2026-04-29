@@ -247,7 +247,7 @@ public class MoniRecipeModifiers {
                     diff = Mth.abs(noise - targetNoise);
                     diff = (diff <= 8 ? diff : 16 - diff);
 
-                    boolean success = (inputHash >>> (3*noise + 4) & 0b111) >= diff*2L;
+                    boolean success = (inputHash >>> (3 * noise + 4) & 0b111) >= diff * 2L;
 
                     recipeInputs = new ArrayList<>(recipe.getInputContents(ItemRecipeCapability.CAP));
 
@@ -371,7 +371,7 @@ public class MoniRecipeModifiers {
                     try {
                         // Try to remove failed item output
                         // Funny math things to make the output deterministic based on fluctuation.
-                        recipeOutputs.remove(((outputHash >>> (3*noise + 4) & 0b111) >= diff*2L ? 1 : 0));
+                        recipeOutputs.remove(((outputHash >>> (3 * noise + 4) & 0b111) >= diff * 2L ? 1 : 0));
                     } catch (IndexOutOfBoundsException E) {
                         // Do nothing if there's nothing to remove lol
                     }

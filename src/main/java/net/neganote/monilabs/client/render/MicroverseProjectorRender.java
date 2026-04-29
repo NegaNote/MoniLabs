@@ -74,7 +74,7 @@ public class MicroverseProjectorRender extends
 
         int tier = projector.getProjectorTier();
         Microverse microverse = projector.getMicroverse();
-        //RGB. Left - right further away from player - closer
+        // RGB. Left - right further away from player - closer
         Vector4i colors = switch (microverse) {
             case NONE -> new Vector4i(0, 0, 0, 0);
             case NORMAL -> new Vector4i(0xBDB3FF, 0x196E5B, 0x6B41E8, 0x20A37C);

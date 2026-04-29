@@ -2,21 +2,17 @@ package net.neganote.monilabs.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
 import net.neganote.monilabs.config.MoniConfig;
 
 import lombok.Getter;
@@ -90,7 +86,7 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
 
         // Special logic yadda yadda
 
-        if(super.beforeWorking(recipe)) {
+        if (super.beforeWorking(recipe)) {
             lastNoiseRunAt = quantumNoise;
             return true;
         } else {
@@ -165,13 +161,11 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
             endValue = randomCall();
 
             // Take the shortest path
-            targetOffset = (endValue-startValue > 8 ?
-                    -16 + (endValue-startValue) :
-                    (endValue-startValue < -8 ?
-                        16 + (endValue-startValue) :
-                        endValue-startValue
-                    )
-            );
+            targetOffset = (endValue - startValue > 8 ?
+                    -16 + (endValue - startValue) :
+                    (endValue - startValue < -8 ?
+                            16 + (endValue - startValue) :
+                            endValue - startValue));
         }
         // Approach end
         double v = startValue + (smoothStep(offset) * targetOffset) + 0.5;
@@ -184,7 +178,7 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
      */
     private int randomCall() {
         arrayIndex--;
-        if(arrayIndex < 0) {
+        if (arrayIndex < 0) {
             arrayIndex = 63;
 
             // Populate and shuffle an array in the same loop.
@@ -210,13 +204,11 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
         arrayIndex = 0;
         startValue = randomCall();
         endValue = randomCall();
-        targetOffset = (endValue-startValue > 8 ?
-                -16 + (endValue-startValue) :
-                (endValue-startValue < -8 ?
-                 16 + (endValue-startValue) :
-                 endValue-startValue
-                )
-        );
+        targetOffset = (endValue - startValue > 8 ?
+                -16 + (endValue - startValue) :
+                (endValue - startValue < -8 ?
+                        16 + (endValue - startValue) :
+                        endValue - startValue));
         offset = 0;
         lastNoiseRunAt = -1;
     }
