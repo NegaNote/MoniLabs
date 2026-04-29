@@ -6,11 +6,10 @@ ServerEvents.recipes(event => {
         .EUt(GTValues.VHA[GTValues.HV])
         .duration(20)
 
-    event.recipes.gtceu.microverse("using_normal_microverse")
-        .itemInputs("minecraft:gold_ingot")
+    event.recipes.gtceu.virtual_particle_synthesis("nomnom")
+        .itemInputs("minecraft:iron_ingot")
         .itemOutputs("minecraft:gold_ingot", "minecraft:diamond")
-        .requiredMicroverse(1)
-        .addData("projector_tier", 1)
+        .quantumRule(QuantumRule.QUANTUM_ENTANGLEMENT, IO.OUT)
         .EUt(GTValues.VHA[GTValues.HV])
-        .duration(50) // 100s, like a T1 mission
+        .duration(40)
 })

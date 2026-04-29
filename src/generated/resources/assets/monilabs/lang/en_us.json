@@ -302,7 +302,7 @@
   "tooltip.monilabs.xp_draining_hatch.2": "Buffer continuously decays slightly.",
   "tooltip.monilabs.xp_sensor_hatch.0": "Outputs XP buffer status of Sculk Vat",
   "tooltip.monilabs.xp_sensor_hatch.1": "as a redstone signal.",
-  "virtual_particle_synthesis.monilabs.debug.0": "Moving from %df to %df",
-  "virtual_particle_synthesis.monilabs.lastrun": "Last Run At: %d",
+  "virtual_particle_synthesis.monilabs.debug.0": "Moving from %d to %d",
+  "virtual_particle_synthesis.monilabs.lastrun": "Last Ran At: %d",
   "virtual_particle_synthesis.monilabs.noise": "Local Quantum Fluctuation: %d"
 }

@@ -238,8 +238,8 @@ public class MoniLangHandler {
         provider.add("microverse.monilabs.debug.1", "Target Item: \n%s");
 
         provider.add("virtual_particle_synthesis.monilabs.noise", "Local Quantum Fluctuation: %d");
-        provider.add("virtual_particle_synthesis.monilabs.lastrun", "Last Run At: %d");
-        provider.add("virtual_particle_synthesis.monilabs.debug.0", "Moving from %df to %df");
+        provider.add("virtual_particle_synthesis.monilabs.lastrun", "Last Ran At: %d");
+        provider.add("virtual_particle_synthesis.monilabs.debug.0", "Moving from %d to %d");
 
         provider.add("sculk_vat.monilabs.current_xp_buffer", "XP Stored: %d/%d");
 

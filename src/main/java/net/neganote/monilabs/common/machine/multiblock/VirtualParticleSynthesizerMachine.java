@@ -158,20 +158,25 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     private final int[] queue = new int[64];
 
     private int nextInt() {
-        offset += (0.1 + Math.random() * 0.1);
+        offset += (0.1 + Math.random() * 0.05);
         if (offset >= 1) {
             offset = offset - 1;
             startValue = endValue;
             endValue = randomCall();
 
             // Take the shortest path
-            targetOffset = ((endValue-startValue) > 8 ? -(startValue-endValue) : endValue-startValue);
+            targetOffset = (endValue-startValue > 8 ?
+                    -16 + (endValue-startValue) :
+                    (endValue-startValue < -8 ?
+                        16 + (endValue-startValue) :
+                        endValue-startValue
+                    )
+            );
         }
         // Approach end
-        double v = startValue + smoothStep(offset) * targetOffset + 0.5;
-        v = (v>=16 ? v-16 : (v<0 ? v+16 : v));
+        double v = startValue + (smoothStep(offset) * targetOffset) + 0.5;
 
-        return (int) Math.floor(v);
+        return Math.floorMod((int) Math.floor(v), 16);
     }
 
     /*
@@ -202,9 +207,16 @@ public class VirtualParticleSynthesizerMachine extends WorkableElectricMultibloc
     }
 
     private void resetNoise() {
-        startValue = randomCall();
-        targetOffset = randomCall();
         arrayIndex = 0;
+        startValue = randomCall();
+        endValue = randomCall();
+        targetOffset = (endValue-startValue > 8 ?
+                -16 + (endValue-startValue) :
+                (endValue-startValue < -8 ?
+                 16 + (endValue-startValue) :
+                 endValue-startValue
+                )
+        );
         offset = 0;
         lastNoiseRunAt = -1;
     }
