@@ -1,3 +1,6 @@
 # Moni Labs 0.22.snapshot-i4
 
-* fix not having a check for sufficient machine tier for recipe in the greenhouse OC parallels
+* update Microverse projector renderers
+* refactor the VPS noise function
+* make quantum entanglement deterministic
+* add "last ran at" text to VPS controller
