@@ -87,6 +87,13 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     @Getter
     private int microverseIntegrity;
 
+    // Current microverse age in ticks
+    // Only used if the Microverse has a ramp-up decay
+    @Persisted
+    @DescSynced
+    @Getter
+    private int microverseAge;
+
     @Persisted
     @DescSynced
     @Getter
@@ -137,7 +144,6 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
 
     @Override
     public void onStructureInvalid() {
-        super.onStructureInvalid();
         microverseHandler.updateSubscription();
         inputBuses = null;
         outputBuses = null;
@@ -147,6 +153,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
         if (microverse.decayRate != 0) {
             updateMicroverse(0, false);
         }
+        super.onStructureInvalid();
     }
 
     @Override
@@ -327,8 +334,14 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             }
         }
         if (microverse.decayRate != 0) {
-            int decayRate = microverse.decayRate;
-            microverseIntegrity -= decayRate;
+            if (microverse.isRampUp) {
+                microverseAge++;
+                int decayRate = microverseAge / microverse.decayRate;
+                microverseIntegrity -= decayRate;
+            } else {
+                int decayRate = microverse.decayRate;
+                microverseIntegrity -= decayRate;
+            }
         }
 
         // Perform type transitions based on integrity.
@@ -490,21 +503,9 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             // COMPLEX MICROVERSES ONLY
             if (MoniConfig.INSTANCE.values.doComplexMicroverses) {
                 switch (microverse) {
-                    case HOSTILE -> {
-                        updateMicroverse(1, MICROVERSE_MAX_INTEGRITY / 10);
-                        // Normal, 10%
-                        return true;
-                    }
-
                     case CORRUPTED -> {
                         updateMicroverse(7, 50);
                         // Supercharged, ~0%
-                        return true;
-                    }
-
-                    case ABYSSAL -> {
-                        updateMicroverse(2, MICROVERSE_MAX_INTEGRITY / 10);
-                        // Hostile, 10%
                         return true;
                     }
 
@@ -533,6 +534,7 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     }
 
     private void updateMicroverse(int pKey, int integrity, boolean keepIntegrity) {
+        microverseAge = 0;
         microverse = Microverse.getMicroverseFromKey(pKey);
         if (microverse == Microverse.NONE) {
             microverseIntegrity = 0;
@@ -554,9 +556,24 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
             if (microverse != Microverse.NONE) {
                 textList.add(Component.translatable("microverse.monilabs.integrity",
                         (float) microverseIntegrity / FLUX_REPAIR_AMOUNT));
-                textList.add(Component.translatable("microverse.monilabs.debug.0",
-                        (double) stabilizationProgress));
+                if (microverse.decayRate != 0) {
+                    int decayRate;
+                    if (microverse.isRampUp) {
+                        decayRate = microverseAge / microverse.decayRate;
+                    } else {
+                        decayRate = microverse.decayRate;
+                    }
+                    if (decayRate >= 0) {
+                        textList.add(Component.translatable("microverse.monilabs.decay",
+                                (float) decayRate * 20 / FLUX_REPAIR_AMOUNT));
+                    } else {
+                        textList.add(Component.translatable("microverse.monilabs.regen",
+                                (float) decayRate * 20 / FLUX_REPAIR_AMOUNT));
+                    }
+                }
                 if (targetItem != null) {
+                    textList.add(Component.translatable("microverse.monilabs.debug.0",
+                            (double) stabilizationProgress));
                     textList.add(Component.translatable("microverse.monilabs.debug.1",
                             targetItem.getItem().toString()));
                 }

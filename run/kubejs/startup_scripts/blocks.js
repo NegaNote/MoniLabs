@@ -13,3 +13,7 @@ StartupEvents.registry("block",  event => {
             .tagBlock("mineable/pickaxe")
             .defaultCutout()
 })
+
+StartupEvents.registry("item", event => {
+    event.create("quantum_flux")
+})

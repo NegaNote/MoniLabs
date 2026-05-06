@@ -234,8 +234,11 @@ public class MoniLangHandler {
 
         provider.add("microverse.monilabs.current_microverse", "Microverse type: %s");
         provider.add("microverse.monilabs.integrity", "Microverse integrity: %.2f%%");
+        provider.add("microverse.monilabs.decay", "Loses %.2f%% integrity/s");
+        provider.add("microverse.monilabs.regen", "Gains %.2f%% integrity/s");
         provider.add("microverse.monilabs.debug.0", "Stabilization Progress: %d");
         provider.add("microverse.monilabs.debug.1", "Target Item: \n%s");
+        provider.add("microverse.monilabs.debug.2", "Microverse Age: \n%d");
 
         provider.add("virtual_particle_synthesis.monilabs.noise", "Local Quantum Fluctuation: %d");
         provider.add("virtual_particle_synthesis.monilabs.lastrun", "Last Ran At: %d");

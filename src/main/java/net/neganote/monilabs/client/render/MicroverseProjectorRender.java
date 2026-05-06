@@ -92,16 +92,22 @@ public class MicroverseProjectorRender extends
             case HOSTILE -> new Vector4f(3.0f, 0.5f, 1.5f, 1.0f);
             case SHATTERED -> new Vector4f(0.5f, 0.5f, 0.5f, 0.5f);
             case CORRUPTED -> getCorruptedSpeeds(new Vector4f(2.0f, 0.5f, 1.0f, 4.0f), partialTicks);
-            case ABYSSAL -> new Vector4f(1.5f, 0.25f, 0.75f, 0.5f);
+            case ABYSSAL -> getAbyssalSpeeds((float) projector.getMicroverseAge() / 4000F);
             case NECROSED -> new Vector4f(0.02f, 0.02f, 0.02f, 0.02f);
-            case SUPERCHARGED -> getSuperchargedSpeeds(1);
+            case SUPERCHARGED -> getSuperchargedSpeeds(
+                    (float) projector.getMicroverseAge() / 2000F);
             case DEGENERATE -> getCorruptedSpeeds(new Vector4f(4f, 5f, 3f, 4f), partialTicks);
         };
         int baseColor = switch (microverse) {
             case CORRUPTED, DEGENERATE -> 0x150A14;
+            case SUPERCHARGED -> 0x190E06;
             default -> 0x06191C;
         };
         renderMicroverse(stack, buffer, upwards, front, left, combinedLight, tier, baseColor, colors, particleSpeeds);
+    }
+
+    private Vector4f getAbyssalSpeeds(float multiplier) {
+        return new Vector4f(1.5f * multiplier, 0.25f * multiplier, 0.75f * multiplier, 0.5f * multiplier);
     }
 
     private Vector4f getSuperchargedSpeeds(float multiplier) {

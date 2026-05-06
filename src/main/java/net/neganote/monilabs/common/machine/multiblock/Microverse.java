@@ -9,17 +9,18 @@ import lombok.Getter;
 
 public enum Microverse implements StringRepresentable {
 
-    NONE("none", 0, 0, false, false, "microverse.monilabs.type.none"),
-    NORMAL("normal", 1, 0, true, MoniConfig.INSTANCE.values.doComplexMicroverses, "microverse.monilabs.type.normal"),
-    HOSTILE("hostile", 2, MoniConfig.INSTANCE.values.hostileDecayRate, false, false,
+    NONE("none", 0, 0, false, false, false, "microverse.monilabs.type.none"),
+    NORMAL("normal", 1, 0, false, true, MoniConfig.INSTANCE.values.doComplexMicroverses,
+            "microverse.monilabs.type.normal"),
+    HOSTILE("hostile", 2, MoniConfig.INSTANCE.values.hostileDecayRate, false, false, false,
             "microverse.monilabs.type.hostile"),
-    SHATTERED("shattered", 3, 0, false, false, "microverse.monilabs.type.shattered"),
-    CORRUPTED("corrupted", 4, 10, true, true, "microverse.monilabs.type.corrupted"),
-    ABYSSAL("abyssal", 5, MoniConfig.INSTANCE.values.abyssalDecayRate, false, false,
+    SHATTERED("shattered", 3, 0, false, false, false, "microverse.monilabs.type.shattered"),
+    CORRUPTED("corrupted", 4, 10, false, true, true, "microverse.monilabs.type.corrupted"),
+    ABYSSAL("abyssal", 5, 80, true, false, false,
             "microverse.monilabs.type.abyssal"),
-    NECROSED("necrosed", 6, 1, false, false, "microverse.monilabs.type.necrosed"),
-    SUPERCHARGED("supercharged", 7, -40, false, false, "microverse.monilabs.type.supercharged"),
-    DEGENERATE("degenerate", 8, 100, false, false, "microverse.monilabs.type.degenerate");
+    NECROSED("necrosed", 6, 1, false, false, false, "microverse.monilabs.type.necrosed"),
+    SUPERCHARGED("supercharged", 7, -50, true, false, false, "microverse.monilabs.type.supercharged"),
+    DEGENERATE("degenerate", 8, 100, false, false, false, "microverse.monilabs.type.degenerate");
 
     public static final Microverse[] MICROVERSES = values();
 
@@ -27,6 +28,7 @@ public enum Microverse implements StringRepresentable {
             Microverse.class);
 
     public final int decayRate;
+    public final boolean isRampUp;
     public final boolean isRepairable;
     public final boolean isHungry;
     public final String langKey;
@@ -38,10 +40,12 @@ public enum Microverse implements StringRepresentable {
     Microverse(String serializedName,
                int key,
                int decayRate,
+               boolean isRampUp,
                boolean isRepairable,
                boolean isHungry,
                String langKey) {
         this.decayRate = decayRate;
+        this.isRampUp = isRampUp;
         this.isRepairable = isRepairable;
         this.isHungry = isHungry;
         this.langKey = langKey;
