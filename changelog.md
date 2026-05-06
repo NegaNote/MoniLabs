@@ -1,3 +1,3 @@
-# Moni Labs 0.22.snapshot-i6
+# Moni Labs 0.22.snapshot-i7
 
-* Fixed crash on client startup
+* Tweaks to Complex Microverses (Hostile, Abyssal, Supercharged)
