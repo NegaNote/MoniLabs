@@ -20,6 +20,7 @@ public class CreativeEnergySavedData extends SavedData {
     public static String ENERGY_OWNERS = "creativeEnergyOwners";
 
     private final Map<UUID, Boolean> ownersMap = new HashMap<>();
+    private boolean hasAnyEnabled = false;
 
     private CreativeEnergySavedData() {}
 
@@ -32,6 +33,9 @@ public class CreativeEnergySavedData extends SavedData {
             boolean enabled = ownerTag.getBoolean("enabled");
             UUID ownerUUID = new UUID(ownerUUIDMSB, ownerUUIDLSB);
             ownersMap.put(ownerUUID, enabled);
+            if (enabled) {
+                hasAnyEnabled = true;
+            }
         }
     }
 
@@ -55,6 +59,9 @@ public class CreativeEnergySavedData extends SavedData {
     }
 
     public boolean isEnabledFor(UUID uuid) {
+        if (!hasAnyEnabled) {
+            return false;
+        }
         MachineOwner owner = MachineOwner.getOwner(uuid);
         if (owner == null) {
             return false;
@@ -63,10 +70,16 @@ public class CreativeEnergySavedData extends SavedData {
     }
 
     public void setEnabled(UUID uuid, boolean enabled) {
-        boolean isEnabled = isEnabledFor(uuid);
-        if (isEnabled != enabled) {
-            ownersMap.put(uuid, enabled);
-            setDirty();
+        Boolean current = ownersMap.get(uuid);
+        if (current != null && current == enabled) {
+            return;
         }
+        ownersMap.put(uuid, enabled);
+        if (enabled) {
+            hasAnyEnabled = true;
+        } else {
+            hasAnyEnabled = ownersMap.values().stream().anyMatch(Boolean::booleanValue);
+        }
+        setDirty();
     }
 }
