@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 
 import net.minecraft.server.level.ServerLevel;
-import net.neganote.monilabs.saveddata.CreativeEnergySavedData;
+import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachine;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,12 +22,9 @@ public class PowerSubstationMachineMixin extends MetaMachine {
     // Prevents substations from performing any power transfers while TES is running
     @Inject(method = "transferEnergyTick()V", at = @At(value = "HEAD"), cancellable = true)
     public void monilabs$injectBeforeTransferEnergyTick(CallbackInfo ci) {
-        if (getLevel() instanceof ServerLevel serverLevel) {
-            CreativeEnergySavedData savedData = CreativeEnergySavedData
-                    .getOrCreate(serverLevel.getServer().overworld());
-            if (savedData.isEnabledFor(getOwnerUUID())) {
-                ci.cancel();
-            }
+        if (getLevel() instanceof ServerLevel &&
+                CreativeEnergyMultiMachine.isCreativeEnergyEnabledFor(getOwnerUUID())) {
+            ci.cancel();
         }
     }
 }
