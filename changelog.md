@@ -1,4 +1,3 @@
-# Moni Labs 0.21.4
+# Moni Labs 0.21.5
 
-* Add colored end portal support for microverse projector rendering, courtesy of @JenyaRostov
-* Remove the ability for crystal matrix fluid pipes to transport plasma
+* HOTFIX: stop dedicated servers from crashing in June as a result of a pride month easter egg
