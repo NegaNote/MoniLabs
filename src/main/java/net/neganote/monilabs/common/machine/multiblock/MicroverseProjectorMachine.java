@@ -353,6 +353,12 @@ public class MicroverseProjectorMachine extends WorkableElectricMultiblockMachin
     }
 
     private void abortMission(@Nullable GTRecipe activeRecipe) {
+        if (outputBuses == null || outputBuses.isEmpty()) {
+            outputBuses = getCapabilitiesFlat(IO.OUT, ItemRecipeCapability.CAP).stream()
+                    .filter(NotifiableItemStackHandler.class::isInstance)
+                    .map(NotifiableItemStackHandler.class::cast)
+                    .toList();
+        }
         if (activeRecipe != null && MoniConfig.INSTANCE.values.microminerReturnedOnZeroIntegrity) {
             var contents = (Ingredient) activeRecipe.getInputContents(ItemRecipeCapability.CAP).get(0)
                     .getContent();
