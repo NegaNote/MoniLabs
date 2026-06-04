@@ -165,7 +165,7 @@ public class MoniLabs {
             MapIngredientTypeManager
                     .registerMapIngredient(Microverse.class, MapMicroverseIngredient::from);
         });
-        CalendarUtil.init();
+        CalendarUtil.init(FMLEnvironment.dist.isClient());
     }
 
     private void initializeDynamicRenders() {

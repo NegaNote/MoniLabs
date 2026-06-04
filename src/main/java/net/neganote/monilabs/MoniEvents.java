@@ -1,9 +1,11 @@
 package net.neganote.monilabs;
 
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.neganote.monilabs.commands.PackSwitcherCommands;
+import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachine;
 
 @Mod.EventBusSubscriber(modid = MoniLabs.MOD_ID)
 public class MoniEvents {
@@ -12,5 +14,10 @@ public class MoniEvents {
     public static void RegisterCommandsEvent(RegisterCommandsEvent event) {
         MoniLabs.LOGGER.debug("Registering commands...");
         PackSwitcherCommands.register(event.getDispatcher(), event.getBuildContext());
+    }
+
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        CreativeEnergyMultiMachine.clearActiveOwners();
     }
 }

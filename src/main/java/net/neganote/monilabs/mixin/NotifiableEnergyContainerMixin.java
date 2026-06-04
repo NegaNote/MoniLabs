@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.server.level.ServerLevel;
-import net.neganote.monilabs.saveddata.CreativeEnergySavedData;
+import net.neganote.monilabs.common.machine.multiblock.CreativeEnergyMultiMachine;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,13 +45,12 @@ public class NotifiableEnergyContainerMixin extends MachineTrait {
     @Inject(method = "getEnergyStored()J", at = @At(value = "HEAD"), cancellable = true)
     private void monilabs$injectBeforeGetEnergyStored(CallbackInfoReturnable<Long> cir) {
         MetaMachine machine = getMachine();
-        if (machine.getLevel() instanceof ServerLevel serverLevel) {
+        if (machine.getLevel() instanceof ServerLevel) {
             outputSubs = machine.subscribeServerTick(this.outputSubs, this::serverTick);
-            CreativeEnergySavedData savedData = CreativeEnergySavedData
-                    .getOrCreate(serverLevel.getServer().overworld());
             UUID uuid = machine.getOwnerUUID();
-            if (uuid != null && savedData.isEnabledFor(uuid)) {
-                cir.setReturnValue(getEnergyCapacity());
+            if (uuid != null && CreativeEnergyMultiMachine.isCreativeEnergyEnabledFor(uuid)) {
+                // return 1 less so active transformers won't turn off
+                cir.setReturnValue(getEnergyCapacity() - 1);
             }
         }
     }
@@ -61,12 +60,10 @@ public class NotifiableEnergyContainerMixin extends MachineTrait {
     @Inject(method = "changeEnergy", at = @At(value = "HEAD"), cancellable = true)
     private void monilabs$injectBeforeChangeEnergy(long energyToAdd, CallbackInfoReturnable<Long> cir) {
         MetaMachine machine = getMachine();
-        if (machine.getLevel() instanceof ServerLevel serverLevel) {
+        if (machine.getLevel() instanceof ServerLevel) {
             outputSubs = machine.subscribeServerTick(this.outputSubs, this::serverTick);
-            CreativeEnergySavedData savedData = CreativeEnergySavedData
-                    .getOrCreate(serverLevel.getServer().overworld());
             UUID uuid = machine.getOwnerUUID();
-            if (uuid != null && savedData.isEnabledFor(uuid)) {
+            if (uuid != null && CreativeEnergyMultiMachine.isCreativeEnergyEnabledFor(uuid)) {
                 cir.setReturnValue(energyToAdd);
             }
         }

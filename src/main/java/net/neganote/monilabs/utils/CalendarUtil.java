@@ -16,8 +16,8 @@ public abstract class CalendarUtil {
         IS_PRIDE_MONTH = currentMonth == Calendar.JUNE || MoniConfig.INSTANCE.values.forcePrideMonth;
     }
 
-    public static void init() {
-        if (IS_PRIDE_MONTH) {
+    public static void init(boolean isClient) {
+        if (isClient && IS_PRIDE_MONTH) {
             PrismFX.PositionalColor.initPride();
         }
     }
