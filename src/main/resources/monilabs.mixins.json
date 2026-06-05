@@ -29,7 +29,8 @@
     "ShaderLoaderMixin",
     "TranslucentRenderMixin",
     "accessor.ShaderChunkRendererAccessor",
-    "accessor.TerrainRenderPassAccessor"
+    "accessor.TerrainRenderPassAccessor",
+    "IDurabilityBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1
