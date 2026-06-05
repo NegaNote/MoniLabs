@@ -33,6 +33,6 @@ public interface IDurabilityBarMixin {
      */
     @Overwrite
     default boolean isBarVisible(ItemStack stack) {
-        return false;
+        return !(this instanceof TurbineRotorBehaviour);
     }
 }
