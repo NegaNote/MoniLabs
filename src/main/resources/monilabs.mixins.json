@@ -11,6 +11,7 @@
     "NotifiableEnergyContainerMixin",
     "OpticalDataHatchMixin",
     "PowerSubstationMachineMixin",
+    "RotorHolderMachineMixin",
     "aae.MixinCraftingJobStatusPacketCtorShim",
     "aae.MixinCraftingServiceAAE",
     "aae.MixinEncodedPatternItemShim",
@@ -18,16 +19,15 @@
     "aae.MixinPatternDetailsHelperShim",
     "aae.MixinProcessingPatternItemShim"
   ],
-  "client":
-  [
-    "TranslucentRenderMixin",
-    "ShaderChunkRendererMixin",
+  "client": [
     "DefaultChunkRendererMixin",
-    "ShaderLoaderMixin",
     "GameRendererMixin",
     "ProgramMixin",
-    "accessor.TerrainRenderPassAccessor",
-    "accessor.ShaderChunkRendererAccessor"
+    "ShaderChunkRendererMixin",
+    "ShaderLoaderMixin",
+    "TranslucentRenderMixin",
+    "accessor.ShaderChunkRendererAccessor",
+    "accessor.TerrainRenderPassAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
