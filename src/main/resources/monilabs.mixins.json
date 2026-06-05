@@ -9,6 +9,7 @@
     "DataAccessHatchMixin",
     "IMaterialPartItemMixin",
     "KubeJSPluginsMixin",
+    "LargeTurbineMachineMixin",
     "NotifiableEnergyContainerMixin",
     "OpticalDataHatchMixin",
     "PowerSubstationMachineMixin",
@@ -24,13 +25,13 @@
   "client": [
     "DefaultChunkRendererMixin",
     "GameRendererMixin",
+    "IDurabilityBarMixin",
     "ProgramMixin",
     "ShaderChunkRendererMixin",
     "ShaderLoaderMixin",
     "TranslucentRenderMixin",
     "accessor.ShaderChunkRendererAccessor",
-    "accessor.TerrainRenderPassAccessor",
-    "IDurabilityBarMixin"
+    "accessor.TerrainRenderPassAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
