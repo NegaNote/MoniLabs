@@ -7,11 +7,13 @@
   "refmap": "mixins.monilabs.refmap.json",
   "mixins": [
     "DataAccessHatchMixin",
+    "IMaterialPartItemMixin",
     "KubeJSPluginsMixin",
     "NotifiableEnergyContainerMixin",
     "OpticalDataHatchMixin",
     "PowerSubstationMachineMixin",
     "RotorHolderMachineMixin",
+    "TurbineRotorBehaviourMixin",
     "aae.MixinCraftingJobStatusPacketCtorShim",
     "aae.MixinCraftingServiceAAE",
     "aae.MixinEncodedPatternItemShim",
