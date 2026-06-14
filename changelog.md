@@ -1,3 +1,3 @@
-# Moni Labs 0.21.6
+# Moni Labs 0.21.7
 
-* HOTFIX: stop client from crashing on startup
+* TES now notifies machines that they have energy available when on, allowing them to work without replacing the machines
