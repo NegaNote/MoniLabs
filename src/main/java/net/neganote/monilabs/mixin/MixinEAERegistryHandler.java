@@ -1,10 +1,11 @@
 package net.neganote.monilabs.mixin;
 
+import net.minecraft.world.level.ItemLike;
+
 import appeng.api.upgrades.Upgrades;
 import appeng.core.definitions.AEItems;
 import com.glodblock.github.extendedae.common.EAERegistryHandler;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
-import net.minecraft.world.level.ItemLike;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
