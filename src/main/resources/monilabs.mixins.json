@@ -16,6 +16,7 @@
     "aae.MixinEncodedPatternItemShim",
     "aae.MixinGuiTextShim",
     "aae.MixinPatternDetailsHelperShim",
+    "MixinEAERegistryHandler",
     "aae.MixinProcessingPatternItemShim"
   ],
   "client":
